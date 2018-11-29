@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="test-framework"
+		revision="working@luxugang.local"
+		conf="junit4-stdalone"
+		confs="compile, junit4-stdalone"
+		date="20181127130015"/>
+	<dependencies>
+		<module organisation="com.carrotsearch.randomizedtesting" name="junit4-ant">
+			<revision name="2.6.4" status="release" pubdate="20180905162423" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="8826" time="0" location="/Users/luxugang/.ivy2/cache/com.carrotsearch.randomizedtesting/junit4-ant/ivy-2.6.4.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.carrotsearch.randomizedtesting/junit4-ant/ivy-2.6.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/carrotsearch/randomizedtesting/junit4-ant/2.6.4/junit4-ant-2.6.4.pom"/>
+				<caller organisation="org.apache.solr" name="test-framework" conf="junit4-stdalone" rev="2.6.4" rev-constraint-default="2.6.4" rev-constraint-dynamic="2.6.4" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="junit4-ant" type="jar" ext="jar" status="no" details="" size="1538812" time="0" location="/Users/luxugang/.ivy2/cache/com.carrotsearch.randomizedtesting/junit4-ant/jars/junit4-ant-2.6.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/carrotsearch/randomizedtesting/junit4-ant/2.6.4/junit4-ant-2.6.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.carrotsearch.randomizedtesting" name="randomizedtesting-runner">
+			<revision name="2.6.4" status="release" pubdate="20180905162133" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="6865" time="0" location="/Users/luxugang/.ivy2/cache/com.carrotsearch.randomizedtesting/randomizedtesting-runner/ivy-2.6.4.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.carrotsearch.randomizedtesting/randomizedtesting-runner/ivy-2.6.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/carrotsearch/randomizedtesting/randomizedtesting-runner/2.6.4/randomizedtesting-runner-2.6.4.pom"/>
+				<caller organisation="org.apache.solr" name="test-framework" conf="junit4-stdalone" rev="2.6.4" rev-constraint-default="2.6.4" rev-constraint-dynamic="2.6.4" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="randomizedtesting-runner" type="jar" ext="jar" status="no" details="" size="248097" time="0" location="/Users/luxugang/.ivy2/cache/com.carrotsearch.randomizedtesting/randomizedtesting-runner/jars/randomizedtesting-runner-2.6.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/carrotsearch/randomizedtesting/randomizedtesting-runner/2.6.4/randomizedtesting-runner-2.6.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="junit" name="junit">
+			<revision name="4.10" status="release" pubdate="20110930031223" resolver="public" artresolver="main" homepage="http://junit.org" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="Common Public License Version 1.0" url="http://www.opensource.org/licenses/cpl1.0.txt"/>
+				<metadata-artifact status="no" details="" size="2944" time="0" location="/Users/luxugang/.ivy2/cache/junit/junit/ivy-4.10.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/junit/junit/ivy-4.10.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/junit/junit/4.10/junit-4.10.pom"/>
+				<caller organisation="org.apache.solr" name="test-framework" conf="junit4-stdalone" rev="4.10" rev-constraint-default="4.10" rev-constraint-dynamic="4.10" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="junit" type="jar" ext="jar" status="no" details="" size="253160" time="0" location="/Users/luxugang/.ivy2/cache/junit/junit/jars/junit-4.10.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/junit/junit/4.10/junit-4.10.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

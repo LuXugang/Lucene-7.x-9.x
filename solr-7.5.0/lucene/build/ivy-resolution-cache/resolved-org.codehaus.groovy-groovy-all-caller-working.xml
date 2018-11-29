@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+	<info organisation="org.codehaus.groovy"
+		module="groovy-all-caller"
+		revision="working"
+		status="integration"
+		publication="20181127125948"
+		default="true"
+	/>
+	<configurations>
+		<conf name="default" visibility="public"/>
+	</configurations>
+	<publications>
+	</publications>
+	<dependencies>
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.15" force="true" conf="default->default"/>
+	</dependencies>
+</ivy-module>

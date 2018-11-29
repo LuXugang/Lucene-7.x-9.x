@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="analyzers-opennlp"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130007"/>
+	<dependencies>
+		<module organisation="org.apache.opennlp" name="opennlp-tools">
+			<revision name="1.9.0" status="release" pubdate="20180629193226" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="7336" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.opennlp/opennlp-tools/ivy-1.9.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.opennlp/opennlp-tools/ivy-1.9.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/opennlp/opennlp-tools/1.9.0/opennlp-tools-1.9.0.pom"/>
+				<caller organisation="org.apache.lucene" name="analyzers-opennlp" conf="compile" rev="1.9.0" rev-constraint-default="1.9.0" rev-constraint-dynamic="1.9.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="opennlp-tools" type="bundle" ext="jar" status="no" details="" size="1245779" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.opennlp/opennlp-tools/bundles/opennlp-tools-1.9.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/opennlp/opennlp-tools/1.9.0/opennlp-tools-1.9.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

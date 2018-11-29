@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="core"
+		revision="working@luxugang.local"
+		conf="test"
+		confs="test, test.DfsMiniCluster, test.MiniKdc"
+		date="20181127130014"/>
+	<dependencies>
+		<module organisation="org.objenesis" name="objenesis">
+			<revision name="2.5" status="release" pubdate="20170113124021" resolver="public" artresolver="main" homepage="http://objenesis.org" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<metadata-artifact status="no" details="" size="3497" time="0" location="/Users/luxugang/.ivy2/cache/org.objenesis/objenesis/ivy-2.5.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.objenesis/objenesis/ivy-2.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/objenesis/objenesis/2.5/objenesis-2.5.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test" rev="2.5" rev-constraint-default="2.5" rev-constraint-dynamic="2.5" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="objenesis" type="jar" ext="jar" status="no" details="" size="54393" time="0" location="/Users/luxugang/.ivy2/cache/org.objenesis/objenesis/jars/objenesis-2.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/objenesis/objenesis/2.5/objenesis-2.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.mockito" name="mockito-core">
+			<revision name="2.6.2" status="release" pubdate="20170113185725" resolver="public" artresolver="main" homepage="http://mockito.org" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<license name="The MIT License" url="http://github.com/mockito/mockito/blob/master/LICENSE"/>
+				<metadata-artifact status="no" details="" size="2995" time="0" location="/Users/luxugang/.ivy2/cache/org.mockito/mockito-core/ivy-2.6.2.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.mockito/mockito-core/ivy-2.6.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/mockito/mockito-core/2.6.2/mockito-core-2.6.2.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test" rev="2.6.2" rev-constraint-default="2.6.2" rev-constraint-dynamic="2.6.2" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="mockito-core" type="jar" ext="jar" status="no" details="" size="527060" time="0" location="/Users/luxugang/.ivy2/cache/org.mockito/mockito-core/jars/mockito-core-2.6.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/mockito/mockito-core/2.6.2/mockito-core-2.6.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.bytebuddy" name="byte-buddy">
+			<revision name="1.6.2" status="release" pubdate="20170111083454" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="8540" time="0" location="/Users/luxugang/.ivy2/cache/net.bytebuddy/byte-buddy/ivy-1.6.2.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/net.bytebuddy/byte-buddy/ivy-1.6.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy/1.6.2/byte-buddy-1.6.2.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test" rev="1.6.2" rev-constraint-default="1.6.2" rev-constraint-dynamic="1.6.2" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="byte-buddy" type="jar" ext="jar" status="no" details="" size="2733810" time="0" location="/Users/luxugang/.ivy2/cache/net.bytebuddy/byte-buddy/jars/byte-buddy-1.6.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy/1.6.2/byte-buddy-1.6.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.antlr" name="antlr4-runtime">
+			<revision name="4.5.1-1" status="release" pubdate="20150821031403" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="3417" time="0" location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/ivy-4.5.1-1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/ivy-4.5.1-1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.1-1/antlr4-runtime-4.5.1-1.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test" rev="4.5.1-1" rev-constraint-default="4.5.1-1" rev-constraint-dynamic="4.5.1-1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="antlr4-runtime" type="jar" ext="jar" status="no" details="" size="302034" time="0" location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/jars/antlr4-runtime-4.5.1-1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.1-1/antlr4-runtime-4.5.1-1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

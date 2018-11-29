@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="core"
+		revision="working@luxugang.local"
+		conf="test.MiniKdc"
+		confs="test, test.DfsMiniCluster, test.MiniKdc"
+		date="20181127130014"/>
+	<dependencies>
+		<module organisation="org.bouncycastle" name="bcprov-jdk15on">
+			<revision name="1.54" status="release" pubdate="20151230103411" resolver="public" artresolver="main" homepage="http://www.bouncycastle.org/java.html" downloaded="false" searched="false" default="false" conf="master" position="33">
+				<license name="Bouncy Castle Licence" url="http://www.bouncycastle.org/licence.html"/>
+				<metadata-artifact status="no" details="" size="2747" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/ivy-1.54.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/ivy-1.54.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="1.54" rev-constraint-default="1.54" rev-constraint-dynamic="1.54" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="bcprov-jdk15on" type="jar" ext="jar" status="no" details="" size="3277268" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/jars/bcprov-jdk15on-1.54.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.mina" name="mina-core">
+			<revision name="2.0.0-M5" status="release" pubdate="20090411050949" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="32">
+				<metadata-artifact status="no" details="" size="11141" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.mina/mina-core/ivy-2.0.0-M5.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.mina/mina-core/ivy-2.0.0-M5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/mina/mina-core/2.0.0-M5/mina-core-2.0.0-M5.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M5" rev-constraint-default="2.0.0-M5" rev-constraint-dynamic="2.0.0-M5" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="mina-core" type="bundle" ext="jar" status="no" details="" size="637657" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.mina/mina-core/bundles/mina-core-2.0.0-M5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/mina/mina-core/2.0.0-M5/mina-core-2.0.0-M5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.hadoop" name="hadoop-minikdc">
+			<revision name="2.7.4" status="release" pubdate="20170729044933" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="46607" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.hadoop/hadoop-minikdc/ivy-2.7.4.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.hadoop/hadoop-minikdc/ivy-2.7.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-minikdc/2.7.4/hadoop-minikdc-2.7.4.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.7.4" rev-constraint-default="2.7.4" rev-constraint-dynamic="2.7.4" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="hadoop-minikdc" type="jar" ext="jar" status="no" details="" size="40477" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.hadoop/hadoop-minikdc/jars/hadoop-minikdc-2.7.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-minikdc/2.7.4/hadoop-minikdc-2.7.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-protocol-ldap">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230939" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="27">
+				<metadata-artifact status="no" details="" size="39653" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-ldap/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-ldap/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-protocol-ldap/2.0.0-M15/apacheds-protocol-ldap-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-protocol-ldap" type="bundle" ext="jar" status="no" details="" size="228430" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-ldap/bundles/apacheds-protocol-ldap-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-protocol-ldap/2.0.0-M15/apacheds-protocol-ldap-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-jdbm-partition">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230241" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="22">
+				<metadata-artifact status="no" details="" size="38431" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-jdbm-partition/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-jdbm-partition/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-jdbm-partition/2.0.0-M15/apacheds-jdbm-partition-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-jdbm-partition" type="bundle" ext="jar" status="no" details="" size="72424" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-jdbm-partition/bundles/apacheds-jdbm-partition-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-jdbm-partition/2.0.0-M15/apacheds-jdbm-partition-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.jdbm" name="apacheds-jdbm1">
+			<revision name="2.0.0-M2" status="release" pubdate="20130118221835" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="31">
+				<metadata-artifact status="no" details="" size="7502" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.jdbm/apacheds-jdbm1/ivy-2.0.0-M2.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.jdbm/apacheds-jdbm1/ivy-2.0.0-M2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/jdbm/apacheds-jdbm1/2.0.0-M2/apacheds-jdbm1-2.0.0-M2.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M2" rev-constraint-default="2.0.0-M2" rev-constraint-dynamic="2.0.0-M2" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-jdbm1" type="bundle" ext="jar" status="no" details="" size="104762" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.jdbm/apacheds-jdbm1/bundles/apacheds-jdbm1-2.0.0-M2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/jdbm/apacheds-jdbm1/2.0.0-M2/apacheds-jdbm1-2.0.0-M2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.api" name="api-all">
+			<revision name="1.0.0-M20" status="release" pubdate="20130814164441" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="30">
+				<metadata-artifact status="no" details="" size="18811" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.api/api-all/ivy-1.0.0-M20.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.api/api-all/ivy-1.0.0-M20.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/api/api-all/1.0.0-M20/api-all-1.0.0-M20.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="1.0.0-M20" rev-constraint-default="1.0.0-M20" rev-constraint-dynamic="1.0.0-M20" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="api-all" type="jar" ext="jar" status="no" details="" size="2772015" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.api/api-all/jars/api-all-1.0.0-M20.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/api/api-all/1.0.0-M20/api-all-1.0.0-M20.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="antlr" name="antlr">
+			<revision name="2.7.7" status="release" pubdate="20070113142839" resolver="public" artresolver="main" homepage="http://www.antlr.org/" downloaded="false" searched="false" default="false" conf="master" position="34">
+				<license name="BSD License" url="http://www.antlr.org/license.html"/>
+				<metadata-artifact status="no" details="" size="2439" time="0" location="/Users/luxugang/.ivy2/cache/antlr/antlr/ivy-2.7.7.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/antlr/antlr/ivy-2.7.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/antlr/antlr/2.7.7/antlr-2.7.7.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.7.7" rev-constraint-default="2.7.7" rev-constraint-dynamic="2.7.7" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="antlr" type="jar" ext="jar" status="no" details="" size="445288" time="0" location="/Users/luxugang/.ivy2/cache/antlr/antlr/jars/antlr-2.7.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/antlr/antlr/2.7.7/antlr-2.7.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-mavibot-partition">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230313" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="25">
+				<metadata-artifact status="no" details="" size="38141" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-mavibot-partition/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-mavibot-partition/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-mavibot-partition/2.0.0-M15/apacheds-mavibot-partition-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-mavibot-partition" type="jar" ext="jar" status="no" details="" size="48208" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-mavibot-partition/jars/apacheds-mavibot-partition-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-mavibot-partition/2.0.0-M15/apacheds-mavibot-partition-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-ldif-partition">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230159" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="24">
+				<metadata-artifact status="no" details="" size="37546" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-ldif-partition/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-ldif-partition/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-ldif-partition/2.0.0-M15/apacheds-ldif-partition-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-ldif-partition" type="bundle" ext="jar" status="no" details="" size="29193" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-ldif-partition/bundles/apacheds-ldif-partition-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-ldif-partition/2.0.0-M15/apacheds-ldif-partition-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-xdbm-partition">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230118" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="29">
+				<metadata-artifact status="no" details="" size="37749" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-xdbm-partition/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-xdbm-partition/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-xdbm-partition/2.0.0-M15/apacheds-xdbm-partition-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-xdbm-partition" type="bundle" ext="jar" status="no" details="" size="177014" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-xdbm-partition/bundles/apacheds-xdbm-partition-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-xdbm-partition/2.0.0-M15/apacheds-xdbm-partition-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-core-avl">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230033" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="4">
+				<metadata-artifact status="no" details="" size="36838" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-avl/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-avl/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core-avl/2.0.0-M15/apacheds-core-avl-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-core-avl" type="bundle" ext="jar" status="no" details="" size="61017" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-avl/bundles/apacheds-core-avl-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core-avl/2.0.0-M15/apacheds-core-avl-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-protocol-kerberos">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230855" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="26">
+				<metadata-artifact status="no" details="" size="37628" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-kerberos/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-kerberos/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-protocol-kerberos/2.0.0-M15/apacheds-protocol-kerberos-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-protocol-kerberos" type="bundle" ext="jar" status="no" details="" size="84600" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-kerberos/bundles/apacheds-protocol-kerberos-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-protocol-kerberos/2.0.0-M15/apacheds-protocol-kerberos-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-protocol-shared">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230746" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="28">
+				<metadata-artifact status="no" details="" size="36984" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-shared/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-shared/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-protocol-shared/2.0.0-M15/apacheds-protocol-shared-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-protocol-shared" type="bundle" ext="jar" status="no" details="" size="32137" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-protocol-shared/bundles/apacheds-protocol-shared-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-protocol-shared/2.0.0-M15/apacheds-protocol-shared-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptor-kerberos">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230643" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="6">
+				<metadata-artifact status="no" details="" size="37366" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptor-kerberos/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptor-kerberos/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptor-kerberos/2.0.0-M15/apacheds-interceptor-kerberos-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptor-kerberos" type="bundle" ext="jar" status="no" details="" size="15463" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptor-kerberos/bundles/apacheds-interceptor-kerberos-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptor-kerberos/2.0.0-M15/apacheds-interceptor-kerberos-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-kerberos-codec">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814230537" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="23">
+				<metadata-artifact status="no" details="" size="37363" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-kerberos-codec/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-kerberos-codec/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-kerberos-codec/2.0.0-M15/apacheds-kerberos-codec-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-kerberos-codec" type="bundle" ext="jar" status="no" details="" size="691479" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-kerberos-codec/bundles/apacheds-kerberos-codec-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-kerberos-codec/2.0.0-M15/apacheds-kerberos-codec-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-core">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225959" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="40253" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core/2.0.0-M15/apacheds-core-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-core" type="bundle" ext="jar" status="no" details="" size="45815" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core/bundles/apacheds-core-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core/2.0.0-M15/apacheds-core-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-trigger">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225923" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="20">
+				<metadata-artifact status="no" details="" size="38257" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-trigger/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-trigger/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-trigger/2.0.0-M15/apacheds-interceptors-trigger-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-trigger" type="bundle" ext="jar" status="no" details="" size="47727" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-trigger/bundles/apacheds-interceptors-trigger-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-trigger/2.0.0-M15/apacheds-interceptors-trigger-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-subtree">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225857" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="19">
+				<metadata-artifact status="no" details="" size="38827" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-subtree/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-subtree/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-subtree/2.0.0-M15/apacheds-interceptors-subtree-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-subtree" type="bundle" ext="jar" status="no" details="" size="25962" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-subtree/bundles/apacheds-interceptors-subtree-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-subtree/2.0.0-M15/apacheds-interceptors-subtree-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-schema">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225827" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="18">
+				<metadata-artifact status="no" details="" size="38672" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-schema/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-schema/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-schema/2.0.0-M15/apacheds-interceptors-schema-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-schema" type="bundle" ext="jar" status="no" details="" size="39965" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-schema/bundles/apacheds-interceptors-schema-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-schema/2.0.0-M15/apacheds-interceptors-schema-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-referral">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225800" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="17">
+				<metadata-artifact status="no" details="" size="38246" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-referral/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-referral/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-referral/2.0.0-M15/apacheds-interceptors-referral-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-referral" type="bundle" ext="jar" status="no" details="" size="11405" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-referral/bundles/apacheds-interceptors-referral-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-referral/2.0.0-M15/apacheds-interceptors-referral-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-operational">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225735" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="16">
+				<metadata-artifact status="no" details="" size="38271" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-operational/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-operational/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-operational/2.0.0-M15/apacheds-interceptors-operational-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-operational" type="bundle" ext="jar" status="no" details="" size="15034" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-operational/bundles/apacheds-interceptors-operational-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-operational/2.0.0-M15/apacheds-interceptors-operational-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-normalization">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225710" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="15">
+				<metadata-artifact status="no" details="" size="38394" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-normalization/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-normalization/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-normalization/2.0.0-M15/apacheds-interceptors-normalization-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-normalization" type="bundle" ext="jar" status="no" details="" size="15367" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-normalization/bundles/apacheds-interceptors-normalization-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-normalization/2.0.0-M15/apacheds-interceptors-normalization-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-journal">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225643" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="14">
+				<metadata-artifact status="no" details="" size="37771" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-journal/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-journal/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-journal/2.0.0-M15/apacheds-interceptors-journal-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-journal" type="bundle" ext="jar" status="no" details="" size="13709" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-journal/bundles/apacheds-interceptors-journal-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-journal/2.0.0-M15/apacheds-interceptors-journal-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-exception">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225619" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="13">
+				<metadata-artifact status="no" details="" size="38253" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-exception/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-exception/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-exception/2.0.0-M15/apacheds-interceptors-exception-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-exception" type="bundle" ext="jar" status="no" details="" size="11150" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-exception/bundles/apacheds-interceptors-exception-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-exception/2.0.0-M15/apacheds-interceptors-exception-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-event">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225555" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="12">
+				<metadata-artifact status="no" details="" size="37761" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-event/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-event/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-event/2.0.0-M15/apacheds-interceptors-event-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-event" type="bundle" ext="jar" status="no" details="" size="18853" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-event/bundles/apacheds-interceptors-event-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-event/2.0.0-M15/apacheds-interceptors-event-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-collective">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225529" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="11">
+				<metadata-artifact status="no" details="" size="37953" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-collective/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-collective/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-collective/2.0.0-M15/apacheds-interceptors-collective-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-collective" type="bundle" ext="jar" status="no" details="" size="13855" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-collective/bundles/apacheds-interceptors-collective-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-collective/2.0.0-M15/apacheds-interceptors-collective-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-changelog">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225503" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="10">
+				<metadata-artifact status="no" details="" size="38538" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-changelog/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-changelog/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-changelog/2.0.0-M15/apacheds-interceptors-changelog-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-changelog" type="bundle" ext="jar" status="no" details="" size="21445" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-changelog/bundles/apacheds-interceptors-changelog-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-changelog/2.0.0-M15/apacheds-interceptors-changelog-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-authz">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225435" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="9">
+				<metadata-artifact status="no" details="" size="38676" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-authz/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-authz/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-authz/2.0.0-M15/apacheds-interceptors-authz-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-authz" type="bundle" ext="jar" status="no" details="" size="64292" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-authz/bundles/apacheds-interceptors-authz-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-authz/2.0.0-M15/apacheds-interceptors-authz-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-authn">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225403" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="8">
+				<metadata-artifact status="no" details="" size="39438" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-authn/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-authn/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-authn/2.0.0-M15/apacheds-interceptors-authn-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-authn" type="bundle" ext="jar" status="no" details="" size="41626" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-authn/bundles/apacheds-interceptors-authn-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-authn/2.0.0-M15/apacheds-interceptors-authn-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-interceptors-admin">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225333" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="7">
+				<metadata-artifact status="no" details="" size="38336" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-admin/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-admin/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-admin/2.0.0-M15/apacheds-interceptors-admin-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-interceptors-admin" type="bundle" ext="jar" status="no" details="" size="20051" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-interceptors-admin/bundles/apacheds-interceptors-admin-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-interceptors-admin/2.0.0-M15/apacheds-interceptors-admin-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-core-shared">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225256" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="5">
+				<metadata-artifact status="no" details="" size="37539" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-shared/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-shared/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core-shared/2.0.0-M15/apacheds-core-shared-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-core-shared" type="bundle" ext="jar" status="no" details="" size="37699" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-shared/bundles/apacheds-core-shared-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core-shared/2.0.0-M15/apacheds-core-shared-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-core-api">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225213" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<metadata-artifact status="no" details="" size="38441" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-api/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-api/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core-api/2.0.0-M15/apacheds-core-api-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-core-api" type="bundle" ext="jar" status="no" details="" size="260075" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-core-api/bundles/apacheds-core-api-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-core-api/2.0.0-M15/apacheds-core-api-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.sf.ehcache" name="ehcache-core">
+			<revision name="2.4.4" status="release" pubdate="20110818013211" resolver="public" artresolver="main" homepage="http://ehcache.org" downloaded="false" searched="false" default="false" conf="master" position="35">
+				<license name="The Apache Software License, Version 2.0" url="src/assemble/EHCACHE-CORE-LICENSE.txt"/>
+				<metadata-artifact status="no" details="" size="14005" time="0" location="/Users/luxugang/.ivy2/cache/net.sf.ehcache/ehcache-core/ivy-2.4.4.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/net.sf.ehcache/ehcache-core/ivy-2.4.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sf/ehcache/ehcache-core/2.4.4/ehcache-core-2.4.4.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.4.4" rev-constraint-default="2.4.4" rev-constraint-dynamic="2.4.4" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="ehcache-core" type="jar" ext="jar" status="no" details="" size="1009515" time="0" location="/Users/luxugang/.ivy2/cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.4.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sf/ehcache/ehcache-core/2.4.4/ehcache-core-2.4.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.directory.server" name="apacheds-i18n">
+			<revision name="2.0.0-M15" status="release" pubdate="20130814225100" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="21">
+				<metadata-artifact status="no" details="" size="36095" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-i18n/ivy-2.0.0-M15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-i18n/ivy-2.0.0-M15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-i18n/2.0.0-M15/apacheds-i18n-2.0.0-M15.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="2.0.0-M15" rev-constraint-default="2.0.0-M15" rev-constraint-dynamic="2.0.0-M15" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apacheds-i18n" type="bundle" ext="jar" status="no" details="" size="44925" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.directory.server/apacheds-i18n/bundles/apacheds-i18n-2.0.0-M15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/directory/server/apacheds-i18n/2.0.0-M15/apacheds-i18n-2.0.0-M15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.antlr" name="antlr4-runtime">
+			<revision name="4.5.1-1" status="release" pubdate="20150821031403" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="3417" time="0" location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/ivy-4.5.1-1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/ivy-4.5.1-1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.1-1/antlr4-runtime-4.5.1-1.pom"/>
+				<caller organisation="org.apache.solr" name="core" conf="test.MiniKdc" rev="4.5.1-1" rev-constraint-default="4.5.1-1" rev-constraint-dynamic="4.5.1-1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="antlr4-runtime" type="jar" ext="jar" status="no" details="" size="302034" time="0" location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/jars/antlr4-runtime-4.5.1-1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.1-1/antlr4-runtime-4.5.1-1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

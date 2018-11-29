@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="tools"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130006"/>
+	<dependencies>
+		<module organisation="org.apache.ivy" name="ivy">
+			<revision name="2.4.0" status="release" pubdate="20141223004010" resolver="public" artresolver="main" homepage="http://ant.apache.org/ivy/" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="5623" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.ivy/ivy/ivy-2.4.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.ivy/ivy/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.4.0/ivy-2.4.0.pom"/>
+				<caller organisation="org.apache.lucene" name="tools" conf="compile" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="ivy" type="jar" ext="jar" status="no" details="" size="1282424" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.ivy/ivy/jars/ivy-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.4.0/ivy-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.ant" name="ant">
+			<revision name="1.8.2" status="release" pubdate="20101228001008" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="2740" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.ant/ant/ivy-1.8.2.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.ant/ant/ivy-1.8.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/ant/ant/1.8.2/ant-1.8.2.pom"/>
+				<caller organisation="org.apache.lucene" name="tools" conf="compile" rev="1.8.2" rev-constraint-default="1.8.2" rev-constraint-dynamic="1.8.2" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="ant" type="jar" ext="jar" status="no" details="" size="1933743" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.ant/ant/jars/ant-1.8.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/ant/ant/1.8.2/ant-1.8.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

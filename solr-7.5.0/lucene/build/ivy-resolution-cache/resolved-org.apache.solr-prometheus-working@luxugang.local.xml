@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one
+   or more contributor license agreements.  See the NOTICE file
+   distributed with this work for additional information
+   regarding copyright ownership.  The ASF licenses this file
+   to you under the Apache License, Version 2.0 (the
+   "License"); you may not use this file except in compliance
+   with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing,
+   software distributed under the License is distributed on an
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   KIND, either express or implied.  See the License for the
+   specific language governing permissions and limitations
+   under the License.    
+-->
+<ivy-module version="2.0">
+  <info organisation="org.apache.solr" module="prometheus" revision="working@luxugang.local" status="integration" publication="20180918190631"/>
+  <configurations defaultconfmapping="compile->master;test->master">
+    <conf name="compile" transitive="false"/>
+    <conf name="test" transitive="false"/>
+  </configurations>
+  <dependencies>
+    <dependency org="io.prometheus" name="simpleclient" rev="0.2.0" conf="compile"/>
+    <dependency org="io.prometheus" name="simpleclient_common" rev="0.2.0" conf="compile"/>
+    <dependency org="io.prometheus" name="simpleclient_httpserver" rev="0.2.0" conf="compile"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.9.5" conf="compile"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.9.5" conf="compile"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.9.5" conf="compile"/>
+    <dependency org="net.thisptr" name="jackson-jq" rev="0.0.8" conf="compile"/>
+    <dependency org="net.sourceforge.argparse4j" name="argparse4j" rev="0.8.1" conf="compile"/>
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.24" conf="compile"/>
+    <dependency org="org.apache.logging.log4j" name="log4j-slf4j-impl" rev="2.11.0" conf="compile"/>
+    <dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.11.0" conf="compile"/>
+    <dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.11.0" conf="compile"/>
+
+    <exclude org="*" ext="*" matcher="regexp" type="source|javadoc"/>
+  </dependencies>
+</ivy-module>

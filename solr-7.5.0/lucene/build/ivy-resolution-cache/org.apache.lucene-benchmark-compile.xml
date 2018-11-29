@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="benchmark"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130008"/>
+	<dependencies>
+		<module organisation="org.locationtech.spatial4j" name="spatial4j">
+			<revision name="0.7" status="release" pubdate="20171230000040" resolver="public" artresolver="main" homepage="https://projects.eclipse.org/projects/locationtech.spatial4j" downloaded="false" searched="false" default="false" conf="master" position="4">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4273" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/ivy-0.7.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/ivy-0.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/locationtech/spatial4j/spatial4j/0.7/spatial4j-0.7.pom"/>
+				<caller organisation="org.apache.lucene" name="benchmark" conf="compile" rev="0.7" rev-constraint-default="0.7" rev-constraint-dynamic="0.7" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="spatial4j" type="bundle" ext="jar" status="no" details="" size="204833" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/bundles/spatial4j-0.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/locationtech/spatial4j/spatial4j/0.7/spatial4j-0.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.ibm.icu" name="icu4j">
+			<revision name="62.1" status="release" pubdate="20180621004549" resolver="public" artresolver="main" homepage="http://icu-project.org/" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<license name="Unicode/ICU License" url="http://source.icu-project.org/repos/icu/trunk/icu4j/main/shared/licenses/LICENSE"/>
+				<metadata-artifact status="no" details="" size="2667" time="0" location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/ivy-62.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/ivy-62.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/62.1/icu4j-62.1.pom"/>
+				<caller organisation="org.apache.lucene" name="benchmark" conf="compile" rev="62.1" rev-constraint-default="62.1" rev-constraint-dynamic="62.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="icu4j" type="jar" ext="jar" status="no" details="" size="12370975" time="0" location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-62.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/62.1/icu4j-62.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.sourceforge.nekohtml" name="nekohtml">
+			<revision name="1.9.17" status="release" pubdate="20121105151402" resolver="public" artresolver="main" homepage="http://nekohtml.sourceforge.net/" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2746" time="0" location="/Users/luxugang/.ivy2/cache/net.sourceforge.nekohtml/nekohtml/ivy-1.9.17.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/net.sourceforge.nekohtml/nekohtml/ivy-1.9.17.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/nekohtml/nekohtml/1.9.17/nekohtml-1.9.17.pom"/>
+				<caller organisation="org.apache.lucene" name="benchmark" conf="compile" rev="1.9.17" rev-constraint-default="1.9.17" rev-constraint-dynamic="1.9.17" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="nekohtml" type="jar" ext="jar" status="no" details="" size="124478" time="0" location="/Users/luxugang/.ivy2/cache/net.sourceforge.nekohtml/nekohtml/jars/nekohtml-1.9.17.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sourceforge/nekohtml/nekohtml/1.9.17/nekohtml-1.9.17.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="xerces" name="xercesImpl">
+			<revision name="2.9.1" status="release" pubdate="20081002061919" resolver="public" artresolver="main" homepage="http://xerces.apache.org/xerces2-j" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="2945" time="0" location="/Users/luxugang/.ivy2/cache/xerces/xercesImpl/ivy-2.9.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/xerces/xercesImpl/ivy-2.9.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/xerces/xercesImpl/2.9.1/xercesImpl-2.9.1.pom"/>
+				<caller organisation="org.apache.lucene" name="benchmark" conf="compile" rev="2.9.1" rev-constraint-default="2.9.1" rev-constraint-dynamic="2.9.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="xercesImpl" type="jar" ext="jar" status="no" details="" size="1229125" time="0" location="/Users/luxugang/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.9.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/xerces/xercesImpl/2.9.1/xercesImpl-2.9.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.commons" name="commons-compress">
+			<revision name="1.18" status="release" pubdate="20180813152452" resolver="public" artresolver="main" homepage="https://commons.apache.org/proper/commons-compress/" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="16396" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-compress/ivy-1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-compress/ivy-1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-compress/1.18/commons-compress-1.18.pom"/>
+				<caller organisation="org.apache.lucene" name="benchmark" conf="compile" rev="1.18" rev-constraint-default="1.18" rev-constraint-dynamic="1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-compress" type="jar" ext="jar" status="no" details="" size="591748" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-compress/jars/commons-compress-1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-compress/1.18/commons-compress-1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

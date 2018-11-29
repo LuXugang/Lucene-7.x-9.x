@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="example-DIH"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130012"/>
+	<dependencies>
+		<module organisation="org.apache.derby" name="derby">
+			<revision name="10.9.1.0" status="release" pubdate="20120626202916" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="3479" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.derby/derby/ivy-10.9.1.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.derby/derby/ivy-10.9.1.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/derby/derby/10.9.1.0/derby-10.9.1.0.pom"/>
+				<caller organisation="org.apache.solr" name="example-DIH" conf="compile" rev="10.9.1.0" rev-constraint-default="10.9.1.0" rev-constraint-dynamic="10.9.1.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="derby" type="jar" ext="jar" status="no" details="" size="2703892" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.derby/derby/jars/derby-10.9.1.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/derby/derby/10.9.1.0/derby-10.9.1.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.hsqldb" name="hsqldb">
+			<revision name="2.4.0" status="release" pubdate="20170410063337" resolver="public" artresolver="main" homepage="http://hsqldb.org" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="HSQLDB License, a BSD open source license" url="http://hsqldb.org/web/hsqlLicense.html"/>
+				<metadata-artifact status="no" details="" size="2557" time="0" location="/Users/luxugang/.ivy2/cache/org.hsqldb/hsqldb/ivy-2.4.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.hsqldb/hsqldb/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.4.0/hsqldb-2.4.0.pom"/>
+				<caller organisation="org.apache.solr" name="example-DIH" conf="compile" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="hsqldb" type="jar" ext="jar" status="no" details="" size="1543134" time="0" location="/Users/luxugang/.ivy2/cache/org.hsqldb/hsqldb/jars/hsqldb-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/hsqldb/hsqldb/2.4.0/hsqldb-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

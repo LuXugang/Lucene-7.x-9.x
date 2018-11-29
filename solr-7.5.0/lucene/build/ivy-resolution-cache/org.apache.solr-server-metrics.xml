@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="server"
+		revision="working@luxugang.local"
+		conf="metrics"
+		confs="jetty, servlet, metrics"
+		date="20181127130015"/>
+	<dependencies>
+		<module organisation="io.dropwizard.metrics" name="metrics-graphite">
+			<revision name="3.2.6" status="release" pubdate="20171225045537" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="5">
+				<metadata-artifact status="no" details="" size="5388" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-graphite/ivy-3.2.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-graphite/ivy-3.2.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-graphite/3.2.6/metrics-graphite-3.2.6.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="metrics" rev="3.2.6" rev-constraint-default="3.2.6" rev-constraint-dynamic="3.2.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="metrics-graphite" type="bundle" ext="jar" status="no" details="" size="22071" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-graphite/bundles/metrics-graphite-3.2.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-graphite/3.2.6/metrics-graphite-3.2.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.dropwizard.metrics" name="metrics-ganglia">
+			<revision name="3.2.6" status="release" pubdate="20171225045511" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<metadata-artifact status="no" details="" size="5294" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-ganglia/ivy-3.2.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-ganglia/ivy-3.2.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-ganglia/3.2.6/metrics-ganglia-3.2.6.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="metrics" rev="3.2.6" rev-constraint-default="3.2.6" rev-constraint-dynamic="3.2.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="metrics-ganglia" type="bundle" ext="jar" status="no" details="" size="9910" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-ganglia/bundles/metrics-ganglia-3.2.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-ganglia/3.2.6/metrics-ganglia-3.2.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="info.ganglia.gmetric4j" name="gmetric4j">
+			<revision name="1.0.7" status="release" pubdate="20140509153459" resolver="public" artresolver="main" homepage="http://github.com/ganglia/gmetric4j" downloaded="false" searched="false" default="false" conf="master" position="4">
+				<license name="The MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="3527" time="0" location="/Users/luxugang/.ivy2/cache/info.ganglia.gmetric4j/gmetric4j/ivy-1.0.7.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/info.ganglia.gmetric4j/gmetric4j/ivy-1.0.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/info/ganglia/gmetric4j/gmetric4j/1.0.7/gmetric4j-1.0.7.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="metrics" rev="1.0.7" rev-constraint-default="1.0.7" rev-constraint-dynamic="1.0.7" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="gmetric4j" type="jar" ext="jar" status="no" details="" size="43067" time="0" location="/Users/luxugang/.ivy2/cache/info.ganglia.gmetric4j/gmetric4j/jars/gmetric4j-1.0.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/info/ganglia/gmetric4j/gmetric4j/1.0.7/gmetric4j-1.0.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.dropwizard.metrics" name="metrics-jvm">
+			<revision name="3.2.6" status="release" pubdate="20171225045412" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="5173" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-jvm/ivy-3.2.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-jvm/ivy-3.2.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-jvm/3.2.6/metrics-jvm-3.2.6.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="metrics" rev="3.2.6" rev-constraint-default="3.2.6" rev-constraint-dynamic="3.2.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="metrics-jvm" type="bundle" ext="jar" status="no" details="" size="40184" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-jvm/bundles/metrics-jvm-3.2.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-jvm/3.2.6/metrics-jvm-3.2.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.dropwizard.metrics" name="metrics-jetty9">
+			<revision name="3.2.6" status="release" pubdate="20171225045816" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="5566" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-jetty9/ivy-3.2.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-jetty9/ivy-3.2.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-jetty9/3.2.6/metrics-jetty9-3.2.6.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="metrics" rev="3.2.6" rev-constraint-default="3.2.6" rev-constraint-dynamic="3.2.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="metrics-jetty9" type="bundle" ext="jar" status="no" details="" size="20110" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-jetty9/bundles/metrics-jetty9-3.2.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-jetty9/3.2.6/metrics-jetty9-3.2.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="io.dropwizard.metrics" name="metrics-core">
+			<revision name="3.2.6" status="release" pubdate="20171225045336" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="5160" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-core/ivy-3.2.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-core/ivy-3.2.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-core/3.2.6/metrics-core-3.2.6.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="metrics" rev="3.2.6" rev-constraint-default="3.2.6" rev-constraint-dynamic="3.2.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="metrics-core" type="bundle" ext="jar" status="no" details="" size="136454" time="0" location="/Users/luxugang/.ivy2/cache/io.dropwizard.metrics/metrics-core/bundles/metrics-core-3.2.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/dropwizard/metrics/metrics-core/3.2.6/metrics-core-3.2.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="facet"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130010"/>
+	<dependencies>
+		<module organisation="com.carrotsearch" name="hppc">
+			<revision name="0.8.1" status="release" pubdate="20180521182453" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="7546" time="0" location="/Users/luxugang/.ivy2/cache/com.carrotsearch/hppc/ivy-0.8.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.carrotsearch/hppc/ivy-0.8.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.8.1/hppc-0.8.1.pom"/>
+				<caller organisation="org.apache.lucene" name="facet" conf="compile" rev="0.8.1" rev-constraint-default="0.8.1" rev-constraint-dynamic="0.8.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="hppc" type="bundle" ext="jar" status="no" details="" size="1159086" time="0" location="/Users/luxugang/.ivy2/cache/com.carrotsearch/hppc/bundles/hppc-0.8.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.8.1/hppc-0.8.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

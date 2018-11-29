@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="cell"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130021"/>
+	<dependencies>
+		<module organisation="xerces" name="xercesImpl">
+			<revision name="2.9.1" status="release" pubdate="20081002061919" resolver="public" artresolver="main" homepage="http://xerces.apache.org/xerces2-j" downloaded="false" searched="false" default="false" conf="master" position="39">
+				<metadata-artifact status="no" details="" size="2945" time="0" location="/Users/luxugang/.ivy2/cache/xerces/xercesImpl/ivy-2.9.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/xerces/xercesImpl/ivy-2.9.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/xerces/xercesImpl/2.9.1/xercesImpl-2.9.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.9.1" rev-constraint-default="2.9.1" rev-constraint-dynamic="2.9.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="xercesImpl" type="jar" ext="jar" status="no" details="" size="1229125" time="0" location="/Users/luxugang/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.9.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/xerces/xercesImpl/2.9.1/xercesImpl-2.9.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.ibm.icu" name="icu4j">
+			<revision name="62.1" status="release" pubdate="20180621004549" resolver="public" artresolver="main" homepage="http://icu-project.org/" downloaded="false" searched="false" default="false" conf="master" position="38">
+				<license name="Unicode/ICU License" url="http://source.icu-project.org/repos/icu/trunk/icu4j/main/shared/licenses/LICENSE"/>
+				<metadata-artifact status="no" details="" size="2667" time="0" location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/ivy-62.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/ivy-62.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/62.1/icu4j-62.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="62.1" rev-constraint-default="62.1" rev-constraint-dynamic="62.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="icu4j" type="jar" ext="jar" status="no" details="" size="12370975" time="0" location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-62.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/62.1/icu4j-62.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.aspectj" name="aspectjrt">
+			<revision name="1.8.0" status="release" pubdate="20140418062209" resolver="public" artresolver="main" homepage="http://www.aspectj.org" downloaded="false" searched="false" default="false" conf="master" position="27">
+				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
+				<metadata-artifact status="no" details="" size="2570" time="0" location="/Users/luxugang/.ivy2/cache/org.aspectj/aspectjrt/ivy-1.8.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.aspectj/aspectjrt/ivy-1.8.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/aspectj/aspectjrt/1.8.0/aspectjrt-1.8.0.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.8.0" rev-constraint-default="1.8.0" rev-constraint-dynamic="1.8.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="aspectjrt" type="jar" ext="jar" status="no" details="" size="117099" time="0" location="/Users/luxugang/.ivy2/cache/org.aspectj/aspectjrt/jars/aspectjrt-1.8.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/aspectj/aspectjrt/1.8.0/aspectjrt-1.8.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.commons" name="commons-compress">
+			<revision name="1.18" status="release" pubdate="20180813152452" resolver="public" artresolver="main" homepage="https://commons.apache.org/proper/commons-compress/" downloaded="false" searched="false" default="false" conf="master" position="10">
+				<metadata-artifact status="no" details="" size="16396" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-compress/ivy-1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-compress/ivy-1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-compress/1.18/commons-compress-1.18.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.18" rev-constraint-default="1.18" rev-constraint-dynamic="1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-compress" type="jar" ext="jar" status="no" details="" size="591748" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-compress/jars/commons-compress-1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-compress/1.18/commons-compress-1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.tika" name="tika-java7">
+			<revision name="1.18" status="release" pubdate="20180421043150" resolver="public" artresolver="main" homepage="http://tika.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<metadata-artifact status="no" details="" size="7500" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-java7/ivy-1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-java7/ivy-1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/tika/tika-java7/1.18/tika-java7-1.18.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.18" rev-constraint-default="1.18" rev-constraint-dynamic="1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="tika-java7" type="bundle" ext="jar" status="no" details="" size="13861" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-java7/bundles/tika-java7-1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/tika/tika-java7/1.18/tika-java7-1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.tika" name="tika-xmp">
+			<revision name="1.18" status="release" pubdate="20180421041724" resolver="public" artresolver="main" homepage="http://tika.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="7461" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-xmp/ivy-1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-xmp/ivy-1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/tika/tika-xmp/1.18/tika-xmp-1.18.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.18" rev-constraint-default="1.18" rev-constraint-dynamic="1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="tika-xmp" type="bundle" ext="jar" status="no" details="" size="34296" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-xmp/bundles/tika-xmp-1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/tika/tika-xmp/1.18/tika-xmp-1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.tika" name="tika-parsers">
+			<revision name="1.18" status="release" pubdate="20180421041113" resolver="public" artresolver="main" homepage="http://tika.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="23802" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-parsers/ivy-1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-parsers/ivy-1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/tika/tika-parsers/1.18/tika-parsers-1.18.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.18" rev-constraint-default="1.18" rev-constraint-dynamic="1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="tika-parsers" type="bundle" ext="jar" status="no" details="" size="1110043" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-parsers/bundles/tika-parsers-1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/tika/tika-parsers/1.18/tika-parsers-1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jdom" name="jdom2">
+			<revision name="2.0.6" status="release" pubdate="20150216111823" resolver="public" artresolver="main" homepage="http://www.jdom.org" downloaded="false" searched="false" default="false" conf="master" position="32">
+				<license name="Similar to Apache License but with the acknowledgment clause removed" url="https://raw.github.com/hunterhacker/jdom/master/LICENSE.txt"/>
+				<metadata-artifact status="no" details="" size="3051" time="0" location="/Users/luxugang/.ivy2/cache/org.jdom/jdom2/ivy-2.0.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.jdom/jdom2/ivy-2.0.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jdom/jdom2/2.0.6/jdom2-2.0.6.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.0.6" rev-constraint-default="2.0.6" rev-constraint-dynamic="2.0.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jdom2" type="jar" ext="jar" status="no" details="" size="304924" time="0" location="/Users/luxugang/.ivy2/cache/org.jdom/jdom2/jars/jdom2-2.0.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jdom/jdom2/2.0.6/jdom2-2.0.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.pff" name="java-libpst">
+			<revision name="0.8.1" status="release" pubdate="20140622233103" resolver="public" artresolver="main" homepage="https://code.google.com/p/java-libpst/" downloaded="false" searched="false" default="false" conf="master" position="36">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3308" time="0" location="/Users/luxugang/.ivy2/cache/com.pff/java-libpst/ivy-0.8.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.pff/java-libpst/ivy-0.8.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/pff/java-libpst/0.8.1/java-libpst-0.8.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="0.8.1" rev-constraint-default="0.8.1" rev-constraint-dynamic="0.8.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="java-libpst" type="jar" ext="jar" status="no" details="" size="85452" time="0" location="/Users/luxugang/.ivy2/cache/com.pff/java-libpst/jars/java-libpst-0.8.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/pff/java-libpst/0.8.1/java-libpst-0.8.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.googlecode.juniversalchardet" name="juniversalchardet">
+			<revision name="1.0.3" status="release" pubdate="20110920013824" resolver="public" artresolver="main" homepage="http://juniversalchardet.googlecode.com/" downloaded="false" searched="false" default="false" conf="master" position="33">
+				<license name="Mozilla Public License 1.1 (MPL 1.1)" url="http://www.mozilla.org/MPL/MPL-1.1.html"/>
+				<metadata-artifact status="no" details="" size="2793" time="0" location="/Users/luxugang/.ivy2/cache/com.googlecode.juniversalchardet/juniversalchardet/ivy-1.0.3.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.googlecode.juniversalchardet/juniversalchardet/ivy-1.0.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.0.3" rev-constraint-default="1.0.3" rev-constraint-dynamic="1.0.3" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="juniversalchardet" type="jar" ext="jar" status="no" details="" size="220813" time="0" location="/Users/luxugang/.ivy2/cache/com.googlecode.juniversalchardet/juniversalchardet/jars/juniversalchardet-1.0.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.rometools" name="rome">
+			<revision name="1.5.1" status="release" pubdate="20150701044259" resolver="public" artresolver="main" homepage="http://rometools.github.io/rome/" downloaded="false" searched="false" default="false" conf="master" position="30">
+				<metadata-artifact status="no" details="" size="7737" time="0" location="/Users/luxugang/.ivy2/cache/com.rometools/rome/ivy-1.5.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.rometools/rome/ivy-1.5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/rometools/rome/1.5.1/rome-1.5.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.5.1" rev-constraint-default="1.5.1" rev-constraint-dynamic="1.5.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="rome" type="jar" ext="jar" status="no" details="" size="242809" time="0" location="/Users/luxugang/.ivy2/cache/com.rometools/rome/jars/rome-1.5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/rometools/rome/1.5.1/rome-1.5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.rometools" name="rome-utils">
+			<revision name="1.5.1" status="release" pubdate="20150701034845" resolver="public" artresolver="main" homepage="http://rometools.github.io/rome-utils/" downloaded="false" searched="false" default="false" conf="master" position="31">
+				<metadata-artifact status="no" details="" size="6702" time="0" location="/Users/luxugang/.ivy2/cache/com.rometools/rome-utils/ivy-1.5.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.rometools/rome-utils/ivy-1.5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/rometools/rome-utils/1.5.1/rome-utils-1.5.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.5.1" rev-constraint-default="1.5.1" rev-constraint-dynamic="1.5.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="rome-utils" type="jar" ext="jar" status="no" details="" size="6812" time="0" location="/Users/luxugang/.ivy2/cache/com.rometools/rome-utils/jars/rome-utils-1.5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/rometools/rome-utils/1.5.1/rome-utils-1.5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="de.l3s.boilerpipe" name="boilerpipe">
+			<revision name="1.1.0" status="release" pubdate="20101104044113" resolver="public" artresolver="main" homepage="http://code.google.com/p/boilerpipe/" downloaded="false" searched="false" default="false" conf="master" position="29">
+				<license name="Apache License 2.0"/>
+				<metadata-artifact status="no" details="" size="3394" time="0" location="/Users/luxugang/.ivy2/cache/de.l3s.boilerpipe/boilerpipe/ivy-1.1.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/de.l3s.boilerpipe/boilerpipe/ivy-1.1.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/de/l3s/boilerpipe/boilerpipe/1.1.0/boilerpipe-1.1.0.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.1.0" rev-constraint-default="1.1.0" rev-constraint-dynamic="1.1.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="boilerpipe" type="jar" ext="jar" status="no" details="" size="92027" time="0" location="/Users/luxugang/.ivy2/cache/de.l3s.boilerpipe/boilerpipe/jars/boilerpipe-1.1.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/de/l3s/boilerpipe/boilerpipe/1.1.0/boilerpipe-1.1.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.drewnoakes" name="metadata-extractor">
+			<revision name="2.10.1" status="release" pubdate="20170216070049" resolver="public" artresolver="main" homepage="https://drewnoakes.com/code/exif/" downloaded="false" searched="false" default="false" conf="master" position="28">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3700" time="0" location="/Users/luxugang/.ivy2/cache/com.drewnoakes/metadata-extractor/ivy-2.10.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.drewnoakes/metadata-extractor/ivy-2.10.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/drewnoakes/metadata-extractor/2.10.1/metadata-extractor-2.10.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.10.1" rev-constraint-default="2.10.1" rev-constraint-dynamic="2.10.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="metadata-extractor" type="jar" ext="jar" status="no" details="" size="492760" time="0" location="/Users/luxugang/.ivy2/cache/com.drewnoakes/metadata-extractor/jars/metadata-extractor-2.10.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/drewnoakes/metadata-extractor/2.10.1/metadata-extractor-2.10.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.adobe.xmp" name="xmpcore">
+			<revision name="5.1.3" status="release" pubdate="20160902225941" resolver="public" artresolver="main" homepage="http://www.adobe.com/devnet/xmp.html" downloaded="false" searched="false" default="false" conf="master" position="35">
+				<license name="The BSD License" url="http://www.adobe.com/devnet/xmp/library/eula-xmp-library-java.html"/>
+				<metadata-artifact status="no" details="" size="2623" time="0" location="/Users/luxugang/.ivy2/cache/com.adobe.xmp/xmpcore/ivy-5.1.3.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.adobe.xmp/xmpcore/ivy-5.1.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/adobe/xmp/xmpcore/5.1.3/xmpcore-5.1.3.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="5.1.3" rev-constraint-default="5.1.3" rev-constraint-dynamic="5.1.3" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="xmpcore" type="jar" ext="jar" status="no" details="" size="91822" time="0" location="/Users/luxugang/.ivy2/cache/com.adobe.xmp/xmpcore/jars/xmpcore-5.1.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/adobe/xmp/xmpcore/5.1.3/xmpcore-5.1.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.googlecode.mp4parser" name="isoparser">
+			<revision name="1.1.18" status="release" pubdate="20160216130958" resolver="public" artresolver="main" homepage="http://code.google.com/p/mp4parser/" downloaded="false" searched="false" default="false" conf="master" position="26">
+				<license name="Apache Software License - Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4108" time="0" location="/Users/luxugang/.ivy2/cache/com.googlecode.mp4parser/isoparser/ivy-1.1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.googlecode.mp4parser/isoparser/ivy-1.1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/googlecode/mp4parser/isoparser/1.1.18/isoparser-1.1.18.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.1.18" rev-constraint-default="1.1.18" rev-constraint-dynamic="1.1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="isoparser" type="jar" ext="jar" status="no" details="" size="1058628" time="0" location="/Users/luxugang/.ivy2/cache/com.googlecode.mp4parser/isoparser/jars/isoparser-1.1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/googlecode/mp4parser/isoparser/1.1.18/isoparser-1.1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.ccil.cowan.tagsoup" name="tagsoup">
+			<revision name="1.2.1" status="release" pubdate="20110823010503" resolver="public" artresolver="main" homepage="http://home.ccil.org/~cowan/XML/tagsoup/" downloaded="false" searched="false" default="false" conf="master" position="25">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3108" time="0" location="/Users/luxugang/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/ivy-1.2.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/ivy-1.2.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/ccil/cowan/tagsoup/tagsoup/1.2.1/tagsoup-1.2.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.2.1" rev-constraint-default="1.2.1" rev-constraint-dynamic="1.2.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="tagsoup" type="jar" ext="jar" status="no" details="" size="90722" time="0" location="/Users/luxugang/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/jars/tagsoup-1.2.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/ccil/cowan/tagsoup/tagsoup/1.2.1/tagsoup-1.2.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.poi" name="poi-ooxml">
+			<revision name="3.17" status="release" pubdate="20170909052503" resolver="public" artresolver="main" homepage="http://poi.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="20">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3033" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-ooxml/ivy-3.17.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-ooxml/ivy-3.17.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/poi/poi-ooxml/3.17/poi-ooxml-3.17.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="3.17" rev-constraint-default="3.17" rev-constraint-dynamic="3.17" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="poi-ooxml" type="jar" ext="jar" status="no" details="" size="1479023" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-ooxml/jars/poi-ooxml-3.17.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/poi/poi-ooxml/3.17/poi-ooxml-3.17.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.virtuald" name="curvesapi">
+			<revision name="1.04" status="release" pubdate="20160526122706" resolver="public" artresolver="main" homepage="https://github.com/virtuald/curvesapi" downloaded="false" searched="false" default="false" conf="master" position="24">
+				<license name="BSD License" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="no" details="" size="2995" time="0" location="/Users/luxugang/.ivy2/cache/com.github.virtuald/curvesapi/ivy-1.04.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.github.virtuald/curvesapi/ivy-1.04.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/virtuald/curvesapi/1.04/curvesapi-1.04.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.04" rev-constraint-default="1.04" rev-constraint-dynamic="1.04" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="curvesapi" type="jar" ext="jar" status="no" details="" size="98365" time="0" location="/Users/luxugang/.ivy2/cache/com.github.virtuald/curvesapi/jars/curvesapi-1.04.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/virtuald/curvesapi/1.04/curvesapi-1.04.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.poi" name="poi-ooxml-schemas">
+			<revision name="3.17" status="release" pubdate="20170909052528" resolver="public" artresolver="main" homepage="http://poi.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="21">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2590" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-ooxml-schemas/ivy-3.17.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-ooxml-schemas/ivy-3.17.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/poi/poi-ooxml-schemas/3.17/poi-ooxml-schemas-3.17.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="3.17" rev-constraint-default="3.17" rev-constraint-dynamic="3.17" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="poi-ooxml-schemas" type="jar" ext="jar" status="no" details="" size="5924600" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-ooxml-schemas/jars/poi-ooxml-schemas-3.17.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/poi/poi-ooxml-schemas/3.17/poi-ooxml-schemas-3.17.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.xmlbeans" name="xmlbeans">
+			<revision name="2.6.0" status="release" pubdate="20130606014946" resolver="public" artresolver="main" homepage="http://xmlbeans.apache.org" downloaded="false" searched="false" default="false" conf="master" position="22">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2530" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.xmlbeans/xmlbeans/ivy-2.6.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.xmlbeans/xmlbeans/ivy-2.6.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/xmlbeans/xmlbeans/2.6.0/xmlbeans-2.6.0.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.6.0" rev-constraint-default="2.6.0" rev-constraint-dynamic="2.6.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="xmlbeans" type="jar" ext="jar" status="no" details="" size="2730866" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.xmlbeans/xmlbeans/jars/xmlbeans-2.6.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/xmlbeans/xmlbeans/2.6.0/xmlbeans-2.6.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.poi" name="poi-scratchpad">
+			<revision name="3.17" status="release" pubdate="20170909052600" resolver="public" artresolver="main" homepage="http://poi.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="19">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2770" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-scratchpad/ivy-3.17.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-scratchpad/ivy-3.17.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/poi/poi-scratchpad/3.17/poi-scratchpad-3.17.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="3.17" rev-constraint-default="3.17" rev-constraint-dynamic="3.17" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="poi-scratchpad" type="jar" ext="jar" status="no" details="" size="1390360" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi-scratchpad/jars/poi-scratchpad-3.17.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/poi/poi-scratchpad/3.17/poi-scratchpad-3.17.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.poi" name="poi">
+			<revision name="3.17" status="release" pubdate="20170909052359" resolver="public" artresolver="main" homepage="http://poi.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="18">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3347" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi/ivy-3.17.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi/ivy-3.17.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/poi/poi/3.17/poi-3.17.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="3.17" rev-constraint-default="3.17" rev-constraint-dynamic="3.17" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="poi" type="jar" ext="jar" status="no" details="" size="2701171" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.poi/poi/jars/poi-3.17.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/poi/poi/3.17/poi-3.17.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.commons" name="commons-collections4">
+			<revision name="4.1" status="release" pubdate="20151126055515" resolver="public" artresolver="main" homepage="http://commons.apache.org/proper/commons-collections/" downloaded="false" searched="false" default="false" conf="master" position="23">
+				<metadata-artifact status="no" details="" size="11742" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-collections4/ivy-4.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-collections4/ivy-4.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-collections4/4.1/commons-collections4-4.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="4.1" rev-constraint-default="4.1" rev-constraint-dynamic="4.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-collections4" type="jar" ext="jar" status="no" details="" size="751238" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-collections4/jars/commons-collections4-4.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-collections4/4.1/commons-collections4-4.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.pdfbox" name="jempbox">
+			<revision name="1.8.13" status="release" pubdate="20161206033239" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="14">
+				<metadata-artifact status="no" details="" size="4357" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/jempbox/ivy-1.8.13.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/jempbox/ivy-1.8.13.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/jempbox/1.8.13/jempbox-1.8.13.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.8.13" rev-constraint-default="1.8.13" rev-constraint-dynamic="1.8.13" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jempbox" type="bundle" ext="jar" status="no" details="" size="51731" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/jempbox/bundles/jempbox-1.8.13.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/pdfbox/jempbox/1.8.13/jempbox-1.8.13.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.pdfbox" name="pdfbox-tools">
+			<revision name="2.0.9" status="release" pubdate="20180321003001" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="12">
+				<metadata-artifact status="no" details="" size="7928" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox-tools/ivy-2.0.9.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox-tools/ivy-2.0.9.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox-tools/2.0.9/pdfbox-tools-2.0.9.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="pdfbox-tools" type="jar" ext="jar" status="no" details="" size="72361" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox-tools/jars/pdfbox-tools-2.0.9.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox-tools/2.0.9/pdfbox-tools-2.0.9.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.pdfbox" name="pdfbox">
+			<revision name="2.0.9" status="release" pubdate="20180321002455" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="11">
+				<metadata-artifact status="no" details="" size="8606" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox/ivy-2.0.9.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox/ivy-2.0.9.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox/2.0.9/pdfbox-2.0.9.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="pdfbox" type="bundle" ext="jar" status="no" details="" size="2513383" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox/bundles/pdfbox-2.0.9.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox/2.0.9/pdfbox-2.0.9.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.bouncycastle" name="bcmail-jdk15on">
+			<revision name="1.54" status="release" pubdate="20151230104547" resolver="public" artresolver="main" homepage="http://www.bouncycastle.org/java.html" downloaded="false" searched="false" default="false" conf="master" position="15">
+				<license name="Bouncy Castle Licence" url="http://www.bouncycastle.org/licence.html"/>
+				<metadata-artifact status="no" details="" size="3181" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcmail-jdk15on/ivy-1.54.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcmail-jdk15on/ivy-1.54.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bouncycastle/bcmail-jdk15on/1.54/bcmail-jdk15on-1.54.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.54" rev-constraint-default="1.54" rev-constraint-dynamic="1.54" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="bcmail-jdk15on" type="jar" ext="jar" status="no" details="" size="102292" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcmail-jdk15on/jars/bcmail-jdk15on-1.54.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bouncycastle/bcmail-jdk15on/1.54/bcmail-jdk15on-1.54.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.bouncycastle" name="bcpkix-jdk15on">
+			<revision name="1.54" status="release" pubdate="20151230104003" resolver="public" artresolver="main" homepage="http://www.bouncycastle.org/java.html" downloaded="false" searched="false" default="false" conf="master" position="16">
+				<license name="Bouncy Castle Licence" url="http://www.bouncycastle.org/licence.html"/>
+				<metadata-artifact status="no" details="" size="2992" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcpkix-jdk15on/ivy-1.54.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcpkix-jdk15on/ivy-1.54.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.54/bcpkix-jdk15on-1.54.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.54" rev-constraint-default="1.54" rev-constraint-dynamic="1.54" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="bcpkix-jdk15on" type="jar" ext="jar" status="no" details="" size="673715" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcpkix-jdk15on/jars/bcpkix-jdk15on-1.54.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.54/bcpkix-jdk15on-1.54.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.bouncycastle" name="bcprov-jdk15on">
+			<revision name="1.54" status="release" pubdate="20151230103411" resolver="public" artresolver="main" homepage="http://www.bouncycastle.org/java.html" downloaded="false" searched="false" default="false" conf="master" position="17">
+				<license name="Bouncy Castle Licence" url="http://www.bouncycastle.org/licence.html"/>
+				<metadata-artifact status="no" details="" size="2747" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/ivy-1.54.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/ivy-1.54.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.54" rev-constraint-default="1.54" rev-constraint-dynamic="1.54" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="bcprov-jdk15on" type="jar" ext="jar" status="no" details="" size="3277268" time="0" location="/Users/luxugang/.ivy2/cache/org.bouncycastle/bcprov-jdk15on/jars/bcprov-jdk15on-1.54.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.pdfbox" name="fontbox">
+			<revision name="2.0.9" status="release" pubdate="20180321002055" resolver="public" artresolver="main" homepage="http://pdfbox.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="13">
+				<metadata-artifact status="no" details="" size="7548" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/fontbox/ivy-2.0.9.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/fontbox/ivy-2.0.9.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/fontbox/2.0.9/fontbox-2.0.9.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="fontbox" type="bundle" ext="jar" status="no" details="" size="1554777" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/fontbox/bundles/fontbox-2.0.9.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/pdfbox/fontbox/2.0.9/fontbox-2.0.9.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.tukaani" name="xz">
+			<revision name="1.8" status="release" pubdate="20180105000947" resolver="public" artresolver="main" homepage="https://tukaani.org/xz/java.html" downloaded="false" searched="false" default="false" conf="master" position="34">
+				<license name="Public Domain"/>
+				<metadata-artifact status="no" details="" size="2451" time="0" location="/Users/luxugang/.ivy2/cache/org.tukaani/xz/ivy-1.8.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.tukaani/xz/ivy-1.8.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/tukaani/xz/1.8/xz-1.8.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.8" rev-constraint-default="1.8" rev-constraint-dynamic="1.8" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="xz" type="jar" ext="jar" status="no" details="" size="108555" time="0" location="/Users/luxugang/.ivy2/cache/org.tukaani/xz/jars/xz-1.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/tukaani/xz/1.8/xz-1.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.james" name="apache-mime4j-dom">
+			<revision name="0.8.1" status="release" pubdate="20170609105142" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="9">
+				<metadata-artifact status="no" details="" size="8783" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.james/apache-mime4j-dom/ivy-0.8.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.james/apache-mime4j-dom/ivy-0.8.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/james/apache-mime4j-dom/0.8.1/apache-mime4j-dom-0.8.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="0.8.1" rev-constraint-default="0.8.1" rev-constraint-dynamic="0.8.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apache-mime4j-dom" type="bundle" ext="jar" status="no" details="" size="329056" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.james/apache-mime4j-dom/bundles/apache-mime4j-dom-0.8.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/james/apache-mime4j-dom/0.8.1/apache-mime4j-dom-0.8.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.james" name="apache-mime4j-core">
+			<revision name="0.8.1" status="release" pubdate="20170609105103" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="8">
+				<metadata-artifact status="no" details="" size="8133" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.james/apache-mime4j-core/ivy-0.8.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.james/apache-mime4j-core/ivy-0.8.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/james/apache-mime4j-core/0.8.1/apache-mime4j-core-0.8.1.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="0.8.1" rev-constraint-default="0.8.1" rev-constraint-dynamic="0.8.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="apache-mime4j-core" type="bundle" ext="jar" status="no" details="" size="103595" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.james/apache-mime4j-core/bundles/apache-mime4j-core-0.8.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/james/apache-mime4j-core/0.8.1/apache-mime4j-core-0.8.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.tallison" name="jmatio">
+			<revision name="1.2" status="release" pubdate="20160812021738" resolver="public" artresolver="main" homepage="https://github.com/tballison/jmatio" downloaded="false" searched="false" default="false" conf="master" position="37">
+				<license name="BSD" url="http://www.linfo.org/bsdlicense.html"/>
+				<metadata-artifact status="no" details="" size="3170" time="0" location="/Users/luxugang/.ivy2/cache/org.tallison/jmatio/ivy-1.2.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.tallison/jmatio/ivy-1.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/tallison/jmatio/1.2/jmatio-1.2.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.2" rev-constraint-default="1.2" rev-constraint-dynamic="1.2" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jmatio" type="jar" ext="jar" status="no" details="" size="72609" time="0" location="/Users/luxugang/.ivy2/cache/org.tallison/jmatio/jars/jmatio-1.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/tallison/jmatio/1.2/jmatio-1.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.healthmarketscience.jackcess" name="jackcess-encrypt">
+			<revision name="2.1.4" status="release" pubdate="20171010093707" resolver="public" artresolver="main" homepage="http://jackcessencrypt.sf.net" downloaded="false" searched="false" default="false" conf="master" position="5">
+				<metadata-artifact status="no" details="" size="4595" time="0" location="/Users/luxugang/.ivy2/cache/com.healthmarketscience.jackcess/jackcess-encrypt/ivy-2.1.4.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.healthmarketscience.jackcess/jackcess-encrypt/ivy-2.1.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/healthmarketscience/jackcess/jackcess-encrypt/2.1.4/jackcess-encrypt-2.1.4.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.1.4" rev-constraint-default="2.1.4" rev-constraint-dynamic="2.1.4" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jackcess-encrypt" type="jar" ext="jar" status="no" details="" size="86730" time="0" location="/Users/luxugang/.ivy2/cache/com.healthmarketscience.jackcess/jackcess-encrypt/jars/jackcess-encrypt-2.1.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/healthmarketscience/jackcess/jackcess-encrypt/2.1.4/jackcess-encrypt-2.1.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.healthmarketscience.jackcess" name="jackcess">
+			<revision name="2.1.10" status="release" pubdate="20180119085720" resolver="public" artresolver="main" homepage="http://jackcess.sf.net" downloaded="false" searched="false" default="false" conf="master" position="4">
+				<metadata-artifact status="no" details="" size="4307" time="0" location="/Users/luxugang/.ivy2/cache/com.healthmarketscience.jackcess/jackcess/ivy-2.1.10.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.healthmarketscience.jackcess/jackcess/ivy-2.1.10.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/healthmarketscience/jackcess/jackcess/2.1.10/jackcess-2.1.10.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="2.1.10" rev-constraint-default="2.1.10" rev-constraint-dynamic="2.1.10" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jackcess" type="jar" ext="jar" status="no" details="" size="881920" time="0" location="/Users/luxugang/.ivy2/cache/com.healthmarketscience.jackcess/jackcess/jars/jackcess-2.1.10.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/healthmarketscience/jackcess/jackcess/2.1.10/jackcess-2.1.10.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.gagravarr" name="vorbis-java-tika">
+			<revision name="0.8" status="release" pubdate="20160218022446" resolver="public" artresolver="main" homepage="https://github.com/Gagravarr/VorbisJava" downloaded="false" searched="false" default="false" conf="master" position="6">
+				<metadata-artifact status="no" details="" size="4199" time="0" location="/Users/luxugang/.ivy2/cache/org.gagravarr/vorbis-java-tika/ivy-0.8.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.gagravarr/vorbis-java-tika/ivy-0.8.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/gagravarr/vorbis-java-tika/0.8/vorbis-java-tika-0.8.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="0.8" rev-constraint-default="0.8" rev-constraint-dynamic="0.8" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="vorbis-java-tika" type="jar" ext="jar" status="no" details="" size="24941" time="0" location="/Users/luxugang/.ivy2/cache/org.gagravarr/vorbis-java-tika/jars/vorbis-java-tika-0.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/gagravarr/vorbis-java-tika/0.8/vorbis-java-tika-0.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.gagravarr" name="vorbis-java-core">
+			<revision name="0.8" status="release" pubdate="20160218022310" resolver="public" artresolver="main" homepage="https://github.com/Gagravarr/VorbisJava" downloaded="false" searched="false" default="false" conf="master" position="7">
+				<metadata-artifact status="no" details="" size="3682" time="0" location="/Users/luxugang/.ivy2/cache/org.gagravarr/vorbis-java-core/ivy-0.8.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.gagravarr/vorbis-java-core/ivy-0.8.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/gagravarr/vorbis-java-core/0.8/vorbis-java-core-0.8.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="0.8" rev-constraint-default="0.8" rev-constraint-dynamic="0.8" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="vorbis-java-core" type="jar" ext="jar" status="no" details="" size="121084" time="0" location="/Users/luxugang/.ivy2/cache/org.gagravarr/vorbis-java-core/jars/vorbis-java-core-0.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/gagravarr/vorbis-java-core/0.8/vorbis-java-core-0.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.tika" name="tika-core">
+			<revision name="1.18" status="release" pubdate="20180421040620" resolver="public" artresolver="main" homepage="http://tika.apache.org/" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="7674" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-core/ivy-1.18.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-core/ivy-1.18.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/tika/tika-core/1.18/tika-core-1.18.pom"/>
+				<caller organisation="org.apache.solr" name="cell" conf="compile" rev="1.18" rev-constraint-default="1.18" rev-constraint-dynamic="1.18" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="tika-core" type="bundle" ext="jar" status="no" details="" size="664360" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.tika/tika-core/bundles/tika-core-1.18.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/tika/tika-core/1.18/tika-core-1.18.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

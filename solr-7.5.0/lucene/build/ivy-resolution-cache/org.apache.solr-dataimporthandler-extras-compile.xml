@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="dataimporthandler-extras"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130021"/>
+	<dependencies>
+		<module organisation="com.sun.mail" name="gimap">
+			<revision name="1.5.1" status="release" pubdate="20131114035432" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="6986" time="0" location="/Users/luxugang/.ivy2/cache/com.sun.mail/gimap/ivy-1.5.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.sun.mail/gimap/ivy-1.5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/sun/mail/gimap/1.5.1/gimap-1.5.1.pom"/>
+				<caller organisation="org.apache.solr" name="dataimporthandler-extras" conf="compile" rev="1.5.1" rev-constraint-default="1.5.1" rev-constraint-dynamic="1.5.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="gimap" type="jar" ext="jar" status="no" details="" size="15075" time="0" location="/Users/luxugang/.ivy2/cache/com.sun.mail/gimap/jars/gimap-1.5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/sun/mail/gimap/1.5.1/gimap-1.5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.sun.mail" name="javax.mail">
+			<revision name="1.5.1" status="release" pubdate="20131114035216" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="7405" time="0" location="/Users/luxugang/.ivy2/cache/com.sun.mail/javax.mail/ivy-1.5.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.sun.mail/javax.mail/ivy-1.5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.5.1/javax.mail-1.5.1.pom"/>
+				<caller organisation="org.apache.solr" name="dataimporthandler-extras" conf="compile" rev="1.5.1" rev-constraint-default="1.5.1" rev-constraint-dynamic="1.5.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="javax.mail" type="jar" ext="jar" status="no" details="" size="545362" time="0" location="/Users/luxugang/.ivy2/cache/com.sun.mail/javax.mail/jars/javax.mail-1.5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/sun/mail/javax.mail/1.5.1/javax.mail-1.5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="javax.activation" name="activation">
+			<revision name="1.1.1" status="release" pubdate="20091024022603" resolver="public" artresolver="main" homepage="http://java.sun.com/javase/technologies/desktop/javabeans/jaf/index.jsp" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0" url="https://glassfish.dev.java.net/public/CDDLv1.0.html"/>
+				<metadata-artifact status="no" details="" size="2612" time="0" location="/Users/luxugang/.ivy2/cache/javax.activation/activation/ivy-1.1.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/javax.activation/activation/ivy-1.1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/javax/activation/activation/1.1.1/activation-1.1.1.pom"/>
+				<caller organisation="org.apache.solr" name="dataimporthandler-extras" conf="compile" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="activation" type="jar" ext="jar" status="no" details="" size="69409" time="0" location="/Users/luxugang/.ivy2/cache/javax.activation/activation/jars/activation-1.1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/javax/activation/activation/1.1.1/activation-1.1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

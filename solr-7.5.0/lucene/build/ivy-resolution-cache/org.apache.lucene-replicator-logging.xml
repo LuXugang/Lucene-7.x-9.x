@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="replicator"
+		revision="working@luxugang.local"
+		conf="logging"
+		confs="http, jetty, start, servlet, logging"
+		date="20181127130011"/>
+	<dependencies>
+		<module organisation="commons-logging" name="commons-logging">
+			<revision name="1.1.3" status="release" pubdate="20130517040523" resolver="public" artresolver="main" homepage="http://commons.apache.org/proper/commons-logging/" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="10652" time="0" location="/Users/luxugang/.ivy2/cache/commons-logging/commons-logging/ivy-1.1.3.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/commons-logging/commons-logging/ivy-1.1.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.pom"/>
+				<caller organisation="org.apache.lucene" name="replicator" conf="logging" rev="1.1.3" rev-constraint-default="1.1.3" rev-constraint-dynamic="1.1.3" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-logging" type="jar" ext="jar" status="no" details="" size="62050" time="0" location="/Users/luxugang/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

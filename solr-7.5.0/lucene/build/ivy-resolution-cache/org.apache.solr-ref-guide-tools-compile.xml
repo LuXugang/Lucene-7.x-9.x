@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="ref-guide-tools"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130016"/>
+	<dependencies>
+		<module organisation="org.apache.logging.log4j" name="log4j-core">
+			<revision name="2.11.0" status="release" pubdate="20180312064434" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="8">
+				<metadata-artifact status="no" details="" size="43076" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.logging.log4j/log4j-core/ivy-2.11.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.logging.log4j/log4j-core/ivy-2.11.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.0/log4j-core-2.11.0.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="2.11.0" rev-constraint-default="2.11.0" rev-constraint-dynamic="2.11.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="log4j-core" type="jar" ext="jar" status="no" details="" size="1600782" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.logging.log4j/log4j-core/jars/log4j-core-2.11.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.0/log4j-core-2.11.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.logging.log4j" name="log4j-api">
+			<revision name="2.11.0" status="release" pubdate="20180312064340" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="7">
+				<metadata-artifact status="no" details="" size="37989" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.logging.log4j/log4j-api/ivy-2.11.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.logging.log4j/log4j-api/ivy-2.11.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.0/log4j-api-2.11.0.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="2.11.0" rev-constraint-default="2.11.0" rev-constraint-dynamic="2.11.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="log4j-api" type="jar" ext="jar" status="no" details="" size="263109" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.logging.log4j/log4j-api/jars/log4j-api-2.11.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.0/log4j-api-2.11.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.slf4j" name="slf4j-simple">
+			<revision name="1.7.24" status="release" pubdate="20170224190515" resolver="public" artresolver="main" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="master" position="6">
+				<metadata-artifact status="no" details="" size="5628" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-simple/ivy-1.7.24.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-simple/ivy-1.7.24.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.24/slf4j-simple-1.7.24.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="1.7.24" rev-constraint-default="1.7.24" rev-constraint-dynamic="1.7.24" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="slf4j-simple" type="jar" ext="jar" status="no" details="" size="14142" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-simple/jars/slf4j-simple-1.7.24.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.24/slf4j-simple-1.7.24.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.slf4j" name="jcl-over-slf4j">
+			<revision name="1.7.24" status="release" pubdate="20170224190601" resolver="public" artresolver="main" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="master" position="4">
+				<metadata-artifact status="no" details="" size="5546" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/jcl-over-slf4j/ivy-1.7.24.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.slf4j/jcl-over-slf4j/ivy-1.7.24.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.24/jcl-over-slf4j-1.7.24.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="1.7.24" rev-constraint-default="1.7.24" rev-constraint-dynamic="1.7.24" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jcl-over-slf4j" type="jar" ext="jar" status="no" details="" size="16516" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.24.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.24/jcl-over-slf4j-1.7.24.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.slf4j" name="slf4j-api">
+			<revision name="1.7.24" status="release" pubdate="20170224190508" resolver="public" artresolver="main" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="master" position="5">
+				<metadata-artifact status="no" details="" size="5474" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.24.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.24.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.24/slf4j-api-1.7.24.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="1.7.24" rev-constraint-default="1.7.24" rev-constraint-dynamic="1.7.24" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="slf4j-api" type="jar" ext="jar" status="no" details="" size="41205" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.24.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.24/slf4j-api-1.7.24.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.pdfbox" name="pdfbox">
+			<revision name="2.0.9" status="release" pubdate="20180321002455" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<metadata-artifact status="no" details="" size="8606" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox/ivy-2.0.9.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox/ivy-2.0.9.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox/2.0.9/pdfbox-2.0.9.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="pdfbox" type="bundle" ext="jar" status="no" details="" size="2513383" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.pdfbox/pdfbox/bundles/pdfbox-2.0.9.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox/2.0.9/pdfbox-2.0.9.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jsoup" name="jsoup">
+			<revision name="1.11.2" status="release" pubdate="20171120124340" resolver="public" artresolver="main" homepage="https://jsoup.org/" downloaded="true" searched="true" default="false" conf="master" position="2">
+				<license name="The MIT License" url="https://jsoup.org/license"/>
+				<metadata-artifact status="successful" details="" size="8190" time="705" location="/Users/luxugang/.ivy2/cache/org.jsoup/jsoup/ivy-1.11.2.xml" searched="true" original-local-location="/Users/luxugang/.ivy2/cache/org.jsoup/jsoup/ivy-1.11.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jsoup/jsoup/1.11.2/jsoup-1.11.2.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="1.11.2" rev-constraint-default="1.11.2" rev-constraint-dynamic="1.11.2" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jsoup" type="jar" ext="jar" status="successful" details="" size="392351" time="1407" location="/Users/luxugang/.ivy2/cache/org.jsoup/jsoup/jars/jsoup-1.11.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jsoup/jsoup/1.11.2/jsoup-1.11.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.vaadin.external.google" name="android-json">
+			<revision name="0.0.20131108.vaadin1" status="release" pubdate="20140228204459" resolver="public" artresolver="main" homepage="http://developer.android.com/sdk" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2735" time="0" location="/Users/luxugang/.ivy2/cache/com.vaadin.external.google/android-json/ivy-0.0.20131108.vaadin1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.vaadin.external.google/android-json/ivy-0.0.20131108.vaadin1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="0.0.20131108.vaadin1" rev-constraint-default="0.0.20131108.vaadin1" rev-constraint-dynamic="0.0.20131108.vaadin1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="android-json" type="jar" ext="jar" status="no" details="" size="18279" time="0" location="/Users/luxugang/.ivy2/cache/com.vaadin.external.google/android-json/jars/android-json-0.0.20131108.vaadin1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.asciidoctor" name="asciidoctor-ant">
+			<revision name="1.6.0-alpha.5" status="release" pubdate="20170920033140" resolver="public" artresolver="main" homepage="https://github.com/asciidoctor/asciidoctor-ant" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="5091" time="0" location="/Users/luxugang/.ivy2/cache/org.asciidoctor/asciidoctor-ant/ivy-1.6.0-alpha.5.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.asciidoctor/asciidoctor-ant/ivy-1.6.0-alpha.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/asciidoctor/asciidoctor-ant/1.6.0-alpha.5/asciidoctor-ant-1.6.0-alpha.5.pom"/>
+				<caller organisation="org.apache.solr" name="ref-guide-tools" conf="compile" rev="1.6.0-alpha.5" rev-constraint-default="1.6.0-alpha.5" rev-constraint-dynamic="1.6.0-alpha.5" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="asciidoctor-ant" type="jar" ext="jar" status="no" details="" size="26236120" time="0" location="/Users/luxugang/.ivy2/cache/org.asciidoctor/asciidoctor-ant/jars/asciidoctor-ant-1.6.0-alpha.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/asciidoctor/asciidoctor-ant/1.6.0-alpha.5/asciidoctor-ant-1.6.0-alpha.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

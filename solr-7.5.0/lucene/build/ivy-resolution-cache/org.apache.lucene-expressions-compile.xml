@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="expressions"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130009"/>
+	<dependencies>
+		<module organisation="org.ow2.asm" name="asm-commons">
+			<revision name="5.1" status="release" pubdate="20160305214258" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="4571" time="0" location="/Users/luxugang/.ivy2/cache/org.ow2.asm/asm-commons/ivy-5.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.ow2.asm/asm-commons/ivy-5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/ow2/asm/asm-commons/5.1/asm-commons-5.1.pom"/>
+				<caller organisation="org.apache.lucene" name="expressions" conf="compile" rev="5.1" rev-constraint-default="5.1" rev-constraint-dynamic="5.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="asm-commons" type="jar" ext="jar" status="no" details="" size="47195" time="0" location="/Users/luxugang/.ivy2/cache/org.ow2.asm/asm-commons/jars/asm-commons-5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/ow2/asm/asm-commons/5.1/asm-commons-5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.ow2.asm" name="asm">
+			<revision name="5.1" status="release" pubdate="20160305214246" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="3919" time="0" location="/Users/luxugang/.ivy2/cache/org.ow2.asm/asm/ivy-5.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.ow2.asm/asm/ivy-5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/ow2/asm/asm/5.1/asm-5.1.pom"/>
+				<caller organisation="org.apache.lucene" name="expressions" conf="compile" rev="5.1" rev-constraint-default="5.1" rev-constraint-dynamic="5.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="asm" type="jar" ext="jar" status="no" details="" size="53468" time="0" location="/Users/luxugang/.ivy2/cache/org.ow2.asm/asm/jars/asm-5.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/ow2/asm/asm/5.1/asm-5.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.antlr" name="antlr4-runtime">
+			<revision name="4.5.1-1" status="release" pubdate="20150821031403" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="3417" time="0" location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/ivy-4.5.1-1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/ivy-4.5.1-1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.1-1/antlr4-runtime-4.5.1-1.pom"/>
+				<caller organisation="org.apache.lucene" name="expressions" conf="compile" rev="4.5.1-1" rev-constraint-default="4.5.1-1" rev-constraint-dynamic="4.5.1-1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="antlr4-runtime" type="jar" ext="jar" status="no" details="" size="302034" time="0" location="/Users/luxugang/.ivy2/cache/org.antlr/antlr4-runtime/jars/antlr4-runtime-4.5.1-1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.1-1/antlr4-runtime-4.5.1-1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

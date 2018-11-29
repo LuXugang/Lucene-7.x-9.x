@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="spatial-extras"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile, test"
+		date="20181127130012"/>
+	<dependencies>
+		<module organisation="io.sgr" name="s2-geometry-library-java">
+			<revision name="1.0.0" status="release" pubdate="20170717003442" resolver="public" artresolver="main" homepage="https://github.com/sgr-io/s2-geometry-library-java" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3291" time="0" location="/Users/luxugang/.ivy2/cache/io.sgr/s2-geometry-library-java/ivy-1.0.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/io.sgr/s2-geometry-library-java/ivy-1.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/sgr/s2-geometry-library-java/1.0.0/s2-geometry-library-java-1.0.0.pom"/>
+				<caller organisation="org.apache.lucene" name="spatial-extras" conf="compile" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="s2-geometry-library-java" type="jar" ext="jar" status="no" details="" size="120854" time="0" location="/Users/luxugang/.ivy2/cache/io.sgr/s2-geometry-library-java/jars/s2-geometry-library-java-1.0.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/io/sgr/s2-geometry-library-java/1.0.0/s2-geometry-library-java-1.0.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.locationtech.spatial4j" name="spatial4j">
+			<revision name="0.7" status="release" pubdate="20171230000040" resolver="public" artresolver="main" homepage="https://projects.eclipse.org/projects/locationtech.spatial4j" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4273" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/ivy-0.7.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/ivy-0.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/locationtech/spatial4j/spatial4j/0.7/spatial4j-0.7.pom"/>
+				<caller organisation="org.apache.lucene" name="spatial-extras" conf="compile" rev="0.7" rev-constraint-default="0.7" rev-constraint-dynamic="0.7" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="spatial4j" type="bundle" ext="jar" status="no" details="" size="204833" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/bundles/spatial4j-0.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/locationtech/spatial4j/spatial4j/0.7/spatial4j-0.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

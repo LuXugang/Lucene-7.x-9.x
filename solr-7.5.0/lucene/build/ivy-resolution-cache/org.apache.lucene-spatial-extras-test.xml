@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="spatial-extras"
+		revision="working@luxugang.local"
+		conf="test"
+		confs="compile, test"
+		date="20181127130012"/>
+	<dependencies>
+		<module organisation="org.slf4j" name="slf4j-api">
+			<revision name="1.7.24" status="release" pubdate="20170224190508" resolver="public" artresolver="main" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="5474" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.24.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.24.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.24/slf4j-api-1.7.24.pom"/>
+				<caller organisation="org.apache.lucene" name="spatial-extras" conf="test" rev="1.7.24" rev-constraint-default="1.7.24" rev-constraint-dynamic="1.7.24" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="slf4j-api" type="jar" ext="jar" status="no" details="" size="41205" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.24.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.24/slf4j-api-1.7.24.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.locationtech.spatial4j" name="spatial4j">
+			<revision name="0.7" status="release" pubdate="20171230000040" resolver="public" artresolver="main" homepage="https://projects.eclipse.org/projects/locationtech.spatial4j" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4273" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/ivy-0.7.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/ivy-0.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/locationtech/spatial4j/spatial4j/0.7/spatial4j-0.7.pom"/>
+				<caller organisation="org.apache.lucene" name="spatial-extras" conf="test" rev="0.7" rev-constraint-default="0.7" rev-constraint-dynamic="0.7" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="spatial4j" type="test" ext="jar" extra-classifier="tests" status="no" details="" size="158103" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.spatial4j/spatial4j/tests/spatial4j-0.7-tests.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/locationtech/spatial4j/spatial4j/0.7/spatial4j-0.7-tests.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.locationtech.jts" name="jts-core">
+			<revision name="1.15.0" status="release" pubdate="20171122071505" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="4974" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.jts/jts-core/ivy-1.15.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.locationtech.jts/jts-core/ivy-1.15.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/locationtech/jts/jts-core/1.15.0/jts-core-1.15.0.pom"/>
+				<caller organisation="org.apache.lucene" name="spatial-extras" conf="test" rev="1.15.0" rev-constraint-default="1.15.0" rev-constraint-dynamic="1.15.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jts-core" type="bundle" ext="jar" status="no" details="" size="797736" time="0" location="/Users/luxugang/.ivy2/cache/org.locationtech.jts/jts-core/bundles/jts-core-1.15.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/locationtech/jts/jts-core/1.15.0/jts-core-1.15.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

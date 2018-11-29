@@ -1,0 +1,2823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/icu/lib/icu4j-62.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-fsa-2.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-polish-2.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-stemming-2.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-ukrainian-search-3.9.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/opennlp/lib/opennlp-tools-1.9.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/analysis/phonetic/lib/commons-codec-1.10.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/benchmark/lib/commons-compress-1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/benchmark/lib/icu4j-62.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/benchmark/lib/nekohtml-1.9.17.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/benchmark/lib/spatial4j-0.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/benchmark/lib/xercesImpl-2.9.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/expressions/lib/antlr4-runtime-4.5.1-1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/expressions/lib/asm-5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/expressions/lib/asm-commons-5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/facet/lib/hppc-0.8.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/commons-logging-1.1.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/httpclient-4.5.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/httpcore-4.4.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-continuation-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-http-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-io-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-server-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-servlet-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-util-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/spatial-extras/lib/jts-core-1.15.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/spatial-extras/lib/s2-geometry-library-java-1.0.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/spatial-extras/lib/slf4j-api-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/spatial-extras/lib/spatial4j-0.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/spatial-extras/lib/spatial4j-0.7-tests.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/test-framework/lib/junit-4.10.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lucene/test-framework/lib/randomizedtesting-runner-2.6.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/clustering/lib/attributes-binder-1.3.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/clustering/lib/carrot2-guava-18.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/clustering/lib/carrot2-mini-3.16.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/clustering/lib/jackson-annotations-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/clustering/lib/jackson-databind-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/clustering/lib/simple-xml-2.7.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/byte-buddy-1.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/derby-10.9.1.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/hsqldb-2.4.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/mockito-core-2.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/objenesis-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/lib/activation-1.1.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/lib/gimap-1.5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/lib/javax.mail-1.5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/apache-mime4j-core-0.8.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/apache-mime4j-dom-0.8.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/aspectjrt-1.8.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/bcmail-jdk15on-1.54.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/bcpkix-jdk15on-1.54.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/bcprov-jdk15on-1.54.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/boilerpipe-1.1.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/commons-collections4-4.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/commons-compress-1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/curvesapi-1.04.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/fontbox-2.0.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/icu4j-62.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/isoparser-1.1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jackcess-2.1.10.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jackcess-encrypt-2.1.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/java-libpst-0.8.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jdom2-2.0.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jempbox-1.8.13.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jmatio-1.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/juniversalchardet-1.0.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/metadata-extractor-2.10.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/pdfbox-2.0.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/pdfbox-tools-2.0.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-3.17.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-ooxml-3.17.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-ooxml-schemas-3.17.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-scratchpad-3.17.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/rome-1.5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/rome-utils-1.5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tagsoup-1.2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-core-1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-java7-1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-parsers-1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-xmp-1.18.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/vorbis-java-core-0.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/vorbis-java-tika-0.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xercesImpl-2.9.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xmlbeans-2.6.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xmpcore-5.1.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xz-1.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/langid/lib/jsonic-1.2.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/langid/lib/langdetect-1.1-20120112.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/langid/lib/opennlp-tools-1.9.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/byte-buddy-1.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/jcl-over-slf4j-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/mockito-core-2.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/objenesis-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/argparse4j-0.8.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-annotations-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-core-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-databind-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-jq-0.0.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/log4j-api-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/log4j-core-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/log4j-slf4j-impl-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/simpleclient_common-0.2.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/simpleclient_httpserver-0.2.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/simpleclient-0.2.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/slf4j-api-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/velocity/lib/commons-collections-3.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/velocity/lib/velocity-1.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/contrib/velocity/lib/velocity-tools-2.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/antlr4-runtime-4.5.1-1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/asm-5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/asm-commons-5.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/avatica-core-1.10.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/caffeine-2.4.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/calcite-core-1.13.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/calcite-linq4j-1.13.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-cli-1.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-codec-1.10.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-collections-3.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-compiler-2.7.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-configuration-1.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-exec-1.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-fileupload-1.3.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-io-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-lang-2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-lang3-3.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/commons-math3-3.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/curator-client-2.8.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/curator-framework-2.8.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/curator-recipes-2.8.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/disruptor-3.4.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/dom4j-1.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/eigenbase-properties-1.1.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/guava-14.0.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/hadoop-annotations-2.7.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/hadoop-auth-2.7.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/hadoop-common-2.7.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/hadoop-hdfs-2.7.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/hppc-0.8.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/htrace-core-3.2.0-incubating.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jackson-annotations-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jackson-core-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jackson-core-asl-1.9.13.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jackson-databind-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jackson-dataformat-smile-2.9.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jackson-mapper-asl-1.9.13.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/janino-2.7.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/jcl-over-slf4j-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/joda-time-2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/log4j-1.2-api-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/log4j-api-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/log4j-core-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/log4j-slf4j-impl-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/org.restlet.ext.servlet-2.3.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/org.restlet-2.3.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/protobuf-java-3.1.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/rrd4j-3.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/spatial4j-0.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/lib/t-digest-3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/antlr-2.7.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/antlr4-runtime-4.5.1-1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-api-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-avl-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-shared-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-i18n-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptor-kerberos-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-admin-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-authn-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-authz-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-changelog-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-collective-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-event-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-exception-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-journal-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-normalization-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-operational-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-referral-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-schema-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-subtree-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-trigger-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-jdbm1-2.0.0-M2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-jdbm-partition-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-kerberos-codec-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-ldif-partition-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-mavibot-partition-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-protocol-kerberos-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-protocol-ldap-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-protocol-shared-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-xdbm-partition-2.0.0-M15.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/api-all-1.0.0-M20.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/bcprov-jdk15on-1.54.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/byte-buddy-1.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/commons-collections-3.2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/ehcache-core-2.4.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/hadoop-common-2.7.4-tests.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/hadoop-hdfs-2.7.4-tests.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/hadoop-minikdc-2.7.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/htrace-core-3.2.0-incubating.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/jersey-core-1.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/jersey-server-1.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/jetty-6.1.26.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/jetty-sslengine-6.1.26.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/jetty-util-6.1.26.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/mina-core-2.0.0-M5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/mockito-core-2.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/netty-all-4.0.36.Final.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/core/test-lib/objenesis-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/example/example-DIH/solr/db/lib/derby-10.9.1.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/example/example-DIH/solr/db/lib/hsqldb-2.4.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/gmetric4j-1.0.7.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/javax.servlet-api-3.1.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-continuation-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-deploy-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-http-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-io-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-jmx-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-rewrite-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-security-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-server-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-servlet-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-servlets-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-util-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-webapp-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/jetty-xml-9.4.11.v20180605.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/metrics-core-3.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/metrics-ganglia-3.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/metrics-graphite-3.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/metrics-jetty9-3.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/server/lib/metrics-jvm-3.2.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/commons-io-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/commons-math3-3.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/httpclient-4.5.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/httpcore-4.4.6.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/httpmime-4.5.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/jcl-over-slf4j-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/noggit-0.8.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/slf4j-api-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/stax2-api-3.1.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/woodstox-core-asl-4.4.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/lib/zookeeper-3.4.11.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/test-lib/byte-buddy-1.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/test-lib/log4j-slf4j-impl-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/test-lib/mockito-core-2.6.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solrj/test-lib/objenesis-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/android-json-0.0.20131108.vaadin1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/asciidoctor-ant-1.6.0-alpha.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/jcl-over-slf4j-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/jsoup-1.11.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/log4j-api-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/log4j-core-2.11.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/pdfbox-2.0.9.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/slf4j-api-1.7.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/slf4j-simple-1.7.24.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/lucene/core/src/java" expected_position="0" />
+      <src_folder value="file://$MODULE_DIR$/lucene/core/src/resources" expected_position="1" />
+      <src_folder value="file://$MODULE_DIR$/lucene/core/src/test" expected_position="2" />
+      <src_folder value="file://$MODULE_DIR$/lucene/test-framework/src/java" expected_position="3" />
+      <src_folder value="file://$MODULE_DIR$/lucene/test-framework/src/resources" expected_position="4" />
+      <src_folder value="file://$MODULE_DIR$/lucene/test-framework/src/test" expected_position="5" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/common/src/java" expected_position="6" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/common/src/resources" expected_position="7" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/common/src/test" expected_position="8" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/icu/src/java" expected_position="9" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/icu/src/resources" expected_position="10" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/icu/src/test" expected_position="11" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/kuromoji/src/java" expected_position="12" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/kuromoji/src/resources" expected_position="13" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/kuromoji/src/test" expected_position="14" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/morfologik/src/java" expected_position="15" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/morfologik/src/resources" expected_position="16" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/morfologik/src/test" expected_position="17" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/morfologik/src/test-files" expected_position="18" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/nori/src/java" expected_position="19" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/nori/src/resources" expected_position="20" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/nori/src/test" expected_position="21" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/opennlp/src/java" expected_position="22" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/opennlp/src/resources" expected_position="23" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/opennlp/src/test" expected_position="24" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/opennlp/src/test-files" expected_position="25" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/phonetic/src/java" expected_position="26" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/phonetic/src/resources" expected_position="27" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/phonetic/src/test" expected_position="28" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/smartcn/src/java" expected_position="29" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/smartcn/src/resources" expected_position="30" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/smartcn/src/test" expected_position="31" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/stempel/src/java" expected_position="32" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/stempel/src/resources" expected_position="33" />
+      <src_folder value="file://$MODULE_DIR$/lucene/analysis/stempel/src/test" expected_position="34" />
+      <src_folder value="file://$MODULE_DIR$/lucene/backward-codecs/src/java" expected_position="35" />
+      <src_folder value="file://$MODULE_DIR$/lucene/backward-codecs/src/resources" expected_position="36" />
+      <src_folder value="file://$MODULE_DIR$/lucene/backward-codecs/src/test" expected_position="37" />
+      <src_folder value="file://$MODULE_DIR$/lucene/benchmark/src/java" expected_position="38" />
+      <src_folder value="file://$MODULE_DIR$/lucene/benchmark/src/test" expected_position="39" />
+      <src_folder value="file://$MODULE_DIR$/lucene/benchmark" expected_position="40" />
+      <src_folder value="file://$MODULE_DIR$/lucene/classification/src/java" expected_position="41" />
+      <src_folder value="file://$MODULE_DIR$/lucene/classification/src/test" expected_position="42" />
+      <src_folder value="file://$MODULE_DIR$/lucene/codecs/src/java" expected_position="43" />
+      <src_folder value="file://$MODULE_DIR$/lucene/codecs/src/resources" expected_position="44" />
+      <src_folder value="file://$MODULE_DIR$/lucene/codecs/src/test" expected_position="45" />
+      <src_folder value="file://$MODULE_DIR$/lucene/demo/src/java" expected_position="46" />
+      <src_folder value="file://$MODULE_DIR$/lucene/demo/src/test" expected_position="47" />
+      <src_folder value="file://$MODULE_DIR$/lucene/expressions/src/java" expected_position="48" />
+      <src_folder value="file://$MODULE_DIR$/lucene/expressions/src/resources" expected_position="49" />
+      <src_folder value="file://$MODULE_DIR$/lucene/expressions/src/test" expected_position="50" />
+      <src_folder value="file://$MODULE_DIR$/lucene/facet/src/java" expected_position="51" />
+      <src_folder value="file://$MODULE_DIR$/lucene/facet/src/test" expected_position="52" />
+      <src_folder value="file://$MODULE_DIR$/lucene/grouping/src/java" expected_position="53" />
+      <src_folder value="file://$MODULE_DIR$/lucene/grouping/src/test" expected_position="54" />
+      <src_folder value="file://$MODULE_DIR$/lucene/highlighter/src/java" expected_position="55" />
+      <src_folder value="file://$MODULE_DIR$/lucene/highlighter/src/test" expected_position="56" />
+      <src_folder value="file://$MODULE_DIR$/lucene/join/src/java" expected_position="57" />
+      <src_folder value="file://$MODULE_DIR$/lucene/join/src/test" expected_position="58" />
+      <src_folder value="file://$MODULE_DIR$/lucene/memory/src/java" expected_position="59" />
+      <src_folder value="file://$MODULE_DIR$/lucene/memory/src/test" expected_position="60" />
+      <src_folder value="file://$MODULE_DIR$/lucene/misc/src/java" expected_position="61" />
+      <src_folder value="file://$MODULE_DIR$/lucene/misc/src/test" expected_position="62" />
+      <src_folder value="file://$MODULE_DIR$/lucene/queries/src/java" expected_position="63" />
+      <src_folder value="file://$MODULE_DIR$/lucene/queries/src/test" expected_position="64" />
+      <src_folder value="file://$MODULE_DIR$/lucene/queryparser/src/java" expected_position="65" />
+      <src_folder value="file://$MODULE_DIR$/lucene/queryparser/src/resources" expected_position="66" />
+      <src_folder value="file://$MODULE_DIR$/lucene/queryparser/src/test" expected_position="67" />
+      <src_folder value="file://$MODULE_DIR$/lucene/replicator/src/java" expected_position="68" />
+      <src_folder value="file://$MODULE_DIR$/lucene/replicator/src/test" expected_position="69" />
+      <src_folder value="file://$MODULE_DIR$/lucene/sandbox/src/java" expected_position="70" />
+      <src_folder value="file://$MODULE_DIR$/lucene/sandbox/src/resources" expected_position="71" />
+      <src_folder value="file://$MODULE_DIR$/lucene/sandbox/src/test" expected_position="72" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial/src/java" expected_position="73" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial/src/test" expected_position="74" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial3d/src/java" expected_position="75" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial3d/src/test" expected_position="76" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial-extras/src/java" expected_position="77" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial-extras/src/test" expected_position="78" />
+      <src_folder value="file://$MODULE_DIR$/lucene/spatial-extras/src/test-files" expected_position="79" />
+      <src_folder value="file://$MODULE_DIR$/lucene/suggest/src/java" expected_position="80" />
+      <src_folder value="file://$MODULE_DIR$/lucene/suggest/src/resources" expected_position="81" />
+      <src_folder value="file://$MODULE_DIR$/lucene/suggest/src/test" expected_position="82" />
+      <src_folder value="file://$MODULE_DIR$/solr/core/src/java" expected_position="83" />
+      <src_folder value="file://$MODULE_DIR$/solr/core/src/resources" expected_position="84" />
+      <src_folder value="file://$MODULE_DIR$/solr/core/src/test" expected_position="85" />
+      <src_folder value="file://$MODULE_DIR$/solr/core/src/test-files" expected_position="86" />
+      <src_folder value="file://$MODULE_DIR$/solr/solrj/src/java" expected_position="87" />
+      <src_folder value="file://$MODULE_DIR$/solr/solrj/src/resources" expected_position="88" />
+      <src_folder value="file://$MODULE_DIR$/solr/solrj/src/test" expected_position="89" />
+      <src_folder value="file://$MODULE_DIR$/solr/solrj/src/test-files" expected_position="90" />
+      <src_folder value="file://$MODULE_DIR$/solr/test-framework/src/java" expected_position="91" />
+      <src_folder value="file://$MODULE_DIR$/solr/test-framework/src/resources" expected_position="92" />
+      <src_folder value="file://$MODULE_DIR$/solr/test-framework/src/test" expected_position="93" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/analysis-extras/src/java" expected_position="94" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/analysis-extras/src/test" expected_position="95" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/analysis-extras/src/test-files" expected_position="96" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/analytics/src/java" expected_position="97" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/analytics/src/test" expected_position="98" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/analytics/src/test-files" expected_position="99" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/clustering/src/java" expected_position="100" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/clustering/src/test" expected_position="101" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/clustering/src/test-files" expected_position="102" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler/src/java" expected_position="103" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler/src/test" expected_position="104" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler/src/test-files" expected_position="105" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/java" expected_position="106" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/resources" expected_position="107" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/test" expected_position="108" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/test-files" expected_position="109" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/extraction/src/java" expected_position="110" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/extraction/src/resources" expected_position="111" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/extraction/src/test" expected_position="112" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/extraction/src/test-files" expected_position="113" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/langid/src/java" expected_position="114" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/langid/src/resources" expected_position="115" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/langid/src/test" expected_position="116" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/langid/src/test-files" expected_position="117" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/ltr/src/java" expected_position="118" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/ltr/src/test" expected_position="119" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/ltr/src/test-files" expected_position="120" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/prometheus-exporter/src/java" expected_position="121" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/prometheus-exporter/src/test" expected_position="122" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/prometheus-exporter/src/test-files" expected_position="123" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/velocity/src/java" expected_position="124" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/velocity/src/resources" expected_position="125" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/velocity/src/test" expected_position="126" />
+      <src_folder value="file://$MODULE_DIR$/solr/contrib/velocity/src/test-files" expected_position="127" />
+      <src_folder value="file://$MODULE_DIR$/solr/server/contexts" expected_position="128" />
+      <src_folder value="file://$MODULE_DIR$/solr/server/etc" expected_position="129" />
+      <src_folder value="file://$MODULE_DIR$/solr/server/modules" expected_position="130" />
+      <src_folder value="file://$MODULE_DIR$/solr/server/solr" expected_position="131" />
+      <src_folder value="file://$MODULE_DIR$/solr/webapp/web" expected_position="132" />
+    </src_description>
+  </component>
+  <component name="FacetManager">
+    <facet type="web" name="Web">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/solr/webapp/web/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/solr/webapp/web" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/eclipse-build/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/lucene/core/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/core/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/core/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/test-framework/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/test-framework/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/test-framework/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/common/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/common/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/common/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/icu/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/icu/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/icu/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/kuromoji/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/kuromoji/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/kuromoji/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/morfologik/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/morfologik/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/morfologik/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/morfologik/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/nori/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/nori/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/nori/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/opennlp/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/opennlp/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/opennlp/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/opennlp/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/phonetic/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/phonetic/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/phonetic/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/smartcn/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/smartcn/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/smartcn/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/stempel/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/stempel/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/analysis/stempel/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/backward-codecs/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/backward-codecs/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/backward-codecs/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/benchmark/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/benchmark/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/benchmark" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/classification/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/classification/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/codecs/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/codecs/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/codecs/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/demo/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/demo/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/expressions/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/expressions/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/expressions/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/facet/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/facet/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/grouping/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/grouping/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/highlighter/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/highlighter/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/join/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/join/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/memory/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/memory/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/misc/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/misc/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/queries/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/queries/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/queryparser/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/queryparser/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/queryparser/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/replicator/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/replicator/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/sandbox/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/sandbox/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/sandbox/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial3d/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial3d/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial-extras/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial-extras/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/spatial-extras/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/suggest/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/suggest/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lucene/suggest/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/core/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/core/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/core/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/core/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/solrj/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/solrj/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/solrj/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/solrj/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/test-framework/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/test-framework/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/test-framework/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/analysis-extras/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/analysis-extras/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/analysis-extras/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/analytics/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/analytics/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/analytics/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/clustering/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/clustering/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/clustering/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/extraction/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/extraction/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/extraction/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/extraction/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/langid/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/langid/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/langid/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/langid/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/ltr/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/ltr/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/ltr/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/prometheus-exporter/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/prometheus-exporter/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/prometheus-exporter/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/velocity/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/velocity/src/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/velocity/src/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/contrib/velocity/src/test-files" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/server/contexts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/server/etc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/server/modules" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/server/solr" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/solr/webapp/web" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="icu4j-62.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/icu/lib/icu4j-62.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="morfologik-fsa-2.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-fsa-2.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="morfologik-polish-2.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-polish-2.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="morfologik-stemming-2.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-stemming-2.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="morfologik-ukrainian-search-3.9.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/morfologik/lib/morfologik-ukrainian-search-3.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="opennlp-tools-1.9.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/opennlp/lib/opennlp-tools-1.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-codec-1.10.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/analysis/phonetic/lib/commons-codec-1.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-compress-1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/benchmark/lib/commons-compress-1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lucene/benchmark/lib/icu4j-62.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/benchmark/lib/icu4j-62.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="nekohtml-1.9.17.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/benchmark/lib/nekohtml-1.9.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="spatial4j-0.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/benchmark/lib/spatial4j-0.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xercesImpl-2.9.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/benchmark/lib/xercesImpl-2.9.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="antlr4-runtime-4.5.1-1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/expressions/lib/antlr4-runtime-4.5.1-1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/expressions/lib/asm-5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asm-commons-5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/expressions/lib/asm-commons-5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hppc-0.8.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/facet/lib/hppc-0.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-logging-1.1.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/commons-logging-1.1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="httpclient-4.5.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/httpclient-4.5.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="httpcore-4.4.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/httpcore-4.4.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-continuation-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-continuation-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-http-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-http-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-io-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-io-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-server-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-server-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-servlet-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-servlet-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-util-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/replicator/lib/jetty-util-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jts-core-1.15.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/spatial-extras/lib/jts-core-1.15.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="s2-geometry-library-java-1.0.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/spatial-extras/lib/s2-geometry-library-java-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="slf4j-api-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/spatial-extras/lib/slf4j-api-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="lucene/spatial-extras/lib/spatial4j-0.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/spatial-extras/lib/spatial4j-0.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="spatial4j-0.7-tests.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/spatial-extras/lib/spatial4j-0.7-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="junit-4.10.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/test-framework/lib/junit-4.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="randomizedtesting-runner-2.6.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lucene/test-framework/lib/randomizedtesting-runner-2.6.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="attributes-binder-1.3.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/clustering/lib/attributes-binder-1.3.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="carrot2-guava-18.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/clustering/lib/carrot2-guava-18.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="carrot2-mini-3.16.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/clustering/lib/carrot2-mini-3.16.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-annotations-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/clustering/lib/jackson-annotations-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-databind-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/clustering/lib/jackson-databind-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="simple-xml-2.7.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/clustering/lib/simple-xml-2.7.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="byte-buddy-1.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/byte-buddy-1.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="derby-10.9.1.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/derby-10.9.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hsqldb-2.4.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/hsqldb-2.4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mockito-core-2.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/mockito-core-2.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="objenesis-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler/test-lib/objenesis-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="activation-1.1.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/lib/activation-1.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="gimap-1.5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/lib/gimap-1.5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.mail-1.5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/dataimporthandler-extras/lib/javax.mail-1.5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apache-mime4j-core-0.8.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/apache-mime4j-core-0.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apache-mime4j-dom-0.8.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/apache-mime4j-dom-0.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="aspectjrt-1.8.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/aspectjrt-1.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bcmail-jdk15on-1.54.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/bcmail-jdk15on-1.54.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bcpkix-jdk15on-1.54.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/bcpkix-jdk15on-1.54.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="bcprov-jdk15on-1.54.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/bcprov-jdk15on-1.54.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="boilerpipe-1.1.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/boilerpipe-1.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-collections4-4.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/commons-collections4-4.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/extraction/lib/commons-compress-1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/commons-compress-1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="curvesapi-1.04.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/curvesapi-1.04.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="fontbox-2.0.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/fontbox-2.0.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/extraction/lib/icu4j-62.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/icu4j-62.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="isoparser-1.1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/isoparser-1.1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackcess-2.1.10.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jackcess-2.1.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackcess-encrypt-2.1.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jackcess-encrypt-2.1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="java-libpst-0.8.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/java-libpst-0.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jdom2-2.0.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jdom2-2.0.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jempbox-1.8.13.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jempbox-1.8.13.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jmatio-1.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/jmatio-1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="juniversalchardet-1.0.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/juniversalchardet-1.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="metadata-extractor-2.10.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/metadata-extractor-2.10.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="pdfbox-2.0.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/pdfbox-2.0.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="pdfbox-tools-2.0.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/pdfbox-tools-2.0.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-3.17.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-ooxml-3.17.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-ooxml-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-ooxml-schemas-3.17.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-ooxml-schemas-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="poi-scratchpad-3.17.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/poi-scratchpad-3.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="rome-1.5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/rome-1.5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="rome-utils-1.5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/rome-utils-1.5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="tagsoup-1.2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tagsoup-1.2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="tika-core-1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-core-1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="tika-java7-1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-java7-1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="tika-parsers-1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-parsers-1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="tika-xmp-1.18.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/tika-xmp-1.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="vorbis-java-core-0.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/vorbis-java-core-0.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="vorbis-java-tika-0.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/vorbis-java-tika-0.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/extraction/lib/xercesImpl-2.9.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xercesImpl-2.9.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xmlbeans-2.6.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xmlbeans-2.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xmpcore-5.1.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xmpcore-5.1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="xz-1.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/extraction/lib/xz-1.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsonic-1.2.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/langid/lib/jsonic-1.2.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="langdetect-1.1-20120112.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/langid/lib/langdetect-1.1-20120112.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/langid/lib/opennlp-tools-1.9.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/langid/lib/opennlp-tools-1.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/ltr/test-lib/byte-buddy-1.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/byte-buddy-1.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jcl-over-slf4j-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/jcl-over-slf4j-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/ltr/test-lib/mockito-core-2.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/mockito-core-2.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/ltr/test-lib/objenesis-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/ltr/test-lib/objenesis-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="argparse4j-0.8.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/argparse4j-0.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/prometheus-exporter/lib/jackson-annotations-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-annotations-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-core-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-core-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/prometheus-exporter/lib/jackson-databind-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-databind-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-jq-0.0.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/jackson-jq-0.0.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="log4j-api-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/log4j-api-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="log4j-core-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/log4j-core-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="log4j-slf4j-impl-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/log4j-slf4j-impl-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="simpleclient_common-0.2.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/simpleclient_common-0.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="simpleclient_httpserver-0.2.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/simpleclient_httpserver-0.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="simpleclient-0.2.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/simpleclient-0.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/contrib/prometheus-exporter/lib/slf4j-api-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/prometheus-exporter/lib/slf4j-api-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-collections-3.2.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/velocity/lib/commons-collections-3.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="velocity-1.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/velocity/lib/velocity-1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="velocity-tools-2.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/contrib/velocity/lib/velocity-tools-2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/antlr4-runtime-4.5.1-1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/antlr4-runtime-4.5.1-1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/asm-5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/asm-5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/asm-commons-5.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/asm-commons-5.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="avatica-core-1.10.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/avatica-core-1.10.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="caffeine-2.4.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/caffeine-2.4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="calcite-core-1.13.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/calcite-core-1.13.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="calcite-linq4j-1.13.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/calcite-linq4j-1.13.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-cli-1.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-cli-1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/commons-codec-1.10.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-codec-1.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/commons-collections-3.2.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-collections-3.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-compiler-2.7.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-compiler-2.7.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-configuration-1.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-configuration-1.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-exec-1.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-exec-1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-fileupload-1.3.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-fileupload-1.3.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-io-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-io-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-lang-2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-lang-2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-lang3-3.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-lang3-3.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-math3-3.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/commons-math3-3.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="curator-client-2.8.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/curator-client-2.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="curator-framework-2.8.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/curator-framework-2.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="curator-recipes-2.8.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/curator-recipes-2.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="disruptor-3.4.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/disruptor-3.4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="dom4j-1.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/dom4j-1.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="eigenbase-properties-1.1.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/eigenbase-properties-1.1.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="guava-14.0.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/guava-14.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-annotations-2.7.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/hadoop-annotations-2.7.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-auth-2.7.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/hadoop-auth-2.7.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-common-2.7.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/hadoop-common-2.7.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-hdfs-2.7.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/hadoop-hdfs-2.7.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/hppc-0.8.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/hppc-0.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="htrace-core-3.2.0-incubating.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/htrace-core-3.2.0-incubating.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/jackson-annotations-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jackson-annotations-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/jackson-core-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jackson-core-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-core-asl-1.9.13.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jackson-core-asl-1.9.13.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/jackson-databind-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jackson-databind-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-dataformat-smile-2.9.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jackson-dataformat-smile-2.9.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jackson-mapper-asl-1.9.13.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jackson-mapper-asl-1.9.13.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="janino-2.7.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/janino-2.7.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/jcl-over-slf4j-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/jcl-over-slf4j-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="joda-time-2.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/joda-time-2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="log4j-1.2-api-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/log4j-1.2-api-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/log4j-api-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/log4j-api-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/log4j-core-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/log4j-core-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/log4j-slf4j-impl-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/log4j-slf4j-impl-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="org.restlet.ext.servlet-2.3.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/org.restlet.ext.servlet-2.3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="org.restlet-2.3.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/org.restlet-2.3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="protobuf-java-3.1.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/protobuf-java-3.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="rrd4j-3.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/rrd4j-3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/lib/spatial4j-0.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/spatial4j-0.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="t-digest-3.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/lib/t-digest-3.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="antlr-2.7.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/antlr-2.7.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/antlr4-runtime-4.5.1-1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/antlr4-runtime-4.5.1-1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-core-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-core-api-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-api-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-core-avl-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-avl-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-core-shared-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-core-shared-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-i18n-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-i18n-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptor-kerberos-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptor-kerberos-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-admin-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-admin-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-authn-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-authn-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-authz-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-authz-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-changelog-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-changelog-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-collective-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-collective-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-event-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-event-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-exception-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-exception-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-journal-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-journal-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-normalization-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-normalization-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-operational-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-operational-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-referral-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-referral-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-schema-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-schema-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-subtree-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-subtree-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-interceptors-trigger-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-interceptors-trigger-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-jdbm1-2.0.0-M2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-jdbm1-2.0.0-M2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-jdbm-partition-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-jdbm-partition-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-kerberos-codec-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-kerberos-codec-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-ldif-partition-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-ldif-partition-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-mavibot-partition-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-mavibot-partition-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-protocol-kerberos-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-protocol-kerberos-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-protocol-ldap-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-protocol-ldap-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-protocol-shared-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-protocol-shared-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="apacheds-xdbm-partition-2.0.0-M15.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/apacheds-xdbm-partition-2.0.0-M15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="api-all-1.0.0-M20.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/api-all-1.0.0-M20.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/bcprov-jdk15on-1.54.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/bcprov-jdk15on-1.54.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/byte-buddy-1.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/byte-buddy-1.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/commons-collections-3.2.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/commons-collections-3.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="ehcache-core-2.4.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/ehcache-core-2.4.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-common-2.7.4-tests.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/hadoop-common-2.7.4-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-hdfs-2.7.4-tests.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/hadoop-hdfs-2.7.4-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="hadoop-minikdc-2.7.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/hadoop-minikdc-2.7.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/htrace-core-3.2.0-incubating.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/htrace-core-3.2.0-incubating.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jersey-core-1.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/jersey-core-1.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jersey-server-1.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/jersey-server-1.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-6.1.26.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/jetty-6.1.26.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-sslengine-6.1.26.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/jetty-sslengine-6.1.26.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-util-6.1.26.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/jetty-util-6.1.26.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mina-core-2.0.0-M5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/mina-core-2.0.0-M5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/mockito-core-2.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/mockito-core-2.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="netty-all-4.0.36.Final.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/netty-all-4.0.36.Final.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/core/test-lib/objenesis-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/core/test-lib/objenesis-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/example/example-DIH/solr/db/lib/derby-10.9.1.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/example/example-DIH/solr/db/lib/derby-10.9.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/example/example-DIH/solr/db/lib/hsqldb-2.4.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/example/example-DIH/solr/db/lib/hsqldb-2.4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="gmetric4j-1.0.7.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/gmetric4j-1.0.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="javax.servlet-api-3.1.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/javax.servlet-api-3.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/server/lib/jetty-continuation-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-continuation-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-deploy-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-deploy-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/server/lib/jetty-http-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-http-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/server/lib/jetty-io-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-io-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-jmx-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-jmx-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-rewrite-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-rewrite-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-security-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-security-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/server/lib/jetty-server-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-server-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/server/lib/jetty-servlet-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-servlet-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-servlets-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-servlets-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/server/lib/jetty-util-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-util-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-webapp-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-webapp-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jetty-xml-9.4.11.v20180605.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/jetty-xml-9.4.11.v20180605.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="metrics-core-3.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/metrics-core-3.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="metrics-ganglia-3.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/metrics-ganglia-3.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="metrics-graphite-3.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/metrics-graphite-3.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="metrics-jetty9-3.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/metrics-jetty9-3.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="metrics-jvm-3.2.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/server/lib/metrics-jvm-3.2.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/lib/commons-io-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/commons-io-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/lib/commons-math3-3.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/commons-math3-3.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/lib/httpclient-4.5.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/httpclient-4.5.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/lib/httpcore-4.4.6.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/httpcore-4.4.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="httpmime-4.5.3.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/httpmime-4.5.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/lib/jcl-over-slf4j-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/jcl-over-slf4j-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="noggit-0.8.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/noggit-0.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/lib/slf4j-api-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/slf4j-api-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="stax2-api-3.1.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/stax2-api-3.1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="woodstox-core-asl-4.4.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/woodstox-core-asl-4.4.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="zookeeper-3.4.11.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/lib/zookeeper-3.4.11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/test-lib/byte-buddy-1.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/test-lib/byte-buddy-1.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/test-lib/log4j-slf4j-impl-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/test-lib/log4j-slf4j-impl-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/test-lib/mockito-core-2.6.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/test-lib/mockito-core-2.6.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solrj/test-lib/objenesis-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solrj/test-lib/objenesis-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="android-json-0.0.20131108.vaadin1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/android-json-0.0.20131108.vaadin1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="asciidoctor-ant-1.6.0-alpha.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/asciidoctor-ant-1.6.0-alpha.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solr-ref-guide/lib/jcl-over-slf4j-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/jcl-over-slf4j-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jsoup-1.11.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/jsoup-1.11.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solr-ref-guide/lib/log4j-api-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/log4j-api-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solr-ref-guide/lib/log4j-core-2.11.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/log4j-core-2.11.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solr-ref-guide/lib/pdfbox-2.0.9.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/pdfbox-2.0.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="solr/solr-ref-guide/lib/slf4j-api-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/slf4j-api-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="slf4j-simple-1.7.24.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/solr/solr-ref-guide/lib/slf4j-simple-1.7.24.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

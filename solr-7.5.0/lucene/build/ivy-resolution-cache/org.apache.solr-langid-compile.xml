@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="langid"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130021"/>
+	<dependencies>
+		<module organisation="org.apache.opennlp" name="opennlp-tools">
+			<revision name="1.9.0" status="release" pubdate="20180629193226" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="7336" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.opennlp/opennlp-tools/ivy-1.9.0.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.opennlp/opennlp-tools/ivy-1.9.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/opennlp/opennlp-tools/1.9.0/opennlp-tools-1.9.0.pom"/>
+				<caller organisation="org.apache.solr" name="langid" conf="compile" rev="1.9.0" rev-constraint-default="1.9.0" rev-constraint-dynamic="1.9.0" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="opennlp-tools" type="bundle" ext="jar" status="no" details="" size="1245779" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.opennlp/opennlp-tools/bundles/opennlp-tools-1.9.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/opennlp/opennlp-tools/1.9.0/opennlp-tools-1.9.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.cybozu.labs" name="langdetect">
+			<revision name="1.1-20120112" status="release" pubdate="20120403160828" resolver="public" artresolver="main" homepage="http://code.google.com/p/language-detection/" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3030" time="0" location="/Users/luxugang/.ivy2/cache/com.cybozu.labs/langdetect/ivy-1.1-20120112.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.cybozu.labs/langdetect/ivy-1.1-20120112.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/cybozu/labs/langdetect/1.1-20120112/langdetect-1.1-20120112.pom"/>
+				<caller organisation="org.apache.solr" name="langid" conf="compile" rev="1.1-20120112" rev-constraint-default="1.1-20120112" rev-constraint-dynamic="1.1-20120112" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="langdetect" type="jar" ext="jar" status="no" details="" size="1236033" time="0" location="/Users/luxugang/.ivy2/cache/com.cybozu.labs/langdetect/jars/langdetect-1.1-20120112.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/cybozu/labs/langdetect/1.1-20120112/langdetect-1.1-20120112.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.arnx" name="jsonic">
+			<revision name="1.2.7" status="release" pubdate="20111008150116" resolver="public" artresolver="main" homepage="http://jsonic.sourceforge.jp/" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3103" time="0" location="/Users/luxugang/.ivy2/cache/net.arnx/jsonic/ivy-1.2.7.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/net.arnx/jsonic/ivy-1.2.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/arnx/jsonic/1.2.7/jsonic-1.2.7.pom"/>
+				<caller organisation="org.apache.solr" name="langid" conf="compile" rev="1.2.7" rev-constraint-default="1.2.7" rev-constraint-dynamic="1.2.7" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jsonic" type="jar" ext="jar" status="no" details="" size="147477" time="0" location="/Users/luxugang/.ivy2/cache/net.arnx/jsonic/jars/jsonic-1.2.7.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/arnx/jsonic/1.2.7/jsonic-1.2.7.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="analyzers-phonetic"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130007"/>
+	<dependencies>
+		<module organisation="commons-codec" name="commons-codec">
+			<revision name="1.10" status="release" pubdate="20141106221535" resolver="public" artresolver="main" homepage="http://commons.apache.org/proper/commons-codec/" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="10943" time="0" location="/Users/luxugang/.ivy2/cache/commons-codec/commons-codec/ivy-1.10.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/commons-codec/commons-codec/ivy-1.10.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.10/commons-codec-1.10.pom"/>
+				<caller organisation="org.apache.lucene" name="analyzers-phonetic" conf="compile" rev="1.10" rev-constraint-default="1.10" rev-constraint-dynamic="1.10" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-codec" type="jar" ext="jar" status="no" details="" size="284184" time="0" location="/Users/luxugang/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.10.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.10/commons-codec-1.10.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

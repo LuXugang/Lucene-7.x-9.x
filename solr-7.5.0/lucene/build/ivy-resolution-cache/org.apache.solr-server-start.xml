@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="server"
+		revision="working@luxugang.local"
+		conf="start"
+		confs="start"
+		date="20181127130016"/>
+	<dependencies>
+		<module organisation="org.eclipse.jetty" name="jetty-start">
+			<revision name="9.4.11.v20180605" status="release" pubdate="20180606024559" resolver="public" artresolver="main" homepage="http://www.eclipse.org/jetty" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<metadata-artifact status="no" details="" size="12875" time="0" location="/Users/luxugang/.ivy2/cache/org.eclipse.jetty/jetty-start/ivy-9.4.11.v20180605.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.eclipse.jetty/jetty-start/ivy-9.4.11.v20180605.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-start/9.4.11.v20180605/jetty-start-9.4.11.v20180605.pom"/>
+				<caller organisation="org.apache.solr" name="server" conf="start" rev="9.4.11.v20180605" rev-constraint-default="9.4.11.v20180605" rev-constraint-dynamic="9.4.11.v20180605" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jetty-start" type="jar" ext="jar" extra-classifier="shaded" status="no" details="" size="147476" time="0" location="/Users/luxugang/.ivy2/cache/org.eclipse.jetty/jetty-start/jars/jetty-start-9.4.11.v20180605-shaded.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-start/9.4.11.v20180605/jetty-start-9.4.11.v20180605-shaded.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.solr"
+		module="solrj"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130015"/>
+	<dependencies>
+		<module organisation="org.slf4j" name="jcl-over-slf4j">
+			<revision name="1.7.24" status="release" pubdate="20170224190601" resolver="public" artresolver="main" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="master" position="10">
+				<metadata-artifact status="no" details="" size="5546" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/jcl-over-slf4j/ivy-1.7.24.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.slf4j/jcl-over-slf4j/ivy-1.7.24.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.24/jcl-over-slf4j-1.7.24.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="1.7.24" rev-constraint-default="1.7.24" rev-constraint-dynamic="1.7.24" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="jcl-over-slf4j" type="jar" ext="jar" status="no" details="" size="16516" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.7.24.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.24/jcl-over-slf4j-1.7.24.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.slf4j" name="slf4j-api">
+			<revision name="1.7.24" status="release" pubdate="20170224190508" resolver="public" artresolver="main" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="master" position="9">
+				<metadata-artifact status="no" details="" size="5474" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.24.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.24.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.24/slf4j-api-1.7.24.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="1.7.24" rev-constraint-default="1.7.24" rev-constraint-dynamic="1.7.24" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="slf4j-api" type="jar" ext="jar" status="no" details="" size="41205" time="0" location="/Users/luxugang/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.24.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.24/slf4j-api-1.7.24.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.noggit" name="noggit">
+			<revision name="0.8" status="release" pubdate="20170525115129" resolver="public" artresolver="main" homepage="http://github.com/yonik/noggit" downloaded="false" searched="false" default="false" conf="master" position="8">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3210" time="0" location="/Users/luxugang/.ivy2/cache/org.noggit/noggit/ivy-0.8.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.noggit/noggit/ivy-0.8.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/noggit/noggit/0.8/noggit-0.8.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="0.8" rev-constraint-default="0.8" rev-constraint-dynamic="0.8" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="noggit" type="jar" ext="jar" status="no" details="" size="27948" time="0" location="/Users/luxugang/.ivy2/cache/org.noggit/noggit/jars/noggit-0.8.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/noggit/noggit/0.8/noggit-0.8.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.codehaus.woodstox" name="woodstox-core-asl">
+			<revision name="4.4.1" status="release" pubdate="20140912094817" resolver="public" artresolver="main" homepage="http://woodstox.codehaus.org" downloaded="false" searched="false" default="false" conf="master" position="6">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2982" time="0" location="/Users/luxugang/.ivy2/cache/org.codehaus.woodstox/woodstox-core-asl/ivy-4.4.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.codehaus.woodstox/woodstox-core-asl/ivy-4.4.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="4.4.1" rev-constraint-default="4.4.1" rev-constraint-dynamic="4.4.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="woodstox-core-asl" type="jar" ext="jar" status="no" details="" size="486013" time="0" location="/Users/luxugang/.ivy2/cache/org.codehaus.woodstox/woodstox-core-asl/jars/woodstox-core-asl-4.4.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.codehaus.woodstox" name="stax2-api">
+			<revision name="3.1.4" status="release" pubdate="20140228142027" resolver="public" artresolver="main" homepage="http://wiki.fasterxml.com/WoodstoxStax2" downloaded="false" searched="false" default="false" conf="master" position="7">
+				<license name="The BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="no" details="" size="3532" time="0" location="/Users/luxugang/.ivy2/cache/org.codehaus.woodstox/stax2-api/ivy-3.1.4.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.codehaus.woodstox/stax2-api/ivy-3.1.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="3.1.4" rev-constraint-default="3.1.4" rev-constraint-dynamic="3.1.4" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="stax2-api" type="bundle" ext="jar" status="no" details="" size="161867" time="0" location="/Users/luxugang/.ivy2/cache/org.codehaus.woodstox/stax2-api/bundles/stax2-api-3.1.4.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.commons" name="commons-math3">
+			<revision name="3.6.1" status="release" pubdate="20160318013511" resolver="public" artresolver="main" homepage="http://commons.apache.org/proper/commons-math/" downloaded="false" searched="false" default="false" conf="master" position="5">
+				<metadata-artifact status="no" details="" size="12214" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-math3/ivy-3.6.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-math3/ivy-3.6.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="3.6.1" rev-constraint-default="3.6.1" rev-constraint-dynamic="3.6.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-math3" type="jar" ext="jar" status="no" details="" size="2213560" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.6.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-io" name="commons-io">
+			<revision name="2.5" status="release" pubdate="20160422225236" resolver="public" artresolver="main" homepage="http://commons.apache.org/proper/commons-io/" downloaded="false" searched="false" default="false" conf="master" position="4">
+				<metadata-artifact status="no" details="" size="11877" time="0" location="/Users/luxugang/.ivy2/cache/commons-io/commons-io/ivy-2.5.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/commons-io/commons-io/ivy-2.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="2.5" rev-constraint-default="2.5" rev-constraint-dynamic="2.5" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="commons-io" type="jar" ext="jar" status="no" details="" size="208700" time="0" location="/Users/luxugang/.ivy2/cache/commons-io/commons-io/jars/commons-io-2.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-io/commons-io/2.5/commons-io-2.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpmime">
+			<revision name="4.5.3" status="release" pubdate="20170122000043" resolver="public" artresolver="main" homepage="http://hc.apache.org/httpcomponents-client" downloaded="false" searched="false" default="false" conf="master" position="2">
+				<metadata-artifact status="no" details="" size="10607" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpmime/ivy-4.5.3.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpmime/ivy-4.5.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="4.5.3" rev-constraint-default="4.5.3" rev-constraint-dynamic="4.5.3" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="httpmime" type="jar" ext="jar" status="no" details="" size="41029" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpmime/jars/httpmime-4.5.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpclient">
+			<revision name="4.5.3" status="release" pubdate="20170122000023" resolver="public" artresolver="main" homepage="http://hc.apache.org/httpcomponents-client" downloaded="false" searched="false" default="false" conf="master" position="1">
+				<metadata-artifact status="no" details="" size="10752" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.3.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="4.5.3" rev-constraint-default="4.5.3" rev-constraint-dynamic="4.5.3" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="httpclient" type="jar" ext="jar" status="no" details="" size="747794" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.5.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpcore">
+			<revision name="4.4.6" status="release" pubdate="20170107215008" resolver="public" artresolver="main" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="false" searched="false" default="false" conf="master" position="3">
+				<metadata-artifact status="no" details="" size="8443" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.6.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.6.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="4.4.6" rev-constraint-default="4.4.6" rev-constraint-dynamic="4.4.6" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="httpcore" type="jar" ext="jar" status="no" details="" size="323824" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.4.6.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.zookeeper" name="zookeeper">
+			<revision name="3.4.11" status="release" pubdate="20171102030837" resolver="public" artresolver="main" homepage="" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="10294" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.zookeeper/zookeeper/ivy-3.4.11.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.apache.zookeeper/zookeeper/ivy-3.4.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/zookeeper/zookeeper/3.4.11/zookeeper-3.4.11.pom"/>
+				<caller organisation="org.apache.solr" name="solrj" conf="compile" rev="3.4.11" rev-constraint-default="3.4.11" rev-constraint-dynamic="3.4.11" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="zookeeper" type="jar" ext="jar" status="no" details="" size="887738" time="0" location="/Users/luxugang/.ivy2/cache/org.apache.zookeeper/zookeeper/jars/zookeeper-3.4.11.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/zookeeper/zookeeper/3.4.11/zookeeper-3.4.11.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

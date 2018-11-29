@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.codehaus.groovy"
+		module="groovy-all-caller"
+		revision="working"
+		conf="default"
+		confs="default"
+		date="20181127125948"/>
+	<dependencies>
+		<module organisation="org.codehaus.groovy" name="groovy-all">
+			<revision name="2.4.15" status="release" pubdate="20180327171902" resolver="public" artresolver="main" homepage="http://groovy-lang.org" downloaded="false" searched="false" default="false" conf="default, compile, runtime, master" position="0">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="5842" time="0" location="/Users/luxugang/.ivy2/cache/org.codehaus.groovy/groovy-all/ivy-2.4.15.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/org.codehaus.groovy/groovy-all/ivy-2.4.15.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.15/groovy-all-2.4.15.pom"/>
+				<caller organisation="org.codehaus.groovy" name="groovy-all-caller" conf="default" rev="2.4.15" rev-constraint-default="2.4.15" rev-constraint-dynamic="2.4.15" callerrev="working"/>
+				<artifacts>
+					<artifact name="groovy-all" type="jar" ext="jar" status="no" details="" size="7164868" time="0" location="/Users/luxugang/.ivy2/cache/org.codehaus.groovy/groovy-all/jars/groovy-all-2.4.15.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.15/groovy-all-2.4.15.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

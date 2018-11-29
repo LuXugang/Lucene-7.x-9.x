@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0">
+	<info organisation="org.ow2.asm"
+		module="asm-commons-caller"
+		revision="working"
+		status="integration"
+		publication="20181127124525"
+		default="true"
+	/>
+	<configurations>
+		<conf name="default" visibility="public"/>
+	</configurations>
+	<publications>
+	</publications>
+	<dependencies>
+		<dependency org="org.ow2.asm" name="asm-commons" rev="5.1" force="true" conf="default->default"/>
+	</dependencies>
+</ivy-module>

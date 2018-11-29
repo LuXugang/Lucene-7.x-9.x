@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="org.apache.lucene"
+		module="analyzers-icu"
+		revision="working@luxugang.local"
+		conf="compile"
+		confs="compile"
+		date="20181127130006"/>
+	<dependencies>
+		<module organisation="com.ibm.icu" name="icu4j">
+			<revision name="62.1" status="release" pubdate="20180621004549" resolver="public" artresolver="main" homepage="http://icu-project.org/" downloaded="false" searched="false" default="false" conf="master" position="0">
+				<license name="Unicode/ICU License" url="http://source.icu-project.org/repos/icu/trunk/icu4j/main/shared/licenses/LICENSE"/>
+				<metadata-artifact status="no" details="" size="2667" time="0" location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/ivy-62.1.xml" searched="false" original-local-location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/ivy-62.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/62.1/icu4j-62.1.pom"/>
+				<caller organisation="org.apache.lucene" name="analyzers-icu" conf="compile" rev="62.1" rev-constraint-default="62.1" rev-constraint-dynamic="62.1" callerrev="working@luxugang.local"/>
+				<artifacts>
+					<artifact name="icu4j" type="jar" ext="jar" status="no" details="" size="12370975" time="0" location="/Users/luxugang/.ivy2/cache/com.ibm.icu/icu4j/jars/icu4j-62.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/62.1/icu4j-62.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>
