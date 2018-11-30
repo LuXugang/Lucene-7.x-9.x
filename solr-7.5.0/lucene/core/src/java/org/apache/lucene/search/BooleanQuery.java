@@ -199,7 +199,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
   }
 
   @Override
-  // 构建Weight对象树
+  // 构建BooleanQuery的Weight对象树, 不同的Query子类各不相同
   public Weight createWeight(IndexSearcher searcher, boolean needsScores, float boost) throws IOException {
     BooleanQuery query = this;
     if (needsScores == false) {
@@ -243,6 +243,8 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.setMinimumNumberShouldMatch(getMinimumNumberShouldMatch());
       boolean actuallyRewritten = false;
+      // 遍历每一个query，执行rewrite方法执行重写(具体看各个Query的rewrite，比如TermQuery就没有重写rewriter，所以调用父类Query的方法
+      // 直接返回this，说明TermQuery是不需要重写)
       for (BooleanClause clause : this) {
         Query query = clause.getQuery();
         Query rewritten = query.rewrite(reader);
@@ -375,9 +377,9 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
     }
 
     // Deduplicate MUST clauses by summing up their boosts
-    // 暂时不考虑
     if (clauseSets.get(Occur.MUST).size() > 0) {
       Map<Query, Double> mustClauses = new HashMap<>();
+      // 这里遍历所有的MUST的Clause，如果有重复的Clause，boost值就加1，描述了这个关键字的重要性
       for (Query query : clauseSets.get(Occur.MUST)) {
         double boost = 1;
         while (query instanceof BoostQuery) {
@@ -385,19 +387,24 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
           boost *= bq.getBoost();
           query = bq.getQuery();
         }
+        // 调用getOrDefault()查看是否有相同的clause，如果有，那么取出boost，然后对boost进行+1后，覆盖已经存在的clause
         mustClauses.put(query, mustClauses.getOrDefault(query, 0d) + boost);
       }
+      // if语句为true：说明有重复的clause(MUST), 那么需要对boost不等于1的query重写，然后跟其他的query一起写到新的BooleanQuery中
       if (mustClauses.size() != clauseSets.get(Occur.MUST).size()) {
         BooleanQuery.Builder builder = new BooleanQuery.Builder()
                 .setMinimumNumberShouldMatch(minimumNumberShouldMatch);
+        // 这个for循环是将那些boost值不等于1的query重写为BoostQuery
         for (Map.Entry<Query,Double> entry : mustClauses.entrySet()) {
           Query query = entry.getKey();
           float boost = entry.getValue().floatValue();
+          // if语句为true：那么重写query为BoostQuery
           if (boost != 1f) {
             query = new BoostQuery(query, boost);
           }
           builder.add(query, Occur.MUST);
         }
+        // 把其他不是MUST的clause重写添加到新的BooleanQuery中
         for (BooleanClause clause : clauses) {
           if (clause.getOccur() != Occur.MUST) {
             builder.add(clause);

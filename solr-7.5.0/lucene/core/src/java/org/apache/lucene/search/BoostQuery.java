@@ -113,6 +113,7 @@ public final class BoostQuery extends Query {
   }
 
   @Override
+  // BoostQuery的这个方法调用的是 this.query的createWeight方法(封装成BoostQuery之前的Query子类，常用的一般是TermQuery)
   public Weight createWeight(IndexSearcher searcher, boolean needsScores, float boost) throws IOException {
     return query.createWeight(searcher, needsScores, BoostQuery.this.boost * boost);
   }

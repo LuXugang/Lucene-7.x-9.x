@@ -683,6 +683,7 @@ public class IndexSearcher {
    */
   public Query rewrite(Query original) throws IOException {
     Query query = original;
+    // query的重写过程会发生多次, 直到重写后的query跟重写前的一致
     for (Query rewrittenQuery = query.rewrite(reader); rewrittenQuery != query;
          rewrittenQuery = query.rewrite(reader)) {
       query = rewrittenQuery;

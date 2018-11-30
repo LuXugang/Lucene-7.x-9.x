@@ -51,7 +51,7 @@ final class BooleanWeight extends Weight {
     // 默认使用BM25(k1=1.2, b=0,75)来给文档打分
     this.similarity = searcher.getSimilarity(needsScores);
     weights = new ArrayList<>();
-    // 每一个Query生成Weight对象，并新增到ArrayList<Weight> weights链表
+    // 调用每一个Query子类的createWeight方法生成Weight对象，并新增到ArrayList<Weight> weights链表
     for (BooleanClause c : query) {
       Weight w = searcher.createWeight(c.getQuery(), needsScores && c.isScoring(), boost);
       weights.add(w);
