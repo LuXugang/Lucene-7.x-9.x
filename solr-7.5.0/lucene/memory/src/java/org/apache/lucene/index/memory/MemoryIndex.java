@@ -588,18 +588,26 @@ public class MemoryIndex {
           info.numOverlapTokens++;
         }
         pos += posIncr;
+        // 通过ByteRef类中的方法获得一个ord值, 相同的域值(分词后的一个term)具有相同的ord值
+        // 这个值在DocValue的索引阶段又称为termID(参考SortedSetDocValuesWriter类，有详细的介绍)
         int ord = info.terms.add(termAtt.getBytesRef());
+        // ord值小于0，表示已经存储过这个域值了，再次强调，这里说的域值是分词后的域值的一个term
         if (ord < 0) {
           ord = (-ord) - 1;
           postingsWriter.reset(info.sliceArray.end[ord]);
         } else {
+            // 在start数组中记录了term(ord对应的term)在IntBlockPool的二维数组中的起始位置
           info.sliceArray.start[ord] = postingsWriter.startNewSlice();
         }
+        // 词频+1
         info.sliceArray.freq[ord]++;
+        // 一个域名包含的term个数++
         info.sumTotalTermFreq++;
         postingsWriter.writeInt(pos);
         if (storeOffsets) {
+          // 存放term起始位置
           postingsWriter.writeInt(offsetAtt.startOffset() + offset);
+          // 存放term结束位置
           postingsWriter.writeInt(offsetAtt.endOffset() + offset);
         }
         if (storePayloads) {
@@ -608,10 +616,12 @@ public class MemoryIndex {
           if (payload == null || payload.length == 0) {
             pIndex = -1;
           } else {
+            // 存放payload的值
             pIndex = payloadsBytesRefs.append(payload);
           }
           postingsWriter.writeInt(pIndex);
         }
+        // 在end数组中记录了term在IntBlockPool的二维数组中的结束位置
         info.sliceArray.end[ord] = postingsWriter.getCurrentOffset();
       }
       stream.end();
@@ -1660,8 +1670,11 @@ public class MemoryIndex {
   }
   
   private static final class SliceByteStartArray extends DirectBytesStartArray {
+    // 一个term在IntBlockPool中的起始位置
     int[] start; // the start offset in the IntBlockPool per term
+    // 一个term在IntBlockPool中的结束位置
     int[] end; // the end pointer in the IntBlockPool for the postings slice per term
+    // 这个term的词频
     int[] freq; // the term frequency
     
     public SliceByteStartArray(int initSize) {

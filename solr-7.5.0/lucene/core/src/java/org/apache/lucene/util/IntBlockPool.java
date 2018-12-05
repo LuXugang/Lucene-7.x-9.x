@@ -60,15 +60,20 @@ public final class IntBlockPool {
   }
   
   /** array of buffers currently used in the pool. Buffers are allocated if needed don't modify this outside of this class */
+  // 也就是一个有10层一维数组的二维数组，同一时刻10层中的某一层用来存储数据，并且这一层就是 head buffer(定义)
   public int[][] buffers = new int[10][];
 
   /** index into the buffers array pointing to the current buffer used as the head */
-  private int bufferUpto = -1;   
+  // 默认buffers是一个int[10][]二维数组，也就是有10个一维数组，bufferUpto表示正在使用第几个一维数组，并且这个一维数组就是head buffer
+  private int bufferUpto = -1;
   /** Pointer to the current position in head buffer */
+  // 描述head buffer中被使用的位置(一维数组下标值), 此位置之前的数组空间都被使用过了
   public int intUpto = INT_BLOCK_SIZE;
   /** Current head buffer */
+  // 当前正在使用的buffer，也就是head buffer
   public int[] buffer;
   /** Current head offset */
+  // head buffer 在二维数组中的偏移?(好像有问题，因为bufferUpto有一样的作用啊)
   public int intOffset = -INT_BLOCK_SIZE;
 
   private final Allocator allocator;
@@ -147,14 +152,16 @@ public final class IntBlockPool {
    * its first buffer immediately.
    */
   public void nextBuffer() {
+    // 判断二维数组是否存储已满，那么就扩容，并且扩容结束后，迁移数据
     if (1+bufferUpto == buffers.length) {
       int[][] newBuffers = new int[(int) (buffers.length*1.5)][];
       System.arraycopy(buffers, 0, newBuffers, 0, buffers.length);
       buffers = newBuffers;
     }
+    // 生成一个新的一维数组
     buffer = buffers[1+bufferUpto] = allocator.getIntBlock();
     bufferUpto++;
-
+    // head buffer数组的可使用位置(下标值)置为0
     intUpto = 0;
     intOffset += INT_BLOCK_SIZE;
   }
@@ -168,8 +175,9 @@ public final class IntBlockPool {
       nextBuffer();
       assert assertSliceBuffer(buffer);
     }
-      
+
     final int upto = intUpto;
+    // 分配size个大小的数组空间给这次的存储,然后intUpto更新
     intUpto += size;
     buffer[intUpto-1] = 1;
     return upto;
@@ -215,13 +223,19 @@ public final class IntBlockPool {
       assert assertSliceBuffer(buffer);
     }
 
+    // 获得当前在head buffer中下一个可以使用的位置
     final int newUpto = intUpto;
+    // 获得在二维数组中的偏移位置
     final int offset = newUpto + intOffset;
+    // 更新head buffer中下一个可以使用的位置
+    // 重新分配的newSize个数组空间用来记录一篇文档中出现多次相同term，这些term在文档中的开始和结束的下一个位置
     intUpto += newSize;
     // Write forwarding address at end of last slice:
+    // 将当前位置的旧值(level值)替换为offset
     slice[sliceOffset] = offset;
         
     // Write new level:
+    // 更新level的值
     buffer[intUpto-1] = newLevel;
 
     return newUpto;
@@ -253,9 +267,13 @@ public final class IntBlockPool {
      * Writes the given value into the slice and resizes the slice if needed
      */
     public void writeInt(int value) {
+        // 获得head buffer这个一维数组, offset >> INT_BLOCK_SHIFT的值就是head buffer在二维数组中的行数
       int[] ints = pool.buffers[offset >> INT_BLOCK_SHIFT];
       assert ints != null;
+      // 获得在head buffer这个一维数组组内的偏移
       int relativeOffset = offset & INT_BLOCK_MASK;
+
+      // 有一种情况是当需要记录term在文档中的偏移位置时，存放term的第一个偏移位置时，if语句会为true
       if (ints[relativeOffset] != 0) {
         // End of slice; allocate a new one
           relativeOffset = pool.allocSlice(ints, relativeOffset);
@@ -271,6 +289,7 @@ public final class IntBlockPool {
      * should be used as the start offset to initialize a {@link SliceReader}.
      */
     public int startNewSlice() {
+      // offset的值是 head buffer这个一维数组组内的偏移量 + head buffer这个一维数组在二维数组中的偏移量
       return offset = pool.newSlice(FIRST_LEVEL_SIZE) + pool.intOffset;
       
     }
