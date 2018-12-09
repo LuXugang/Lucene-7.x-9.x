@@ -225,17 +225,17 @@ public final class IntBlockPool {
 
     // 获得当前在head buffer中下一个可以使用的位置
     final int newUpto = intUpto;
-    // 获得在二维数组中的偏移位置
+    // 记录某个ord可用的下一个数组下标位置(这个位置的值在二维数组中的位置)
     final int offset = newUpto + intOffset;
     // 更新head buffer中下一个可以使用的位置
     // 重新分配的newSize个数组空间用来记录一篇文档中出现多次相同term，这些term在文档中的开始和结束的下一个位置
     intUpto += newSize;
     // Write forwarding address at end of last slice:
-    // 将当前位置的旧值(level值)替换为offset
+    // 将sliceOffset位置的数组值替换为offset, 目的就是在读取数据时，被告知应该跳转到数组的哪一个位置继续找这个term的其他偏移值(在文本中的偏移量)跟payload值
+    // 换句话如果一篇文档的某个term出现多次，那么记录这个term的在文本中的所有偏移值跟payload并不是连续存储的
     slice[sliceOffset] = offset;
         
     // Write new level:
-    // 更新level的值
     buffer[intUpto-1] = newLevel;
 
     return newUpto;
@@ -247,8 +247,10 @@ public final class IntBlockPool {
    *  @see SliceReader
    *  @lucene.internal
    */
+  // 同一个域名的所有域值的信息都写在同一个二维数组中的不同的位置, 并且一个域值的所有信息并不是连续存储的。所以这里用 slices 来表示一个域值的所有信息
   public static class SliceWriter {
-    
+
+    // offset的值是 head buffer这个一维数组组内的偏移量 + head buffer这个一维数组在二维数组中的偏移量
     private int offset;
     private final IntBlockPool pool;
     
@@ -316,8 +318,10 @@ public final class IntBlockPool {
     private int bufferUpto;
     private int bufferOffset;
     private int[] buffer;
+    // limit作为下标描述的下一个存储当前term信息的位置
     private int limit;
     private int level;
+    // 这个term的最后一个信息的位置
     private int end;
     
     /**
@@ -330,19 +334,25 @@ public final class IntBlockPool {
     /**
      * Resets the reader to a slice give the slices absolute start and end offset in the pool
      */
+    // 复用SliceReader对象, 重新初始化一些数据
     public void reset(int startOffset, int endOffset) {
+      // 计算出在二维数组中的第几层
       bufferUpto = startOffset / INT_BLOCK_SIZE;
+      // bufferUpto这一层在二维数组中的起始位置
       bufferOffset = bufferUpto * INT_BLOCK_SIZE;
       this.end = endOffset;
       upto = startOffset;
       level = 1;
-      
+
+      // 取出bufferUpto这一层的一维数组
       buffer = pool.buffers[bufferUpto];
+      // 计算出在一维数组内的起始位置
       upto = startOffset & INT_BLOCK_MASK;
 
       final int firstSize = IntBlockPool.LEVEL_SIZE_ARRAY[0];
       if (startOffset+firstSize >= endOffset) {
         // There is only this one slice to read
+        // 说明term的所有信息都在 bufferUpto这一层的一维数组中
         limit = endOffset & INT_BLOCK_MASK;
       } else {
         limit = upto+firstSize-1;
@@ -364,6 +374,7 @@ public final class IntBlockPool {
      * Reads the next int from the current slice and returns it.
      * @see SliceReader#endOfSlice()
      */
+    // 读取下一个head buffer中的int值
     public int readInt() {
       assert !endOfSlice();
       assert upto <= limit;
@@ -374,23 +385,30 @@ public final class IntBlockPool {
     
     private void nextSlice() {
       // Skip to our next slice
+      // 找到下一个存储term信息的位置
       final int nextIndex = buffer[limit];
       level = NEXT_LEVEL_ARRAY[level-1];
       final int newSize = LEVEL_SIZE_ARRAY[level];
 
+      // 计算出在二维数组中的第几层
       bufferUpto = nextIndex / INT_BLOCK_SIZE;
+      // 当前的一维数组的第一个元素在二维数组中的位置
       bufferOffset = bufferUpto * INT_BLOCK_SIZE;
-
+      // 取出 head buffer
       buffer = pool.buffers[bufferUpto];
+      // 计算出在head buffer中的起始位置
       upto = nextIndex & INT_BLOCK_MASK;
 
+      // 更新limit的值
       if (nextIndex + newSize >= end) {
         // We are advancing to the final slice
+        // 已经读到最后一个slice
         assert end - nextIndex > 0;
         limit = end - bufferOffset;
       } else {
         // This is not the final slice (subtract 4 for the
         // forwarding address at the end of this new slice)
+        // 还有其他的slice没有读取到, 将limit的值置为下一个slice的起始位置
         limit = upto+newSize-1;
       }
     }

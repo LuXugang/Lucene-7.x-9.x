@@ -49,6 +49,7 @@ public final class BytesRefHash {
   // the following fields are needed by comparator,
   // so package private to prevent access$-methods:
   final ByteBlockPool pool;
+  // 数组下标值是ord(termId)，数组元素是在 ByteBlockPool对象的buffers[][]二维数组中的起始位置
   int[] bytesStart;
 
   private final BytesRef scratch1 = new BytesRef();
@@ -120,6 +121,7 @@ public final class BytesRefHash {
   public BytesRef get(int bytesID, BytesRef ref) {
     assert bytesStart != null : "bytesStart is null - not initialized";
     assert bytesID < bytesStart.length: "bytesID exceeds byteStart len: " + bytesStart.length;
+    // 根据ord值(termID)，从bytesStart[]数组中取出在 二维数组中的位置，然后取出ord值对应的term值(ByteRef对象封装)
     pool.setBytesRef(ref, bytesStart[bytesID]);
     return ref;
   }
@@ -137,11 +139,12 @@ public final class BytesRefHash {
   // 将分散在数组不同位置的元素都放到数组最前面去
   public int[] compact() {
     assert bytesStart != null : "bytesStart is null - not initialized";
-    // upto记录了数组从下标0开始第一个为-1(非法值)的下标, 用于遍历过程中ids[i]为合法值(termID)时候进行交换
+    // upto记录了数组从下标0开始第一个为-1(非法值)的下标, 用于遍历过程中当ids[i]为合法值(termID)时,跟ids[upto]进行交换
     int upto = 0;
     for (int i = 0; i < hashSize; i++) {
-      // if语句为true：说明当前元素是合法的值(-1)，需要移动（往后面的位置移动）
+      // if语句为true：说明当前元素是合法的值(termID)
       if (ids[i] != -1) {
+          // if语句为true：那么交换
         if (upto < i) {
           ids[upto] = ids[i];
           ids[i] = -1;
@@ -163,6 +166,7 @@ public final class BytesRefHash {
    * </p>
    */
   public int[] sort() {
+     // 将ids[]中稀疏的元素都放到数组最前面去
     final int[] compact = compact();
     new StringMSBRadixSorter() {
 

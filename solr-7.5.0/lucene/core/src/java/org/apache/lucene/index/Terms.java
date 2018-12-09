@@ -107,7 +107,7 @@ public abstract class Terms {
    *  and positions).  Note that, just like other term
    *  measures, this measure does not take deleted documents
    *  into account. */
-  // 这个域的域值个数(非去重)
+  // 这个域的包含的域值个数(非去重)
   public abstract long getSumTotalTermFreq() throws IOException;
 
   /** Returns the sum of {@link TermsEnum#docFreq()} for

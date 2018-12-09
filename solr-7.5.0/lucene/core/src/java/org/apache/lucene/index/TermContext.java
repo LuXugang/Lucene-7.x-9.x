@@ -95,8 +95,11 @@ public final class TermContext {
       //if (DEBUG) System.out.println("  r=" + leaves[i].reader);
       final Terms terms = ctx.reader().terms(field);
       if (terms != null) {
+        // 根据域名取出TermsEnum对象, 这个对象包含了所有的域值
         final TermsEnum termsEnum = terms.iterator();
-        if (termsEnum.seekExact(bytes)) { 
+        // 然后在TermsEnum对象中找到指定的域值
+        if (termsEnum.seekExact(bytes)) {
+          // termState对象中一个重要的值就是term的ord值
           final TermState termState = termsEnum.termState();
           //if (DEBUG) System.out.println("    found");
           perReaderTermState.register(termState, ctx.ord, termsEnum.docFreq(), termsEnum.totalTermFreq());

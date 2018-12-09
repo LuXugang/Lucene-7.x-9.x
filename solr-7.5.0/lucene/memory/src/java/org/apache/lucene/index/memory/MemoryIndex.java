@@ -179,6 +179,8 @@ public class MemoryIndex {
   private static final boolean DEBUG = false;
 
   /** info for each field: Map&lt;String fieldName, Info field&gt; */
+  // key为域名，value为这个域名所有的信息(所有域值的信息)
+  // 定义这个Map目的是在索引阶段保存数据，这个变量fields会在搜索阶段被使用到
   private final SortedMap<String,Info> fields = new TreeMap<>();
   
   private final boolean storeOffsets;
@@ -601,7 +603,7 @@ public class MemoryIndex {
         }
         // 词频+1
         info.sliceArray.freq[ord]++;
-        // 一个域名包含的term个数++
+        // 一个域名包含的term个数++ (非去重)
         info.sumTotalTermFreq++;
         postingsWriter.writeInt(pos);
         if (storeOffsets) {
@@ -734,14 +736,19 @@ public class MemoryIndex {
     for (Map.Entry<String, Info> entry : fields.entrySet()) {
       String fieldName = entry.getKey();
       Info info = entry.getValue();
+      // 对info对象中的ByteRef对象的ids[]数组进行排序，排序后的ids[]中所有的termID都在数组的最前面
       info.sortTerms();
       result.append(fieldName + ":\n");
       SliceByteStartArray sliceArray = info.sliceArray;
       int numPositions = 0;
+      // 设置一个Reader，准备在索引阶段生成的IntBlockPool中的数据(在文档中的偏移位置，payload)
       SliceReader postingsReader = new SliceReader(intBlockPool);
       for (int j = 0; j < info.terms.size(); j++) {
+          // ord值就是termID
         int ord = info.sortedTerms[j];
+        // 根据ord值获得对应的term值(用ByteRef对象表示)
         info.terms.get(ord, spare);
+        // 获得term对应的词频
         int freq = sliceArray.freq[ord];
         result.append("\t'" + spare + "':" + freq + ":");
         postingsReader.reset(sliceArray.start[ord], sliceArray.end[ord]);
@@ -806,6 +813,7 @@ public class MemoryIndex {
     private SliceByteStartArray sliceArray;
 
     /** Terms sorted ascending by term text; computed on demand */
+    // 存放的是排序过后的ids[], 数组元素是termID
     private transient int[] sortedTerms;
     
     /** Number of added tokens for this field */
@@ -814,6 +822,7 @@ public class MemoryIndex {
     /** Number of overlapping tokens for this field */
     private int numOverlapTokens;
 
+    // 记录一个域名包含的域值总个数(非去重)
     private long sumTotalTermFreq;
 
     /** the last position encountered in this field for multi field support*/
@@ -1288,6 +1297,7 @@ public class MemoryIndex {
 
           @Override
           public long getSumTotalTermFreq() {
+            // 域名中一共包含多少个域值(非去重)
             return info.sumTotalTermFreq;
           }
 
@@ -1298,6 +1308,7 @@ public class MemoryIndex {
           }
 
           @Override
+          // 文档个数要么1，要么0
           public int getDocCount() {
             return size() > 0 ? 1 : 0;
           }
@@ -1337,19 +1348,24 @@ public class MemoryIndex {
     private class MemoryTermsEnum extends TermsEnum {
       private final Info info;
       private final BytesRef br = new BytesRef();
+      // sortTerm[]数组的下标值
       int termUpto = -1;
 
       public MemoryTermsEnum(Info info) {
         this.info = info;
         info.sortTerms();
       }
-      
+
+      // 参数low跟high用来作为 ords[]数组的下标使用的
       private final int binarySearch(BytesRef b, BytesRef bytesRef, int low,
           int high, BytesRefHash hash, int[] ords) {
         int mid = 0;
+        // 折半查找, 最后将结果赋值到参数bytesRef中
         while (low <= high) {
           mid = (low + high) >>> 1;
+          // 根据mid找到对应的term值(用ByteRef对象表示)
           hash.get(ords[mid], bytesRef);
+          // 对两个term进行比较
           final int cmp = bytesRef.compareTo(b);
           if (cmp < 0) {
             low = mid + 1;
@@ -1415,21 +1431,25 @@ public class MemoryIndex {
       }
 
       @Override
+      // MemoryIndex文档的个数只有1
       public int docFreq() {
         return 1;
       }
 
       @Override
       public long totalTermFreq() {
+        // 从sortedTerm[]数组中取出termID，然后从sliceArray[]数组中取出这个term的词频
         return info.sliceArray.freq[info.sortedTerms[termUpto]];
       }
 
       @Override
+      // 获取当前term的倒排表信息
       public PostingsEnum postings(PostingsEnum reuse, int flags) {
         if (reuse == null || !(reuse instanceof MemoryPostingsEnum)) {
           reuse = new MemoryPostingsEnum();
         }
         final int ord = info.sortedTerms[termUpto];
+        // 取出ord对应的term在二维数组中起始位置、结束位置、词频, 这个二维数组其实就是倒排表，也就是IntBlockPool类中的二维数组buffers[][]
         return ((MemoryPostingsEnum) reuse).reset(info.sliceArray.start[ord], info.sliceArray.end[ord], info.sliceArray.freq[ord]);
       }
 
@@ -1466,6 +1486,7 @@ public class MemoryIndex {
       }
 
       public PostingsEnum reset(int start, int end, int freq) {
+        // 复用SliceReader对象
         this.sliceReader.reset(start, end);
         posUpto = 0; // for assert
         hasNext = true;
@@ -1476,11 +1497,13 @@ public class MemoryIndex {
 
 
       @Override
+      // 当前正在使用的文档号
       public int docID() {
         return doc;
       }
 
       @Override
+      // 下一个可用的文档号, MemoryIndex只有文档号0
       public int nextDoc() {
         pos = -1;
         if (hasNext) {

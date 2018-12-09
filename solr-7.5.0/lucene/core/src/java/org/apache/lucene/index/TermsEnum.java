@@ -168,6 +168,7 @@ public abstract class TermsEnum implements BytesRefIterator {
    * @param flags specifies which optional per-document values
    *        you require; see {@link PostingsEnum#FREQS}
    */
+  // 获取当前term的倒排表数据
   public abstract PostingsEnum postings(PostingsEnum reuse, int flags) throws IOException;
 
   /**

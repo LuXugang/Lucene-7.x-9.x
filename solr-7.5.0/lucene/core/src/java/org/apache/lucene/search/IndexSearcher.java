@@ -820,8 +820,11 @@ public class IndexSearcher {
       sumTotalTermFreq = 0;
       sumDocFreq = 0;
     } else {
+      // 有多少篇文档包含这个域的域值
       docCount = terms.getDocCount();
+      // 这个域的包含的域值个数(非去重)
       sumTotalTermFreq = terms.getSumTotalTermFreq();
+      // 包含每个域值的文档个数的总和, 比如 a 跟 b属于同一个域，包含a的文档个数有10个，包含b的文档个数有20个，那么SumDocFreq的值就是 30个(10 + 20)
       sumDocFreq = terms.getSumDocFreq();
     }
 

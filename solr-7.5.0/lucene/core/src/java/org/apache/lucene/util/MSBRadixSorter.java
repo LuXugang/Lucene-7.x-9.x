@@ -29,10 +29,13 @@ public abstract class MSBRadixSorter extends Sorter {
   // this is used as a protection against the fact that radix sort performs
   // worse when there are long common prefixes (probably because of cache
   // locality)
+  // 当递归的层数大于8层，那么就重新使用introsort进行排序, 因为待排序的元素有很多很长的相同前缀时，
+  // 基数排序的性能会变得很差
   private static final int LEVEL_THRESHOLD = 8;
   // size of histograms: 256 + 1 to indicate that the string is finished
   private static final int HISTOGRAM_SIZE = 257;
   // buckets below this size will be sorted with introsort
+  // 待排序的元素的个数小于100个的话就使用introsort进行排序
   private static final int LENGTH_THRESHOLD = 100;
 
   // we store one histogram per recursion level
@@ -122,9 +125,12 @@ public abstract class MSBRadixSorter extends Sorter {
   }
 
   private void sort(int from, int to, int k, int l) {
+    // (to - from)的值表示待排序的元素个数
+    // 当待排序的元素个数小于LENGTH_THRESHOLD个或者递归的层数超过LEVEL_THRESHOLD就使用introSort(内省排序)
     if (to - from <= LENGTH_THRESHOLD || l >= LEVEL_THRESHOLD) {
       introSort(from, to, k);
     } else {
+        // 基数排序
       radixSort(from, to, k, l);
     }
   }

@@ -36,6 +36,8 @@ public abstract class IntroSorter extends Sorter {
     quicksort(from, to, 2 * MathUtil.log(to - from, 2));
   }
 
+  // 快排的递归层数超过BINARY_SORT_THRESHOLD, 就使用堆排序
+  // 为了消除最坏的情况下时间复杂度为n^2的快排
   void quicksort(int from, int to, int maxDepth) {
     if (to - from < BINARY_SORT_THRESHOLD) {
       binarySort(from, to);

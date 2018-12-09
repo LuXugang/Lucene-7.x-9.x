@@ -305,8 +305,11 @@ public final class ByteBlockPool {
   // Fill in a BytesRef from term's length & bytes encoded in
   // byte block
   public void setBytesRef(BytesRef term, int textStart) {
+    // 获得二维数组中的某一行，也就是一维数组（我们这里对二维数组的理解方式是：二维数组是由多个一维数组按层合成的）
     final byte[] bytes = term.bytes = buffers[textStart >> BYTE_BLOCK_SHIFT];
+    // 获得一维数组内的组内偏移
     int pos = textStart & BYTE_BLOCK_MASK;
+    // 判断 我们需要读取多少个数组元素(可以看ByteRefHash中add(BytesRef bytes)方法，就明白下面的读取逻辑了)
     if ((bytes[pos] & 0x80) == 0) {
       // length is 1 byte
       term.length = bytes[pos];

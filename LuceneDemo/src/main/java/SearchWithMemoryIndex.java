@@ -22,13 +22,13 @@ public class SearchWithMemoryIndex {
         Analyzer analyzer = new WhitespaceAnalyzer();
         Map<String, String> event = new HashMap<String, String>();
         event.put("content", "Readings about Salmons and other select Alaska fishing Manuals");
-        event.put("author", "Tales Tales James");
+        event.put("author", "Tales of Tales Tales James");
 
         for(Map.Entry<String, String> entry : event.entrySet()){
             index.addField(entry.getKey(), entry.getValue(),analyzer);
         }
 
-        Query query1 = new TermQuery(new Term("content", "and"));
+        Query query1 = new TermQuery(new Term("author", "Tales"));
         Query query2 = new TermQuery(new Term("content", "other"));
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(query1, BooleanClause.Occur.SHOULD);
