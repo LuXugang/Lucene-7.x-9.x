@@ -73,7 +73,7 @@ public final class IntBlockPool {
   // 当前正在使用的buffer，也就是head buffer
   public int[] buffer;
   /** Current head offset */
-  // head buffer 在二维数组中的偏移?(好像有问题，因为bufferUpto有一样的作用啊)
+  // 在二维数组中的偏移
   public int intOffset = -INT_BLOCK_SIZE;
 
   private final Allocator allocator;
@@ -179,6 +179,7 @@ public final class IntBlockPool {
     final int upto = intUpto;
     // 分配size个大小的数组空间给这次的存储,然后intUpto更新
     intUpto += size;
+    // 指定下次分片的级别
     buffer[intUpto-1] = 1;
     return upto;
   }
@@ -214,8 +215,11 @@ public final class IntBlockPool {
    * Allocates a new slice from the given offset
    */
   private int allocSlice(final int[] slice, final int sliceOffset) {
+    // 取出分片的层级
     final int level = slice[sliceOffset];
+    // 获得新的分片的层级
     final int newLevel = NEXT_LEVEL_ARRAY[level-1];
+    // 根据新的分片的层级，获得新分片的大小
     final int newSize = LEVEL_SIZE_ARRAY[newLevel];
     // Maybe allocate another block
     if (intUpto > INT_BLOCK_SIZE-newSize) {
@@ -225,19 +229,17 @@ public final class IntBlockPool {
 
     // 获得当前在head buffer中下一个可以使用的位置
     final int newUpto = intUpto;
-    // 记录某个ord可用的下一个数组下标位置(这个位置的值在二维数组中的位置)
+    // 记录下一个数组下标位置(这个位置的值在二维数组中的位置)
     final int offset = newUpto + intOffset;
     // 更新head buffer中下一个可以使用的位置
-    // 重新分配的newSize个数组空间用来记录一篇文档中出现多次相同term，这些term在文档中的开始和结束的下一个位置
     intUpto += newSize;
     // Write forwarding address at end of last slice:
     // 将sliceOffset位置的数组值替换为offset, 目的就是在读取数据时，被告知应该跳转到数组的哪一个位置继续找这个term的其他偏移值(在文本中的偏移量)跟payload值
     // 换句话如果一篇文档的某个term出现多次，那么记录这个term的在文本中的所有偏移值跟payload并不是连续存储的
     slice[sliceOffset] = offset;
-        
-    // Write new level:
+    // 记录新的分片层级
     buffer[intUpto-1] = newLevel;
-
+    // 返回可以写入数据的位置
     return newUpto;
   }
   
@@ -250,7 +252,7 @@ public final class IntBlockPool {
   // 同一个域名的所有域值的信息都写在同一个二维数组中的不同的位置, 并且一个域值的所有信息并不是连续存储的。所以这里用 slices 来表示一个域值的所有信息
   public static class SliceWriter {
 
-    // offset的值是 head buffer这个一维数组组内的偏移量 + head buffer这个一维数组在二维数组中的偏移量
+    // offset的值是 (head buffer这个一维数组组内的偏移量 + head buffer这个一维数组在二维数组中的偏移量)
     private int offset;
     private final IntBlockPool pool;
     
@@ -274,14 +276,17 @@ public final class IntBlockPool {
       assert ints != null;
       // 获得在head buffer这个一维数组组内的偏移
       int relativeOffset = offset & INT_BLOCK_MASK;
-
-      // 有一种情况是当需要记录term在文档中的偏移位置时，存放term的第一个偏移位置时，if语句会为true
+      // if语句为真，说明分片剩余空间不足，我们需要分配新的分片(slice)
       if (ints[relativeOffset] != 0) {
         // End of slice; allocate a new one
+        //  分配一个新的分片，并且返回可以存放value的下标值
           relativeOffset = pool.allocSlice(ints, relativeOffset);
+
+        // 更新下ints变量和offset变量，因为调用pool.allocSlice()后，head buffer发生了变化
         ints = pool.buffer;
         offset = relativeOffset + pool.intOffset;
       }
+      // 存储value的值
       ints[relativeOffset] = value;
       offset++; 
     }
@@ -314,12 +319,17 @@ public final class IntBlockPool {
   public static final class SliceReader {
     
     private final IntBlockPool pool;
+    // 当前读取的位置
     private int upto;
+    // 指定了二维数组的某个一维数组。
     private int bufferUpto;
+    // 一维数组的第一个元素在二维数组中的偏移量(位置)
     private int bufferOffset;
+    // 当前正在读取数据的一维数组
     private int[] buffer;
-    // limit作为下标描述的下一个存储当前term信息的位置
+    // limit作为下标描述了下一个存储当前term信息的位置
     private int limit;
+    // 获得分片的层级
     private int level;
     // 这个term的最后一个信息的位置
     private int end;
@@ -387,9 +397,10 @@ public final class IntBlockPool {
       // Skip to our next slice
       // 找到下一个存储term信息的位置
       final int nextIndex = buffer[limit];
+      // 获得分片的层级
       level = NEXT_LEVEL_ARRAY[level-1];
+      // 获得分片的大小
       final int newSize = LEVEL_SIZE_ARRAY[level];
-
       // 计算出在二维数组中的第几层
       bufferUpto = nextIndex / INT_BLOCK_SIZE;
       // 当前的一维数组的第一个元素在二维数组中的位置

@@ -22,7 +22,7 @@ public class SearchWithMemoryIndex {
         Analyzer analyzer = new WhitespaceAnalyzer();
         Map<String, String> event = new HashMap<String, String>();
         event.put("content", "Readings about Salmons and other select Alaska fishing Manuals");
-        event.put("author", "Tales of Tales Tales James");
+        event.put("author", "Tales of Tales James");
 
         for(Map.Entry<String, String> entry : event.entrySet()){
             index.addField(entry.getKey(), entry.getValue(),analyzer);
