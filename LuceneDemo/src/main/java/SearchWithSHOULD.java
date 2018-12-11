@@ -43,7 +43,7 @@ public class SearchWithSHOULD {
         BooleanQuery.Builder query = new BooleanQuery.Builder();
         query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
         query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.MUST);
         query.setMinimumNumberShouldMatch(2);
 
         ScoreDoc[] hits;

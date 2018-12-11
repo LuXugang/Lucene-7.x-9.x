@@ -87,7 +87,9 @@ public final class TermContext {
   public static TermContext build(IndexReaderContext context, Term term)
       throws IOException {
     assert context != null && context.isTopLevel;
+    // 获得域名
     final String field = term.field();
+    // 获得域值
     final BytesRef bytes = term.bytes();
     final TermContext perReaderTermState = new TermContext(context);
     //if (DEBUG) System.out.println("prts.build term=" + term);
