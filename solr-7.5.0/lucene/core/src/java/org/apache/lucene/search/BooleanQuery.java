@@ -215,7 +215,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
     }
 
     // optimize 1-clause queries
-    if (clauses.size() == 1) {
+    if (clauses.size() == 1) { // 逻辑一
       BooleanClause c = clauses.get(0);
       Query query = c.getQuery();
       if (minimumNumberShouldMatch == 1 && c.getOccur() == Occur.SHOULD) {
@@ -224,6 +224,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
         switch (c.getOccur()) {
           case SHOULD:
           case MUST:
+            // 直接返回原Query
             return query;
           case FILTER:
             // no scoring clauses, so return a score of 0
@@ -239,27 +240,32 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
 
     // recursively rewrite
     // 递归的执行query的重写
-    {
+    { // 逻辑二
+      // 重新生成一个BooleanQuery的构建器，准备对重写后的Query进行组合。
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      // 设置一样的MinimumNumberShouldMatch。
       builder.setMinimumNumberShouldMatch(getMinimumNumberShouldMatch());
       boolean actuallyRewritten = false;
       // 遍历每一个query，执行rewrite方法执行重写(具体看各个Query的rewrite，比如TermQuery就没有重写rewriter，所以调用父类Query的方法
       // 直接返回this，说明TermQuery是不需要重写)
       for (BooleanClause clause : this) {
         Query query = clause.getQuery();
+        // 调用Query子类的rewrite(...)方法
+        // 我们的例子中都是TermQuery，所以直接返回自身this。
         Query rewritten = query.rewrite(reader);
         if (rewritten != query) {
           actuallyRewritten = true;
         }
         builder.add(rewritten, clause.getOccur());
       }
+      // 由于我们例子中的的BooleanQuery的Query子类都是TermQuery，不需要重写，所以就不用生成新的BooleanQuery对象
       if (actuallyRewritten) {
         return builder.build();
       }
     }
 
     // remove duplicate FILTER and MUST_NOT clauses
-    {
+    {// 逻辑三
       int clauseCount = 0;
       for (Collection<Query> queries : clauseSets.values()) {
         clauseCount += queries.size();
@@ -280,13 +286,14 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
     }
 
     // Check whether some clauses are both required and excluded
-    // 这里处理的是MUST_NOT的clause, 暂时不深究
     final Collection<Query> mustNotClauses = clauseSets.get(Occur.MUST_NOT);
-    if (!mustNotClauses.isEmpty()) {
+    if (!mustNotClauses.isEmpty()) {// 逻辑四
       final Predicate<Query> p = clauseSets.get(Occur.MUST)::contains;
+      // 判断是否MUST_NOT跟MUST或FILTER是否有相同的term
       if (mustNotClauses.stream().anyMatch(p.or(clauseSets.get(Occur.FILTER)::contains))) {
         return new MatchNoDocsQuery("FILTER or MUST clause also in MUST_NOT");
       }
+      // 判断是否有MatchAllDocsQuery的Query
       if (mustNotClauses.contains(new MatchAllDocsQuery())) {
         return new MatchNoDocsQuery("MUST_NOT clause is MatchAllDocsQuery");
       }
@@ -294,7 +301,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
 
     // remove FILTER clauses that are also MUST clauses
     // or that match all documents
-    // 这里考虑的是MUST和FILTER的clause，暂时不深究
+    // 逻辑五
     if (clauseSets.get(Occur.MUST).size() > 0 && clauseSets.get(Occur.FILTER).size() > 0) {
       final Set<Query> filters = new HashSet<Query>(clauseSets.get(Occur.FILTER));
       boolean modified = filters.remove(new MatchAllDocsQuery());
@@ -315,15 +322,17 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
     }
 
     // convert FILTER clauses that are also SHOULD clauses to MUST clauses
-    // 这里考虑的是MUST和FILTER都有的clause，暂时不深究
-    if (clauseSets.get(Occur.SHOULD).size() > 0 && clauseSets.get(Occur.FILTER).size() > 0) {
+    if (clauseSets.get(Occur.SHOULD).size() > 0 && clauseSets.get(Occur.FILTER).size() > 0) {// 逻辑六
       final Collection<Query> filters = clauseSets.get(Occur.FILTER);
       final Collection<Query> shoulds = clauseSets.get(Occur.SHOULD);
 
       Set<Query> intersection = new HashSet<>(filters);
+      // 在intersection中保留 FILTER跟SHOUL有相同的term的Query
       intersection.retainAll(shoulds);
 
+      // if语句为真：说明至少有一个term，他即有FILTER又有SHOULD的Query
       if (intersection.isEmpty() == false) {
+        // 需要重新生成一个BooleanQuery
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         int minShouldMatch = getMinimumNumberShouldMatch();
 
@@ -331,21 +340,22 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
           if (intersection.contains(clause.getQuery())) {
             if (clause.getOccur() == Occur.SHOULD) {
               builder.add(new BooleanClause(clause.getQuery(), Occur.MUST));
+              // 对minShouldMatch的值减一，因为这个SHOULD的Query的term，同样是FILTER的term，满足匹配要求的文档必须包含这个term
               minShouldMatch--;
             }
           } else {
             builder.add(clause);
           }
         }
-
+        // 更新minShouldMatch
         builder.setMinimumNumberShouldMatch(Math.max(0, minShouldMatch));
         return builder.build();
       }
     }
 
     // Deduplicate SHOULD clauses by summing up their boosts
-    // 这里的也暂时不考虑
-    if (clauseSets.get(Occur.SHOULD).size() > 0 && minimumNumberShouldMatch <= 1) {
+    // 跟逻辑八的几乎一毛一样，这里就不赘述了
+    if (clauseSets.get(Occur.SHOULD).size() > 0 && minimumNumberShouldMatch <= 1) {// 逻辑七
       Map<Query, Double> shouldClauses = new HashMap<>();
       for (Query query : clauseSets.get(Occur.SHOULD)) {
         double boost = 1;
@@ -377,7 +387,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
     }
 
     // Deduplicate MUST clauses by summing up their boosts
-    if (clauseSets.get(Occur.MUST).size() > 0) {
+    if (clauseSets.get(Occur.MUST).size() > 0) {// 逻辑八
       Map<Query, Double> mustClauses = new HashMap<>();
       // 这里遍历所有的MUST的Clause，如果有重复的Clause，boost值就加1，描述了这个关键字的重要性
       for (Query query : clauseSets.get(Occur.MUST)) {
@@ -390,6 +400,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
         // 调用getOrDefault()查看是否有相同的clause，如果有，那么取出boost，然后对boost进行+1后，覆盖已经存在的clause
         mustClauses.put(query, mustClauses.getOrDefault(query, 0d) + boost);
       }
+      // 运行至此，如果BooleanQuery有相同的query，并且是MUST，那么将这些MUST的query合并为一个query，并且增加boost的值
       // if语句为true：说明有重复的clause(MUST), 那么需要对boost不等于1的query重写，然后跟其他的query一起写到新的BooleanQuery中
       if (mustClauses.size() != clauseSets.get(Occur.MUST).size()) {
         BooleanQuery.Builder builder = new BooleanQuery.Builder()
@@ -398,7 +409,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
         for (Map.Entry<Query,Double> entry : mustClauses.entrySet()) {
           Query query = entry.getKey();
           float boost = entry.getValue().floatValue();
-          // if语句为true：那么重写query为BoostQuery
+          // if语句为true：那么将query重写为BoostQuery
           if (boost != 1f) {
             query = new BoostQuery(query, boost);
           }
@@ -416,7 +427,7 @@ public class BooleanQuery extends Query implements Iterable<BooleanClause> {
 
     // Rewrite queries whose single scoring clause is a MUST clause on a
     // MatchAllDocsQuery to a ConstantScoreQuery
-    {
+    {// 逻辑九
       final Collection<Query> musts = clauseSets.get(Occur.MUST);
       final Collection<Query> filters = clauseSets.get(Occur.FILTER);
       if (musts.size() == 1

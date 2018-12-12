@@ -26,6 +26,7 @@ public class SearchWithSHOULD {
                 "b",
                 "c",
                 "a c e",
+                "c e",
                 "c a",
                 "b c d e c e",
                 "a c e a b c"
@@ -41,10 +42,13 @@ public class SearchWithSHOULD {
         IndexReader reader = DirectoryReader.open(writer);
         IndexSearcher searcher = new IndexSearcher(reader);
         BooleanQuery.Builder query = new BooleanQuery.Builder();
-        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.MUST);
-        query.setMinimumNumberShouldMatch(2);
+//        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.MUST);
+        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.MUST);
+        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.MUST);
+//        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.FILTER);
+//        query.setMinimumNumberShouldMatch(5);
 
         ScoreDoc[] hits;
         hits = searcher.search(query.build(), 1000).scoreDocs;
