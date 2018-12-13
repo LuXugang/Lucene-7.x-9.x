@@ -188,10 +188,12 @@ final class BooleanWeight extends Weight {
     Iterator<BooleanClause> cIter = query.iterator();
     for (Weight w  : weights) {
       BooleanClause c =  cIter.next();
+      // 筛选SHOULD的Query
       if (c.getOccur() != Occur.SHOULD) {
         continue;
       }
-      // TermQuery没有覆盖 bulkScorer方法，那么就直接用父类的方法
+      // 对每一个SHOULD的Query生成BulkScorer对象
+      // TermQuery没有覆盖 bulkScorer方法，那么就直接用父类Weight的bulkScorer方法
       BulkScorer subScorer = w.bulkScorer(context);
 
       if (subScorer != null) {
@@ -244,6 +246,7 @@ final class BooleanWeight extends Weight {
 
   /** Try to build a boolean scorer for this weight. Returns null if {@link BooleanScorer}
    *  cannot be used. */
+  // 根据不同的occur的Query组合，返回不同的BulkScorer对象，也有可能返回null
   BulkScorer booleanScorer(LeafReaderContext context) throws IOException {
     final int numOptionalClauses = query.getClauses(Occur.SHOULD).size();
     final int numRequiredClauses = query.getClauses(Occur.MUST).size() + query.getClauses(Occur.FILTER).size();

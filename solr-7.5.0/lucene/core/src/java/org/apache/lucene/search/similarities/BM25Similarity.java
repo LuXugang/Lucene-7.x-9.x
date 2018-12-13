@@ -70,7 +70,8 @@ public class BM25Similarity extends Similarity {
   
   /** Implemented as <code>log(1 + (docCount - docFreq + 0.5)/(docFreq + 0.5))</code>. */
   protected float idf(long docFreq, long docCount) {
-    // docFreq：包含一个域值的文档数，docCount：文档总数
+    // docFreq：包含某个域值的文档数，docCount：文档总数
+    // 包含这个域值的文档个数越小，idf的值越大
     return (float) Math.log(1 + (docCount - docFreq + 0.5D)/(docFreq + 0.5D));
   }
   
@@ -85,7 +86,7 @@ public class BM25Similarity extends Similarity {
   }
   
   /** The default implementation computes the average as <code>sumTotalTermFreq / docCount</code> */
-  // 计算的是 平均每篇文档包含一个域的域值的个数
+  // 计算的是 平均每篇文档包含某个域的域值的个数
   protected float avgFieldLength(CollectionStatistics collectionStats) {
     final long sumTotalTermFreq;
     if (collectionStats.sumTotalTermFreq() == -1) {
@@ -96,11 +97,12 @@ public class BM25Similarity extends Similarity {
       }
       sumTotalTermFreq = collectionStats.sumDocFreq();
     } else {
+      // 某个域名的所有域值个数(非去重)
       sumTotalTermFreq = collectionStats.sumTotalTermFreq();
     }
+    // 包含这个域名的文档总数
     final long docCount = collectionStats.docCount() == -1 ? collectionStats.maxDoc() : collectionStats.docCount();
-    // docCount为包含域的所有域值的文档总数
-    // sumTotalTermFreq为域的所有域值的总数(不是域值的种类个数)
+    // 计算的平均每一篇文档中包含某个域名的域值个数
     return (float) (sumTotalTermFreq / (double) docCount);
   }
   
@@ -178,7 +180,7 @@ public class BM25Similarity extends Similarity {
   public Explanation idfExplain(CollectionStatistics collectionStats, TermStatistics termStats) {
     // 包含这个域值的文档数
     final long df = termStats.docFreq();
-    // 文档总数
+    // IndexReader中包含的文档总数
     final long docCount = collectionStats.docCount() == -1 ? collectionStats.maxDoc() : collectionStats.docCount();
     // 计算idf
     final float idf = idf(df, docCount);
@@ -213,8 +215,9 @@ public class BM25Similarity extends Similarity {
 
   @Override
   public final SimWeight computeWeight(float boost, CollectionStatistics collectionStats, TermStatistics... termStats) {
+    // Explanation中记录了 df, idf, 文档总数的信息
     Explanation idf = termStats.length == 1 ? idfExplain(collectionStats, termStats[0]) : idfExplain(collectionStats, termStats);
-    // 平均一篇文档包含当前域的域值个数
+    // 平均一篇文档包含某个域的域值个数
     float avgdl = avgFieldLength(collectionStats);
 
     float[] oldCache = new float[256];
@@ -307,6 +310,7 @@ public class BM25Similarity extends Similarity {
       this.field = field;
       this.boost = boost;
       this.idf = idf;
+      // 每篇文档包含某个域名的域值个数
       this.avgdl = avgdl;
       this.weight = idf.getValue() * boost;
       this.oldCache = oldCache;

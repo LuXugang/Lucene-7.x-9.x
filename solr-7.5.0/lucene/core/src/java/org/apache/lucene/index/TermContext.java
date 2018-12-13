@@ -36,7 +36,9 @@ public final class TermContext {
   // Important: do NOT keep hard references to index readers
   private final Object topReaderContextIdentity;
   private final TermState[] states;
+  // 包含这个term的文档数
   private int docFreq;
+  // 这个term在所有文档中出现的次数(非去重)
   private long totalTermFreq;
 
   //public static boolean DEBUG = BlockTreeTermsWriter.DEBUG;

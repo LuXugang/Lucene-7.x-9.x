@@ -60,7 +60,9 @@ public class TermQuery extends Query {
       this.termStates = termStates;
       this.similarity = searcher.getSimilarity(needsScores);
 
+      // CollectionStatistics类描述了一个域名的信息，有详细注释
       final CollectionStatistics collectionStats;
+      // TermStatistics类描述了一个域值的信息，有详细注释
       final TermStatistics termStats;
       if (needsScores) {
         collectionStats = searcher.collectionStatistics(term.field());
@@ -107,10 +109,12 @@ public class TermQuery extends Query {
     // Scorer对象用来遍历所有的结果然后给分配分数(打分)
     public Scorer scorer(LeafReaderContext context) throws IOException {
       assert termStates == null || termStates.wasBuiltFor(ReaderUtil.getTopLevelContext(context)) : "The top-reader used to create Weight is not the same as the current reader's top-reader (" + ReaderUtil.getTopLevelContext(context);;
+      // 某个域名的所有域值的信息
       final TermsEnum termsEnum = getTermsEnum(context);
       if (termsEnum == null) {
         return null;
       }
+      // 获得一个域值的倒排表信息
       PostingsEnum docs = termsEnum.postings(null, needsScores ? PostingsEnum.FREQS : PostingsEnum.NONE);
       assert docs != null;
       return new TermScorer(this, docs, similarity.simScorer(stats, context));

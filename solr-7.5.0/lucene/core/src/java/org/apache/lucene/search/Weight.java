@@ -172,9 +172,10 @@ public abstract class Weight implements SegmentCacheable {
    * passes them to a collector.
    * @throws IOException if there is a low-level I/O error
    */
+  // 用来生成BulkScorer对象, 有些weight对象有自己的实现，比如说BooleanWeight
   public BulkScorer bulkScorer(LeafReaderContext context) throws IOException {
 
-    // 如果是TermQuery，那么返回一个TermScorer对象
+    // 如果是TermQuery，调用TermQuery的自己的scorer(LeafReaderContext)实现
     Scorer scorer = scorer(context);
     if (scorer == null) {
       // No docs match
