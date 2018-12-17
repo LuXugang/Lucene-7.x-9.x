@@ -25,6 +25,9 @@ public class SearchWithSHOULD {
                 "a",
                 "b",
                 "c",
+                "x",
+                "f",
+                "g",
                 "a c e",
                 "c e",
                 "c a",
@@ -43,13 +46,16 @@ public class SearchWithSHOULD {
         IndexSearcher searcher = new IndexSearcher(reader);
         BooleanQuery.Builder query = new BooleanQuery.Builder();
         query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.MUST);
+        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "f")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "g")), BooleanClause.Occur.SHOULD);
+//        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.MUST);
         query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
 //        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.MUST);
 //        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
 //        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.FILTER);
-//        query.setMinimumNumberShouldMatch(5);
+        query.setMinimumNumberShouldMatch(3);
 
         ScoreDoc[] hits;
         hits = searcher.search(query.build(), 1000).scoreDocs;

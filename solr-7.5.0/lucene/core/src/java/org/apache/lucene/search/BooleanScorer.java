@@ -151,9 +151,11 @@ final class BooleanScorer extends BulkScorer {
       final int idx = i >>> 6;
       // 用来去重的存储文档号, 二进制表示的数值中，每个为1的bit位的所属第几位就是文档号的值
       // 比如 01001, 说明存储了 文档号 0跟3
+      // matching在后面遍历中使用，因为我们还要判断每一篇文档出现的次数是否满足minSHouldMatch
+      // 那么通过这个matching值就可以从buckets[]数组中以O(1)的复杂度找到每一篇文档出现的次数
       matching[idx] |= 1L << i;
       // 引用bucket对象，buckets[]数组下标是文档号
-      // bucket中的freq统计次文档号出现的次数
+      // bucket中的freq统计某个文档号出现的次数
       final Bucket bucket = buckets[i];
       bucket.freq++;
       // 这里可以看出，打分是一个累加的过程
@@ -272,7 +274,7 @@ final class BooleanScorer extends BulkScorer {
   private void scoreWindowMultipleScorers(LeafCollector collector, Bits acceptDocs, int windowBase, int windowMin, int windowMax, int maxFreq) throws IOException {
       // if语句为true: 说明优先级队列this.head中的个数(优先从这些对象所属的文档考虑,原因看this.head的注释)达不到minShouldMatch
     // 那么我们需要从优先级队列this.tail中挑出一些候选者
-      // 这种情况发生在minShould的值大于BooleanQuery中的clause的一半
+      // 这种情况发生在minShould的值大于BooleanQuery中的clause个数的一半
     while (maxFreq < minShouldMatch && maxFreq + tail.size() >= minShouldMatch) {
       // a match is still possible
       final BulkScorerAndDoc candidate = tail.pop();
@@ -330,6 +332,7 @@ final class BooleanScorer extends BulkScorer {
     leads[0] = head.pop();
     int maxFreq = 1;
     // 取出优先级队列this.head中的所有BulkScorerAndDoc对象，放到leads[]数组中
+    // 至此，leads中的越靠前的BulkScorerAndDoc对象，他们的next越小
     while (head.size() > 0 && head.top().next < windowMax) {
       leads[maxFreq++] = head.pop();
     }
@@ -354,6 +357,7 @@ final class BooleanScorer extends BulkScorer {
     collector.setScorer(fakeScorer);
 
     // 获得next值最小的那个BulkScorerAndDoc对象
+    // 当下面的方法调用结束后，head中的元素按照next排好序了
     BulkScorerAndDoc top = advance(min);
     while (top.next < max) {
       top = scoreWindow(top, collector, acceptDocs, min, max);
