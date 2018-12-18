@@ -75,6 +75,7 @@ final class Boolean2ScorerSupplier extends ScorerSupplier {
   }
 
   @Override
+  // 计算出遍历文档的最小次数
   public long cost() {
     if (cost == -1) {
       cost = computeCost();
@@ -85,6 +86,7 @@ final class Boolean2ScorerSupplier extends ScorerSupplier {
   @Override
   public Scorer get(long leadCost) throws IOException {
     // three cases: conjunction, disjunction, or mix
+    // 计算出遍历文档时需要的最少次数，比如两个MUST的Query组合，包含a的文档号是 3，5，7，包含b的文档号是2，3， 那么cost就是2
     leadCost = Math.min(leadCost, cost());
 
     // pure conjunction
@@ -141,9 +143,11 @@ final class Boolean2ScorerSupplier extends ScorerSupplier {
     } else {
       List<Scorer> requiredScorers = new ArrayList<>();
       List<Scorer> scoringScorers = new ArrayList<>();
+      // 将不需要打分的FILTER都添加到requiredScorers中(FILTER其实就是 不参与打分的MUST)
       for (ScorerSupplier s : requiredNoScoring) {
         requiredScorers.add(s.get(leadCost));
       }
+      // MUST放到scoringScorers, 同时还要放到requiredScorers链表中
       for (ScorerSupplier s : requiredScoring) {
         Scorer scorer = s.get(leadCost);
         requiredScorers.add(scorer);

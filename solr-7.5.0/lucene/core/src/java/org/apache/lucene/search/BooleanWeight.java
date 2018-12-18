@@ -370,6 +370,7 @@ final class BooleanWeight extends Weight {
     Iterator<BooleanClause> cIter = query.iterator();
     for (Weight w  : weights) {
       BooleanClause c =  cIter.next();
+      // 调用TermWeight的scorerSupplier方法，如果没有重写，就调用父类的方法
       ScorerSupplier subScorer = w.scorerSupplier(context);
       if (subScorer == null) {
         if (c.isRequired()) {

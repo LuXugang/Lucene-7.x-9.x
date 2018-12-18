@@ -22,17 +22,17 @@ public class SearchWithSHOULD {
         writer = new IndexWriter(directory, conf);
 
         String[] docs = {
-                "a",
+                "a",                // 0
                 "b",
                 "c",
                 "x",
                 "f",
-                "g",
+                "g",                // 5
                 "a c e",
                 "c e",
                 "c a",
-                "b c d e c e",
-                "a c e a b c"
+                "b c d e c a",
+                "a c e a b c"       // 10
         };
 
         for (String s: docs
@@ -45,17 +45,19 @@ public class SearchWithSHOULD {
         IndexReader reader = DirectoryReader.open(writer);
         IndexSearcher searcher = new IndexSearcher(reader);
         BooleanQuery.Builder query = new BooleanQuery.Builder();
-        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "f")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "g")), BooleanClause.Occur.SHOULD);
+        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.MUST);
+        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.MUST);
+        query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.MUST);
+        query.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.MUST);
+//        query.add(new TermQuery(new Term("content", "f")), BooleanClause.Occur.SHOULD);
+//        query.add(new TermQuery(new Term("content", "g")), BooleanClause.Occur.SHOULD);
 //        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.MUST);
-        query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
-        query.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
+//        query.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
+//        query.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
 //        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.MUST);
 //        query.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
 //        query.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.FILTER);
-        query.setMinimumNumberShouldMatch(3);
+//        query.setMinimumNumberShouldMatch(3);
 
         ScoreDoc[] hits;
         hits = searcher.search(query.build(), 1000).scoreDocs;

@@ -45,6 +45,7 @@ public final class ConjunctionDISI extends DocIdSetIterator {
     if (scorers.size() < 2) {
       throw new IllegalArgumentException("Cannot make a ConjunctionDISI of less than 2 iterators");
     }
+    // 用来存放根据cost(包含某个term的文档的总个数)排序后的DocIdSetIterator
     final List<DocIdSetIterator> allIterators = new ArrayList<>();
     final List<TwoPhaseIterator> twoPhaseIterators = new ArrayList<>();
     for (Scorer scorer : scorers) {
@@ -140,6 +141,7 @@ public final class ConjunctionDISI extends DocIdSetIterator {
   private static DocIdSetIterator createConjunction(
       List<DocIdSetIterator> allIterators,
       List<TwoPhaseIterator> twoPhaseIterators) {
+      // 取出 cost最小值(包含term的文档总个数)
     long minCost = allIterators.stream().mapToLong(DocIdSetIterator::cost).min().getAsLong();
     List<BitSetIterator> bitSetIterators = new ArrayList<>();
     List<DocIdSetIterator> iterators = new ArrayList<>();
@@ -182,6 +184,7 @@ public final class ConjunctionDISI extends DocIdSetIterator {
     CollectionUtil.timSort(iterators, new Comparator<DocIdSetIterator>() {
       @Override
       public int compare(DocIdSetIterator o1, DocIdSetIterator o2) {
+        // 包含这个term的文档个数, 文档个数越小，排在最前面
         return Long.compare(o1.cost(), o2.cost());
       }
     });
@@ -192,20 +195,25 @@ public final class ConjunctionDISI extends DocIdSetIterator {
 
   private int doNext(int doc) throws IOException {
     advanceHead: for(;;) {
+      // 取出当前正在使用lead1的文档号(文档号总是从最小的开始遍历)
       assert doc == lead1.docID();
 
       // find agreement between the two iterators with the lower costs
       // we special case them because they do not need the
       // 'other.docID() < doc' check that the 'others' iterators need
+      // 取出当前正在使用的lead2的文档号(文档号总是从最小的开始遍历)
       final int next2 = lead2.advance(doc);
       if (next2 != doc) {
+        // 取出lead1的下一个文档号
         doc = lead1.advance(next2);
         if (next2 != doc) {
           continue;
         }
       }
 
+      // 运行至此说明找到了lead1跟lead2都相同的文档号(除了遍历结束的情况， doc的值是2147483647)
       // then find agreement with other iterators
+      // 继续遍历所有others中，判断是否有跟lead1和lead2相同的文档号
       for (DocIdSetIterator other : others) {
         // other.doc may already be equal to doc if we "continued advanceHead"
         // on the previous iteration and the advance on the lead scorer exactly matched.
