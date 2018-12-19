@@ -34,10 +34,12 @@ final class ReqExclBulkScorer extends BulkScorer {
   @Override
   public int score(LeafCollector collector, Bits acceptDocs, int min, int max) throws IOException {
     int upTo = min;
+    // 获得MUST_NOT中的文档号，第一次调用excl.docID()方法的返回值是-1
     int exclDoc = excl.docID();
 
     while (upTo < max) {
       if (exclDoc < upTo) {
+        // 获得MUST_NOT中不小于upTo的文档号
         exclDoc = excl.advance(upTo);
       }
       if (exclDoc == upTo) {
