@@ -173,8 +173,10 @@ public final class ConjunctionDISI extends DocIdSetIterator {
 
     return disi;
   }
-
+  // lead1封装的是cost值(包含term的文档的个数)最小的term的一些信息
+  // lead2封装的是cost值(包含term的文档的个数)比lead1的cost值大的term的一些信息，同时lead2的cost值比others中任意一个的cost值都小(或相等)
   final DocIdSetIterator lead1, lead2;
+  // others数组中所有对象的cost值都不小于lead1跟lead2中的cost值
   final DocIdSetIterator[] others;
 
   private ConjunctionDISI(List<? extends DocIdSetIterator> iterators) {
@@ -207,6 +209,8 @@ public final class ConjunctionDISI extends DocIdSetIterator {
         // 取出lead1的下一个文档号
         doc = lead1.advance(next2);
         if (next2 != doc) {
+          // 如果当前的lead1跟lead2的doc值不一样，那么就没有必要去跟others[]中的去作合并
+          // 所以继续比较lead1跟lead2的下一个doc的值
           continue;
         }
       }
@@ -217,11 +221,14 @@ public final class ConjunctionDISI extends DocIdSetIterator {
       for (DocIdSetIterator other : others) {
         // other.doc may already be equal to doc if we "continued advanceHead"
         // on the previous iteration and the advance on the lead scorer exactly matched.
+        // 注意的是每一个other.docID的第一次调用都是-1,并且之后的调用都是不小于doc的值
         if (other.docID() < doc) {
+          // 找下一个不小于doc的值
           final int next = other.advance(doc);
 
           if (next > doc) {
             // iterator beyond the current doc - advance lead and continue to the new highest doc.
+            // 当前的doc不满足，那么另doc为下一个不小于next的值
             doc = lead1.advance(next);
             continue advanceHead;
           }
