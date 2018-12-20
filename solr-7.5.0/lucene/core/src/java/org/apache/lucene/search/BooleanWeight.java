@@ -298,6 +298,7 @@ final class BooleanWeight extends Weight {
     Iterator<BooleanClause> cIter = query.iterator();
     for (Weight w  : weights) {
       BooleanClause c =  cIter.next();
+      // 将MUST_NOT的对应的Scorer对象添加到prohibited链表中
       if (c.isProhibited()) {
         Scorer scorer = w.scorer(context);
         if (scorer != null) {
@@ -309,6 +310,7 @@ final class BooleanWeight extends Weight {
     if (prohibited.isEmpty()) {
       return positiveScorer;
     } else {
+      // 如果不止一个MUST_NOT，那么还要进行一层封装生成DisjunctionSumScorer对象
       Scorer prohibitedScorer = prohibited.size() == 1
           ? prohibited.get(0)
           : new DisjunctionSumScorer(this, prohibited, false);

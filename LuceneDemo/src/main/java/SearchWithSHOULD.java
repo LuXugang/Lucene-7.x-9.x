@@ -22,16 +22,16 @@ public class SearchWithSHOULD {
         writer = new IndexWriter(directory, conf);
 
         String[] docs = {
-                "c",
+                "a b c b a",
                 "x",
-                "f",
+                "b",
                 "g",                // 3
                 "g",
                 "c e a b",
                 "d",
-                "b c d e c",
-                "a c a b c", // 8
-                "a",
+                "c d e c",
+                "a c a c", // 8
+                "a b",
                 "a c e",
                 "c a"
         };

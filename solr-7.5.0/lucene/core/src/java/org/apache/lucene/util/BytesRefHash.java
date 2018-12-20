@@ -300,12 +300,14 @@ public final class BytesRefHash {
       // bytes. Length is encoded as vInt, but will consume
       // 1 or 2 bytes at most (we reject too-long terms,
       // above).
+      // length描述了用ByteRef对象描述的term需要占用的字节个数
       if (length < 128) {
         // 1 byte to store length
         buffer[bufferUpto] = (byte) length;
         // length + 1表示要占用head buffer的长度，其中1就是存放域值长度值所需要的一个字节大小
         pool.byteUpto += length + 1;
         assert length >= 0: "Length must be positive: " + length;
+        // 将用ByteRef对象表示的term值写到buffer[]数组中
         System.arraycopy(bytes.bytes, bytes.offset, buffer, bufferUpto + 1,
             length);
       } else {

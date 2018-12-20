@@ -73,7 +73,7 @@ public final class IntBlockPool {
   // 当前正在使用的buffer，也就是head buffer
   public int[] buffer;
   /** Current head offset */
-  // 在二维数组中的偏移
+  // 在head buffer 在二维数组中的偏移
   public int intOffset = -INT_BLOCK_SIZE;
 
   private final Allocator allocator;

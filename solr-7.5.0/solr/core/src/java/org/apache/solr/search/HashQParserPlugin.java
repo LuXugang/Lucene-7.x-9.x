@@ -45,7 +45,6 @@ import org.apache.solr.schema.FieldType;
 import org.apache.solr.schema.IndexSchema;
 import org.apache.solr.schema.StrField;
 
-import com.google.common.primitives.Longs;
 
 /**
 * syntax fq={!hash workers=11 worker=4 keys=field1,field2}

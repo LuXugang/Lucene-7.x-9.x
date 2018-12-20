@@ -65,13 +65,16 @@ final class DefaultIndexingChain extends DocConsumer {
   // NOTE: I tried using Hash Map<String,PerField>
   // but it was ~2% slower on Wiki and Geonames with Java
   // 1.7.0_25:
+  // 没有采用HashMao来存储PerFiled，随着添加更多的域名,该数组会扩容，数组下标是域名的hashCode
   private PerField[] fieldHash = new PerField[2];
   private int hashMask = 1;
 
+  // 域名的总个数
   private int totalFieldCount;
   private long nextFieldGen;
 
   // Holds fields seen in each document
+  // 初始值设置的很小，会动态扩容
   private PerField[] fields = new PerField[1];
 
   private final Set<String> finishedDocValues = new HashSet<>();
@@ -424,7 +427,9 @@ final class DefaultIndexingChain extends DocConsumer {
     }
 
     // Invert indexed fields:
+    // 获得term的存储选项，描述term的是否存储词频 偏移，位置等信息
     if (fieldType.indexOptions() != IndexOptions.NONE) {
+      // 获得封装了 域名 的信息的PerFiled对象，如果之前已经有了那么复用，否则创建
       fp = getOrAddField(fieldName, fieldType, true);
       boolean first = fp.fieldGen != fieldGen;
       fp.invert(field, first);
@@ -681,6 +686,7 @@ final class DefaultIndexingChain extends DocConsumer {
   }
 
   /** NOTE: not static: accesses at least docState, termsHash. */
+  // 每一个PerField封装了一个FieldInfo的信息，而FiledInfo描述了一个域名的信息
   private final class PerField implements Comparable<PerField> {
 
     final int indexCreatedVersionMajor;

@@ -220,8 +220,10 @@ public class FieldInfos implements Iterable<FieldInfo> {
   }
   
   static final class FieldNumbers {
-    
+
+    // 根据field Number找到 域名
     private final Map<Integer,String> numberToName;
+    // 根据域名 找到 field number
     private final Map<String,Integer> nameToNumber;
     // We use this to enforce that a given field never
     // changes DV type, even across segments / IndexWriter
@@ -252,7 +254,9 @@ public class FieldInfos implements Iterable<FieldInfo> {
      * number assigned if possible otherwise the first unassigned field number
      * is used as the field number.
      */
+    // 这里的field number的分配方式跟linux中文件描述符的分配方式类似呀
     synchronized int addOrGet(String fieldName, int preferredFieldNumber, DocValuesType dvType, int dimensionCount, int dimensionNumBytes, boolean isSoftDeletesField) {
+      // 处理DocValue的情况
       if (dvType != DocValuesType.NONE) {
         DocValuesType currentDVType = docValuesType.get(fieldName);
         if (currentDVType == null) {
@@ -261,6 +265,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
           throw new IllegalArgumentException("cannot change DocValues type from " + currentDVType + " to " + dvType + " for field \"" + fieldName + "\"");
         }
       }
+      // 不知道是什么东西 哈哈 ^-^
       if (dimensionCount != 0) {
         FieldDimensions dims = dimensions.get(fieldName);
         if (dims != null) {
@@ -274,14 +279,17 @@ public class FieldInfos implements Iterable<FieldInfo> {
           dimensions.put(fieldName, new FieldDimensions(dimensionCount, dimensionNumBytes));
         }
       }
+      // key为域名，value是Integer
       Integer fieldNumber = nameToNumber.get(fieldName);
       if (fieldNumber == null) {
+        // 域名第一次出现的话， preferredFieldNumber的值为-1
         final Integer preferredBoxed = Integer.valueOf(preferredFieldNumber);
         if (preferredFieldNumber != -1 && !numberToName.containsKey(preferredBoxed)) {
           // cool - we can use this number globally
           fieldNumber = preferredBoxed;
         } else {
           // find a new FieldNumber
+            // 找到一个最小未分配的值
           while (numberToName.containsKey(++lowestUnassignedFieldNumber)) {
             // might not be up to date - lets do the work once needed
           }
@@ -379,6 +387,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
   }
   
   static final class Builder {
+    // 根据域的名字映射FieldInfo对象
     private final HashMap<String,FieldInfo> byName = new HashMap<>();
     final FieldNumbers globalFieldNumbers;
     private boolean finished;
@@ -400,6 +409,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
 
     /** Create a new field, or return existing one. */
     public FieldInfo getOrAdd(String name) {
+      // 判断是否已经有 name这个域名了
       FieldInfo fi = fieldInfo(name);
       if (fi == null) {
         assert assertNotFinished();
@@ -409,6 +419,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
         // before then we'll get the same name and number,
         // else we'll allocate a new one:
         final boolean isSoftDeletesField = name.equals(globalFieldNumbers.softDeletesFieldName);
+        // 获得域名name对应的field Number
         final int fieldNumber = globalFieldNumbers.addOrGet(name, -1, DocValuesType.NONE, 0, 0, isSoftDeletesField);
         fi = new FieldInfo(name, fieldNumber, false, false, false, IndexOptions.NONE, DocValuesType.NONE, -1, new HashMap<>(), 0, 0, isSoftDeletesField);
         assert !byName.containsKey(fi.name);

@@ -122,6 +122,7 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       intUptoStart = intPool.intUpto;
       intPool.intUpto += streamCount;
 
+      // intUptoStart + intPool.intOffset的和值就是在IntBlockPool对象的二位数组中的起始位置
       postingsArray.intStarts[termID] = intUptoStart + intPool.intOffset;
 
       for(int i=0;i<streamCount;i++) {
@@ -152,6 +153,7 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       
     //System.out.println("add term=" + termBytesRef.utf8ToString() + " doc=" + docState.docID + " termID=" + termID);
 
+    // termID大于0说明这个term第一次处理
     if (termID >= 0) {// New posting
       bytesHash.byteStart(termID);
       // Init stream slices
@@ -163,13 +165,18 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
         bytePool.nextBuffer();
       }
 
+      // 获得当前正在使用的IntBlockPool中的head buffer
       intUptos = intPool.buffer;
+      // 获得下一个head buffer可以写入的位置
       intUptoStart = intPool.intUpto;
+      // 预分配streamCount个大小的位置，用来写入数据
       intPool.intUpto += streamCount;
 
+      // intUptoStart + intPool.intOffset的和值就是在IntBlockPool对象的二位数组buffers[]中的起始位置
       postingsArray.intStarts[termID] = intUptoStart + intPool.intOffset;
 
       for(int i=0;i<streamCount;i++) {
+        // term第一次处理时，分配5个数组元素大小的位置, 返回值是head buffer中的下一个可以使用的位置(head buffer的下标值)
         final int upto = bytePool.newSlice(ByteBlockPool.FIRST_LEVEL_SIZE);
         intUptos[intUptoStart+i] = upto + bytePool.byteOffset;
       }
@@ -190,6 +197,7 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
     }
   }
 
+  // 当前正在使用的IntBlockPool中的head buffer, 它记录了ByteBlockPool中的head buffer可以使用的位置
   int[] intUptos;
   int intUptoStart;
 

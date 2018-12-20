@@ -126,6 +126,7 @@ public final class ByteBlockPool {
   /** Current head buffer */
   public byte[] buffer;
   /** Current head offset */
+  // head buffer在二维数组中的偏移(第几个一维数组)
   public int byteOffset = -BYTE_BLOCK_SIZE;
 
   private final Allocator allocator;
@@ -212,6 +213,7 @@ public final class ByteBlockPool {
    * @see ByteBlockPool#FIRST_LEVEL_SIZE
    */
   public int newSlice(final int size) {
+    // 判断当前的head buffer是否还有足够的空间能放下size
     if (byteUpto > BYTE_BLOCK_SIZE-size)
       nextBuffer();
     final int upto = byteUpto;
