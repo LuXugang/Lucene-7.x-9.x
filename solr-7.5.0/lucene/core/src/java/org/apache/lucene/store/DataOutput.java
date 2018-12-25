@@ -229,6 +229,7 @@ public abstract class DataOutput {
 
   // write a potentially negative vLong
   private void writeSignedVLong(long i) throws IOException {
+    //  按照一个byte大小写
     while ((i & ~0x7FL) != 0L) {
       writeByte((byte)((i & 0x7FL) | 0x80L));
       i >>>= 7;

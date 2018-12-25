@@ -29,8 +29,11 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
 
   private FreqProxPostingsArray freqProxPostingsArray;
 
+  // 词频
   final boolean hasFreq;
+  // 位置
   final boolean hasProx;
+  // 偏移
   final boolean hasOffsets;
   PayloadAttribute payloadAttribute;
   OffsetAttribute offsetAttribute;
@@ -91,6 +94,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
     }
 
     assert postingsArray == freqProxPostingsArray;
+    // 记录当前处理的term在文档中的位置
     freqProxPostingsArray.lastPositions[termID] = fieldState.position;
   }
 
@@ -118,6 +122,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       postings.lastDocCodes[termID] = docState.docID << 1;
       postings.termFreqs[termID] = getTermFreq();
       if (hasProx) {
+        // 写入term在文档中的位置信息
         writeProx(termID, fieldState.position);
         if (hasOffsets) {
           writeOffsets(termID, fieldState.offset);
@@ -125,8 +130,10 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       } else {
         assert !hasOffsets;
       }
+      // 更新term的词频
       fieldState.maxTermFrequency = Math.max(postings.termFreqs[termID], fieldState.maxTermFrequency);
     }
+    // 更新当前域包含的term种类数
     fieldState.uniqueTermCount++;
   }
 
@@ -148,6 +155,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
         postings.lastDocIDs[termID] = docState.docID;
         fieldState.uniqueTermCount++;
       }
+      // if语句为真：当前处理的term是另外一篇文档(上篇文档处理结束了)
     } else if (docState.docID != postings.lastDocIDs[termID]) {
       assert docState.docID > postings.lastDocIDs[termID]:"id: "+docState.docID + " postings ID: "+ postings.lastDocIDs[termID] + " termID: "+termID;
       // Term not yet seen in the current doc but previously
@@ -155,7 +163,10 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
 
       // Now that we know doc freq for previous doc,
       // write it & lastDocCode
+      // 运行到这里，说明我们当前term在新的文档中第一次出现, 并且这个term肯定在上个文档中出现
+      // 那么这时候就可以将这个term在上篇文档中的词频写入到倒排表中了
       if (1 == postings.termFreqs[termID]) {
+          // 如果term的词频只有1，跟lastDocCode值计算后储存
         writeVInt(0, postings.lastDocCodes[termID]|1);
       } else {
         writeVInt(0, postings.lastDocCodes[termID]);
@@ -163,9 +174,12 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       }
 
       // Init freq for the current document
+      // 记录当前文档中term的词频
       postings.termFreqs[termID] = getTermFreq();
       fieldState.maxTermFrequency = Math.max(postings.termFreqs[termID], fieldState.maxTermFrequency);
+      // 计算文档号的差值，同样的左移一位后的值赋值给lastDocCodes[]数组
       postings.lastDocCodes[termID] = (docState.docID - postings.lastDocIDs[termID]) << 1;
+      // 记录当前的文档号
       postings.lastDocIDs[termID] = docState.docID;
       if (hasProx) {
         writeProx(termID, fieldState.position);
@@ -178,9 +192,14 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       }
       fieldState.uniqueTermCount++;
     } else {
+      // 更新term在当前文档中的词频
       postings.termFreqs[termID] = Math.addExact(postings.termFreqs[termID], getTermFreq());
+      // 更新这个域包含的term的个数
       fieldState.maxTermFrequency = Math.max(fieldState.maxTermFrequency, postings.termFreqs[termID]);
       if (hasProx) {
+        // 将term的位置信息写到倒排表中, 注意位置信息的值是一个差值, 跟上一个这个term的在文档中位置的差值
+        // 所以为什么要有lastPositions[]数组
+        // lastPositions[]数组用来保存term上次在文档中的位置
         writeProx(termID, fieldState.position-postings.lastPositions[termID]);
         if (hasOffsets) {
           writeOffsets(termID, fieldState.offset);
@@ -234,10 +253,21 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       //System.out.println("PA init freqs=" + writeFreqs + " pos=" + writeProx + " offs=" + writeOffsets);
     }
 
+    // 下面几个数组的下标都是termID
+
+    // 目前term当前文档中出现的次数(这个值不是term在当前文档中最终的词频)
     int termFreqs[];                                   // # times this term occurs in the current doc
+    // 存放term上次出现文档号
+    // 用来判断上篇文档是否已经处理结束
+    // 当一篇文档已经处理结束，我们才能统计term在这篇文档中的词频
     int lastDocIDs[];                                  // Last docID where this term occurred
+    // 文档号(差值)左移一位的值(原因不知道)
     int lastDocCodes[];                                // Code for prior doc
+    // 记录term在文档中最后出现的位置
+    // 在存放同一篇文档的相同term时候计算两个term之间的位置差值，并且记录这个差值
+    // 即位置信息是差值存储
     int lastPositions[];                               // Last position where this term occurred
+
     int lastOffsets[];                                 // Last endOffset where this term occurred
 
     @Override

@@ -448,6 +448,7 @@ final class DefaultIndexingChain extends DocConsumer {
         fp = getOrAddField(fieldName, fieldType, false);
       }
       if (fieldType.stored()) {
+        // 获得域值
         String value = field.stringValue();
         if (value != null && value.length() > IndexWriter.MAX_STORED_STRING_LENGTH) {
           throw new IllegalArgumentException("stored field \"" + field.name() + "\" is too large (" + value.length() + " characters) to store");
@@ -840,6 +841,7 @@ final class DefaultIndexingChain extends DocConsumer {
           // corrupt and should not be flushed to a
           // new segment:
           try {
+            // 根据当前term，主要是记录term的倒排表信息
             termsHashPerField.add();
           } catch (MaxBytesLengthExceededException e) {
             byte[] prefix = new byte[30];

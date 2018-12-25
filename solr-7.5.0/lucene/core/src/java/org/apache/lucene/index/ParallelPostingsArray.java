@@ -23,7 +23,7 @@ class ParallelPostingsArray {
 
   final int size;
   final int[] textStarts;
-  // 存放一个term在IntBlockPool的二维数组中的起始位置
+  // 下标是termID, 根据数组元素值能在IntBlockPool中找到存储term信息的位置
   final int[] intStarts;
   // 存放一个term在ByteBlockPool的head buffer中的下一个可以使用的位置
   final int[] byteStarts;

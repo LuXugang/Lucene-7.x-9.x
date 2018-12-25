@@ -176,17 +176,25 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       postingsArray.intStarts[termID] = intUptoStart + intPool.intOffset;
 
       for(int i=0;i<streamCount;i++) {
-        // term第一次处理时，分配5个数组元素大小的位置, 返回值是head buffer中的下一个可以使用的位置(head buffer的下标值)
+        // term第一次处理时，在ByteBlockPool的二维数组中分配5个数组元素大小的空间
+        // 返回值是ByteBlockPool的head buffer中的下一个可以使用的位置(head buffer的下标值)
         final int upto = bytePool.newSlice(ByteBlockPool.FIRST_LEVEL_SIZE);
+        // 将得到的可以使用的位置(下标值)存储到IntBlockPool的二维数组中
         intUptos[intUptoStart+i] = upto + bytePool.byteOffset;
       }
+      // 上面的for循环结束后，IntBlockPool的二维数组会分配两个连续的空间
+      // 存放的两个值描述的是在ByteBlockPool的二维数组中可以使用的位置
+
+      // 刚才IntBlockPool的二维数组
       postingsArray.byteStarts[termID] = intUptos[intUptoStart];
 
       newTerm(termID);
 
     } else {
       termID = (-termID)-1;
+      // 取出在IntBlockPool中保存这个term信息的位置
       int intStart = postingsArray.intStarts[termID];
+      // 取出存储信息的IntBlockPool的buffer
       intUptos = intPool.buffers[intStart >> IntBlockPool.INT_BLOCK_SHIFT];
       intUptoStart = intStart & IntBlockPool.INT_BLOCK_MASK;
       addTerm(termID);
@@ -202,9 +210,12 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
   int intUptoStart;
 
   void writeByte(int stream, byte b) {
+    // 从IntBlockPool的head buffer中取出一个值，这个值描述了在ByteBlockPool的二维数组中可以写入的位置
     int upto = intUptos[intUptoStart+stream];
+    // 取出ByteBlockPool中的head buffer
     byte[] bytes = bytePool.buffers[upto >> ByteBlockPool.BYTE_BLOCK_SHIFT];
     assert bytes != null;
+    // 计算在head buffer中的偏移位置
     int offset = upto & ByteBlockPool.BYTE_BLOCK_MASK;
     if (bytes[offset] != 0) {
       // End of slice; allocate a new one
@@ -213,6 +224,7 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       intUptos[intUptoStart+stream] = offset + bytePool.byteOffset;
     }
     bytes[offset] = b;
+    // 更新IntBlockPool的head buffer中的值，再次说明，这个值描述了在ByteBlockPool中二维数组中可以写入的位置
     (intUptos[intUptoStart+stream])++;
   }
 
@@ -223,8 +235,12 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       writeByte(stream, b[i]);
   }
 
+  // stream的值只有0或1，IntBlockPool的head buffer中对于每一个term都会连续保存两个值
+  // 两个值描述了ByteBlockPool的head buffer中的可以写入的两个位置
+  // stream的0跟1与这两个位置一一对应
   void writeVInt(int stream, int i) {
     assert stream < streamCount;
+    // 将原本需要4个字节存储的int类型，转化成至少1个字节存储
     while ((i & ~0x7F) != 0) {
       writeByte(stream, (byte)((i & 0x7f) | 0x80));
       i >>>= 7;
