@@ -6,14 +6,27 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.store.RAMDirectory;
+
+import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * @author Lu Xugang
  * @date 2018-12-04 20:49
  */
 public class SearchWithSHOULD {
-        private Directory directory = new RAMDirectory();
+        private Directory directory;
+
+    {
+        try {
+            directory = new MMapDirectory(Paths.get("./data"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Analyzer analyzer = new WhitespaceAnalyzer();
     private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
     private IndexWriter writer;
@@ -22,11 +35,12 @@ public class SearchWithSHOULD {
         writer = new IndexWriter(directory, conf);
 
         String[] docs = {
-                "a b  b a",
+                "b d a b b b",
+                "b b b b b ba",
                 "b",
-//                "b",
-//                "g",                // 3
-//                "g",
+                "a",
+                "b b",                // 3
+                "c b b",
 //                "c e a b",
 //                "d",
 //                "c d e c",

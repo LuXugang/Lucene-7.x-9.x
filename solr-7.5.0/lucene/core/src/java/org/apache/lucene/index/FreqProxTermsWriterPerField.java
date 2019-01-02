@@ -113,12 +113,14 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
     // flush
     final FreqProxPostingsArray postings = freqProxPostingsArray;
 
+    // 记录当前处理的文档号, 后面会用来判断一个文档是否处理结束
     postings.lastDocIDs[termID] = docState.docID;
     if (!hasFreq) {
       assert postings.termFreqs == null;
       postings.lastDocCodes[termID] = docState.docID;
       fieldState.maxTermFrequency = Math.max(1, fieldState.maxTermFrequency);
     } else {
+        //左移一位的原因看 lastDocCodes[]数组的注释
       postings.lastDocCodes[termID] = docState.docID << 1;
       postings.termFreqs[termID] = getTermFreq();
       if (hasProx) {
@@ -261,7 +263,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
     // 用来判断上篇文档是否已经处理结束
     // 当一篇文档已经处理结束，我们才能统计term在这篇文档中的词频
     int lastDocIDs[];                                  // Last docID where this term occurred
-    // 文档号(差值)左移一位的值(原因不知道)
+    // 文档号(差值)左移一位的值
     int lastDocCodes[];                                // Code for prior doc
     // 记录term在文档中最后出现的位置
     // 在存放同一篇文档的相同term时候计算两个term之间的位置差值，并且记录这个差值

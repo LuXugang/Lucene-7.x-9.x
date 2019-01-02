@@ -266,11 +266,14 @@ public final class ByteBlockPool {
 
     // Copy forward the past 3 bytes (which we are about
     // to overwrite with the forwarding address):
+    // 下面原先存放数据的三个数组值重新复制到新的数组位置中
+    // 因为旧的数组位置的值会被用来作为跳转值(4个字节拼接成一个值)
     buffer[newUpto] = slice[upto-3];
     buffer[newUpto+1] = slice[upto-2];
     buffer[newUpto+2] = slice[upto-1];
 
     // Write forwarding address at end of last slice:
+    // 4个字节拼接起来作为下一个数据在数组中的下标值
     slice[upto-3] = (byte) (offset >>> 24);
     slice[upto-2] = (byte) (offset >>> 16);
     slice[upto-1] = (byte) (offset >>> 8);

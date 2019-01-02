@@ -279,7 +279,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
           dimensions.put(fieldName, new FieldDimensions(dimensionCount, dimensionNumBytes));
         }
       }
-      // key为域名，value是Integer
+      // key为域名，value是Integer(Field Number)
       Integer fieldNumber = nameToNumber.get(fieldName);
       if (fieldNumber == null) {
         // 域名第一次出现的话， preferredFieldNumber的值为-1

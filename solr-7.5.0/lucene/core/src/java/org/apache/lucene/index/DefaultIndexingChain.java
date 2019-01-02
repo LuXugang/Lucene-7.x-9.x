@@ -653,6 +653,7 @@ final class DefaultIndexingChain extends DocConsumer {
     if (fp == null) {
       // First time we are seeing this field in this segment
 
+      // 当前待处理的域名在当前segment中第一次出现
       FieldInfo fi = fieldInfos.getOrAdd(name);
       // Messy: must set this here because e.g. FreqProxTermsWriterPerField looks at the initial
       // IndexOptions to decide what arrays it must create).  Then, we also must set it in
