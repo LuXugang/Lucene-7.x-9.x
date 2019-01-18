@@ -75,6 +75,7 @@ public class TermGroupSelector extends GroupSelector<BytesRef> {
       groupId = ordsToGroupIds.get(ord);
       return State.ACCEPT;
     }
+    // 在secondPassGroup中这个值会被设置为true
     if (secondPass)
       return State.SKIP;
     groupId = values.add(docValues.binaryValue());

@@ -229,6 +229,7 @@ public class GroupingSearch {
    * @param groupSort The sort for the groups.
    * @return <code>this</code>
    */
+  // groupSort可以有多个排序规则，默认是RELEVANCE也就是根据文档打分排序
   public GroupingSearch setGroupSort(Sort groupSort) {
     this.groupSort = groupSort;
     return this;

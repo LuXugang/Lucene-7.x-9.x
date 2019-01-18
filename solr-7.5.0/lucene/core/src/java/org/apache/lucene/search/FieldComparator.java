@@ -410,7 +410,9 @@ public abstract class FieldComparator<T> {
    *  IndexSearcher#search} uses when no {@link Sort} is
    *  specified). */
   public static final class RelevanceComparator extends FieldComparator<Float> implements LeafFieldComparator {
+    // 数组值是分数, 用于比较
     private final float[] scores;
+    // 最小/最大（基于规则）的值，这个是scores数组中的某个位置的元素
     private float bottom;
     private Scorer scorer;
     private float topValue;
@@ -458,6 +460,7 @@ public abstract class FieldComparator<T> {
       // wrap with a ScoreCachingWrappingScorer so that successive calls to
       // score() will not incur score computation over and
       // over again.
+      // 出于效率考虑，封装当前的Scorer对象，使其可以复用
       if (!(scorer instanceof ScoreCachingWrappingScorer)) {
         this.scorer = new ScoreCachingWrappingScorer(scorer);
       } else {

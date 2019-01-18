@@ -2,12 +2,14 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -35,12 +37,12 @@ public class SearchWithSHOULD {
         writer = new IndexWriter(directory, conf);
 
         String[] docs = {
-                "b d a b b b",
-                "b b b b b ba",
+                "b d a b b",
+                "b b b a",
                 "b",
                 "a",
-                "b b",                // 3
-                "c b b",
+//                "b b",                // 3
+//                "c b b",
 //                "c e a b",
 //                "d",
 //                "c d e c",

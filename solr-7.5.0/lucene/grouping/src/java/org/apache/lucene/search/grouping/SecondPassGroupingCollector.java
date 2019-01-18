@@ -82,11 +82,14 @@ public class SecondPassGroupingCollector<T> extends SimpleCollector {
 
   @Override
   public void collect(int doc) throws IOException {
+    // 统计满足搜索要求的文档个数
     totalHitCount++;
     if (groupSelector.advanceTo(doc) == GroupSelector.State.SKIP)
       return;
+    // 统计满足所属分组值是FirstPassGroupingCollector中收集到的分组值的文档数
     totalGroupedHitCount++;
     T value = groupSelector.currentValue();
+    // 对属于同一个分组值的文档进行收集工作
     groupReducer.collect(value, doc);
   }
 
