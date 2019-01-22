@@ -79,6 +79,7 @@ public class AllGroupsCollector<T> extends SimpleCollector {
   @Override
   public void collect(int doc) throws IOException {
     groupSelector.advanceTo(doc);
+    // 记录属于同一个组域(group field)的group value(去重), 如果满足query，但是不是组内成员(该文档没有group field对应的SortedDocValues对象), 视为null
     if (groups.contains(groupSelector.currentValue()))
       return;
     groups.add(groupSelector.copyValue());

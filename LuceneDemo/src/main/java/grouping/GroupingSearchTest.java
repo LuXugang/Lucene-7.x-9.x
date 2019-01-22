@@ -108,8 +108,10 @@ public class GroupingSearchTest {
 
         Sort groupSort = Sort.RELEVANCE;
         GroupingSearch groupingSearch = createRandomGroupingSearch(groupField, groupSort, 5, canUseIDV);
+        groupingSearch.setAllGroupHeads(true);
+        groupingSearch.setAllGroups(true);
 
-        TopGroups<?> groups = groupingSearch.search(searcher, new TermQuery(new Term("content", "random")), 0, 10);
+        TopGroups<?> groups = groupingSearch.search(searcher, new TermQuery(new Term("content", "random")), 0, 2);
 
         System.out.println(groups.totalHitCount);
         reader.close();

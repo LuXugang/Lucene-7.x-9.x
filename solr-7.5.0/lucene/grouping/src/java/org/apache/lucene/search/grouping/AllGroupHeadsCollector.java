@@ -130,9 +130,10 @@ public abstract class AllGroupHeadsCollector<T> extends SimpleCollector {
     if (heads.containsKey(groupValue) == false) {
       groupValue = groupSelector.copyValue();
       heads.put(groupValue, newGroupHead(doc, groupValue, context, scorer));
+      // 第一次出现的group value 记录即可
       return;
     }
-
+    // 相同的group value已经出现过，那么跟之前的group value进行比较，胜出者留下
     GroupHead<T> groupHead = heads.get(groupValue);
     // Ok now we need to check if the current doc is more relevant than top doc for this group
     for (int compIDX = 0; ; compIDX++) {
@@ -150,6 +151,7 @@ public abstract class AllGroupHeadsCollector<T> extends SimpleCollector {
         return;
       }
     }
+    // 在规则比较结束后，只更新了文档号
     groupHead.updateDocHead(doc);
   }
 
