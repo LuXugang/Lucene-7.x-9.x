@@ -225,6 +225,7 @@ public class TermQuery extends Query {
       }
     } else {
       // PRTS was pre-build for this IS
+      // 例子：在TermsQuery中 termState的值就是预先获得的
       termState = this.perReaderTermState;
     }
 

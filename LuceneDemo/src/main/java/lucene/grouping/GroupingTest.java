@@ -1,4 +1,4 @@
-package grouping;
+package lucene.grouping;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
@@ -35,69 +35,70 @@ public class GroupingTest {
 
     private Analyzer analyzer = new WhitespaceAnalyzer();
     private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-    private IndexWriter writer;
+    private IndexWriter indexWriter;
 
     private void doSearch() throws Exception{
-        String groupField = "author";
         FieldType customType = new FieldType();
         customType.setStored(true);
-        writer = new IndexWriter(directory, conf);
+        indexWriter = new IndexWriter(directory, conf);
 
+        String groupField = "author";
+        // 0
         Document doc = new Document();
-        // sortedDocValues
-        addGroupField(doc, groupField, "author1");
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author1")));
         doc.add(new TextField("content", "random text", Field.Store.YES));
         doc.add(new Field("id", "1", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
         // 1
         doc = new Document();
-        addGroupField(doc, groupField, "author1");
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author1")));
         doc.add(new TextField("content", "some more random text", Field.Store.YES));
         doc.add(new Field("id", "2", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
         // 2
         doc = new Document();
-        addGroupField(doc, groupField, "author1");
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author1")));
         doc.add(new TextField("content", "some more random textual data", Field.Store.YES));
         doc.add(new Field("id", "3", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
         // 3
         doc = new Document();
-        addGroupField(doc, groupField, "author2");
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author2")));
         doc.add(new TextField("content", "some random text", Field.Store.YES));
         doc.add(new Field("id", "4", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
         // 4
         doc = new Document();
-        addGroupField(doc, groupField, "author3");
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author3")));
         doc.add(new TextField("content", "some more random text", Field.Store.YES));
         doc.add(new Field("id", "5", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
         // 5
         doc = new Document();
-        addGroupField(doc, groupField, "author3");
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author3")));
         doc.add(new TextField("content", "random", Field.Store.YES));
         doc.add(new Field("id", "6", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
         // 6 -- no author field
         doc = new Document();
         doc.add(new TextField("content", "random word stuck in alot of other text", Field.Store.YES));
         doc.add(new Field("id", "6", customType));
-        writer.addDocument(doc);
+        indexWriter.addDocument(doc);
 
-        IndexReader reader = DirectoryReader.open(writer);
+        IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
         // 根据打分进行排序
         final Sort groupSort = Sort.RELEVANCE;
 
-        final FirstPassGroupingCollector<?> c1 = createRandomFirstPassCollector(groupField, groupSort, 2);
+        final FirstPassGroupingCollector<?> c1 = new FirstPassGroupingCollector<>(new TermGroupSelector(groupField), groupSort, 2);
+
         searcher.search(new TermQuery(new Term("content", "random")), c1);
 
         final TopGroupsCollector<?> c2 = createSecondPassCollector(c1, groupSort, Sort.RELEVANCE, 0, 5, true, true, true);

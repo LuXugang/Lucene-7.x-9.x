@@ -114,7 +114,10 @@ final class MultiTermQueryConstantScoreWrapper<Q extends MultiTermQuery> extends
       /** Try to collect terms from the given terms enum and return true iff all
        *  terms could be collected. If {@code false} is returned, the enum is
        *  left positioned on the next term. */
+      // 收集每一个域值的信息
       private boolean collectTerms(LeafReaderContext context, TermsEnum termsEnum, List<TermAndState> terms) throws IOException {
+        // 这里的域值表示BooleanQuery的Clause个数最多只能是BOOLEAN_REWRITE_TERM_COUNT_THRESHOLD
+        // BooleanQuery.getMaxClauseCount()默认最大值是1024
         final int threshold = Math.min(BOOLEAN_REWRITE_TERM_COUNT_THRESHOLD, BooleanQuery.getMaxClauseCount());
         for (int i = 0; i < threshold; ++i) {
           final BytesRef term = termsEnum.next();
@@ -124,6 +127,7 @@ final class MultiTermQueryConstantScoreWrapper<Q extends MultiTermQuery> extends
           TermState state = termsEnum.termState();
           terms.add(new TermAndState(BytesRef.deepCopyOf(term), state, termsEnum.docFreq(), termsEnum.totalTermFreq()));
         }
+        // 说明当前term的总个数超过阈值，那么返回false
         return termsEnum.next() == null;
       }
 
@@ -132,6 +136,7 @@ final class MultiTermQueryConstantScoreWrapper<Q extends MultiTermQuery> extends
        * there are few terms, or build a bitset containing matching docs.
        */
       private WeightOrDocIdSet rewrite(LeafReaderContext context) throws IOException {
+        // 获得一个域名的所有域值信息
         final Terms terms = context.reader().terms(query.field);
         if (terms == null) {
           // field does not exist
@@ -149,15 +154,21 @@ final class MultiTermQueryConstantScoreWrapper<Q extends MultiTermQuery> extends
           BooleanQuery.Builder bq = new BooleanQuery.Builder();
           for (TermAndState t : collectedTerms) {
             final TermContext termContext = new TermContext(searcher.getTopReaderContext());
+            // 获得每一个term的数据
             termContext.register(t.state, context.ord, t.docFreq, t.totalTermFreq);
+            // 注意这里的Occur的值是SHOULD
             bq.add(new TermQuery(new Term(query.field, t.term), termContext), Occur.SHOULD);
           }
+          // 封装为ConstantScoreQuery对象说明，满足要求的文档的打分都会被值为一样的值（1）
           Query q = new ConstantScoreQuery(bq.build());
+          // 这里再次执行的了重写query，创建weight对象的操作
+          // 实际执行了 BooleanQuery的rewrite()跟createWeight()方法
           final Weight weight = searcher.rewrite(q).createWeight(searcher, needsScores, score());
           return new WeightOrDocIdSet(weight);
         }
 
         // Too many terms: go back to the terms we already collected and start building the bit set
+        // query.field这个域名包含的域值个数超过阈值
         DocIdSetBuilder builder = new DocIdSetBuilder(context.reader().maxDoc(), terms);
         if (collectedTerms.isEmpty() == false) {
           TermsEnum termsEnum2 = terms.iterator();

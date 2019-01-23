@@ -77,6 +77,8 @@ public final class JoinUtil {
    * When scoreMode is set to {@link ScoreMode#Avg} also an additional integer value is kept in memory per unique
    * join value.
    *
+   * 根据fromQuery进行搜索, 找出搜索结果中所有文档的域名fromField的域值fieldValue(一个或多个)
+   * 然后域值fieldValue跟域名toField组成新的Query进行查询，返回的结果即join后的结果
    * @param fromField                 The from field to join from
    * @param multipleValuesPerDocument Whether the from field has multiple terms per document
    * @param toField                   The to field to join to
@@ -87,6 +89,8 @@ public final class JoinUtil {
    *         terms in the from and to field
    * @throws IOException If I/O related errors occur
    */
+  // 根据fromQuery进行搜索, 找出搜索结果中所有文档的域名fromField的域值fieldValue(一个或多个)
+  // 然后域值fieldValue跟域名toField组成新的Query进行查询，返回的结果即join后的结果
   public static Query createJoinQuery(String fromField,
       boolean multipleValuesPerDocument,
       String toField,

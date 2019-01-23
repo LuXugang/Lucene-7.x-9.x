@@ -1,4 +1,4 @@
-package grouping;
+package lucene.grouping;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
