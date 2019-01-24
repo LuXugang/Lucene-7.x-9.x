@@ -565,13 +565,15 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     SortedSetDocValues values = valuesProducer.getSortedSet(field);
     int numDocsWithField = 0;
     long numOrds = 0;
+    // doc为文档号
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
       numDocsWithField++;
       for (long ord = values.nextOrd(); ord != SortedSetDocValues.NO_MORE_ORDS; ord = values.nextOrd()) {
+        // 统计当前文档号的termID的个数
         numOrds++;
       }
     }
-
+    // 判断文档个数是否跟所有文档包含的termID总数 一样多
     if (numDocsWithField == numOrds) {
       meta.writeByte((byte) 0);
       doAddSortedField(field, new EmptyDocValuesProducer() {

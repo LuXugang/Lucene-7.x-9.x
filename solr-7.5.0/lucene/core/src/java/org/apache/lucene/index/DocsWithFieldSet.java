@@ -30,6 +30,7 @@ final class DocsWithFieldSet extends DocIdSet {
 
   private FixedBitSet set;
   private int cost = 0;
+  // 记录上一次文档号
   private int lastDocId = -1;
 
   void add(int docID) {

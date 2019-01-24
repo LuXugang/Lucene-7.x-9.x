@@ -44,7 +44,7 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
     // 对象中的一个Long数组，数组中的元素分布是块状相连，块间按照文档号排序，块内按照termID的大小排序
     // 如果有文档1，它的termID有0，1，2；文档2，它的termID是 3，2，那么两篇文档在Long数组中的排列是, [0,1,2,2,3],其中下标0到2是文档1的termID，其他是文档2的termID
     private PackedLongValues.Builder pending; // stream of all termIDs
-    // 对象中的一个Long数组，下标是文档号，数组元素是这个文档号的一个域名的域值个数
+    // 对象中的一个Long数组，下标是文档号，数组元素是这个文档号的一个域名的域值个数(去重的个数)
     private PackedLongValues.Builder pendingCounts; // termIDs per doc
     // 统计一个域在多少个document中出现，在不同的document中的域值可能不同
     private DocsWithFieldSet docsWithField;
@@ -55,7 +55,7 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
     // 而SortedDocValuesField则不同，当currentDoc的值跟当前的文档号不同，那么会执行finishCurrentDoc()的操作
     private int currentDoc = -1;
     // 存放一篇文档号某个域的所有域值对应的termID(去重的),并且是有序的
-    // 这个数组书复用的，处理另一篇文档时候，通过覆盖来复用这个数组
+    // 这个数组是复用的，处理另一篇文档时候，通过覆盖来复用这个数组
     // 数组中 0~currentUpto范围的元素个数代表了一篇文档中不同域值的个数
     private int currentValues[] = new int[8];
     // 用来一篇文档中包含这个域对应不同域值的个数
@@ -91,10 +91,10 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
     if (value.length > (BYTE_BLOCK_SIZE - 2)) {
       throw new IllegalArgumentException("DocValuesField \"" + fieldInfo.name + "\" is too large, must be <= " + (BYTE_BLOCK_SIZE - 2));
     }
-
         // 当前处理的文档号跟currentDoc值不同，说明上一个document中所有的SortedSetDocValues对象都处理结束了
         if (docID != currentDoc) {
             finishCurrentDoc();
+            // 更新currentDoc的值
             currentDoc = docID;
         }
 
@@ -107,6 +107,7 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
         if (currentDoc == -1) {
             return;
         }
+        // 数组元素排序
         Arrays.sort(currentValues, 0, currentUpto);
         int lastValue = -1;
         int count = 0;
@@ -124,7 +125,7 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
         // 统计这篇文档中同一个域的不同域值的个数(去重)
         pendingCounts.add(count);
         maxCount = Math.max(maxCount, count);
-        // 这个值置为0，因为currentValue需要其他文档被复用
+        // 这个值置为0，因为currentValue[]数组是复用的
         currentUpto = 0;
         // 记录这个域在多少个document中出现
         docsWithField.add(currentDoc);
@@ -217,10 +218,10 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
         if (finalOrdCounts == null) {
             ords = pending.build();
             ordCounts = pendingCounts.build();
-            // 这个方法是对ids[]数组进行排序，因为下标是hash指，所以termID会分散在数组的不同位置
+            // 这个方法是对ids[]数组进行排序，因为下标是hash值，所以termID会分散在数组的不同位置
             // 调用这个方法后，所有termID的值都处在数组最前面, 并且按照termID对应的域值排序(重要)
             sortedValues = hash.sort();
-            //trick: 调用结束后，ordMap数组的下标是termID，数组元素之间是不同的值，用来描述termID在sortedValues数组中的下标值
+            //trick: 调用结束后，ordMap数组的下标是termID，数组元素用来表示这个termID在sortedValues数组中的下标值
             ordMap = new int[valueCount];
             for(int ord=0;ord<valueCount;ord++) {
                 ordMap[sortedValues[ord]] = ord;
@@ -268,6 +269,7 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
     final int currentDoc[];
     
     private int ordCount;
+    // 用来描述正在使用currentDoc[]数组的位置
     private int ordUpto;
 
     public BufferedSortedSetDocValues(int[] sortedValues, int[] ordMap, BytesRefHash hash, PackedLongValues ords, PackedLongValues ordCounts, int maxCount, DocIdSetIterator docsWithField) {
@@ -287,14 +289,18 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
 
     @Override
     public int nextDoc() throws IOException {
+        // 获取文档号
       int docID = docsWithField.nextDoc();
       if (docID != NO_MORE_DOCS) {
+          // 获取当前文档中包含的域值个数(去重)
         ordCount = (int) ordCountsIter.next();
         assert ordCount > 0;
+        // ordsIter.next()方法用来一个一个的取出当前文档的所有termID(termID是从小到大排序的)
+        // ordMap[]根据下标(termID)取出一个数组元素，这个数组元素用来作为sortedValues[]数组的下标值
         for (int i = 0; i < ordCount; i++) {
           currentDoc[i] = ordMap[Math.toIntExact(ordsIter.next())];
         }
-        Arrays.sort(currentDoc, 0, ordCount);          
+        Arrays.sort(currentDoc, 0, ordCount);
         ordUpto = 0;
       }
       return docID;
@@ -305,6 +311,7 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
       if (ordUpto == ordCount) {
         return NO_MORE_ORDS;
       } else {
+         // 返回 sortedValues[]数组的一个下标值
         return currentDoc[ordUpto++];
       }
     }

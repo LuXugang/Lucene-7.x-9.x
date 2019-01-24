@@ -55,6 +55,11 @@
             <artifactId>lucene-join</artifactId>
             <version>7.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-facet</artifactId>
+            <version>7.5.0</version>
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queries -->

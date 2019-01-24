@@ -148,6 +148,7 @@ public class PackedLongValues extends LongValues implements Accountable {
     /** Return the next long in the buffer. */
     public final long next() {
       assert hasNext();
+      // currentValues[]数组，下标值doc值，数组元素是这个document包含的term个数(去重)
       long result = currentValues[pOff++];
       if (pOff == currentCount) {
         vOff += 1;
@@ -173,6 +174,7 @@ public class PackedLongValues extends LongValues implements Accountable {
     PackedInts.Reader[] values;
     long ramBytesUsed;
     int valuesOff;
+    // 用来记录 pending数组下一个可以使用的位置, 递增的值
     int pendingOff;
 
     Builder(int pageSize, float acceptableOverheadRatio) {
