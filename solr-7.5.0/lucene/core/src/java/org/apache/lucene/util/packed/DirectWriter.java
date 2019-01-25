@@ -70,9 +70,11 @@ public final class DirectWriter {
   public void add(long l) throws IOException {
     assert bitsPerValue == 64 || (l >= 0 && l <= PackedInts.maxValue(bitsPerValue)) : bitsPerValue;
     assert !finished;
+    // numVlues的值就是每个文档包含的termID的个数总和
     if (count >= numValues) {
       throw new EOFException("Writing past end of stream");
     }
+    // nextValues[]数组存放的数据会在下一次flush()被使用
     nextValues[off++] = l;
     if (off == nextValues.length) {
       flush();
@@ -119,6 +121,8 @@ public final class DirectWriter {
    *         and supported by this writer
    */
   private static int roundBits(int bitsRequired) {
+    // 使用JDK提供的二分法去SUPPORTED_BITS_PER_VALUE数组中找到bitsRequired值
+    // DirectWriter对象每次写入的bit位只能从SUPPORTED_BITS_PER_VALUE中取,并不是随意的写入任意的bit位
     int index = Arrays.binarySearch(SUPPORTED_BITS_PER_VALUE, bitsRequired);
     if (index < 0) {
       return SUPPORTED_BITS_PER_VALUE[-index-1];
@@ -136,6 +140,7 @@ public final class DirectWriter {
    * @see PackedInts#bitsRequired(long)
    */
   public static int bitsRequired(long maxValue) {
+    // PackedInts.bitsRequired(maxValue)方法用来获得 存储maxValue需要多少个bit位
     return roundBits(PackedInts.bitsRequired(maxValue));
   }
 

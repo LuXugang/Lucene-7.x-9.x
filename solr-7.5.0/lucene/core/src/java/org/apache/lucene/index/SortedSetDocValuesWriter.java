@@ -339,6 +339,8 @@ class SortedSetDocValuesWriter extends DocValuesWriter {
     @Override
     public BytesRef lookupOrd(long ord) {
       assert ord >= 0 && ord < ordMap.length: "ord=" + ord + " is out of bounds 0 .. " + (ordMap.length-1);
+      // sortedValues[]数组中的元素是termID, 同时它也是一个hash值，下标没有意义
+      // 根据hash值找到对应的term的值(ByteRef对象)
       hash.get(sortedValues[Math.toIntExact(ord)], scratch);
       return scratch;
     }

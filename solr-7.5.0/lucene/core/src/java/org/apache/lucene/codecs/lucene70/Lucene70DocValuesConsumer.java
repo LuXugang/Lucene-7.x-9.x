@@ -438,7 +438,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
   }
 
   private void addTermsDict(SortedSetDocValues values) throws IOException {
+    // 获取term的个数(去重)
     final long size = values.getValueCount();
+    // 可变长度的存储
     meta.writeVLong(size);
     meta.writeInt(Lucene70DocValuesFormat.TERMS_DICT_BLOCK_SHIFT);
 
@@ -449,39 +451,55 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
 
     BytesRefBuilder previous = new BytesRefBuilder();
     long ord = 0;
+    // 获取data中的buf[]数组可以使用的一个位置
     long start = data.getFilePointer();
     int maxLength = 0;
     TermsEnum iterator = values.termsEnum();
+    // 每次获得term的时间复杂度是O(1)
     for (BytesRef term = iterator.next(); term != null; term = iterator.next()) {
       if ((ord & Lucene70DocValuesFormat.TERMS_DICT_BLOCK_MASK) == 0) {
+        // 记录每一个term相对于start位置占用的byte个数, 查询的时候会用到这个值用来定位一个term在data中的起始位置
         writer.add(data.getFilePointer() - start);
         data.writeVInt(term.length);
         data.writeBytes(term.bytes, term.offset, term.length);
       } else {
+        // 判断两个term(ByteRef对象)相同前缀的个数
         final int prefixLength = StringHelper.bytesDifference(previous.get(), term);
+        // 获取跟前一个term不一样的部分的长度
         final int suffixLength = term.length - prefixLength;
         assert suffixLength > 0; // terms are unique
 
+        // 将前缀跟后缀的个数写入到data中，前缀的个数只能最多15，(所以为什么有Math.min(15, suffixLength - 1) << 4的操作), 不然就会跟后缀的数据混一起了
         data.writeByte((byte) (Math.min(prefixLength, 15) | (Math.min(15, suffixLength - 1) << 4)));
+        // 将前缀超过15个byte的部分再次写入到data中, 注意这里的细节, 判断条件是prefixLength >= 15
         if (prefixLength >= 15) {
           data.writeVInt(prefixLength - 15);
         }
+        // 将后缀超过16个byte的部分再次写入到data中
         if (suffixLength >= 16) {
           data.writeVInt(suffixLength - 16);
         }
+        // 只将term的后缀部分写入到data中(term的前缀没有存储)
         data.writeBytes(term.bytes, term.offset + prefixLength, term.length - prefixLength);
       }
       maxLength = Math.max(maxLength, term.length);
       previous.copyBytes(term);
       ++ord;
     }
+    // writer记录的东西没有明白用来干嘛，斜率 最小值。。。啥意思啊, 不知道干嘛用
     writer.finish();
+    // 记录所有term长度最大的值
     meta.writeInt(maxLength);
+    // 记录data的buf[]数组的起始位置, 用来映射上面记录的数据
     meta.writeLong(start);
+    // 记录data的buf[]数组的结束位置, 用来映射上面记录的数据
     meta.writeLong(data.getFilePointer() - start);
+
     start = data.getFilePointer();
     addressBuffer.writeTo(data);
+    // 不写你也应该猜出这个是干嘛的, addressBuffer.writeTo(data)的操作又在data中新增了数据呗
     meta.writeLong(start);
+    // 不写你也应该猜出这个是干嘛的
     meta.writeLong(data.getFilePointer() - start);
 
     // Now write the reverse terms index
@@ -489,6 +507,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
   }
 
   private void writeTermsIndex(SortedSetDocValues values) throws IOException {
+    // 获取term的个数(去重)
     final long size = values.getValueCount();
     meta.writeInt(Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_SHIFT);
     long start = data.getFilePointer();
@@ -559,6 +578,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
 
   @Override
   public void addSortedSetField(FieldInfo field, DocValuesProducer valuesProducer) throws IOException {
+    // meta中buf[]中 0~60的byte位记录了描述dvm文件的一些信息，包括路径，版本，文件名等数据。。。
     meta.writeInt(field.number);
     meta.writeByte(Lucene70DocValuesFormat.SORTED_SET);
 
@@ -569,7 +589,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
       numDocsWithField++;
       for (long ord = values.nextOrd(); ord != SortedSetDocValues.NO_MORE_ORDS; ord = values.nextOrd()) {
-        // 统计当前文档号的termID的个数
+        // 统计当前文档号的termID的个数(去重)
         numOrds++;
       }
     }
@@ -588,6 +608,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
 
     assert numDocsWithField != 0;
     if (numDocsWithField == maxDoc) {
+      // 写8个字节
       meta.writeLong(-1);
       meta.writeLong(0L);
     } else {
@@ -598,23 +619,37 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       meta.writeLong(data.getFilePointer() - offset);
     }
 
+    //values.getValueCount()取出是ordMap[]数组中元素的个数
+    // numberOfBitsPerOrd用来记录存储ordMap[]的元素的个数需要的bit位
     int numberOfBitsPerOrd = DirectWriter.unsignedBitsRequired(values.getValueCount() - 1);
     meta.writeByte((byte) numberOfBitsPerOrd);
+    // 获取dvd文件中当前可以写入数据的位置
     long start = data.getFilePointer();
+    // 在meta中记录这个位置. 作为映射使用
     meta.writeLong(start);
+    // numOrds是每个文档包含的term的个数总和
     DirectWriter writer = DirectWriter.getInstance(data, numOrds, numberOfBitsPerOrd);
+    // 这里重新获得一次SortedSetDocValuesWriter类中的BufferedSortedSetDocValues对象,因为没有reset()方法来重置一些状态的吗? 哈哈
     values = valuesProducer.getSortedSet(field);
+    // 遍历所有的document
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
+      // 遍历某一个document的所有termID
       for (long ord = values.nextOrd(); ord != SortedSetDocValues.NO_MORE_ORDS; ord = values.nextOrd()) {
+        // 依次写入每篇文档的包含的termID
         writer.add(ord);
       }
     }
+    // 将数据(encode后的数据)写入到data对象中
     writer.finish();
+    // 将 记录所有文档ord值所需要byte位个数(data对象的buf中)记录到meta中
     meta.writeLong(data.getFilePointer() - start);
 
+    // 记录文档个数
     meta.writeInt(numDocsWithField);
     start = data.getFilePointer();
+    //在meta中记录data的一个位置, 一个开始的位置 作为映射使用
     meta.writeLong(start);
+    // 使用VInt类型来记录int类型，使得最少能用一个byte记录一个int值
     meta.writeVInt(DIRECT_MONOTONIC_BLOCK_SHIFT);
 
     final DirectMonotonicWriter addressesWriter = DirectMonotonicWriter.getInstance(meta, data, numDocsWithField + 1, DIRECT_MONOTONIC_BLOCK_SHIFT);
@@ -629,7 +664,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       }
       addressesWriter.add(addr);
     }
+    // addressWriter记录的东西没有明白用来干嘛，斜率 最小值。。。啥意思啊
     addressesWriter.finish();
+    // 记录 data中的一个位置，一个结束位置，也是用来映射
     meta.writeLong(data.getFilePointer() - start);
 
     addTermsDict(values);

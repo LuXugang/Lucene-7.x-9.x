@@ -68,6 +68,7 @@ public final class DirectMonotonicWriter {
     }
 
     long min = buffer[0];
+    // 取出buffer[]数组中的最小值
     for (int i = 1; i < bufferSize; ++i) {
       min = Math.min(buffer[i], min);
     }
@@ -82,6 +83,7 @@ public final class DirectMonotonicWriter {
     }
 
     meta.writeLong(min);
+    // 记录浮点数到meta中，用floatToIntBits进行转化
     meta.writeInt(Float.floatToIntBits(avgInc));
     meta.writeLong(data.getFilePointer() - baseDataPointer);
     if (maxDelta == 0) {
