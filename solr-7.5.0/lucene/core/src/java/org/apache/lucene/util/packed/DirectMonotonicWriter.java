@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.apache.lucene.store.IndexOutput;
 
+// 单调递增的整数序列
 /**
  * Write monotonically-increasing sequences of integers. This writer splits
  * data into blocks and then for each block, computes the average slope, the
@@ -61,6 +62,7 @@ public final class DirectMonotonicWriter {
   private void flush() throws IOException {
     assert bufferSize != 0;
 
+    // 平均值
     final float avgInc = (float) ((double) (buffer[bufferSize-1] - buffer[0]) / Math.max(1, bufferSize - 1));
     for (int i = 0; i < bufferSize; ++i) {
       final long expected = (long) (avgInc * (long) i);

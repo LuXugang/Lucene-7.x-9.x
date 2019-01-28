@@ -62,14 +62,27 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
   final int maxDoc;
 
   /** expert: Creates a new writer */
+  // 除了第一个参数，其他参数都是固定值
   public Lucene70DocValuesConsumer(SegmentWriteState state, String dataCodec, String dataExtension, String metaCodec, String metaExtension) throws IOException {
     boolean success = false;
     try {
+      // 设置data的名字，data即存放DocValue的对象, dvd是DocValue Data的简写
+      // 例子：dataName的名字可能是 _0_Lucene70_0.dvd, 这个名字由三部分组成"_0", "Lucene70_0", "dvd"
       String dataName = IndexFileNames.segmentFileName(state.segmentInfo.name, state.segmentSuffix, dataExtension);
       data = state.directory.createOutput(dataName, state.context);
+      // 写入dvd文件索引头的数据 包括的数据：
+      // 1. 描述索引首位置的一个固定值：0x3fd76c17
+      // 2. 描述索引内容的String值: "Lucene70DocValuesData"
+      // 3. 版本号: 固定值, 参考Lucene70DocValuesFormat.VERSION_CURRENT的值
+      // 4. 唯一标识索引文件的值
+      // 5. 索引文件的后缀名字长度：用来描述在读取索引文件时候该读取多少个字节(数据是连续存储的)
+      // 6. 索引文件的后缀名字 String类型: Lucene70_0
       CodecUtil.writeIndexHeader(data, dataCodec, Lucene70DocValuesFormat.VERSION_CURRENT, state.segmentInfo.getId(), state.segmentSuffix);
+      // 设置mete的名字，mete即存放的数据用来映射data中的数据, dvm 是DocValue meta的简写
+      // 例子：metaName的名字可能是 _0_Lucene70_0.dvm, 这个名字由三部分组成"_0", "Lucene70_0", "dvd"
       String metaName = IndexFileNames.segmentFileName(state.segmentInfo.name, state.segmentSuffix, metaExtension);
       meta = state.directory.createOutput(metaName, state.context);
+      // 写入dvm文件索引头的数据 包括的数据跟dvd类似, 不重复：
       CodecUtil.writeIndexHeader(meta, metaCodec, Lucene70DocValuesFormat.VERSION_CURRENT, state.segmentInfo.getId(), state.segmentSuffix);
       maxDoc = state.segmentInfo.maxDoc();
       success = true;
@@ -189,6 +202,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     }
 
     minMax.finish();
+    // 不写你也应该猜出这个是干嘛的
     blockMinMax.finish();
 
     final long numValues = minMax.numValues;
@@ -520,6 +534,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     BytesRefBuilder previous = new BytesRefBuilder();
     long offset = 0;
     long ord = 0;
+    // 遍历每一个term值
     for (BytesRef term = iterator.next(); term != null; term = iterator.next()) {
       if ((ord & Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_MASK) == 0) {
         writer.add(offset);
@@ -578,10 +593,10 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
 
   @Override
   public void addSortedSetField(FieldInfo field, DocValuesProducer valuesProducer) throws IOException {
-    // meta中buf[]中 0~60的byte位记录了描述dvm文件的一些信息，包括路径，版本，文件名等数据。。。
     meta.writeInt(field.number);
     meta.writeByte(Lucene70DocValuesFormat.SORTED_SET);
 
+    // SortedSetDocValuesWriter中的BufferedSortedSetDocValues内部类对象
     SortedSetDocValues values = valuesProducer.getSortedSet(field);
     int numDocsWithField = 0;
     long numOrds = 0;

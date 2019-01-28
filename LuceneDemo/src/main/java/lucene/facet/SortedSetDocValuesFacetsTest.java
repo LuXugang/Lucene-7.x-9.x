@@ -75,6 +75,8 @@ public class SortedSetDocValuesFacetsTest {
         String result1 = facets.getTopChildren(10, "a").toString();
         String result2 = facets.getTopChildren(10, "b").toString();
         System.out.println("hah");
+        System.out.println(facets.getTopChildren(10, "a").toString());
+        System.out.println(facets.getTopChildren(10, "b").toString());
 //        assertEquals("dim=a path=[] value=4 childCount=3\n  foo (2)\n  bar (1)\n  zoo (1)\n", facets.getTopChildren(10, "a").toString());
 //        assertEquals("dim=b path=[] value=1 childCount=1\n  baz (1)\n", facets.getTopChildren(10, "b").toString());
 

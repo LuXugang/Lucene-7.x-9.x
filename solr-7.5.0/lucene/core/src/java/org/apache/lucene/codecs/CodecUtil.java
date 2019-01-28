@@ -87,8 +87,11 @@ public final class CodecUtil {
     if (bytes.length != codec.length() || bytes.length >= 128) {
       throw new IllegalArgumentException("codec must be simple ASCII, less than 128 characters in length [got " + codec + "]");
     }
+    // 先写入一个固定的值，用来描述索引的开始标志
     out.writeInt(CODEC_MAGIC);
+    // 当前索引的信息。比如如果是写Lucene7.5.0版本的dvd文件，那么这个值就是 "Lucene70DocValuesData"
     out.writeString(codec);
+    // 版本号
     out.writeInt(version);
   }
   

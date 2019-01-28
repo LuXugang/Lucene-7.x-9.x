@@ -165,13 +165,15 @@ public abstract class PerFieldDocValuesFormat extends DocValuesFormat {
         }
       }
       if (format == null) {
+        // 返回当前Lucene版本的一些固定信息, 详见Lucene70DocValuesFormat类
         format = getDocValuesFormatForField(field.name);
       }
       if (format == null) {
         throw new IllegalStateException("invalid null DocValuesFormat for field=\"" + field.name + "\"");
       }
       final String formatName = format.getName();
-      
+
+      // 建立PER_FIELD_FORMAT_KEY和formatName的映射关系，在读取segment时会用到
       String previousValue = field.putAttribute(PER_FIELD_FORMAT_KEY, formatName);
       if (field.getDocValuesGen() == -1 && previousValue != null) {
         throw new IllegalStateException("found existing value for " + PER_FIELD_FORMAT_KEY + 
@@ -204,7 +206,8 @@ public abstract class PerFieldDocValuesFormat extends DocValuesFormat {
           }
         }
         suffixes.put(formatName, suffix);
-        
+
+        // 获得后缀名
         final String segmentSuffix = getFullSegmentSuffix(segmentWriteState.segmentSuffix,
                                                           getSuffix(formatName, Integer.toString(suffix)));
         consumer = new ConsumerAndSuffix();
