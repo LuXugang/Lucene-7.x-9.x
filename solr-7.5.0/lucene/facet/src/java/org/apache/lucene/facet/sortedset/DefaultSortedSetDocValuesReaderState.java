@@ -68,6 +68,7 @@ public class DefaultSortedSetDocValuesReaderState extends SortedSetDocValuesRead
 
         // We need this to create thread-safe MultiSortedSetDV
         // per collector:
+        // 根据dvd，dvm索引文件获得SortedSetDocValues对象
         SortedSetDocValues dv = getDocValues();
         if (dv == null) {
             throw new IllegalArgumentException("field \"" + field + "\" was not indexed with SortedSetDocValues");
@@ -75,7 +76,7 @@ public class DefaultSortedSetDocValuesReaderState extends SortedSetDocValuesRead
         if (dv.getValueCount() > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("can only handle valueCount < Integer.MAX_VALUE; got " + dv.getValueCount());
         }
-        // 所有文档中域名为field(默认值是$facets)的所有SortedSetDocValues的个数(去重的 )
+        // 所有文档中域名为field(默认值是$facets)的所有term的个数(去重的 )
         valueCount = (int) dv.getValueCount();
 
         // TODO: we can make this more efficient if eg we can be
@@ -92,6 +93,7 @@ public class DefaultSortedSetDocValuesReaderState extends SortedSetDocValuesRead
         for(int ord=0;ord<valueCount;ord++) {
             // 有序(字典序)的取出SortedSetDocValues的域值
             // 注意的是取出的域值是 dim+label的组合，所以能保证属于同一个dim的域值能成块的取出
+            // lookupOrd(ord)取出term的效率很低
             final BytesRef term = dv.lookupOrd(ord);
             // 反序列化，取出存放dim跟label的String数组
             String[] components = FacetsConfig.stringToPath(term.utf8ToString());
@@ -101,7 +103,7 @@ public class DefaultSortedSetDocValuesReaderState extends SortedSetDocValuesRead
             }
             if (!components[0].equals(lastDim)) {
                 if (lastDim != null) {
-                    // 存放到Map中，key值为dim，Value是OrdRange对象, 这个对象记录了这个dim对应的所有label值在数组中的起始和结束为止
+                    // 存放到Map中，key值为dim，Value是OrdRange对象, 这个对象记录了这个dim对应的所有label值在数组中的起始ord和结束ord
                     prefixToOrdRange.put(lastDim, new OrdRange(startOrd, ord-1));
                 }
                 startOrd = ord;
@@ -110,6 +112,7 @@ public class DefaultSortedSetDocValuesReaderState extends SortedSetDocValuesRead
         }
 
         if (lastDim != null) {
+            // 处理最后一个dim
             prefixToOrdRange.put(lastDim, new OrdRange(startOrd, valueCount-1));
         }
     }

@@ -165,12 +165,13 @@ public abstract class PerFieldDocValuesFormat extends DocValuesFormat {
         }
       }
       if (format == null) {
-        // 返回当前Lucene版本的一些固定信息, 详见Lucene70DocValuesFormat类
+        // 返回当前Lucene版本的一些固定信息, 详见Lucene70DocValuesFormat类, format的值跟版本相关
         format = getDocValuesFormatForField(field.name);
       }
       if (format == null) {
         throw new IllegalStateException("invalid null DocValuesFormat for field=\"" + field.name + "\"");
       }
+      // 获得一个固定值(根据Lucene版本决定), 李不如 fromatName的值可以是：Lucene70
       final String formatName = format.getName();
 
       // 建立PER_FIELD_FORMAT_KEY和formatName的映射关系，在读取segment时会用到
@@ -200,17 +201,21 @@ public abstract class PerFieldDocValuesFormat extends DocValuesFormat {
           // bump the suffix
           suffix = suffixes.get(formatName);
           if (suffix == null) {
+            // suffix的值从0开始计数
             suffix = 0;
           } else {
+            // suffix的值递增方式是+1
             suffix = suffix + 1;
           }
         }
+        // 保存formatName跟suffix的映射关系, 主要是记录suffix的值
         suffixes.put(formatName, suffix);
 
         // 获得后缀名
         final String segmentSuffix = getFullSegmentSuffix(segmentWriteState.segmentSuffix,
                                                           getSuffix(formatName, Integer.toString(suffix)));
         consumer = new ConsumerAndSuffix();
+        // 在已经有数据的前提下(根据segmentWriterState)生成一个消费者
         consumer.consumer = format.fieldsConsumer(new SegmentWriteState(segmentWriteState, segmentSuffix));
         consumer.suffix = suffix;
         formats.put(format, consumer);
@@ -239,6 +244,7 @@ public abstract class PerFieldDocValuesFormat extends DocValuesFormat {
   }
   
   static String getSuffix(String formatName, String suffix) {
+    // 获取后缀名，例如 Lucene70_0
     return formatName + "_" + suffix;
   }
 

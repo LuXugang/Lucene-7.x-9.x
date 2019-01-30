@@ -38,13 +38,15 @@ import static org.apache.lucene.util.ByteBlockPool.BYTE_BLOCK_SIZE;
 // 此类是对同一种域名进行操作，这些域可能在不同的document中，域值也可能不同
 class SortedDocValuesWriter extends DocValuesWriter {
   final BytesRefHash hash;
-    // 这个对象中的pending数组记录了这个域的termID
+    // 这个对象中的pending数组记录了所有document包含的termID(非去重的)
+    // 例如 文档0包含的termID：0 ，文档1包含的termID：1, 文档2包含的termId：0，文档3包含的termId：1,那么pending对象中的pending数组为：[0,1,0,1]
     private PackedLongValues.Builder pending;
     // 统计一个域在多少个document中出现，在不同的document中的域值可能不同
   private DocsWithFieldSet docsWithField;
   private final Counter iwBytesUsed;
   private long bytesUsed; // this currently only tracks differences in 'pending'
   private final FieldInfo fieldInfo;
+  // 记录上一次处理的文档号
   private int lastDocID = -1;
 
   private PackedLongValues finalOrds;
@@ -66,6 +68,8 @@ class SortedDocValuesWriter extends DocValuesWriter {
   }
 
   public void addValue(int docID, BytesRef value) {
+    // 当前处理的文档号是否跟上一个处理的文档号是否一样，如果一样那么抛出异常
+    // 即一篇document中，每一个SortedSetDocValuesField域名只能有一个域值
     if (docID <= lastDocID) {
       throw new IllegalArgumentException("DocValuesField \"" + fieldInfo.name + "\" appears more than once in this document (only one value is allowed per field)");
     }
@@ -147,12 +151,12 @@ class SortedDocValuesWriter extends DocValuesWriter {
     final int[] sortedValues;
     final int[] ordMap;
     if (finalOrds == null) {
-            // 这个方法是对ids[]数组进行排序，因为下标是hash指，所以termID会分散在数组的不同位置
+            // 这个方法是对ids[]数组进行排序，因为下标是hash值，所以termID会分散在数组的不同位置
             // 调用这个方法后，所有termID的值都处在数组最前面, 并且按照termID对应的域值排序(重要)
       sortedValues = hash.sort();
       ords = pending.build();
       ordMap = new int[valueCount];
-            //trick: 调用结束后，ordMap数组的下标是termID，数组元素之间是不同的值，用来描述termID在sortedValues数组中的下标值
+            //trick: 调用结束后，ordMap数组的下标是termID，数组元素，用来描述termID在sortedValues数组中的下标值
             for (int ord = 0; ord < valueCount; ord++) {
         ordMap[sortedValues[ord]] = ord;
       }
@@ -212,9 +216,12 @@ class SortedDocValuesWriter extends DocValuesWriter {
 
     @Override
     public int nextDoc() throws IOException {
+        // 获得文档号
       int docID = docsWithField.nextDoc();
       if (docID != NO_MORE_DOCS) {
+        // 获得termId
         ord = Math.toIntExact(iter.next());
+        // 根据termID获得sortedValues数组的一个下标值
         ord = ordMap[ord];
       }
       return docID;

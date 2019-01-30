@@ -40,36 +40,38 @@ public class GroupingTest {
     private void doSearch() throws Exception{
         FieldType customType = new FieldType();
         customType.setStored(true);
+        conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
 
         String groupField = "author";
         // 0
         Document doc = new Document();
-        doc.add(new SortedDocValuesField(groupField, new BytesRef("author1")));
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author2")));
         doc.add(new TextField("content", "random text", Field.Store.YES));
         doc.add(new Field("id", "1", customType));
         indexWriter.addDocument(doc);
 
         // 1
         doc = new Document();
-        doc.add(new SortedDocValuesField(groupField, new BytesRef("author1")));
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author2")));
         doc.add(new TextField("content", "some more random text", Field.Store.YES));
         doc.add(new Field("id", "2", customType));
         indexWriter.addDocument(doc);
 
         // 2
         doc = new Document();
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author2")));
+        doc.add(new TextField("content", "some random text", Field.Store.YES));
+        doc.add(new Field("id", "4", customType));
+        indexWriter.addDocument(doc);
+
+        // 3
+        doc = new Document();
         doc.add(new SortedDocValuesField(groupField, new BytesRef("author1")));
         doc.add(new TextField("content", "some more random textual data", Field.Store.YES));
         doc.add(new Field("id", "3", customType));
         indexWriter.addDocument(doc);
 
-        // 3
-        doc = new Document();
-        doc.add(new SortedDocValuesField(groupField, new BytesRef("author2")));
-        doc.add(new TextField("content", "some random text", Field.Store.YES));
-        doc.add(new Field("id", "4", customType));
-        indexWriter.addDocument(doc);
 
         // 4
         doc = new Document();
@@ -91,6 +93,7 @@ public class GroupingTest {
         doc.add(new Field("id", "6", customType));
         indexWriter.addDocument(doc);
 
+        indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -118,7 +121,7 @@ public class GroupingTest {
     private FirstPassGroupingCollector<?> createRandomFirstPassCollector(String groupField, Sort groupSort, int topDocs) throws IOException {
 //        ValueSource vs = new BytesRefFieldSource(groupField);
 //        return new FirstPassGroupingCollector<>(new ValueSourceGroupSelector(vs, new HashMap<>()), groupSort, topDocs);
-            return new FirstPassGroupingCollector<>(new TermGroupSelector(groupField), groupSort, topDocs);
+        return new FirstPassGroupingCollector<>(new TermGroupSelector(groupField), groupSort, topDocs);
     }
 
     private <T> TopGroupsCollector<T> createSecondPassCollector(FirstPassGroupingCollector firstPassGroupingCollector,

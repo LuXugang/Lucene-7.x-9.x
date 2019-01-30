@@ -67,6 +67,7 @@ public class SortedSetDocValuesFacetsTest {
         IndexReader reader = DirectoryReader.open(writer);
         IndexSearcher searcher = new IndexSearcher(reader);
         // NRT open
+        writer.close();
 
         // Per-top-reader state:
         SortedSetDocValuesReaderState state = new DefaultSortedSetDocValuesReaderState(searcher.getIndexReader());

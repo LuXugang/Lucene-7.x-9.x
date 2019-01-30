@@ -405,23 +405,29 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
   public void addSortedField(FieldInfo field, DocValuesProducer valuesProducer) throws IOException {
     meta.writeInt(field.number);
     meta.writeByte(Lucene70DocValuesFormat.SORTED);
+    // valuesProducer对象即SortedDocValuesWriter类的对象
     doAddSortedField(field, valuesProducer);
   }
 
   private void doAddSortedField(FieldInfo field, DocValuesProducer valuesProducer) throws IOException {
+    // 根据SortedDocValuesWriter获得BufferedSortedDocValues对象
     SortedDocValues values = valuesProducer.getSorted(field);
     int numDocsWithField = 0;
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
+      // 统计文档个数
       numDocsWithField++;
     }
 
     if (numDocsWithField == 0) {
       meta.writeLong(-2);
       meta.writeLong(0L);
+      // if语句为真说明 所有文档都包含当前域名的SortedDocValuesField
     } else if (numDocsWithField == maxDoc) {
       meta.writeLong(-1);
       meta.writeLong(0L);
+      // 不是所有文档都包含当前域名的SortedDocValuesField
     } else {
+      // 获取当前dvd文件中的偏移位置，即data对象中count的值
       long offset = data.getFilePointer();
       meta.writeLong(offset);
       values = valuesProducer.getSorted(field);
@@ -430,17 +436,21 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     }
 
     meta.writeInt(numDocsWithField);
+    // 域值的种类只有一个
     if (values.getValueCount() <= 1) {
       meta.writeByte((byte) 0);
       meta.writeLong(0L);
       meta.writeLong(0L);
+      // 有多个域值
     } else {
+      // 获得存储域值种类需要的bit位，例如 3种域值，只要2个bit位即可
       int numberOfBitsPerOrd = DirectWriter.unsignedBitsRequired(values.getValueCount() - 1);
       meta.writeByte((byte) numberOfBitsPerOrd);
       long start = data.getFilePointer();
       meta.writeLong(start);
       DirectWriter writer = DirectWriter.getInstance(data, numDocsWithField, numberOfBitsPerOrd);
       values = valuesProducer.getSorted(field);
+      // 遍历所有文档的域值
       for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
         writer.add(values.ordValue());
       }

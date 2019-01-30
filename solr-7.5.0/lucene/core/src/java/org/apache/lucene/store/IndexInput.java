@@ -118,6 +118,7 @@ public abstract class IndexInput extends DataInput implements Cloneable,Closeabl
    * The default implementation calls {@link #slice}, and it doesn't support random access,
    * it implements absolute reads as seek+read.
    */
+  // 创建访问一个可以随机访问index某一段的对象，通过offset跟长度指定段的大小
   public RandomAccessInput randomAccessSlice(long offset, long length) throws IOException {
     final IndexInput slice = slice("randomaccess", offset, length);
     if (slice instanceof RandomAccessInput) {

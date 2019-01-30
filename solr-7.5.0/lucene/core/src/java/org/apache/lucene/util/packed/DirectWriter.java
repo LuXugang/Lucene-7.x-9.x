@@ -75,6 +75,7 @@ public final class DirectWriter {
       throw new EOFException("Writing past end of stream");
     }
     // nextValues[]数组存放的数据会在下一次flush()被使用
+    // 所有termID存放到nextValues[]数组(非去重)
     nextValues[off++] = l;
     if (off == nextValues.length) {
       flush();
@@ -83,6 +84,7 @@ public final class DirectWriter {
   }
   
   private void flush() throws IOException {
+    // 对所有的termID进行压缩存储到nextBlock中
     encoder.encode(nextValues, 0, nextBlocks, 0, iterations);
     final int blockCount = (int) PackedInts.Format.PACKED.byteCount(PackedInts.VERSION_CURRENT, off, bitsPerValue);
     output.writeBytes(nextBlocks, blockCount);

@@ -56,6 +56,7 @@ final class IndexedDISI extends DocIdSetIterator {
     out.writeShort((short) block);
     assert cardinality > 0 && cardinality <= 65536;
     out.writeShort((short) (cardinality - 1));
+    // cardinality的值范围是 1~65536
     if (cardinality > MAX_ARRAY_LENGTH) {
       if (cardinality != 65536) { // all docs are set
         for (long word : buffer.getBits()) {
@@ -75,9 +76,13 @@ final class IndexedDISI extends DocIdSetIterator {
     final FixedBitSet buffer = new FixedBitSet(1<<16);
     int prevBlock = -1;
     for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
+      // 获得文档号所属块
       final int block = doc >>> 16;
+      // 当一个block用结束了（文档号超过了65535）
       if (prevBlock != -1 && block != prevBlock) {
+        // 先处理当前的block
         flush(prevBlock, buffer, i, out);
+        // block复用
         buffer.clear(0, buffer.length());
         prevBlock = block;
         i = 0;
@@ -86,6 +91,7 @@ final class IndexedDISI extends DocIdSetIterator {
       i++;
       prevBlock = block;
     }
+    // 处理最后一个block
     if (i > 0) {
       flush(prevBlock, buffer, i, out);
       buffer.clear(0, buffer.length());

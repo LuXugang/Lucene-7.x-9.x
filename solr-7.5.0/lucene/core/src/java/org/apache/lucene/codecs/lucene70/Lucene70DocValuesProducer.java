@@ -1011,20 +1011,32 @@ final class Lucene70DocValuesProducer extends DocValuesProducer implements Close
       if (++ord >= entry.termsDictSize) {
         return null;
       }
+      // 如果当前的ord对应的term是block中的第一个term
       if ((ord & blockMask) == 0L) {
+        // term的长度
         term.length = bytes.readVInt();
+        // 直接读出term的值
         bytes.readBytes(term.bytes, 0, term.length);
+        // else语句中的逻辑描述了如何对前缀编码的term值进行反序列化
       } else {
+        // bytes.readByte()读取出 prefixLength跟suffixLength的一个组合值, 组合方法查看Lucene70DocValuesProducer中的addTermsDict()方法中
+        // data.writeByte((byte) (Math.min(prefixLength, 15) | (Math.min(15, suffixLength - 1) << 4)));
         final int token = Byte.toUnsignedInt(bytes.readByte());
+        // 获得跟前一个term相同前缀的长度
         int prefixLength = token & 0x0F;
+        // 获得当前term的后缀的长度
         int suffixLength = 1 + (token >>> 4);
+        // 条件满足说明相同前缀的长度大于等于15
         if (prefixLength == 15) {
           prefixLength += bytes.readVInt();
         }
+        // 条件满足说明后缀的长度大于等于16
         if (suffixLength == 16) {
           suffixLength += bytes.readVInt();
         }
+        // 获得当前term的原始长度
         term.length = prefixLength + suffixLength;
+        // 读取出term的值
         bytes.readBytes(term.bytes, prefixLength, suffixLength);
       }
       return term;
@@ -1035,7 +1047,9 @@ final class Lucene70DocValuesProducer extends DocValuesProducer implements Close
       if (ord < 0 || ord >= entry.termsDictSize) {
         throw new IndexOutOfBoundsException();
       }
+      // 获得term所在block
       final long blockIndex = ord >>> entry.termsDictBlockShift;
+      // 获得block的起始地址
       final long blockAddress = blockAddresses.get(blockIndex);
       bytes.seek(blockAddress);
       this.ord = (blockIndex << entry.termsDictBlockShift) - 1;
@@ -1298,9 +1312,14 @@ final class Lucene70DocValuesProducer extends DocValuesProducer implements Close
       return DocValues.singleton(getSorted(entry.singleValueEntry));
     }
 
+    // 生成一个访问索引某一块区域的对象
+    // 比如对于SortedSetDocValues的dvd跟dvm索引文件，通过dvm索引文件获得entry.ordsOffset跟entry.ordsLength的值
+    // 继而通过entry.ordsOffset跟entry.ordsLength的值在dvd索引文件中确定访问的区域范围
     final RandomAccessInput slice = data.randomAccessSlice(entry.ordsOffset, entry.ordsLength);
+    // entry.bitsPerValue表示存储termID(去重)个数需要的bit位
     final LongValues ords = DirectReader.getInstance(slice, entry.bitsPerValue);
 
+    // 生成一个访问索引某一块区域的对象
     final RandomAccessInput addressesInput = data.randomAccessSlice(entry.addressesOffset, entry.addressesLength);
     final LongValues addresses = DirectMonotonicReader.getInstance(entry.addressesMeta, addressesInput);
 
