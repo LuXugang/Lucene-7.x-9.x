@@ -481,7 +481,7 @@ public class FacetsConfig {
                 }
                 // 当前数值在0~127范围内
                 if ((delta & ~0x7F) == 0) {
-                    // 注意的是第8位是0(位数从1开始), 是个定界符, 表示下一个byte字节是另一个int的一部分
+                    // 注意的是第7位是0(位数从0开始), 是个定界符, 表示下一个byte字节是另一个int的一部分
                     bytes[upto] = (byte) delta;
                     upto++;
                 } else if ((delta & ~0x3FFF) == 0) {

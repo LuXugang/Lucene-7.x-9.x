@@ -90,7 +90,7 @@ public class FastTaxonomyFacetCounts extends IntTaxonomyFacets {
                         prev = ord = ((ord << 7) | b) + prev;
                         increment(ord);
                         ord = 0;
-                        // decode没有结束，需要继续拼接
+                    // decode没有结束，需要继续拼接
                     } else {
                         ord = (ord << 7) | (b & 0x7F);
                     }
