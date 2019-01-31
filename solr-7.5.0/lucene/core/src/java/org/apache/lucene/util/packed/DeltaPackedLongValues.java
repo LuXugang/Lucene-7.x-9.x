@@ -79,9 +79,11 @@ class DeltaPackedLongValues extends PackedLongValues {
     @Override
     void pack(long[] values, int numValues, int block, float acceptableOverheadRatio) {
       long min = values[0];
+      // 找到最小值
       for (int i = 1; i < numValues; ++i) {
         min = Math.min(min, values[i]);
       }
+      // values[]数组中每个元素跟最小值min计算delta
       for (int i = 0; i < numValues; ++i) {
         values[i] -= min;
       }

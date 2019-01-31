@@ -252,6 +252,7 @@ public class PackedLongValues extends LongValues implements Accountable {
       assert numValues > 0;
       // compute max delta
       long minValue = values[0];
+      // 获得最大的差值
       long maxValue = values[0];
       for (int i = 1; i < numValues; ++i) {
         minValue = Math.min(minValue, values[i]);
@@ -262,6 +263,7 @@ public class PackedLongValues extends LongValues implements Accountable {
       if (minValue == 0 && maxValue == 0) {
         this.values[block] = new PackedInts.NullReader(numValues);
       } else {
+        // 计算存储最大的差值需要多少个bit位
         final int bitsRequired = minValue < 0 ? 64 : PackedInts.bitsRequired(maxValue);
         final PackedInts.Mutable mutable = PackedInts.getMutable(numValues, bitsRequired, acceptableOverheadRatio);
         for (int i = 0; i < numValues; ) {
