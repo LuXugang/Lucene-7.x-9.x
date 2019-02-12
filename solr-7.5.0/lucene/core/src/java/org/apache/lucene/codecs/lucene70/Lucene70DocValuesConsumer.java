@@ -452,6 +452,8 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       values = valuesProducer.getSorted(field);
       // 遍历所有文档的域值
       for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
+        // 这里的values.ordValues()的值的取值范围是 0~values.getValueCount()
+        // 这些值是sortedValues[]下标值(SortedDocValuesWriter类中定义)
         writer.add(values.ordValue());
       }
       writer.finish();

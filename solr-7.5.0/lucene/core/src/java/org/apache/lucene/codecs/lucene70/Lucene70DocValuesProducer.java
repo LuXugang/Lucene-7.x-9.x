@@ -821,7 +821,9 @@ final class Lucene70DocValuesProducer extends DocValuesProducer implements Close
         }
       };
     } else {
+      // 根据偏移跟长度，读取出dvd文件中的一段数据
       final RandomAccessInput slice = data.randomAccessSlice(entry.ordsOffset, entry.ordsLength);
+      // 根据bitsPerValue来获得一个可以随机取出一段数据的对象
       ords = DirectReader.getInstance(slice, entry.bitsPerValue);
     }
 

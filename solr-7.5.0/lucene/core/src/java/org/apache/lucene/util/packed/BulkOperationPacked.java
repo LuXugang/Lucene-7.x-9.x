@@ -222,20 +222,28 @@ class BulkOperationPacked extends BulkOperation {
     for (int i = 0; i < byteValueCount * iterations; ++i) {
       final long v = values[valuesOffset++];
       assert PackedInts.unsignedBitsRequired(v) <= bitsPerValue;
+      // bitsPerValue指的是每一个元素需要占用的bit位数，这个值在初始化DirectWriter时候定义的
+      // 也就是每一个元素不管大小，占用的bit位数都是一致的
       if (bitsPerValue < bitsLeft) {
         // just buffer
+        // 这个操作说明从最高位开始存储, 每次存储占用nextBlock的bitsPerValue个bit位
         nextBlock |= v << (bitsLeft - bitsPerValue);
         bitsLeft -= bitsPerValue;
       } else {
         // flush as many blocks as possible
         int bits = bitsPerValue - bitsLeft;
+        // nextBlock | (v >>> bits)的操作将v值存储到nextBlock中
+        // 然后将nextBlock的值存储到blocks[]数组中，完成一个字节的压缩
         blocks[blocksOffset++] = (byte) (nextBlock | (v >>> bits));
+        // 每个元素需要的bit位的个数大于8时的处理
         while (bits >= 8) {
           bits -= 8;
+          // 将一个元素分成多块(按照一个8个bit大小划分)存储
           blocks[blocksOffset++] = (byte) (v >>> bits);
         }
         // then buffer
         bitsLeft = 8 - bits;
+        // 把v的值的剩余部分存放到下一个nextBlock中,也就是当前的v值的部分值会跟下一个v值的数据(可能是部分数据)混合存储到同一个字节中
         nextBlock = (int) ((v & ((1L << bits) - 1)) << bitsLeft);
       }
     }

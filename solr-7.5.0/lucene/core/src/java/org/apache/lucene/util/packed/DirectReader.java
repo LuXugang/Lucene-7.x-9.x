@@ -102,6 +102,8 @@ public class DirectReader {
     @Override
     public long get(long index) {
       try {
+        // termID用2个bit位进行存储，所以termID在每一个block(一个字节大小)中起始位置只会有4种可能，即第1位，第3位，第5位，第7位(8个bit位的计数从0开始)
+        // 即shift的值只可能是 0, 2，4，6
         int shift = (3 - (int)(index & 3)) << 1;
         return (in.readByte(offset + (index >>> 2)) >>> shift) & 0x3;
       } catch (IOException e) {
