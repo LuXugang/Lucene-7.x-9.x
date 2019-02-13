@@ -1,4 +1,4 @@
-package lucene.compress;
+package lucene.compress.dedupAndEncodeTest;
 
 import org.apache.lucene.util.BytesRef;
 

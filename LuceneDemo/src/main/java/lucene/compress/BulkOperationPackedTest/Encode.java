@@ -1,4 +1,4 @@
-package lucene.BulkOperationPackedTest;
+package lucene.compress.BulkOperationPackedTest;
 
 
 /**

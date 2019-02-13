@@ -1,7 +1,6 @@
-package lucene.compress;
+package lucene.compress.dedupAndEncodeTest;
 
 import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.IntsRef;
 
 import java.util.Arrays;
 

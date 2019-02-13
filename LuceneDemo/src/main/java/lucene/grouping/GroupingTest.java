@@ -89,17 +89,17 @@ public class GroupingTest {
         doc.add(new Field("id", "6", customType));
         indexWriter.addDocument(doc);
 
-        doc = new Document();
-        doc.add(new SortedDocValuesField(groupField, new BytesRef("author4")));
-        doc.add(new TextField("content", "random", Field.Store.YES));
-        doc.add(new Field("id", "6", customType));
-        indexWriter.addDocument(doc);
-
-        doc = new Document();
-        doc.add(new SortedDocValuesField(groupField, new BytesRef("author5")));
-        doc.add(new TextField("content", "random", Field.Store.YES));
-        doc.add(new Field("id", "6", customType));
-        indexWriter.addDocument(doc);
+//        doc = new Document();
+//        doc.add(new SortedDocValuesField(groupField, new BytesRef("author4")));
+//        doc.add(new TextField("content", "random", Field.Store.YES));
+//        doc.add(new Field("id", "6", customType));
+//        indexWriter.addDocument(doc);
+//
+//        doc = new Document();
+//        doc.add(new SortedDocValuesField(groupField, new BytesRef("author5")));
+//        doc.add(new TextField("content", "random", Field.Store.YES));
+//        doc.add(new Field("id", "6", customType));
+//        indexWriter.addDocument(doc);
 
         // 6 -- no author field
         doc = new Document();
