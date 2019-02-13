@@ -14,7 +14,9 @@ import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -87,6 +89,18 @@ public class GroupingTest {
         doc.add(new Field("id", "6", customType));
         indexWriter.addDocument(doc);
 
+        doc = new Document();
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author4")));
+        doc.add(new TextField("content", "random", Field.Store.YES));
+        doc.add(new Field("id", "6", customType));
+        indexWriter.addDocument(doc);
+
+        doc = new Document();
+        doc.add(new SortedDocValuesField(groupField, new BytesRef("author5")));
+        doc.add(new TextField("content", "random", Field.Store.YES));
+        doc.add(new Field("id", "6", customType));
+        indexWriter.addDocument(doc);
+
         // 6 -- no author field
         doc = new Document();
         doc.add(new TextField("content", "random word stuck in alot of other text", Field.Store.YES));
@@ -140,7 +154,9 @@ public class GroupingTest {
     public static void main(String[] args) throws Exception{
         GroupingTest groupingTest = new GroupingTest();
         groupingTest.doSearch();
-
+//      int[] array = {1, 3, 4, 6, 8};
+//       int a = Arrays.binarySearch(array, 5);
+//        System.out.println(a);
     }
 
 

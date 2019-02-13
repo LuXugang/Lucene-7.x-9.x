@@ -1,7 +1,5 @@
-package lucene.DirectWriterTest;
+package lucene.BulkOperationPackedTest;
 
-
-import java.io.IOException;
 
 /**
  * @author Lu Xugang
