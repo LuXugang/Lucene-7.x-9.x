@@ -592,6 +592,7 @@ public final class FST<T> implements Accountable {
       int flags = 0;
       //System.out.println("  arc " + arcIdx + " label=" + arc.label + " -> target=" + target.node);
 
+      // 判断当前arc是不是node的最后一个arc
       if (arcIdx == lastArc) {
         flags += BIT_LAST_ARC;
       }

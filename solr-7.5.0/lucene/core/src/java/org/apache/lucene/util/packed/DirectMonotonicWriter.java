@@ -62,8 +62,9 @@ public final class DirectMonotonicWriter {
   private void flush() throws IOException {
     assert bufferSize != 0;
 
-    // 平均值
+    // 求出buffer数组中的最大值跟最小值，他们的差值除以元素个数来求得一个平均值
     final float avgInc = (float) ((double) (buffer[bufferSize-1] - buffer[0]) / Math.max(1, bufferSize - 1));
+    // 趋势分解操作
     for (int i = 0; i < bufferSize; ++i) {
       final long expected = (long) (avgInc * (long) i);
       buffer[i] -= expected;
@@ -81,6 +82,7 @@ public final class DirectMonotonicWriter {
       // use | will change nothing when it comes to computing required bits
       // but has the benefit of working fine with negative values too
       // (in case of overflow)
+      // 计算bitPerValue时实际上只要关注maxDelta的二进制值的最高位，maxDelta具体的值是不用关心的
       maxDelta |= buffer[i];
     }
 

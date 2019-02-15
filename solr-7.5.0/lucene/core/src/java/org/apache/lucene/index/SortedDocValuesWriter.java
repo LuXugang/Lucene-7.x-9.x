@@ -251,6 +251,7 @@ class SortedDocValuesWriter extends DocValuesWriter {
     public BytesRef lookupOrd(int ord) {
       assert ord >= 0 && ord < sortedValues.length;
       assert sortedValues[ord] >= 0 && sortedValues[ord] < sortedValues.length;
+      // 从sortedValues[]中取出termID的值，根据termID的值，从bytesStart[]数组中找到在byte[][]数组中的起始位置，从而找到原始的值（ByteRef对象）
       hash.get(sortedValues[ord], scratch);
       return scratch;
     }

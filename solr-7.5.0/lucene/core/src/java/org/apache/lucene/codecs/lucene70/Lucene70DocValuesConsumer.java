@@ -480,24 +480,27 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     // 获取data中的buf[]数组可以使用的一个位置
     long start = data.getFilePointer();
     int maxLength = 0;
+    // 定义一个SortedDocValuesTermsEnum对象
     TermsEnum iterator = values.termsEnum();
     // 每次获得term的时间复杂度是O(1)
     for (BytesRef term = iterator.next(); term != null; term = iterator.next()) {
+      // if条件满足，说明是一个block中的第一个term
       if ((ord & Lucene70DocValuesFormat.TERMS_DICT_BLOCK_MASK) == 0) {
         // 记录每一个term相对于start位置占用的byte个数, 查询的时候会用到这个值用来定位一个term在data中的起始位置
         writer.add(data.getFilePointer() - start);
+        // 记录term的长度，在读取时候用来确定读取的范围
         data.writeVInt(term.length);
+        // 将完整的term值写入到dvd文件中
         data.writeBytes(term.bytes, term.offset, term.length);
       } else {
-        // 判断两个term(ByteRef对象)相同前缀的个数
+        // 计算当前处理的term跟前一个term(previous)(ByteRef对象)相同前缀的长度
         final int prefixLength = StringHelper.bytesDifference(previous.get(), term);
-        // 获取跟前一个term不一样的部分的长度
+        // 计算跟前一个term不一样的部分的长度
         final int suffixLength = term.length - prefixLength;
         assert suffixLength > 0; // terms are unique
-
-        // 将前缀跟后缀的个数写入到data中，前缀的个数只能最多15，(所以为什么有Math.min(15, suffixLength - 1) << 4的操作), 不然就会跟后缀的数据混一起了
+        // 一个字节的低4位存放prefixLength的值，高4位存放suffixLength的值
         data.writeByte((byte) (Math.min(prefixLength, 15) | (Math.min(15, suffixLength - 1) << 4)));
-        // 将前缀超过15个byte的部分再次写入到data中, 注意这里的细节, 判断条件是prefixLength >= 15
+        // 上行代码中只能存放prefixLength最大值为15和suffixLength最大值为16，那么如果两者超出最大值，需要把多出的部分写入到dvd文件中
         if (prefixLength >= 15) {
           data.writeVInt(prefixLength - 15);
         }
@@ -508,7 +511,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
         // 只将term的后缀部分写入到data中(term的前缀没有存储)
         data.writeBytes(term.bytes, term.offset + prefixLength, term.length - prefixLength);
       }
+      // 记录所有term中长度最大的值
       maxLength = Math.max(maxLength, term.length);
+      // 处理下一个term时候，先保存当前的term值, 用来做前缀处理
       previous.copyBytes(term);
       ++ord;
     }
@@ -546,7 +551,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     BytesRefBuilder previous = new BytesRefBuilder();
     long offset = 0;
     long ord = 0;
-    // 遍历每一个term值
+    // 按照term值有序的取出
     for (BytesRef term = iterator.next(); term != null; term = iterator.next()) {
       if ((ord & Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_MASK) == 0) {
         writer.add(offset);
@@ -555,6 +560,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
           // no previous term: no bytes to write
           sortKeyLength = 0;
         } else {
+          // 计算出两个term相同前缀的长度
           sortKeyLength = StringHelper.sortKeyLength(previous.get(), term);
         }
         offset += sortKeyLength;

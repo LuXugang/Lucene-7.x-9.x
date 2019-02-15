@@ -221,6 +221,7 @@ public class Builder<T> {
   private void freezeTail(int prefixLenPlus1) throws IOException {
     //System.out.println("  compileTail " + prefixLenPlus1);
     final int downTo = Math.max(1, prefixLenPlus1);
+    // 处理上一个值与当前值不一样的后缀部分
     for(int idx=lastInput.length(); idx >= downTo; idx--) {
 
       boolean doPrune = false;
@@ -374,11 +375,15 @@ public class Builder<T> {
 
     // compare shared prefix length
     int pos1 = 0;
+    // pos2用来指明当前值需要存储的起始位置，因为跟上一个值相同的部分是不用重复存储的
     int pos2 = input.offset;
+    // pos1Stop表示下面的while最多循环的次数，判断当前值跟上一个值相同前缀的部分的时候，循环次数不可能超过两个值中长度较小的那个
     final int pos1Stop = Math.min(lastInput.length(), input.length);
+    // while循环用来判断当前值跟上一个值相同前缀的长度
     while(true) {
       frontier[pos1].inputCount++;
       //System.out.println("  incr " + pos1 + " ct=" + frontier[pos1].inputCount + " n=" + frontier[pos1]);
+      // 判断两个值相同的部分
       if (pos1 >= pos1Stop || lastInput.intAt(pos1) != input.ints[pos2]) {
         break;
       }
@@ -386,7 +391,8 @@ public class Builder<T> {
       pos2++;
     }
     final int prefixLenPlus1 = pos1+1;
-      
+
+    //frontier数组是否要扩容
     if (frontier.length < input.length+1) {
       final UnCompiledNode<T>[] next = ArrayUtil.grow(frontier, input.length+1);
       for(int idx=frontier.length;idx<next.length;idx++) {
@@ -397,9 +403,11 @@ public class Builder<T> {
 
     // minimize/compile states from previous input's
     // orphan'd suffix
+    // 处理上个值跟当前值不相同的部分
     freezeTail(prefixLenPlus1);
 
     // init tail states for current input
+    // 处理当前值与上一个值不相同的部分
     for(int idx=prefixLenPlus1;idx<=input.length;idx++) {
       frontier[idx-1].addArc(input.ints[input.offset + idx - 1],
                              frontier[idx]);
@@ -414,10 +422,12 @@ public class Builder<T> {
 
     // push conflicting outputs forward, only as far as
     // needed
+    // 处理上一个值与当前值前缀一样的部分值
     for(int idx=1;idx<prefixLenPlus1;idx++) {
       final UnCompiledNode<T> node = frontier[idx];
       final UnCompiledNode<T> parentNode = frontier[idx-1];
 
+      // 获得node的最后一个arc的output值
       final T lastOutput = parentNode.getLastOutput(input.ints[input.offset + idx - 1]);
       assert validOutput(lastOutput);
 
@@ -439,6 +449,7 @@ public class Builder<T> {
       assert validOutput(output);
     }
 
+    // 当前值跟上一个值是相同的值的情况
     if (lastInput.length() == input.length && prefixLenPlus1 == 1+input.length) {
       // same input more than 1 time in a row, mapping to
       // multiple outputs
@@ -450,6 +461,7 @@ public class Builder<T> {
     }
 
     // save last input
+    // 记录当前值
     lastInput.copyInts(input);
 
     //System.out.println("  count[0]=" + frontier[0].inputCount);
@@ -532,6 +544,7 @@ public class Builder<T> {
   /** Expert: holds a pending (seen but not yet serialized) Node. */
   public static final class UnCompiledNode<T> implements Node {
     final Builder<T> owner;
+    // 结点的出度
     public int numArcs;
     public Arc<T>[] arcs;
     // TODO: instead of recording isFinal/output on the
@@ -584,6 +597,7 @@ public class Builder<T> {
     public void addArc(int label, Node target) {
       assert label >= 0;
       assert numArcs == 0 || label > arcs[numArcs-1].label: "arc[-1].label=" + arcs[numArcs-1].label + " new label=" + label + " numArcs=" + numArcs;
+      // 扩容操作
       if (numArcs == arcs.length) {
         final Arc<T>[] newArcs = ArrayUtil.grow(arcs, numArcs+1);
         for(int arcIdx=numArcs;arcIdx<newArcs.length;arcIdx++) {
