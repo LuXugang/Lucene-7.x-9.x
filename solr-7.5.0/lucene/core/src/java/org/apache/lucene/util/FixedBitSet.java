@@ -35,10 +35,11 @@ public final class FixedBitSet extends BitSet implements Bits, Accountable {
 
   private static final long BASE_RAM_BYTES_USED = RamUsageEstimator.shallowSizeOfInstance(FixedBitSet.class);
 
-   //  bits数组中每一个元素存放的值总是一个 2的n次方的 值，并且用这个值(二进制)中1的个数来描述存储的文档个数
-   // bits数组中每一个元素能表示的最大的文档数是64个, 这也说明了为什么bits数组是long类型的，如果某个元素(二进制)有64个1，那么这个值(十进制)是 2的64次方
-   // 方法解释了如何存放每一个文档号
-
+    /**
+    * bits数组中每一个元素存放的值总是一个 2的n次方的 值，并且用这个值(二进制)中1的个数来描述存储的文档个数
+    * bits数组中每一个元素能表示的最大的文档数是64个, 这也说明了为什么bits数组是long类型的，如果某个元素(二进制)有64个1，那么这个值(十进制)是 2的64次方
+     * {@link #set(int)} 方法解释了如何存放每一个文档号
+    */
     private final long[] bits; // Array of longs holding the bits
     private final int numBits; // The number of bits in use
     private final int numWords; // The exact number of longs needed to hold numBits (<= bits.length)
