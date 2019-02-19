@@ -71,7 +71,9 @@ public final class FST<T> implements Accountable {
   public static enum INPUT_TYPE {BYTE1, BYTE2, BYTE4};
 
   static final int BIT_FINAL_ARC = 1 << 0;
+  // arc是不是节点的最后一个arc
   static final int BIT_LAST_ARC = 1 << 1;
+  // 判断上一个处理的node是不是当前arc的target
   static final int BIT_TARGET_NEXT = 1 << 2;
 
   // TODO: we can free up a bit if we can nuke this:
@@ -586,8 +588,10 @@ public final class FST<T> implements Accountable {
 
     long lastArcStart = builder.bytes.getPosition();
     int maxBytesPerArc = 0;
+    // 处理node的每一个arc
     for(int arcIdx=0;arcIdx<nodeIn.numArcs;arcIdx++) {
       final Builder.Arc<T> arc = nodeIn.arcs[arcIdx];
+      // 根据compile的从后往前的顺序，当前node的所有arc的target对应的Node都是Builder.CompiledNode的
       final Builder.CompiledNode target = (Builder.CompiledNode) arc.target;
       int flags = 0;
       //System.out.println("  arc " + arcIdx + " label=" + arc.label + " -> target=" + target.node);
@@ -597,6 +601,7 @@ public final class FST<T> implements Accountable {
         flags += BIT_LAST_ARC;
       }
 
+      // 判断上一个处理的node是不是当前arc的target
       if (builder.lastFrozenNode == target.node && !doFixedArray) {
         // TODO: for better perf (but more RAM used) we
         // could avoid this except when arc is "near" the
@@ -604,6 +609,7 @@ public final class FST<T> implements Accountable {
         flags += BIT_TARGET_NEXT;
       }
 
+      // 判断当前arc是不是指向一个node为-1的compileNode
       if (arc.isFinal) {
         flags += BIT_FINAL_ARC;
         if (arc.nextFinalOutput != NO_OUTPUT) {
@@ -615,6 +621,7 @@ public final class FST<T> implements Accountable {
 
       boolean targetHasArcs = target.node > 0;
 
+      // 判断arc的target有没有arc
       if (!targetHasArcs) {
         flags += BIT_STOP_NODE;
       }

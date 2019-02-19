@@ -221,7 +221,7 @@ public class Builder<T> {
   private void freezeTail(int prefixLenPlus1) throws IOException {
     //System.out.println("  compileTail " + prefixLenPlus1);
     final int downTo = Math.max(1, prefixLenPlus1);
-    // 处理上一个值与当前值不一样的后缀部分
+    // 处理上一个值与当前值不一样的后缀部分, 从上一个值尾部值开始处理
     for(int idx=lastInput.length(); idx >= downTo; idx--) {
 
       boolean doPrune = false;
@@ -416,13 +416,14 @@ public class Builder<T> {
 
     final UnCompiledNode<T> lastNode = frontier[input.length];
     if (lastInput.length() != input.length || prefixLenPlus1 != input.length + 1) {
+      // 最后一个node的isFinal值为true
       lastNode.isFinal = true;
       lastNode.output = NO_OUTPUT;
     }
 
     // push conflicting outputs forward, only as far as
     // needed
-    // 处理上一个值与当前值前缀一样的部分值
+    // 处理上一个值与当前值前缀一样的部分值, 从前往后处理
     for(int idx=1;idx<prefixLenPlus1;idx++) {
       final UnCompiledNode<T> node = frontier[idx];
       final UnCompiledNode<T> parentNode = frontier[idx-1];
@@ -435,11 +436,16 @@ public class Builder<T> {
       final T wordSuffix;
 
       if (lastOutput != NO_OUTPUT) {
+        // 获得上一个lastoutput跟当前的output的共同前缀
+        // 根据不同的类型获得前缀方式，比如T是long类型，那么返回就是两者的较小值
         commonOutputPrefix = fst.outputs.common(output, lastOutput);
         assert validOutput(commonOutputPrefix);
+        // 提取出lastOutput跟commonOutputPrefix不同的部分，如果T是long类型的话，wordSuffix的值就是两者的差值
         wordSuffix = fst.outputs.subtract(lastOutput, commonOutputPrefix);
         assert validOutput(wordSuffix);
+        // commonOutputPrefix设置parentNode中最后一个arc的值
         parentNode.setLastOutput(input.ints[input.offset + idx - 1], commonOutputPrefix);
+        // node节点中所有的arc更新差值wordSuffix
         node.prependOutput(wordSuffix);
       } else {
         commonOutputPrefix = wordSuffix = NO_OUTPUT;
@@ -588,6 +594,7 @@ public class Builder<T> {
       // for nodes on the frontier (even when reused).
     }
 
+    // 获得当前节点的最后一个arc的output值
     public T getLastOutput(int labelToMatch) {
       assert numArcs > 0;
       assert arcs[numArcs-1].label == labelToMatch;
@@ -605,6 +612,7 @@ public class Builder<T> {
         }
         arcs = newArcs;
       }
+      // 新增一个arc，并初始化arc
       final Arc<T> arc = arcs[numArcs++];
       arc.label = label;
       arc.target = target;
@@ -612,6 +620,7 @@ public class Builder<T> {
       arc.isFinal = false;
     }
 
+    // 更新当前node的最后一个arc的值
     public void replaceLast(int labelToMatch, Node target, T nextFinalOutput, boolean isFinal) {
       assert numArcs > 0;
       final Arc<T> arc = arcs[numArcs-1];
@@ -629,6 +638,7 @@ public class Builder<T> {
       numArcs--;
     }
 
+    // 设置节点的最后一个arc的值
     public void setLastOutput(int labelToMatch, T newOutput) {
       assert owner.validOutput(newOutput);
       assert numArcs > 0;
@@ -638,6 +648,7 @@ public class Builder<T> {
     }
 
     // pushes an output prefix forward onto all arcs
+    // 用outputPrefix的值更新节点的所有arc
     public void prependOutput(T outputPrefix) {
       assert owner.validOutput(outputPrefix);
 

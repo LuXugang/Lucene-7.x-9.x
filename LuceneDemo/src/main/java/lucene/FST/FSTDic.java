@@ -11,7 +11,7 @@ import org.apache.lucene.util.fst.FST;
 public class FSTDic {
   public static void main(String[] args) throws Exception{
     String[] inputValues = {"mop", "moth", "pop", "star", "stop", "top"};
-      long[] outputValues = {90, 91, 92, 93, 94, 95};
+      long[] outputValues = {100, 91, 72, 83, 54, 55};
       PositiveIntOutputs outputs = PositiveIntOutputs.getSingleton();
       Builder<Long> builder = new Builder<>(FST.INPUT_TYPE.BYTE1, outputs);
       IntsRefBuilder scratchInts = new IntsRefBuilder();
