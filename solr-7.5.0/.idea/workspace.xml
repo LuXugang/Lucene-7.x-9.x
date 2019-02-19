@@ -1,119 +1,291 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5adbfc5c-91ca-4534-985e-77c2c84b57ea" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/LuceneDemo.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__com_carrotsearch_hppc_0_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_analyzers_common_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_core_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_facet_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_grouping_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_join_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_memory_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_queries_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_queryparser_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/libraries/Maven__org_apache_lucene_lucene_sandbox_7_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/solr-7.5.0.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-    </list>
+    <list default="true" id="7d68e329-2375-4287-afd3-bb23ff80527e" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/eclipse-build/main/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="solr-7.5.0" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/BytesRefHash.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+            <state relative-caret-position="480">
+              <caret line="85" column="32" selection-start-line="85" selection-start-column="32" selection-end-line="85" selection-end-column="32" />
               <folding>
-                <element signature="e#0#9885#0" expanded="true" />
-                <element signature="e#9238#9239#0" expanded="true" />
-                <element signature="e#9279#9280#0" expanded="true" />
-                <element signature="e#9322#9323#0" expanded="true" />
-                <element signature="e#9346#9347#0" expanded="true" />
+                <element signature="e#2668#2669#0" expanded="true" />
+                <element signature="e#2725#2726#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/BytesRefHash.java">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesConsumer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="275" column="36" selection-start-line="275" selection-start-column="36" selection-end-line="275" selection-end-column="36" />
+            <state relative-caret-position="373">
+              <caret line="416" column="15" selection-start-line="416" selection-start-column="9" selection-end-line="416" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/IndexedDISI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="501">
+              <caret line="69" column="6" selection-start-line="69" selection-start-column="6" selection-end-line="69" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="67">
+              <caret line="229" column="12" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="12" />
               <folding>
-                <element signature="e#2668#2669#0" expanded="true" />
-                <element signature="e#2725#2726#0" expanded="true" />
-                <element signature="e#2824#2825#0" expanded="true" />
-                <element signature="e#2907#2908#0" expanded="true" />
-                <element signature="e#3664#3665#0" expanded="true" />
-                <element signature="e#3686#3687#0" expanded="true" />
-                <element signature="e#7242#7243#0" expanded="true" />
-                <element signature="e#7263#7264#0" expanded="true" />
-                <element signature="e#11136#11137#0" expanded="true" />
-                <element signature="e#11173#11174#0" expanded="true" />
-                <element signature="e#17895#17896#0" expanded="true" />
-                <element signature="e#17945#17946#0" expanded="true" />
-                <element signature="e#17987#17988#0" expanded="true" />
-                <element signature="e#18025#18026#0" expanded="true" />
-                <element signature="e#18223#18224#0" expanded="true" />
-                <element signature="e#18309#18310#0" expanded="true" />
-                <element signature="e#18357#18358#0" expanded="true" />
-                <element signature="e#18387#18388#0" expanded="true" />
+                <element signature="e#3778#3779#0" expanded="true" />
+                <element signature="e#3805#3806#0" expanded="true" />
+                <element signature="e#6971#7832#0" expanded="true" />
+                <element signature="e#7831#7832#0" expanded="true" />
+                <element signature="e#8591#8592#0" expanded="true" />
+                <element signature="e#8633#8634#0" expanded="true" />
+                <element signature="e#9008#9009#0" expanded="true" />
+                <element signature="e#9063#9064#0" expanded="true" />
+                <element signature="e#9238#9239#0" expanded="true" />
+                <element signature="e#9279#9280#0" expanded="true" />
+                <element signature="e#9322#9323#0" expanded="true" />
+                <element signature="e#9346#9347#0" expanded="true" />
+                <element signature="e#9757#9758#0" expanded="true" />
+                <element signature="e#9788#9789#0" expanded="true" />
+                <element signature="e#9840#9841#0" expanded="true" />
+                <element signature="e#9881#9882#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/ByteBlockPool.java">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/FixedBits.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="118" column="24" selection-start-line="118" selection-start-column="24" selection-end-line="118" selection-end-column="24" />
+            <state relative-caret-position="255">
+              <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="45" column="11" lean-forward="true" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/FixedBitSet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+              <folding>
+                <element signature="e#6129#6130#0" expanded="true" />
+                <element signature="e#6153#6154#0" expanded="true" />
+                <element signature="e#6197#6198#0" expanded="true" />
+                <element signature="e#6266#6267#0" expanded="true" />
+                <element signature="e#6312#6313#0" expanded="true" />
+                <element signature="e#6333#6334#0" expanded="true" />
+                <element signature="e#9742#9743#0" expanded="true" />
+                <element signature="e#9782#9783#0" expanded="true" />
+                <element signature="e#10185#10186#0" expanded="true" />
+                <element signature="e#10226#10227#0" expanded="true" />
+                <element signature="e#11363#11364#0" expanded="true" />
+                <element signature="e#11404#11405#0" expanded="true" />
+                <element signature="e#11826#11827#0" expanded="true" />
+                <element signature="e#11870#11871#0" expanded="true" />
+                <element signature="e#18040#18041#0" expanded="true" />
+                <element signature="e#18085#18086#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DocValues.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="365" column="37" selection-start-line="365" selection-start-column="37" selection-end-line="365" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>defaultIndexingChain</find>
+      <find>DefaultIndexingChain</find>
+      <find>FieldInfos</find>
+      <find>TermsHashPerField</find>
+      <find>ByteBlockp</find>
+      <find>FreqProxTermsW</find>
+      <find>IndexOptions</find>
+      <find>IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS</find>
+      <find>postingsArray.textStarts</find>
+      <find>doNextCall</find>
+      <find>firstPassGroupingCollector</find>
+      <find>ByteBlockPool</find>
+      <find>FieldCompar</find>
+      <find>FieldComparator</find>
+      <find>GroupingSearch</find>
+      <find>AllGroups</find>
+      <find>allgrouphea</find>
+      <find>all</find>
+      <find>SortedDocValuesWrit</find>
+      <find>OrdAllGroupHeadsCollector</find>
+      <find>FacetCount</find>
+      <find>SimpleFacetCount</find>
+      <find>b</find>
+      <find>bytesWritten</find>
+      <find>simplefacet</find>
+      <find>getTopChild</find>
+      <find>decode</find>
+      <find>intToPrefixCodedBytes</find>
+      <find>VINT</find>
+      <find>SORTED_SET</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/ConjunctionDISI.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/ReqExclBulkScorer.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/BooleanWeight.java" />
+        <option value="$PROJECT_DIR$/solr/core/src/java/org/apache/solr/search/HashQParserPlugin.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/IntBlockPool.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/BytesRefHash.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/ParallelPostingsArray.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/store/DataOutput.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/UnicodeUtil.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/similarities/Axiomatic.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FieldInfos.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DefaultIndexingChain.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FreqProxTermsWriterPerField.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TermsHashPerField.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/ByteBlockPool.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/FieldComparator.java" />
+        <option value="$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/FirstPassGroupingCollector.java" />
+        <option value="$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/SecondPassGroupingCollector.java" />
+        <option value="$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/TermGroupSelector.java" />
+        <option value="$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/GroupingSearch.java" />
+        <option value="$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/AllGroupsCollector.java" />
+        <option value="$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/AllGroupHeadsCollector.java" />
+        <option value="$PROJECT_DIR$/lucene/join/src/java/org/apache/lucene/search/join/JoinUtil.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/TermQuery.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/MultiTermQueryConstantScoreWrapper.java" />
+        <option value="$PROJECT_DIR$/lucene/facet/src/test/org/apache/lucene/facet/sortedset/TestSortedSetDocValuesFacets.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/PackedInts.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedSetDocValuesWriter.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/CodecUtil.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/store/IndexInput.java" />
+        <option value="$PROJECT_DIR$/lucene/facet/src/java/org/apache/lucene/facet/sortedset/DefaultSortedSetDocValuesReaderState.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/perfield/PerFieldDocValuesFormat.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/IndexedDISI.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DirectWriter.java" />
+        <option value="$PROJECT_DIR$/lucene/facet/src/java/org/apache/lucene/facet/FacetsConfig.java" />
+        <option value="$PROJECT_DIR$/lucene/facet/src/java/org/apache/lucene/facet/taxonomy/FastTaxonomyFacetCounts.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DeltaPackedLongValues.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/PackedLongValues.java" />
+        <option value="$PROJECT_DIR$/lucene/classification/src/test/org/apache/lucene/classification/ClassificationTestBase.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/BulkOperationPacked.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesProducer.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DirectReader.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/Packed64SingleBlock.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/store/SingleInstanceLockFactory.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DirectMonotonicWriter.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/Builder.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/FixedBitSet.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesConsumer.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JavaeeView">
+    <option name="showModules" value="false" />
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
   </component>
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="1027" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="-104" />
+    <option name="y" value="-1080" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
+              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550540700875" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Rainbow Brackets" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -127,129 +299,682 @@
       </list>
     </option>
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5adbfc5c-91ca-4534-985e-77c2c84b57ea" name="Default Changelist" comment="" />
-      <created>1550243428816</created>
+      <changelist id="7d68e329-2375-4287-afd3-bb23ff80527e" name="Default Changelist" comment="" />
+      <created>1544422983149</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1550243428816</updated>
-      <workItem from="1550243432472" duration="560000" />
-      <workItem from="1550244005064" duration="49000" />
-      <workItem from="1550244362715" duration="100000" />
-      <workItem from="1550244505216" duration="98000" />
-      <workItem from="1550244619494" duration="724000" />
-      <workItem from="1550306225147" duration="688000" />
-      <workItem from="1550307154135" duration="541000" />
-      <workItem from="1550325312346" duration="98000" />
-      <workItem from="1550325675655" duration="14000" />
-      <workItem from="1550328948115" duration="178000" />
-      <workItem from="1550411271455" duration="3435000" />
-      <workItem from="1550498486300" duration="1355000" />
+      <updated>1544422983149</updated>
+      <workItem from="1544422994279" duration="3116000" />
+      <workItem from="1544491769041" duration="1592000" />
+      <workItem from="1544509042007" duration="43000" />
+      <workItem from="1544509220291" duration="9041000" />
+      <workItem from="1544581591695" duration="1189000" />
+      <workItem from="1544594042379" duration="14590000" />
+      <workItem from="1544686649243" duration="4230000" />
+      <workItem from="1544752468354" duration="658000" />
+      <workItem from="1545014923179" duration="1959000" />
+      <workItem from="1545034753547" duration="4506000" />
+      <workItem from="1545046063760" duration="598000" />
+      <workItem from="1545116869302" duration="9394000" />
+      <workItem from="1545191364226" duration="102000" />
+      <workItem from="1545199892736" duration="2568000" />
+      <workItem from="1545221133886" duration="355000" />
+      <workItem from="1545222171391" duration="412000" />
+      <workItem from="1545224031863" duration="330000" />
+      <workItem from="1545291714426" duration="17622000" />
+      <workItem from="1545369800954" duration="7760000" />
+      <workItem from="1545707492138" duration="2101000" />
+      <workItem from="1545962785346" duration="2891000" />
+      <workItem from="1546047534362" duration="710000" />
+      <workItem from="1546048644529" duration="547000" />
+      <workItem from="1546064182288" duration="76000" />
+      <workItem from="1546393920470" duration="19221000" />
+      <workItem from="1546481337171" duration="1980000" />
+      <workItem from="1546485258406" duration="2179000" />
+      <workItem from="1546491146559" duration="3000" />
+      <workItem from="1546851958785" duration="3069000" />
+      <workItem from="1546999515272" duration="489000" />
+      <workItem from="1547446970216" duration="567000" />
+      <workItem from="1547717942778" duration="37000" />
+      <workItem from="1547719103756" duration="695000" />
+      <workItem from="1547777355744" duration="1235000" />
+      <workItem from="1547778770569" duration="499000" />
+      <workItem from="1547779366008" duration="1585000" />
+      <workItem from="1547781005908" duration="18217000" />
+      <workItem from="1548034657487" duration="20000" />
+      <workItem from="1548056987983" duration="8910000" />
+      <workItem from="1548139596405" duration="3730000" />
+      <workItem from="1548223358900" duration="14042000" />
+      <workItem from="1548293305576" duration="13550000" />
+      <workItem from="1548379718784" duration="9378000" />
+      <workItem from="1548395239700" duration="11647000" />
+      <workItem from="1548639164565" duration="17213000" />
+      <workItem from="1548725467076" duration="346000" />
+      <workItem from="1548726563571" duration="8599000" />
+      <workItem from="1548755366782" duration="648000" />
+      <workItem from="1548811844105" duration="1639000" />
+      <workItem from="1548816043695" duration="4699000" />
+      <workItem from="1548828109892" duration="244000" />
+      <workItem from="1548828565766" duration="11883000" />
+      <workItem from="1548902654223" duration="3927000" />
+      <workItem from="1548917996007" duration="30000" />
+      <workItem from="1548918047777" duration="230000" />
+      <workItem from="1548918334509" duration="68000" />
+      <workItem from="1548918425193" duration="95000" />
+      <workItem from="1548918554251" duration="5269000" />
+      <workItem from="1548987743876" duration="4592000" />
+      <workItem from="1549006919934" duration="308000" />
+      <workItem from="1549007235677" duration="1395000" />
+      <workItem from="1549938872332" duration="22422000" />
+      <workItem from="1550127198179" duration="8117000" />
+      <workItem from="1550196047901" duration="6189000" />
+      <workItem from="1550212808803" duration="12107000" />
+      <workItem from="1550454237818" duration="10611000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1355000" />
+    <option name="totallyTimeSpent" value="318074000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <frame x="-104" y="-1080" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4053476" visible="true" weight="0.23443224" />
-      <window_info id="Structure" order="1" sideWeight="0.5946524" side_tool="true" visible="true" weight="0.23443224" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48383084" visible="true" weight="0.13525027" />
+      <window_info id="Structure" order="1" sideWeight="0.51616913" side_tool="true" visible="true" weight="0.13525027" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="UI Designer" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info id="Web" order="7" side_tool="true" />
+      <window_info id="Favorites" order="6" sideWeight="0.50063694" side_tool="true" weight="0.17739628" />
+      <window_info id="Web" order="7" sideWeight="0.50063694" side_tool="true" weight="0.17739628" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32941177" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32941177" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.3299363" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4985694" weight="0.3299363" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Tool Output" order="9" weight="0.32941177" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.3284974" />
-      <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.32941177" />
-      <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Version Control" order="13" weight="0.32941177" />
-      <window_info anchor="bottom" id="ANTLR Preview" order="14" />
-      <window_info anchor="bottom" id="Reviews" order="15" />
-      <window_info anchor="bottom" id="Run with VisualVM" order="16" />
-      <window_info anchor="bottom" id="JProfiler" order="17" />
-      <window_info anchor="bottom" id="Debug with VisualVM" order="18" />
-      <window_info anchor="bottom" id="Inspection Results" order="19" weight="0.32941177" />
+      <window_info anchor="bottom" id="Tool Output" order="9" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="10" sideWeight="0.5005325" side_tool="true" visible="true" weight="0.20396039" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="13" sideWeight="0.49946752" weight="0.32970297" />
+      <window_info anchor="bottom" id="Run with VisualVM" order="14" />
+      <window_info anchor="bottom" id="Java Enterprise" order="15" weight="0.3299363" />
+      <window_info anchor="bottom" id="JProfiler" order="16" />
+      <window_info anchor="bottom" id="Debug with VisualVM" order="17" />
+      <window_info anchor="bottom" id="Duplicate detector" order="18" weight="0.32891566" />
+      <window_info anchor="bottom" id="Reviews" order="19" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.24973376" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24964234" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" weight="0.32967034" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.3297568" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Theme Preview" order="6" />
-      <window_info anchor="right" id="Database" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Database" order="6" weight="0.3297568" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info anchor="right" id="News Feed" order="9" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.3821656" visible="true" weight="0.17739628" />
+      <window_info id="Structure" order="1" sideWeight="0.6178344" side_tool="true" weight="0.17310444" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" sideWeight="0.50063694" side_tool="true" weight="0.17739628" />
+      <window_info id="Web" order="7" sideWeight="0.50063694" side_tool="true" weight="0.17739628" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.3299363" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4985694" weight="0.3299363" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Tool Output" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50143063" side_tool="true" weight="0.3299363" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="13" />
+      <window_info anchor="bottom" id="Run with VisualVM" order="14" />
+      <window_info anchor="bottom" id="Java Enterprise" order="15" weight="0.3299363" />
+      <window_info anchor="bottom" id="JProfiler" order="16" />
+      <window_info anchor="bottom" id="Debug with VisualVM" order="17" />
+      <window_info anchor="bottom" id="Duplicate detector" order="18" weight="0.32891566" />
+      <window_info anchor="bottom" id="Reviews" order="19" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24964234" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.3297568" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" weight="0.3297568" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="News Feed" order="9" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="UpsourceProjectSettings">
+    <option name="upsourceUrl" value="http://192.168.21.38:8380/" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java</url>
+          <line>108</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java</url>
+          <line>83</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesConsumer.java</url>
+          <line>405</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java">
+    <entry file="file://$PROJECT_DIR$/lucene/classification/src/test/org/apache/lucene/classification/KNearestFuzzyClassifierTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+        <state relative-caret-position="120">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/classification/src/test/org/apache/lucene/classification/BM25NBClassifierTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="86" column="12" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/classification/src/test/org/apache/lucene/classification/ClassificationTestBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="708">
+          <caret line="102" column="52" selection-start-line="102" selection-start-column="52" selection-end-line="102" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/GroupSelector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="48" column="24" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/PackedLongValues.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3390">
+          <caret line="262" column="29" selection-start-line="262" selection-start-column="29" selection-end-line="262" selection-end-column="29" />
           <folding>
-            <element signature="e#0#9885#0" expanded="true" />
-            <element signature="e#9238#9239#0" expanded="true" />
-            <element signature="e#9279#9280#0" expanded="true" />
-            <element signature="e#9322#9323#0" expanded="true" />
-            <element signature="e#9346#9347#0" expanded="true" />
+            <element signature="e#5008#5009#0" expanded="true" />
+            <element signature="e#5048#5049#0" expanded="true" />
+            <element signature="e#6967#6968#0" expanded="true" />
+            <element signature="e#7007#7008#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/ByteBlockPool.java">
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/Packed64SingleBlock.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="118" column="24" selection-start-line="118" selection-start-column="24" selection-end-line="118" selection-end-column="24" />
+        <state relative-caret-position="1110">
+          <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
+          <folding>
+            <element signature="e#2101#2102#0" expanded="true" />
+            <element signature="e#2134#2135#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DeltaPackedLongValues.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="78" column="12" selection-start-line="78" selection-start-column="12" selection-end-line="78" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/store/SingleInstanceLockFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/BulkOperationPacked.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3090">
+          <caret line="229" column="39" selection-start-line="229" selection-start-column="39" selection-end-line="229" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesProducer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10650">
+          <caret line="788" selection-start-line="788" selection-end-line="788" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DirectMonotonicWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="870">
+          <caret line="75" column="36" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DirectMonotonicReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SingletonSortedSetDocValues.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="104" column="10" selection-start-line="104" selection-start-column="10" selection-end-line="104" selection-end-column="10" />
+          <folding>
+            <element signature="e#2701#2702#0" expanded="true" />
+            <element signature="e#2736#2737#0" expanded="true" />
+            <element signature="e#2976#2977#0" expanded="true" />
+            <element signature="e#3002#3003#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/TermGroupSelector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="64" column="2" selection-start-line="64" selection-start-column="2" selection-end-line="64" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/packed/DirectReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1935">
+          <caret line="147" column="29" selection-start-line="147" selection-start-column="29" selection-end-line="147" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/store/RandomAccessInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="32" column="14" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/bloom/HashFunction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/bloom/FuzzySet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3405">
+          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/FSTTermsWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="238" column="30" selection-start-line="238" selection-start-column="30" selection-end-line="238" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/FSTOrdPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/DirectDocValuesConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-887">
+          <caret line="46" column="6" selection-start-line="46" selection-start-column="6" selection-end-line="46" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/DirectDocValuesFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/DirectDocValuesProducer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="46" column="6" selection-start-line="46" selection-start-column="6" selection-end-line="46" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/DirectPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/FSTOrdTermsReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="72" column="13" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/bloom/TestBloomPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/memory/TestDirectDocValuesFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/memory/TestFSTOrdPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/simpletext/TestSimpleTextDocValuesFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/memory/TestFSTPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/memory/TestMemoryDocValuesFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/memory/TestMemoryPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/simpletext/TestSimpleTextLiveDocsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/FSTPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/FSTTermOutputs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="43" column="29" selection-start-line="43" selection-start-column="29" selection-end-line="43" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/IntsRef.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="29" column="19" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/test/org/apache/lucene/codecs/memory/TestDirectPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/Builder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2970">
+          <caret line="224" column="24" selection-start-line="224" selection-start-column="24" selection-end-line="224" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="613" column="6" selection-start-line="613" selection-start-column="6" selection-end-line="613" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValues.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/store/DataOutput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1215">
+          <caret line="185" column="28" selection-start-line="185" selection-start-column="20" selection-end-line="185" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/codecs/src/java/org/apache/lucene/codecs/memory/MemoryDocValuesConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="228" column="15" lean-forward="true" selection-start-line="228" selection-start-column="15" selection-end-line="228" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DefaultIndexingChain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="522" lean-forward="true" selection-start-line="522" selection-end-line="522" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DocValues.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="365" column="37" selection-start-line="365" selection-start-column="37" selection-end-line="365" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/FixedBits.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/FixedBitSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+          <folding>
+            <element signature="e#6129#6130#0" expanded="true" />
+            <element signature="e#6153#6154#0" expanded="true" />
+            <element signature="e#6197#6198#0" expanded="true" />
+            <element signature="e#6266#6267#0" expanded="true" />
+            <element signature="e#6312#6313#0" expanded="true" />
+            <element signature="e#6333#6334#0" expanded="true" />
+            <element signature="e#9742#9743#0" expanded="true" />
+            <element signature="e#9782#9783#0" expanded="true" />
+            <element signature="e#10185#10186#0" expanded="true" />
+            <element signature="e#10226#10227#0" expanded="true" />
+            <element signature="e#11363#11364#0" expanded="true" />
+            <element signature="e#11404#11405#0" expanded="true" />
+            <element signature="e#11826#11827#0" expanded="true" />
+            <element signature="e#11870#11871#0" expanded="true" />
+            <element signature="e#18040#18041#0" expanded="true" />
+            <element signature="e#18085#18086#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="45" column="11" lean-forward="true" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="229" column="12" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="12" />
+          <folding>
+            <element signature="e#3778#3779#0" expanded="true" />
+            <element signature="e#3805#3806#0" expanded="true" />
+            <element signature="e#6971#7832#0" expanded="true" />
+            <element signature="e#7831#7832#0" expanded="true" />
+            <element signature="e#8591#8592#0" expanded="true" />
+            <element signature="e#8633#8634#0" expanded="true" />
+            <element signature="e#9008#9009#0" expanded="true" />
+            <element signature="e#9063#9064#0" expanded="true" />
+            <element signature="e#9238#9239#0" expanded="true" />
+            <element signature="e#9279#9280#0" expanded="true" />
+            <element signature="e#9322#9323#0" expanded="true" />
+            <element signature="e#9346#9347#0" expanded="true" />
+            <element signature="e#9757#9758#0" expanded="true" />
+            <element signature="e#9788#9789#0" expanded="true" />
+            <element signature="e#9840#9841#0" expanded="true" />
+            <element signature="e#9881#9882#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/BytesRefHash.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="275" column="36" selection-start-line="275" selection-start-column="36" selection-end-line="275" selection-end-column="36" />
+        <state relative-caret-position="480">
+          <caret line="85" column="32" selection-start-line="85" selection-start-column="32" selection-end-line="85" selection-end-column="32" />
           <folding>
             <element signature="e#2668#2669#0" expanded="true" />
             <element signature="e#2725#2726#0" expanded="true" />
-            <element signature="e#2824#2825#0" expanded="true" />
-            <element signature="e#2907#2908#0" expanded="true" />
-            <element signature="e#3664#3665#0" expanded="true" />
-            <element signature="e#3686#3687#0" expanded="true" />
-            <element signature="e#7242#7243#0" expanded="true" />
-            <element signature="e#7263#7264#0" expanded="true" />
-            <element signature="e#11136#11137#0" expanded="true" />
-            <element signature="e#11173#11174#0" expanded="true" />
-            <element signature="e#17895#17896#0" expanded="true" />
-            <element signature="e#17945#17946#0" expanded="true" />
-            <element signature="e#17987#17988#0" expanded="true" />
-            <element signature="e#18025#18026#0" expanded="true" />
-            <element signature="e#18223#18224#0" expanded="true" />
-            <element signature="e#18309#18310#0" expanded="true" />
-            <element signature="e#18357#18358#0" expanded="true" />
-            <element signature="e#18387#18388#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/IndexedDISI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="69" column="6" selection-start-line="69" selection-start-column="6" selection-end-line="69" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="416" column="15" selection-start-line="416" selection-start-column="9" selection-end-line="416" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>scala-sdk-2.11.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
