@@ -22,6 +22,7 @@ class ParallelPostingsArray {
   final static int BYTES_PER_POSTING = 3 * Integer.BYTES;
 
   final int size;
+  // 下标是termID，数组元素是该term信息在ByteBlockPool的head buffer中的位置
   final int[] textStarts;
   // 下标是termID, 根据数组元素值能在IntBlockPool的buffers[][]二维数组中找到存储term的信息的位置
   final int[] intStarts;

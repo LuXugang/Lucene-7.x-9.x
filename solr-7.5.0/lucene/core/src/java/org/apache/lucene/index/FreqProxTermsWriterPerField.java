@@ -161,7 +161,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
         postings.lastDocIDs[termID] = docState.docID;
         fieldState.uniqueTermCount++;
       }
-      // if语句为真：当前处理的term是另外一篇文档(上篇文档处理结束了), 需要对上一遍文档的处理进行收尾工作
+      // if语句为真：当前处理的term是另外一篇文档(说明上篇文档处理结束了), 需要对上一遍文档的处理进行收尾工作
     } else if (docState.docID != postings.lastDocIDs[termID]) {
       assert docState.docID > postings.lastDocIDs[termID]:"id: "+docState.docID + " postings ID: "+ postings.lastDocIDs[termID] + " termID: "+termID;
       // Term not yet seen in the current doc but previously
@@ -199,6 +199,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
         assert !hasOffsets;
       }
       fieldState.uniqueTermCount++;
+      // 说明当前term在当前文档中又一次出现了，那么只要统计它的位置信息就行了
     } else {
       // 更新term在当前文档中的词频
       postings.termFreqs[termID] = Math.addExact(postings.termFreqs[termID], getTermFreq());
@@ -262,11 +263,10 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       //System.out.println("PA init freqs=" + writeFreqs + " pos=" + writeProx + " offs=" + writeOffsets);
     }
 
-    // 下面几个数组的下标都是termID
-
+    /**下面几个数组的下标都是termID*/
     // 目前term当前文档中出现的次数(这个值不是term在当前文档中最终的词频)
     int termFreqs[];                                   // # times this term occurs in the current doc
-    // 存放term上次出现文档号
+    // 存放term上次出现文档号,该文档号未被编码
     // 用来判断上篇文档是否已经处理结束
     // 当一篇文档已经处理结束，我们才能统计term在这篇文档中的词频
     int lastDocIDs[];                                  // Last docID where this term occurred
