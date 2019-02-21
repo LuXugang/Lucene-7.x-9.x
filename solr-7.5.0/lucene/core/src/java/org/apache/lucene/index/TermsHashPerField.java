@@ -158,6 +158,7 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       bytesHash.byteStart(termID);
       // Init stream slices
       if (numPostingInt + intPool.intUpto > IntBlockPool.INT_BLOCK_SIZE) {
+        // 获得一个一维数组用来存放数据，并且将这个一维数组添加到 intPool的buffer][]二维数组数组中
         intPool.nextBuffer();
       }
 
@@ -171,28 +172,32 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
       intUptoStart = intPool.intUpto;
       // 预分配streamCount个大小的位置，用来写入数据
       // 当前版本中 streamCount的值只有1跟2 两种选择
+      // 1表示只存储doc(+freq)
+      // 2表示还要存储position+offset
       intPool.intUpto += streamCount;
 
       // intUptoStart + intPool.intOffset的和值就是在IntBlockPool对象的二位数组buffers[]中的起始位置
       postingsArray.intStarts[termID] = intUptoStart + intPool.intOffset;
 
+      // streamCount的值可能是1或者2
       for(int i=0;i<streamCount;i++) {
-        // term第一次处理时，在ByteBlockPool的二维数组中分配5个数组元素大小的空间
+        // term第一次处理时，在ByteBlockPool的二维数组中分配固定5个数组元素大小的空间,其中最后一个数组元素是固定值16
         // 返回值是ByteBlockPool的head buffer中的下一个可以使用的位置(head buffer的下标值)
         final int upto = bytePool.newSlice(ByteBlockPool.FIRST_LEVEL_SIZE);
-        // 这里实现了一个映射，将两个值存储到IntBlockPool的head buffer中
-        // 这两个值分别描述在ByteBlockPool的head buffer中可以存放当前term数据的2个下标位置
+        // 这里实现了一个映射，将索引值(upto + bytePool.byteOffset)存储到IntBlockPool的head buffer中
+        // 索引值用来映射在ByteBlockPool的head buffer中数据的位置
         intUptos[intUptoStart+i] = upto + bytePool.byteOffset;
       }
       // 上面的for循环结束后，IntBlockPool的二维数组会分配两个连续的空间
-      // 存放的两个值描述的是在ByteBlockPool的二维数组中可以使用的位置
+      // 存放的索引描述的是在ByteBlockPool的二维数组中可以使用的位置
 
-      // 刚才IntBlockPool的二维数组
+      // 把刚刚IntBlockByte获得的索引值赋值给postingsArray的byteStarts[]数组
       postingsArray.byteStarts[termID] = intUptos[intUptoStart];
 
       newTerm(termID);
 
     } else {
+      // term之前出现过
       termID = (-termID)-1;
       // 取出在IntBlockPool中保存这个term信息的位置
       int intStart = postingsArray.intStarts[termID];

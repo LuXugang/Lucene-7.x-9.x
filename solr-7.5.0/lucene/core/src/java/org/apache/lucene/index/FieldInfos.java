@@ -218,12 +218,13 @@ public class FieldInfos implements Iterable<FieldInfo> {
       this.dimensionNumBytes = dimensionNumBytes;
     }
   }
-  
+
+  // 静态类
   static final class FieldNumbers {
 
     // 根据field Number找到 域名
     private final Map<Integer,String> numberToName;
-    // 根据域名 找到 field number
+    // 根据域名 找到 field number, 注意的是这是一个全局的变量
     private final Map<String,Integer> nameToNumber;
     // We use this to enforce that a given field never
     // changes DV type, even across segments / IndexWriter
@@ -256,7 +257,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
      */
     // 这里的field number的分配方式跟linux中文件描述符的分配方式类似呀
     synchronized int addOrGet(String fieldName, int preferredFieldNumber, DocValuesType dvType, int dimensionCount, int dimensionNumBytes, boolean isSoftDeletesField) {
-      // 处理DocValue的情况
+      // 处理DocValues的情况
       if (dvType != DocValuesType.NONE) {
         DocValuesType currentDVType = docValuesType.get(fieldName);
         if (currentDVType == null) {
@@ -296,6 +297,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
           fieldNumber = lowestUnassignedFieldNumber;
         }
         assert fieldNumber >= 0;
+        // 记录 域名新分配到的一个fieldNumber
         numberToName.put(fieldNumber, fieldName);
         nameToNumber.put(fieldName, fieldNumber);
       }
@@ -419,7 +421,7 @@ public class FieldInfos implements Iterable<FieldInfo> {
         // before then we'll get the same name and number,
         // else we'll allocate a new one:
         final boolean isSoftDeletesField = name.equals(globalFieldNumbers.softDeletesFieldName);
-        // 获得域名name对应的field Number
+        // 获得域名name对应的field Number, 这是一个全局值
         final int fieldNumber = globalFieldNumbers.addOrGet(name, -1, DocValuesType.NONE, 0, 0, isSoftDeletesField);
         fi = new FieldInfo(name, fieldNumber, false, false, false, IndexOptions.NONE, DocValuesType.NONE, -1, new HashMap<>(), 0, 0, isSoftDeletesField);
         assert !byName.containsKey(fi.name);

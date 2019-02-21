@@ -129,12 +129,14 @@ final class DefaultIndexingChain extends DocConsumer {
     Sorter.DocMap sortMap = maybeSortSegment(state);
     int maxDoc = state.segmentInfo.maxDoc();
     long t0 = System.nanoTime();
+    // 生成nvm跟nvd文件
     writeNorms(state, sortMap);
     if (docState.infoStream.isEnabled("IW")) {
       docState.infoStream.message("IW", ((System.nanoTime()-t0)/1000000) + " msec to write norms");
     }
     
     t0 = System.nanoTime();
+    // 生成dvd，dvm文件
     writeDocValues(state, sortMap);
     if (docState.infoStream.isEnabled("IW")) {
       docState.infoStream.message("IW", ((System.nanoTime()-t0)/1000000) + " msec to write docValues");
@@ -432,6 +434,7 @@ final class DefaultIndexingChain extends DocConsumer {
       // 获得封装了 域名 的信息的PerFiled对象，如果之前已经有了那么复用，否则创建
       fp = getOrAddField(fieldName, fieldType, true);
       boolean first = fp.fieldGen != fieldGen;
+      // 生成倒排表
       fp.invert(field, first);
 
       if (first) {
@@ -652,8 +655,7 @@ final class DefaultIndexingChain extends DocConsumer {
 
     if (fp == null) {
       // First time we are seeing this field in this segment
-
-      // 当前待处理的域名在当前segment中第一次出现
+      // 当前待处理的域名在当前segment中第一次出现，获得一个FieldInfo对象来描述新的域名的信息
       FieldInfo fi = fieldInfos.getOrAdd(name);
       // Messy: must set this here because e.g. FreqProxTermsWriterPerField looks at the initial
       // IndexOptions to decide what arrays it must create).  Then, we also must set it in
@@ -751,6 +753,7 @@ final class DefaultIndexingChain extends DocConsumer {
           // to the norm
           normValue = 0;
         } else {
+            // 根据域中的term个数（非去重）来确定normValue
           normValue = similarity.computeNorm(invertState);
         }
         norms.addValue(docState.docID, normValue);
@@ -800,9 +803,11 @@ final class DefaultIndexingChain extends DocConsumer {
           // non-aborting and (above) this one document
           // will be marked as deleted, but still
           // consume a docID
-
+          // 获得当前token在token stream中的位置
           int posIncr = invertState.posIncrAttribute.getPositionIncrement();
+          // invertState对象用来跟踪terms在被添加到索引期间的一些信息, 包括个数、位置、偏移
           invertState.position += posIncr;
+          // position的值应该是大于0，且递增的, 否则抛出异常
           if (invertState.position < invertState.lastPosition) {
             if (posIncr == 0) {
               throw new IllegalArgumentException("first position increment must be > 0 (got 0) for field '" + field.name() + "'");
@@ -814,17 +819,20 @@ final class DefaultIndexingChain extends DocConsumer {
           } else if (invertState.position > IndexWriter.MAX_POSITION) {
             throw new IllegalArgumentException("position " + invertState.position + " is too large for field '" + field.name() + "': max allowed position is " + IndexWriter.MAX_POSITION);
           }
+          // 记录当前的position，用于比较
           invertState.lastPosition = invertState.position;
           if (posIncr == 0) {
             invertState.numOverlap++;
           }
               
           int startOffset = invertState.offset + invertState.offsetAttribute.startOffset();
+          // endOffset描述了域值被分词后的terms的个数
           int endOffset = invertState.offset + invertState.offsetAttribute.endOffset();
           if (startOffset < invertState.lastStartOffset || endOffset < startOffset) {
             throw new IllegalArgumentException("startOffset must be non-negative, and endOffset must be >= startOffset, and offsets must not go backwards "
                                                + "startOffset=" + startOffset + ",endOffset=" + endOffset + ",lastStartOffset=" + invertState.lastStartOffset + " for field '" + field.name() + "'");
           }
+          // 记录当前的startOffset，在处理下一个token的时候用于比较
           invertState.lastStartOffset = startOffset;
 
           try {

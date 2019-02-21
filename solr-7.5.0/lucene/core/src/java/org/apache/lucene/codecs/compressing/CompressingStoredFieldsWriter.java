@@ -85,7 +85,9 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
   private final int maxDocsPerChunk;
 
   private final GrowableByteArrayDataOutput bufferedDocs;
+  // 下标为docId，数组元素为域的属性为存储的个数
   private int[] numStoredFields; // number of stored fields
+  // 下标为docId，数组元素为bufferedDocs中的偏移值, bufferedDocs中存放了当前文档的域值
   private int[] endOffsets; // end offsets in bufferedDocs
   private int docBase; // doc ID at the beginning of the chunk
   private int numBufferedDocs; // docBase + numBufferedDocs == current doc ID
@@ -147,6 +149,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
     }
   }
 
+  // 一篇文档中域的属性为存储的个数
   private int numStoredFieldsInDoc;
 
   @Override
@@ -160,6 +163,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
       this.numStoredFields = ArrayUtil.growExact(this.numStoredFields, newLength);
       endOffsets = ArrayUtil.growExact(endOffsets, newLength);
     }
+    // 记录当前文档包含的域的个数，域必须是Store.YES
     this.numStoredFields[numBufferedDocs] = numStoredFieldsInDoc;
     numStoredFieldsInDoc = 0;
     endOffsets[numBufferedDocs] = bufferedDocs.getPosition();
@@ -257,7 +261,8 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
     int bits = 0;
     final BytesRef bytes;
     final String string;
-
+    // 域值只有 binary，Sting，numeric三种情况
+    // 处理域值为数字类型的情况
     Number number = field.numericValue();
     if (number != null) {
       if (number instanceof Byte || number instanceof Short || number instanceof Integer) {
@@ -274,11 +279,13 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
       string = null;
       bytes = null;
     } else {
+      // 处理域值为binary的情况
       bytes = field.binaryValue();
       if (bytes != null) {
         bits = BYTE_ARR;
         string = null;
       } else {
+        // 处理域值为String的情况
         bits = STRING;
         string = field.stringValue();
         if (string == null) {
@@ -287,13 +294,16 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
       }
     }
 
+    // 用infoAndBits来描述域值的类型跟域名的编号, 低3位表示域值类型，其他位表示域名的编号
     final long infoAndBits = (((long) info.number) << TYPE_BITS) | bits;
+    // 写入域的编号，域值类型的信息数据
     bufferedDocs.writeVLong(infoAndBits);
 
     if (bytes != null) {
       bufferedDocs.writeVInt(bytes.length);
       bufferedDocs.writeBytes(bytes.bytes, bytes.offset, bytes.length);
     } else if (string != null) {
+      // 写入域值, 先将String类型转化为ByteRef再写入
       bufferedDocs.writeString(string);
     } else {
       if (number instanceof Byte || number instanceof Short || number instanceof Integer) {

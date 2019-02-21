@@ -59,9 +59,12 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
   @Override
   void finish() throws IOException {
     super.finish();
+    // 所有文档的相同域名中不同term种类的个数(去重)的总和, 比如文档1跟文档2中有相同的域名为"content", sumDocFreq的值为两个文档中uniqueTermCount的和
     sumDocFreq += fieldState.uniqueTermCount;
+    // 所有文档的相同的域名的所有term的总个数(非去重)
     sumTotalTermFreq += fieldState.length;
     if (fieldState.length > 0) {
+      // docCount表示都多少个doc包含这个域
       docCount++;
     }
 
@@ -108,6 +111,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
   }
 
   @Override
+  // term第一次出现
   void newTerm(final int termID) {
     // First time we're seeing this term since the last
     // flush
@@ -120,7 +124,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       postings.lastDocCodes[termID] = docState.docID;
       fieldState.maxTermFrequency = Math.max(1, fieldState.maxTermFrequency);
     } else {
-        //左移一位的原因看 lastDocCodes[]数组的注释
+        //记录经过编码后的文档号，左移一位的原因看 lastDocCodes[]数组的注释
       postings.lastDocCodes[termID] = docState.docID << 1;
       postings.termFreqs[termID] = getTermFreq();
       if (hasProx) {
@@ -132,7 +136,6 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       } else {
         assert !hasOffsets;
       }
-      // 更新term的词频
       fieldState.maxTermFrequency = Math.max(postings.termFreqs[termID], fieldState.maxTermFrequency);
     }
     // 更新当前域包含的term种类数
@@ -140,6 +143,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
   }
 
   @Override
+  // 处理之前出现过的term
   void addTerm(final int termID) {
     final FreqProxPostingsArray postings = freqProxPostingsArray;
     assert !hasFreq || postings.termFreqs[termID] > 0;
@@ -157,7 +161,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
         postings.lastDocIDs[termID] = docState.docID;
         fieldState.uniqueTermCount++;
       }
-      // if语句为真：当前处理的term是另外一篇文档(上篇文档处理结束了)
+      // if语句为真：当前处理的term是另外一篇文档(上篇文档处理结束了), 需要对上一遍文档的处理进行收尾工作
     } else if (docState.docID != postings.lastDocIDs[termID]) {
       assert docState.docID > postings.lastDocIDs[termID]:"id: "+docState.docID + " postings ID: "+ postings.lastDocIDs[termID] + " termID: "+termID;
       // Term not yet seen in the current doc but previously
@@ -168,9 +172,10 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       // 运行到这里，说明我们当前term在新的文档中第一次出现, 并且这个term肯定在上个文档中出现
       // 那么这时候就可以将这个term在上篇文档中的词频写入到倒排表中了
       if (1 == postings.termFreqs[termID]) {
-          // 如果term的词频只有1，跟lastDocCode值计算后储存
+          // 如果term的词频只有1，跟lastDocCode值计算后储存，这里的与操作解释了为什么文档号时执行 docId << 1的操作
         writeVInt(0, postings.lastDocCodes[termID]|1);
       } else {
+        // 两个Vint存储编码后的文档号跟frep, 在读取的时候，赶紧编码后的文档号的最后一个bit是否为0来确定 docId跟freq的读取方式
         writeVInt(0, postings.lastDocCodes[termID]);
         writeVInt(0, postings.termFreqs[termID]);
       }
@@ -181,9 +186,10 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       fieldState.maxTermFrequency = Math.max(postings.termFreqs[termID], fieldState.maxTermFrequency);
       // 计算文档号的差值，同样的左移一位后的值赋值给lastDocCodes[]数组
       postings.lastDocCodes[termID] = (docState.docID - postings.lastDocIDs[termID]) << 1;
-      // 记录当前的文档号
+      // 记录当前的文档号, 用来判断当前文档是否处理结束
       postings.lastDocIDs[termID] = docState.docID;
       if (hasProx) {
+        // 写入term在当前文档的位置信息
         writeProx(termID, fieldState.position);
         if (hasOffsets) {
           postings.lastOffsets[termID] = 0;
@@ -211,6 +217,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
   }
 
   private int getTermFreq() {
+    //
     int freq = termFreqAtt.getTermFrequency();
     if (freq != 1) {
       if (hasProx) {

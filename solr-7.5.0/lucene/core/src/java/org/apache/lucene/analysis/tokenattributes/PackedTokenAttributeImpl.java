@@ -145,6 +145,7 @@ public class PackedTokenAttributeImpl extends CharTermAttributeImpl
 
   @Override
   public final int getTermFrequency() {
+    // 初始值在clear()方法中设置为1
     return termFrequency;
   }
 

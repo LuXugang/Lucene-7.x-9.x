@@ -126,7 +126,7 @@ public final class ByteBlockPool {
   /** Current head buffer */
   public byte[] buffer;
   /** Current head offset */
-  // head buffer在二维数组中的偏移(第几个一维数组)
+  // head buffer在二维数组中的偏移(byteOffset的值描述了第几个一维数组)
   public int byteOffset = -BYTE_BLOCK_SIZE;
 
   private final Allocator allocator;
