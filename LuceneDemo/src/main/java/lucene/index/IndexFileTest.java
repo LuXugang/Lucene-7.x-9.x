@@ -40,32 +40,20 @@ public class IndexFileTest {
 
     // 0
     Document doc = new Document();
-    doc.add(new TextField("content", "a b c a", Field.Store.YES));
+    doc.add(new TextField("content", "a b a", Field.Store.YES));
     doc.add(new TextField("author", "a", Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 1
     doc = new Document();
-    doc.add(new TextField("content", "a a c d", Field.Store.YES));
+    doc.add(new TextField("content", "c a", Field.Store.YES));
     doc.add(new TextField("author", "b", Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 2
     doc = new Document();
-    doc.add(new TextField("content", "b e a b c d", Field.Store.YES));
+    doc.add(new TextField("content", "a a", Field.Store.YES));
     doc.add(new TextField("author", "a", Field.Store.YES));
-    indexWriter.addDocument(doc);
-
-    // 3
-    doc = new Document();
-    doc.add(new TextField("content", "b c f c a b", Field.Store.YES));
-    doc.add(new TextField("author", "d", Field.Store.YES));
-    indexWriter.addDocument(doc);
-
-    // 4
-    doc = new Document();
-    doc.add(new TextField("content", "a a e g c a b", Field.Store.YES));
-    doc.add(new TextField("author", "d", Field.Store.YES));
     indexWriter.addDocument(doc);
 
     indexWriter.commit();

@@ -320,6 +320,7 @@ public abstract class DirectoryReader extends BaseCompositeReader<LeafReader> {
     // resolve the situation manually:
     String[] files = directory.listAll();
 
+    // 从目录中找到段文件 segment_*, 例如segment_3
     String prefix = IndexFileNames.SEGMENTS + "_";
     for(String file : files) {
       if (file.startsWith(prefix)) {

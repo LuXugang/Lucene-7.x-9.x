@@ -189,6 +189,7 @@ public final class SegmentInfos implements Cloneable, Iterable<SegmentCommitInfo
   public static long getLastCommitGeneration(String[] files) {
     long max = -1;
     for (String file : files) {
+      // 遍历所有的文件名，找到段文件
       if (file.startsWith(IndexFileNames.SEGMENTS) && !file.equals(IndexFileNames.OLD_SEGMENTS_GEN)) {
         long gen = generationFromSegmentsFileName(file);
         if (gen > max) {

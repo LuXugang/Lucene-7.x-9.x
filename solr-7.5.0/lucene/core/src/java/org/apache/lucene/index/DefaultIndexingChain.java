@@ -469,12 +469,14 @@ final class DefaultIndexingChain extends DocConsumer {
     if (dvType == null) {
       throw new NullPointerException("docValuesType must not be null (field: \"" + fieldName + "\")");
     }
+    // 处理DocValues
     if (dvType != DocValuesType.NONE) {
       if (fp == null) {
         fp = getOrAddField(fieldName, fieldType, false);
       }
       indexDocValue(fp, dvType, field);
     }
+    // 处理数值类型
     if (fieldType.pointDimensionCount() != 0) {
       if (fp == null) {
         fp = getOrAddField(fieldName, fieldType, false);

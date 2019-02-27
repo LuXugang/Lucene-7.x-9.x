@@ -179,22 +179,30 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
       out.writeVInt(values[0]);
     } else {
       boolean allEqual = true;
+      // 遍历判断每一个文档中包含的 Store.YES的域的个数是不是相同
       for (int i = 1; i < length; ++i) {
         if (values[i] != values[0]) {
           allEqual = false;
           break;
         }
       }
+      // 如果相同
       if (allEqual) {
+        // 标示位
         out.writeVInt(0);
+        // 只写入一个即可
         out.writeVInt(values[0]);
       } else {
         long max = 0;
         for (int i = 0; i < length; ++i) {
+          // 使用"|"的方法不会破坏最大values的最高位
           max |= values[i];
         }
+        // 存储最大的values需要的bit位的个数
         final int bitsRequired = PackedInts.bitsRequired(max);
+        // bitsRequire同时也是个标志位
         out.writeVInt(bitsRequired);
+        // PackedInt来存储
         final PackedInts.Writer w = PackedInts.getWriterNoHeader(out, PackedInts.Format.PACKED, length, bitsRequired, 1);
         for (int i = 0; i < length; ++i) {
           w.add(values[i]);
@@ -205,16 +213,22 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
   }
 
   private void writeHeader(int docBase, int numBufferedDocs, int[] numStoredFields, int[] lengths, boolean sliced) throws IOException {
+    // 描述 sliceBit >= 2^15次方则为true
     final int slicedBit = sliced ? 1 : 0;
     
     // save docBase and numBufferedDocs
+    // 存储docBase的值
     fieldsStream.writeVInt(docBase);
+    // 存储文档号跟slicedBit
     fieldsStream.writeVInt((numBufferedDocs) << 1 | slicedBit);
 
-    // save numStoredFields
+    // save numStoredFields,
+    // numStoredFields: 文档号中 Store.YES的域的个数
+    // numBufferedDocs: 文档个数
     saveInts(numStoredFields, numBufferedDocs, fieldsStream);
 
     // save lengths
+    // lengths: 每一个文档的域值在一个buffer[][]中的偏移位置，差值存储
     saveInts(lengths, numBufferedDocs, fieldsStream);
   }
 
@@ -228,6 +242,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
 
     // transform end offsets into lengths
     final int[] lengths = endOffsets;
+    // 计算差值
     for (int i = numBufferedDocs - 1; i > 0; --i) {
       lengths[i] = endOffsets[i] - endOffsets[i - 1];
       assert lengths[i] >= 0;
@@ -246,6 +261,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
     }
 
     // reset
+    // 更新docBase
     docBase += numBufferedDocs;
     numBufferedDocs = 0;
     bufferedDocs.reset();

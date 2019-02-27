@@ -96,6 +96,7 @@ final class LZ4 {
           }
           literalLen += len & 0xFF;
         }
+        // 直接读取这一段数据，这段数据是原始值
         compressed.readBytes(dest, dOff, literalLen);
         dOff += literalLen;
       }
@@ -184,6 +185,7 @@ final class LZ4 {
     private PackedInts.Mutable hashTable;
 
     void reset(int len) {
+      // 存储len - LAST_LITERALS的差值需要的bit位个数
       final int bitsPerOffset = PackedInts.bitsRequired(len - LAST_LITERALS);
       final int bitsPerOffsetLog = 32 - Integer.numberOfLeadingZeros(bitsPerOffset - 1);
       hashLog = MEMORY_USAGE + 3 - bitsPerOffsetLog;
