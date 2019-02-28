@@ -38,29 +38,29 @@ public class NumericalRangeQuery {
   public void doIndex() throws Exception {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
-//
-//    // 0
-//    Document doc = new Document();
-//    doc.add(new IntPoint("point", -3));
-//    indexWriter.addDocument(doc);
-//
-//    // 1
-//    doc = new Document();
-//    doc.add(new IntPoint("point", -9));
-//    indexWriter.addDocument(doc);
-//
-//    // 2
-//    doc = new Document();
-//    doc.add(new IntPoint("point", 11));
-//    indexWriter.addDocument(doc);
-//
-//
-//    // 3
-//    doc = new Document();
-//    doc.add(new IntPoint("point", 1));
-//    indexWriter.addDocument(doc);
-//
-//    indexWriter.commit();
+
+    // 0
+    Document doc = new Document();
+    doc.add(new IntPoint("point", -3));
+    indexWriter.addDocument(doc);
+
+    // 1
+    doc = new Document();
+    doc.add(new IntPoint("point", -9));
+    indexWriter.addDocument(doc);
+
+    // 2
+    doc = new Document();
+    doc.add(new IntPoint("point", 11));
+    indexWriter.addDocument(doc);
+
+
+    // 3
+    doc = new Document();
+    doc.add(new IntPoint("point", 1));
+    indexWriter.addDocument(doc);
+
+    indexWriter.commit();
 
     DirectoryReader r = DirectoryReader.open(indexWriter);
     IndexSearcher s = new IndexSearcher(r);

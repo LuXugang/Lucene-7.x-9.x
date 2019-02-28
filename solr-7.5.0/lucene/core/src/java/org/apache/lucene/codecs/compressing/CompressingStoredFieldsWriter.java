@@ -87,7 +87,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
   private final GrowableByteArrayDataOutput bufferedDocs;
   // 下标为docId，数组元素为域的属性为存储的个数
   private int[] numStoredFields; // number of stored fields
-  // 下标为docId，数组元素为bufferedDocs中的偏移值, bufferedDocs中存放了当前文档的域值
+  // 下标为docId，数组元素为每篇文档的最后一个域的域值在bufferedDocs中下标值, bufferedDocs中存放了当前文档的所有域的域值
   private int[] endOffsets; // end offsets in bufferedDocs
   private int docBase; // doc ID at the beginning of the chunk
   private int numBufferedDocs; // docBase + numBufferedDocs == current doc ID
@@ -157,6 +157,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
   }
 
   @Override
+  // 这个方法在调用IndexWriter.add(Document)过程中调用
   public void finishDocument() throws IOException {
     if (numBufferedDocs == this.numStoredFields.length) {
       final int newLength = ArrayUtil.oversize(numBufferedDocs + 1, 4);
@@ -166,7 +167,10 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
     // 记录当前文档包含的域的个数，域必须是Store.YES
     this.numStoredFields[numBufferedDocs] = numStoredFieldsInDoc;
     numStoredFieldsInDoc = 0;
+    // 一个文档的所有域的域值都存放在bufferedDocs中
+    // 记录当前文档的最后一个域的最后一个域值在buffer[]数组中的位置
     endOffsets[numBufferedDocs] = bufferedDocs.getPosition();
+    // 文档号+1
     ++numBufferedDocs;
     if (triggerFlush()) {
       flush();
@@ -188,11 +192,12 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
       }
       // 如果相同
       if (allEqual) {
-        // 标示位
+        // 标示位，说明所有文档的域的个数相同
         out.writeVInt(0);
-        // 只写入一个即可
+        // 只要写入一次文档的域的个数即可
         out.writeVInt(values[0]);
       } else {
+        // 否则使用PackedInts压缩存储每篇文档的域的个数
         long max = 0;
         for (int i = 0; i < length; ++i) {
           // 使用"|"的方法不会破坏最大values的最高位
@@ -233,21 +238,25 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
   }
 
   private boolean triggerFlush() {
+    // trigger的条件
     return bufferedDocs.getPosition() >= chunkSize || // chunks of at least chunkSize bytes
         numBufferedDocs >= maxDocsPerChunk;
   }
 
+  // 当commit 或者 文档个数等于128(LZ4.FAST)或者文档个数等于521(LZ4.HIGH)会调用此方法
   private void flush() throws IOException {
     indexWriter.writeIndex(numBufferedDocs, fieldsStream.getFilePointer());
 
     // transform end offsets into lengths
+
     final int[] lengths = endOffsets;
-    // 计算差值
+    // 计算前后数组两个元素的差值
     for (int i = numBufferedDocs - 1; i > 0; --i) {
       lengths[i] = endOffsets[i] - endOffsets[i - 1];
       assert lengths[i] >= 0;
     }
     final boolean sliced = bufferedDocs.getPosition() >= 2 * chunkSize;
+    // 每篇文档包含的域的种类跟域值写入到fdx中
     writeHeader(docBase, numBufferedDocs, numStoredFields, lengths, sliced);
 
     // compress stored fields to fieldsStream
@@ -264,6 +273,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
     // 更新docBase
     docBase += numBufferedDocs;
     numBufferedDocs = 0;
+    // 复用存放所有域的所有域值的数组
     bufferedDocs.reset();
     numChunks++;
   }
