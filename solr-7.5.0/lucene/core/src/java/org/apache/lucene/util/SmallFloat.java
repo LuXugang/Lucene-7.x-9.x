@@ -102,6 +102,7 @@ public class SmallFloat {
     if (i < 0) {
       throw new IllegalArgumentException("Only supports positive values, got " + i);
     }
+    // 参数i 占用的bit位个数
     int numBits = 64 - Long.numberOfLeadingZeros(i);
     if (numBits < 4) {
       // subnormal value

@@ -143,6 +143,7 @@ final class DefaultIndexingChain extends DocConsumer {
     }
 
     t0 = System.nanoTime();
+    // 处理数值类型
     writePoints(state, sortMap);
     if (docState.infoStream.isEnabled("IW")) {
       docState.infoStream.message("IW", ((System.nanoTime()-t0)/1000000) + " msec to write points");

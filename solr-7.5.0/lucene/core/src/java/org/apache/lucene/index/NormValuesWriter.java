@@ -128,6 +128,7 @@ class NormValuesWriter {
     public int nextDoc() throws IOException {
       int docID = docsWithField.nextDoc();
       if (docID != NO_MORE_DOCS) {
+        // 更新docID的同时，更新对应的value
         value = iter.next();
       }
       return docID;

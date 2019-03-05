@@ -87,11 +87,13 @@ final class Lucene70NormsConsumer extends NormsConsumer {
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
       numDocsWithValue++;
       long v = values.longValue();
+      // 计算当前域在所有文档中 标准化值最小跟最大
       min = Math.min(min, v);
       max = Math.max(max, v);
     }
     assert numDocsWithValue <= maxDoc;
 
+    // 当前域的域号
     meta.writeInt(field.number);
 
     if (numDocsWithValue == 0) {
@@ -109,6 +111,7 @@ final class Lucene70NormsConsumer extends NormsConsumer {
     }
 
     meta.writeInt(numDocsWithValue);
+    // 根据min max的值来判断存储最大的标准化值需要的最大字节个数
     int numBytesPerValue = numBytesPerValue(min, max);
 
     meta.writeByte((byte) numBytesPerValue);
@@ -117,6 +120,7 @@ final class Lucene70NormsConsumer extends NormsConsumer {
     } else {
       meta.writeLong(data.getFilePointer());
       values = normsProducer.getNorms(field);
+      // 将norm值按照文档号依次写入到文件流
       writeValues(values, numBytesPerValue, data);
     }
   }

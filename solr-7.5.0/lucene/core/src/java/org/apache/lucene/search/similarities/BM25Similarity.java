@@ -146,6 +146,7 @@ public class BM25Similarity extends Similarity {
 
   @Override
   public final long computeNorm(FieldInvertState state) {
+    // state.getLength()描述当前域中的term个数
     final int numTerms = discountOverlaps ? state.getLength() - state.getNumOverlap() : state.getLength();
     // 返回一个版本号，7.0之前返回值是6，7.5.0版本返回的是7
     int indexCreatedVersionMajor = state.getIndexCreatedVersionMajor();
