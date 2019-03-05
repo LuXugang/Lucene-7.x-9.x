@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/solr-7.5.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/solr-7.5.0.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70NormsConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70NormsConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DefaultIndexingChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DefaultIndexingChain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/NormValuesWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/NormValuesWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FreqProxTermsWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FreqProxTermsWriter.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,20 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/NormValuesWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="112" column="39" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70NormsConsumer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+            <state relative-caret-position="293">
+              <caret line="110" column="37" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -101,6 +86,7 @@
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/NormValuesWriter.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70NormsConsumer.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FreqProxTermsWriter.java" />
       </list>
     </option>
   </component>
@@ -190,7 +176,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551781049171" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551788050599" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -214,12 +200,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1551751578022</updated>
-      <workItem from="1551751579781" duration="9912000" />
+      <workItem from="1551751579781" duration="11836000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9912000" />
+    <option name="totallyTimeSpent" value="11836000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -231,7 +217,7 @@
       <window_info id="Favorites" side_tool="true" />
       <window_info id="Capture Tool" />
       <window_info id="Web" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info anchor="bottom" id="Tool Output" />
@@ -301,13 +287,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/NormValuesWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="112" column="39" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/IndexedDISI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
@@ -324,8 +303,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70NormsConsumer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+        <state relative-caret-position="367">
+          <caret line="100" column="24" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FreqProxTermsWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="78" column="4" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/NormValuesWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="110" column="37" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
         </state>
       </provider>
     </entry>

@@ -86,9 +86,11 @@ final class FreqProxTermsWriter extends TermsHash {
     // Gather all fields that saw any postings:
     List<FreqProxTermsWriterPerField> allFields = new ArrayList<>();
 
+    // fieldsToFlush中key为域名，value为对应的倒排表信息
     for (TermsHashPerField f : fieldsToFlush.values()) {
       final FreqProxTermsWriterPerField perField = (FreqProxTermsWriterPerField) f;
       if (perField.bytesHash.size() > 0) {
+        // 对termID进行排序，排序前存储termID的数组为稀疏矩阵
         perField.sortPostings();
         assert perField.fieldInfo.getIndexOptions() != IndexOptions.NONE;
         allFields.add(perField);
@@ -96,6 +98,7 @@ final class FreqProxTermsWriter extends TermsHash {
     }
 
     // Sort by field name
+    // 根据域名进行排序
     CollectionUtil.introSort(allFields);
 
     Fields fields = new FreqProxFields(allFields);

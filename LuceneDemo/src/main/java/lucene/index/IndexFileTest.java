@@ -43,7 +43,7 @@ public class IndexFileTest {
     indexWriter = new IndexWriter(directory, conf);
 
     int count = 0;
-    while (count++ < 440000) {
+//    while (count++ < 440000) {
       // 0
       Document doc = new Document();
       doc.add(new TextField("content", "a b a", Field.Store.YES));
@@ -62,7 +62,7 @@ public class IndexFileTest {
       doc.add(new TextField("author", "a", Field.Store.YES));
       indexWriter.addDocument(doc);
 
-    }
+//    }
     indexWriter.commit();
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
