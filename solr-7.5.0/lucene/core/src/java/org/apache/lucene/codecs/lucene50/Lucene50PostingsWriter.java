@@ -64,7 +64,9 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
   IntBlockTermState lastState;
 
   // Holds starting file pointers for current term:
+  // .doc中的起始位置
   private long docStartFP;
+  // .pos文件中的位置
   private long posStartFP;
   private long payStartFP;
 
@@ -198,13 +200,16 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
 
   @Override
   public void startTerm() {
+    // 获取.doc文件可以写入的位置
     docStartFP = docOut.getFilePointer();
     if (writePositions) {
+      // 获取.pos文件可以写入的位置
       posStartFP = posOut.getFilePointer();
       if (writePayloads || writeOffsets) {
         payStartFP = payOut.getFilePointer();
       }
     }
+    // 初始化操作
     lastDocID = 0;
     lastBlockDocID = -1;
     skipWriter.resetSkip();
@@ -257,6 +262,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     if (position < 0) {
       throw new CorruptIndexException("position=" + position + " is < 0", docOut);
     }
+    // 差值存储position
     posDeltaBuffer[posBufferUpto] = position - lastPosition;
     if (writePayloads) {
       if (payload == null || payload.length == 0) {
@@ -436,11 +442,14 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
   @Override
   public void encodeTerm(long[] longs, DataOutput out, FieldInfo fieldInfo, BlockTermState _state, boolean absolute) throws IOException {
     IntBlockTermState state = (IntBlockTermState)_state;
+    // absolute为真，说明是差值存储
     if (absolute) {
       lastState = emptyState;
     }
+    // docStartFP是term在.doc文件中的起始位置
     longs[0] = state.docStartFP - lastState.docStartFP;
     if (writePositions) {
+      // posStartFP是term在.pos文件中的起始位置
       longs[1] = state.posStartFP - lastState.posStartFP;
       if (writePayloads || writeOffsets) {
         longs[2] = state.payStartFP - lastState.payStartFP;

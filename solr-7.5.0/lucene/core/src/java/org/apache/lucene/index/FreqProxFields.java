@@ -192,6 +192,8 @@ class FreqProxFields extends Fields {
       if (ord >= numTerms) {
         return null;
       } else {
+        // 获取当前term在倒排表中的起始位置, 注意获取term的顺序是按照term的字典序
+        // sortedTermID[]数组是排序后的ids[]数组
         int textStart = postingsArray.textStarts[sortedTermIDs[ord]];
         terms.bytePool.setBytesRef(scratch, textStart);
         return scratch;
@@ -403,7 +405,9 @@ class FreqProxFields extends Fields {
 
     final FreqProxTermsWriterPerField terms;
     final FreqProxPostingsArray postingsArray;
+    // 读取 倒排表中 文档号&&词频 的Reader
     final ByteSliceReader reader = new ByteSliceReader();
+    // 读取 倒排表中  位置&&payload 的Reader
     final ByteSliceReader posReader = new ByteSliceReader();
     final boolean readOffsets;
     int docID = -1;
@@ -427,7 +431,9 @@ class FreqProxFields extends Fields {
 
     public void reset(int termID) {
       this.termID = termID;
+      // 初始化读取倒排表中 文档号&&词频 的Reader
       terms.initReader(reader, termID, 0);
+      // 初始化读取倒排表中  位置&&payload 的Reader
       terms.initReader(posReader, termID, 1);
       ended = false;
       docID = -1;
@@ -462,8 +468,11 @@ class FreqProxFields extends Fields {
           freq = postingsArray.termFreqs[termID];
         }
       } else {
+        // 读取 文档号&&词频 的编码值code
         int code = reader.readVInt();
+        // code右移一位就是真实的 docID
         docID += code >>> 1;
+        // if 语句为真说明 词频为 1
         if ((code & 1) != 0) {
           freq = 1;
         } else {
@@ -493,6 +502,7 @@ class FreqProxFields extends Fields {
     public int nextPosition() throws IOException {
       assert posLeft > 0;
       posLeft--;
+      // code为一个编码值，这个编码由 位置&&payload 编码得来
       int code = posReader.readVInt();
       pos += code >>> 1;
       if ((code & 1) != 0) {

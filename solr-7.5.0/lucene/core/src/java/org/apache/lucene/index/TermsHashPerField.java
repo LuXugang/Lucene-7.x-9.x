@@ -79,11 +79,15 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
     }
   }
 
+  // 初始化参数reader
   public void initReader(ByteSliceReader reader, int termID, int stream) {
     assert stream < streamCount;
+    // term在倒排表IntBlockPool中的值，这个值描述了term的文档&&词频 跟 位置&&payload 在ByteBlockPool中的最后位置
     int intStart = postingsArray.intStarts[termID];
+    // 获取所在的一维数组数组(二维数组由多个一维数组组成)
     final int[] ints = intPool.buffers[intStart >> IntBlockPool.INT_BLOCK_SHIFT];
     final int upto = intStart & IntBlockPool.INT_BLOCK_MASK;
+    // 获取term的文档号&&词频的数据段的起始跟结束位置作为参数来初始化Reader
     reader.init(bytePool,
                 postingsArray.byteStarts[termID]+stream*ByteBlockPool.FIRST_LEVEL_SIZE,
                 ints[upto+stream]);

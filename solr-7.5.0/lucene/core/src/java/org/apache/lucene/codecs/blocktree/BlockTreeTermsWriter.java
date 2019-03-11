@@ -329,9 +329,11 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         continue;
       }
 
+      // 通过Terms对象生成TermEnum对象
       TermsEnum termsEnum = terms.iterator();
       TermsWriter termsWriter = new TermsWriter(fieldInfos.fieldInfo(field));
       while (true) {
+        // 按照term的字典序依次取出每一个term
         BytesRef term = termsEnum.next();
         //if (DEBUG) System.out.println("BTTW: next term " + term);
 
@@ -709,14 +711,18 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
           //}
 
           // For leaf block we write suffix straight
+          // 写入前缀个数
           suffixWriter.writeVInt(suffix);
+          // 写入前缀值
           suffixWriter.writeBytes(term.termBytes, prefixLength, suffix);
           assert floorLeadLabel == -1 || (term.termBytes[prefixLength] & 0xff) >= floorLeadLabel;
 
           // Write term stats, to separate byte[] blob:
+          // 写入包含当前term的文档个数
           statsWriter.writeVInt(state.docFreq);
           if (fieldInfo.getIndexOptions() != IndexOptions.DOCS) {
             assert state.totalTermFreq >= state.docFreq: state.totalTermFreq + " vs " + state.docFreq;
+            // totalTermFreq是所有文档中term的出现的总数（非去重）
             statsWriter.writeVLong(state.totalTermFreq - state.docFreq);
           }
 
@@ -724,6 +730,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
           postingsWriter.encodeTerm(longs, bytesWriter, fieldInfo, state, absolute);
           for (int pos = 0; pos < longsSize; pos++) {
             assert longs[pos] >= 0;
+            // 写入 term在 .doc, .pos ，payload文件中的位置信息(可能是差值)
             metaWriter.writeVLong(longs[pos]);
           }
           bytesWriter.writeTo(metaWriter);
@@ -861,6 +868,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       }
       */
 
+      // 从倒排表中取出term的所有信息
       BlockTermState state = postingsWriter.writeTerm(text, termsEnum, docsSeen);
       if (state != null) {
 
@@ -872,8 +880,11 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         pending.add(term);
         //if (DEBUG) System.out.println("    add pending term = " + text + " pending.size()=" + pending.size());
 
+        // 包含当前term的文档数
         sumDocFreq += state.docFreq;
+        // term在所有文档后中的总数
         sumTotalTermFreq += state.totalTermFreq;
+        // 域中的term个数(去重)
         numTerms++;
         if (firstPendingTerm == null) {
           firstPendingTerm = term;
@@ -888,6 +899,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
       // Find common prefix between last term and current term:
       int pos = 0;
+      // 统计当前term跟上一个term相同前缀的个数
       while (pos < limit && lastTerm.byteAt(pos) == text.bytes[text.offset+pos]) {
         pos++;
       }
@@ -907,6 +919,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         }
       }
 
+      // 数组动态扩展
       if (prefixStarts.length < text.length) {
         prefixStarts = ArrayUtil.grow(prefixStarts, text.length);
       }
@@ -920,6 +933,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
     }
 
     // Finishes all terms in this field
+    // 结束当前域的所有term的处理
     public void finish() throws IOException {
       if (numTerms > 0) {
         // if (DEBUG) System.out.println("BTTW: finish prefixStarts=" + Arrays.toString(prefixStarts));

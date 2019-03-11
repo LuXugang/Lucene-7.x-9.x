@@ -46,20 +46,20 @@ public class IndexFileTest {
 //    while (count++ < 440000) {
       // 0
       Document doc = new Document();
-      doc.add(new TextField("content", "a b a", Field.Store.YES));
-      doc.add(new TextField("author", "a", Field.Store.YES));
+      doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
+      doc.add(new TextField("content", "a", Field.Store.YES));
       indexWriter.addDocument(doc);
 
       // 1
       doc = new Document();
-      doc.add(new TextField("content", "c a", Field.Store.YES));
-      doc.add(new TextField("author", "b", Field.Store.YES));
+      doc.add(new TextField("author", "cd aab", Field.Store.YES));
+      doc.add(new TextField("content", "b", Field.Store.YES));
       indexWriter.addDocument(doc);
 
       // 2
       doc = new Document();
-      doc.add(new TextField("content", "a a", Field.Store.YES));
-      doc.add(new TextField("author", "a", Field.Store.YES));
+      doc.add(new TextField("author", "aab aabb aab", Field.Store.YES));
+      doc.add(new TextField("content", "a", Field.Store.YES));
       indexWriter.addDocument(doc);
 
 //    }

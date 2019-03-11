@@ -112,13 +112,13 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
         enumFlags = PostingsEnum.OFFSETS;
       }
     }
-
     return 0;
   }
 
   @Override
   public final BlockTermState writeTerm(BytesRef term, TermsEnum termsEnum, FixedBitSet docsSeen) throws IOException {
     startTerm();
+    // 生成一个可以读取某个term所有倒排表信息的PostingsEnum对象
     postingsEnum = termsEnum.postings(postingsEnum, enumFlags);
     assert postingsEnum != null;
 
@@ -133,6 +133,7 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
       docsSeen.set(docID);
       int freq;
       if (writeFreqs) {
+        // 获得词频，在调用postingsEnum.nextDoc()的过程就同时获得了词频
         freq = postingsEnum.freq();
         totalTermFreq += freq;
       } else {
@@ -141,6 +142,7 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
       startDoc(docID, freq);
 
       if (writePositions) {
+        // term的词频为freq表示有freq个不同的位置
         for(int i=0;i<freq;i++) {
           int pos = postingsEnum.nextPosition();
           BytesRef payload = writePayloads ? postingsEnum.getPayload() : null;
