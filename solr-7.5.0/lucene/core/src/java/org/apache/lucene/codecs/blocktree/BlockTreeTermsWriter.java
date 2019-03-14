@@ -653,6 +653,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
       assert end > start;
 
+      // .tim文件中下一个可以写入数据的位置
       long startFP = termsOut.getFilePointer();
 
       boolean hasFloorLeadLabel = isFloor && floorLeadLabel != -1;
@@ -733,6 +734,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             // 写入 term在 .doc, .pos ，payload文件中的位置信息(可能是差值)
             metaWriter.writeVLong(longs[pos]);
           }
+          // 将bytesWriter中的数据合并到metaWriter中
           bytesWriter.writeTo(metaWriter);
           bytesWriter.reset();
           absolute = false;
@@ -822,17 +824,20 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       // this would take more space but would enable binary
       // search on lookup
 
+      // 将临时的suffixWriter、statsWriter、metaWriter的数据合并到.tim文件中
       // Write suffixes byte[] blob to terms dict output:
       termsOut.writeVInt((int) (suffixWriter.getFilePointer() << 1) | (isLeafBlock ? 1:0));
       suffixWriter.writeTo(termsOut);
       suffixWriter.reset();
 
       // Write term stats byte[] blob
+      // 这个值用来描述当前term的statsWriter的数据的在.tim文件中的数据长度
       termsOut.writeVInt((int) statsWriter.getFilePointer());
       statsWriter.writeTo(termsOut);
       statsWriter.reset();
 
       // Write term meta data byte[] blob
+      // 这个值用来描述当前term的metaWriter的数据的在.tim文件中的数据长度
       termsOut.writeVInt((int) metaWriter.getFilePointer());
       metaWriter.writeTo(termsOut);
       metaWriter.reset();
@@ -968,9 +973,11 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         }
         */
         assert firstPendingTerm != null;
+        // 最小的那个term
         BytesRef minTerm = new BytesRef(firstPendingTerm.termBytes);
 
         assert lastPendingTerm != null;
+        // 最大的那个term
         BytesRef maxTerm = new BytesRef(lastPendingTerm.termBytes);
 
         fields.add(new FieldMetaData(fieldInfo,
@@ -989,8 +996,11 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       }
     }
 
+    // 临时用来记录term前缀信息
     private final RAMOutputStream suffixWriter = new RAMOutputStream();
+    // 临时用来记录term文档号词频信息
     private final RAMOutputStream statsWriter = new RAMOutputStream();
+    // 临时用来记录term的某个term在.doc、.pos payload文件中的位置信息（差值）
     private final RAMOutputStream metaWriter = new RAMOutputStream();
     private final RAMOutputStream bytesWriter = new RAMOutputStream();
   }
