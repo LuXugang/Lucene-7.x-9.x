@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,20 +14,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene50/Lucene50PostingsWriter.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6780">
-              <caret line="495" column="1" selection-start-line="495" selection-start-column="1" selection-end-line="495" selection-end-column="1" />
+            <state relative-caret-position="356">
+              <caret line="160" column="68" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
+              <folding>
+                <element signature="e#17858#17859#0" expanded="true" />
+                <element signature="e#17916#17917#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="116" column="29" lean-forward="true" selection-start-line="116" selection-start-column="29" selection-end-line="116" selection-end-column="29" />
+            <state relative-caret-position="6166">
+              <caret line="474" column="18" selection-start-line="474" selection-start-column="18" selection-end-line="474" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -108,7 +112,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/similarities/TFIDFSimilarity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5055">
+            <state relative-caret-position="316">
               <caret line="365" column="9" selection-start-line="365" selection-start-column="9" selection-end-line="365" selection-end-column="9" />
             </state>
           </provider>
@@ -134,13 +138,14 @@
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/FreqProxFields.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/lucene50/Lucene50PostingsWriter.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java" />
       </list>
     </option>
   </component>
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
@@ -205,18 +210,18 @@
       <workItem from="1552306888756" duration="569000" />
       <workItem from="1552442155549" duration="1514000" />
       <workItem from="1552473833267" duration="9618000" />
-      <workItem from="1552549202676" duration="2940000" />
+      <workItem from="1552549202676" duration="13326000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38876000" />
+    <option name="totallyTimeSpent" value="49262000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18240343" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18240343" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -234,7 +239,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Tool Output" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" visible="true" weight="0.18192771" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="10" side_tool="true" visible="true" weight="0.18192771" />
       <window_info anchor="bottom" id="Run with VisualVM" order="11" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
       <window_info anchor="bottom" id="JProfiler" order="13" />
@@ -445,15 +450,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/similarities/TFIDFSimilarity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5055">
+        <state relative-caret-position="316">
           <caret line="365" column="9" selection-start-line="365" selection-start-column="9" selection-end-line="365" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/fst/FST.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6166">
+          <caret line="474" column="18" selection-start-line="474" selection-start-column="18" selection-end-line="474" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="116" column="29" lean-forward="true" selection-start-line="116" selection-start-column="29" selection-end-line="116" selection-end-column="29" />
+        <state relative-caret-position="356">
+          <caret line="160" column="68" selection-start-line="160" selection-start-column="68" selection-end-line="160" selection-end-column="68" />
+          <folding>
+            <element signature="e#17858#17859#0" expanded="true" />
+            <element signature="e#17916#17917#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

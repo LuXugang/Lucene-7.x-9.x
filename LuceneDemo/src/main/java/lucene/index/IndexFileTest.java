@@ -53,13 +53,15 @@ public class IndexFileTest {
     // 1
     doc = new Document();
     doc.add(new TextField("author", "cd aab", Field.Store.YES));
-    doc.add(new TextField("content", "b", Field.Store.YES));
+//    doc.add(new TextField("content", "b", Field.Store.YES));
+    doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 2
     doc = new Document();
     doc.add(new TextField("author", "aab aabb aab", Field.Store.YES));
-    doc.add(new TextField("content", "a", Field.Store.YES));
+//    doc.add(new TextField("content", "a", Field.Store.YES));
+    doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 
 

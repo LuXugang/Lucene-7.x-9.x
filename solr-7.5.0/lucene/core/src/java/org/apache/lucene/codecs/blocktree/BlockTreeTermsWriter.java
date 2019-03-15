@@ -407,11 +407,14 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
   private static final class PendingBlock extends PendingEntry {
     public final BytesRef prefix;
+    // block在.tim文件中的起始位置
     public final long fp;
     public FST<BytesRef> index;
     public List<FST<BytesRef>> subIndices;
     public final boolean hasTerms;
     public final boolean isFloor;
+    // 在floor block中第一个entries的字符，比如说处理 "ab"前缀的entries，如果生成了"ab" "abh" "abl"的floor block
+    // 那么floorLeadByte值分别对应 "-1" "104" "108",其中104跟108分别是'h' 'l'对应的ASCII码值。
     public final int floorLeadByte;
 
     public PendingBlock(BytesRef prefix, long fp, boolean hasTerms, boolean isFloor, int floorLeadByte, List<FST<BytesRef>> subIndices) {
@@ -439,8 +442,10 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       // TODO: try writing the leading vLong in MSB order
       // (opposite of what Lucene does today), for better
       // outputs sharing in the FST
+      // fp为blocks在.tim文件中的起始位置，hasTerms描述blocks中是否包含pendingTerm对象, isFloor表示是否为floor block
       scratchBytes.writeVLong(encodeOutput(fp, hasTerms, isFloor));
       if (isFloor) {
+        // 记录floor block的个数
         scratchBytes.writeVInt(blocks.size()-1);
         for (int i=1;i<blocks.size();i++) {
           PendingBlock sub = blocks.get(i);
@@ -465,6 +470,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       final byte[] bytes = new byte[(int) scratchBytes.getFilePointer()];
       assert bytes.length > 0;
       scratchBytes.writeTo(bytes, 0);
+      // 往FST中添加一个元素，其中prefix是数据，bytes是prefix附带的值
       indexBuilder.add(Util.toIntsRef(prefix, scratchIntsRef), new BytesRef(bytes, 0, bytes.length));
       scratchBytes.reset();
 
@@ -600,11 +606,15 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             // jump to the right floor block.  We just use a naive greedy segmenter here: make a new floor
             // block as soon as we have at least minItemsInBlock.  This is not always best: it often produces
             // a too-small block as the final block:
+            // 每一个floor block的leading label是floor block中第一个term的后缀，这样的话在搜索阶段就能跳转到正确的floor block。
             boolean isFloor = itemsInBlock < count;
+            // nextBlockStart跟i跟别描述了在pending数组中需要处理成一个block的范围
             newBlocks.add(writeBlock(prefixLength, isFloor, nextFloorLeadLabel, nextBlockStart, i, hasTerms, hasSubBlocks));
 
             hasTerms = false;
             hasSubBlocks = false;
+            // floor block中第一个entries的字符，比如说处理 "ab"前缀的entries，如果生成了"ab" "abh" "abl"
+            // 那么nextFloorLeadLabel的值分别对应 "-1" "104" "108",其中104跟108分别是'h' 'l'对应的ASCII码值。
             nextFloorLeadLabel = suffixLeadLabel;
             nextBlockStart = i;
           }
@@ -648,6 +658,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
      *  were too many (more than maxItemsInBlock) entries sharing the
      *  same prefix, and so we broke it into multiple floor blocks where
      *  we record the starting label of the suffix of each floor block. */
+    // 如果相同前缀的entries的个数超过maxItemInBlock，那么会分成多个floor blocks
     private PendingBlock writeBlock(int prefixLength, boolean isFloor, int floorLeadLabel, int start, int end,
                                     boolean hasTerms, boolean hasSubBlocks) throws IOException {
 
@@ -684,6 +695,8 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
       // We optimize the leaf block case (block has only terms), writing a more
       // compact format in this case:
+
+      // 判断当前处理的pendingEntry中包含了pendingBlock。
       boolean isLeafBlock = hasSubBlocks == false;
 
       //System.out.println("  isLeaf=" + isLeafBlock);
@@ -692,6 +705,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
       boolean absolute = true;
 
+      // 只有pendingTerm
       if (isLeafBlock) {
         // Block contains only ordinary terms:
         subIndices = null;
@@ -744,6 +758,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         subIndices = new ArrayList<>();
         for (int i=start;i<end;i++) {
           PendingEntry ent = pending.get(i);
+          // 处理pendingTerm
           if (ent.isTerm) {
             PendingTerm term = (PendingTerm) ent;
 
@@ -789,6 +804,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             bytesWriter.writeTo(metaWriter);
             bytesWriter.reset();
             absolute = false;
+            // 处理pendingBlock
           } else {
             PendingBlock block = (PendingBlock) ent;
             assert StringHelper.startsWith(block.prefix, prefix);
@@ -950,6 +966,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         // we can save writing a "degenerate" root block, but we have to
         // fix all the places that assume the root block's prefix is the empty string:
         pushTerm(new BytesRef());
+        // pending中包含了pendingTerm跟pendingBlock对象。这里是最后一步将这些PendingEntry对象归并为block
         writeBlocks(0, pending.size());
 
         // We better have one final "root" block:

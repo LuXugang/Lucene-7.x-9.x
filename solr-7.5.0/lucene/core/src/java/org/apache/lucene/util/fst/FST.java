@@ -473,6 +473,7 @@ public final class FST<T> implements Accountable {
       // reverse
       final int stopAt = emptyOutputBytes.length/2;
       int upto = 0;
+      // 将emptyOutputBytes中的值进行逆置。FST算法中会将结果逆置，这里再次逆置来恢复原始数据
       while(upto < stopAt) {
         final byte b = emptyOutputBytes[upto];
         emptyOutputBytes[upto] = emptyOutputBytes[emptyOutputBytes.length-upto-1];
