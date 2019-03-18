@@ -22,7 +22,7 @@ import java.util.Random;
  * @author Lu Xugang
  * @date 2019-02-21 09:58
  */
-public class IndexFileTest {
+public class IndexFileWithManyFieldValues {
   private Directory directory;
 
   {
@@ -46,28 +46,26 @@ public class IndexFileTest {
 //    while (count++ < 440000) {
 //       0
     Document doc = new Document();
-    doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
+    doc.add(new TextField("author", "aab b ab aabbcc ", Field.Store.YES));
     doc.add(new TextField("content", "a", Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 1
     doc = new Document();
-    doc.add(new TextField("author", "cd aab", Field.Store.YES));
-//    doc.add(new TextField("content", "b", Field.Store.YES));
+    doc.add(new TextField("author", "cd ab", Field.Store.YES));
     doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 2
     doc = new Document();
-    doc.add(new TextField("author", "aab aabb aab", Field.Store.YES));
-//    doc.add(new TextField("content", "a", Field.Store.YES));
+    doc.add(new TextField("author", "aab abb aab", Field.Store.YES));
     doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 
 
     // 3
     doc = new Document();
-    doc.add(new TextField("author", getMultiSamePrefixValue("ab"), Field.Store.YES));
+    doc.add(new TextField("author", getMultiSamePrefixValue("ab", 50), Field.Store.YES));
     doc.add(new TextField("content", "c", Field.Store.YES));
     indexWriter.addDocument(doc);
 
@@ -80,7 +78,7 @@ public class IndexFileTest {
 
     // 5
     doc = new Document();
-    doc.add(new TextField("author", getMultiSamePrefixValue("kb"), Field.Store.YES));
+    doc.add(new TextField("author", getMultiSamePrefixValue("kb", 60), Field.Store.YES));
     doc.add(new TextField("content", "c", Field.Store.YES));
     indexWriter.addDocument(doc);
 
@@ -135,10 +133,10 @@ public class IndexFileTest {
     return length;
   }
 
-  public static String getMultiSamePrefixValue(String prefix){
+  public static String getMultiSamePrefixValue(String prefix, int wordNum){
     int valueCount = 0;
     StringBuilder stringBuilder = new StringBuilder();
-    while (valueCount++ < 99){
+    while (valueCount++ < wordNum){
       stringBuilder.append(getSamePrefixRandomValue(prefix));
       stringBuilder.append(" ");
     }
@@ -158,7 +156,7 @@ public class IndexFileTest {
   }
 
   public static void main(String[] args) throws Exception{
-    IndexFileTest test = new IndexFileTest();
+    IndexFileWithManyFieldValues test = new IndexFileWithManyFieldValues();
     test.doIndex();
   }
 }

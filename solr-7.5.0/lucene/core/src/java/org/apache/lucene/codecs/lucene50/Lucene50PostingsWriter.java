@@ -224,6 +224,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
       skipWriter.bufferSkip(lastBlockDocID, docCount, lastBlockPosFP, lastBlockPayFP, lastBlockPosBufferUpto, lastBlockPayloadByteUpto);
     }
 
+    // 计算文档号差值
     final int docDelta = docID - lastDocID;
 
     if (docID < 0 || (docCount > 0 && docDelta <= 0)) {
