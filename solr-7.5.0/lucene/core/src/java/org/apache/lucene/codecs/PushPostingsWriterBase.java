@@ -124,6 +124,7 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
 
     int docFreq = 0;
     long totalTermFreq = 0;
+    // 遍历包含当前term的每一篇文档，统计当前term在每一篇文档中的docId、frequency，position、payload、offset信息
     while (true) {
       int docID = postingsEnum.nextDoc();
       if (docID == PostingsEnum.NO_MORE_DOCS) {
@@ -139,6 +140,7 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
       } else {
         freq = -1;
       }
+      // 处理docID跟frequency
       startDoc(docID, freq);
 
       if (writePositions) {
@@ -155,10 +157,12 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
             startOffset = -1;
             endOffset = -1;
           }
+          // 处理position、payload、offset
           addPosition(pos, payload, startOffset, endOffset);
         }
       }
-
+      // 包含当前term的某一篇文档的收尾工作
+      // 当前处理完term在当前文档中位置跟payload信息时调用此方法。
       finishDoc();
     }
 
@@ -166,7 +170,9 @@ public abstract class PushPostingsWriterBase extends PostingsWriterBase {
       return null;
     } else {
       BlockTermState state = newTermState();
+      // docFreq为包含当前term的文档数量总和
       state.docFreq = docFreq;
+      // totalTermFreq为当前term的在所有文档中的词频总和
       state.totalTermFreq = writeFreqs ? totalTermFreq : -1;
       finishTerm(state);
       return state;

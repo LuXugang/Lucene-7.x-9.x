@@ -124,12 +124,15 @@ public abstract class MultiLevelSkipListWriter {
    * @throws IOException If an I/O error occurs
    */
   public void bufferSkip(int df) throws IOException {
-
+    // df描述当前已经处理了包含某个term的文档数量
     assert df % skipInterval == 0;
     int numLevels = 1;
+    // df被更新为block的值，一个block中包含128篇文档
     df /= skipInterval;
    
     // determine max level
+    // 每次处理128 * 8 即1024篇文档就要在第二层生成跳表来指向第一层
+    // 每次处理 128 * 8 * 8即 8192篇文档就要在第三层生成跳表来指向第二层
     while ((df % skipMultiplier) == 0 && numLevels < numberOfSkipLevels) {
       numLevels++;
       df /= skipMultiplier;

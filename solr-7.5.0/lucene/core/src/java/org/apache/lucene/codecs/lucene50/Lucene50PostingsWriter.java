@@ -220,7 +220,11 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     // Have collected a block of docs, and get a new doc. 
     // Should write skip data as well as postings list for
     // current block.
+    // 每处理128篇文档，docBufferUpto的值就会在finishDoc()方法中被置为0.
+    // 每处理128篇文档, lastBlockDocID的值就会在finishDoc()为置为 上一个文档号
     if (lastBlockDocID != -1 && docBufferUpto == 0) {
+      // docCount表示已经处理多少篇包含当前term的文档
+      // lastBlockPosFP表示在 .pos文件中的一个位置，这个位置前的一个block数据是term在128篇文档中的位置信息
       skipWriter.bufferSkip(lastBlockDocID, docCount, lastBlockPosFP, lastBlockPayFP, lastBlockPosBufferUpto, lastBlockPayloadByteUpto);
     }
 
@@ -231,12 +235,16 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
       throw new CorruptIndexException("docs out of order (" + docID + " <= " + lastDocID + " )", docOut);
     }
 
+    // docDeltaBuffer[]使用差值存储文档号
     docDeltaBuffer[docBufferUpto] = docDelta;
     if (writeFreqs) {
+      // freqBuffer[]存储当前term在每一篇文档的词频
       freqBuffer[docBufferUpto] = termDocFreq;
     }
-    
+
+    // 每次处理128篇文档，docBufferUpto的值会在 finishDoc()方法中被重置为0.
     docBufferUpto++;
+    // docCount用来统计目前已经处理的文档个数
     docCount++;
 
     if (docBufferUpto == BLOCK_SIZE) {
@@ -263,7 +271,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     if (position < 0) {
       throw new CorruptIndexException("position=" + position + " is < 0", docOut);
     }
-    // 差值存储position
+    // 差值存储position, posDeltaBuffer[]数组中存放了当前term在每一篇文档中的位置信息，其中同一篇文档中的位置用差值存储
     posDeltaBuffer[posBufferUpto] = position - lastPosition;
     if (writePayloads) {
       if (payload == null || payload.length == 0) {
@@ -286,8 +294,10 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
       offsetLengthBuffer[posBufferUpto] = endOffset - startOffset;
       lastStartOffset = startOffset;
     }
-    
+    // 当posBufferUpto达到BLOCK_SIZE即128，posDeltaBuffer[]数组中的数据会被写入到.pos文件中，并且posBufferUpto为置为0
+    // 使得posDeltaBuffer[]数组可以复用
     posBufferUpto++;
+    // 保存当前position的值，如果term在当前文档中还有新位置信息，那么下次处理时position的值用于计算差值
     lastPosition = position;
     if (posBufferUpto == BLOCK_SIZE) {
       forUtil.writeBlock(posDeltaBuffer, encoded, posOut);
@@ -311,16 +321,20 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     // Since we don't know df for current term, we had to buffer
     // those skip data for each block, and when a new doc comes, 
     // write them to skip file.
+    // df（document frequency）指的是包含term的文档数
+    // 每次处理包含当前term的128篇文档后，会将这个term在这128篇文档中的倒排表进行快处理
     if (docBufferUpto == BLOCK_SIZE) {
       lastBlockDocID = lastDocID;
       if (posOut != null) {
         if (payOut != null) {
           lastBlockPayFP = payOut.getFilePointer();
         }
+        // 记录.pos中的位置，该位置的一个block数据描述了term在128文档中的所有位置信息
         lastBlockPosFP = posOut.getFilePointer();
         lastBlockPosBufferUpto = posBufferUpto;
         lastBlockPayloadByteUpto = payloadByteUpto;
       }
+      // 注意这里的docBufferUpto被置为0，意味着docDeltaBuffer[]数组被复用
       docBufferUpto = 0;
     }
   }

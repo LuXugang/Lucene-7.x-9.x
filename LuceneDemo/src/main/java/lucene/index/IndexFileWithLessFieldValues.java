@@ -43,7 +43,7 @@ public class IndexFileWithLessFieldValues {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
-    while (count++ < 500) {
+    while (count++ < 50000) {
       Document doc = new Document();
       doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
       doc.add(new TextField("content", "a", Field.Store.YES));
@@ -51,13 +51,13 @@ public class IndexFileWithLessFieldValues {
 
       // 1
       doc = new Document();
-      doc.add(new TextField("author", "cd aab", Field.Store.YES));
+      doc.add(new TextField("author", "cd", Field.Store.YES));
       doc.add(new TextField("content", "b", Field.Store.YES));
       indexWriter.addDocument(doc);
 
       // 2
       doc = new Document();
-      doc.add(new TextField("author", "aab aabb aab", Field.Store.YES));
+      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
       doc.add(new TextField("content", "a", Field.Store.YES));
       indexWriter.addDocument(doc);
     }
