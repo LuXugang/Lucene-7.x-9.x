@@ -275,13 +275,15 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     posDeltaBuffer[posBufferUpto] = position - lastPosition;
     if (writePayloads) {
       if (payload == null || payload.length == 0) {
-        // no payload
+        // no payload 当前位置没有payload
         payloadLengthBuffer[posBufferUpto] = 0;
       } else {
+        // 记录payload的长度
         payloadLengthBuffer[posBufferUpto] = payload.length;
         if (payloadByteUpto + payload.length > payloadBytes.length) {
           payloadBytes = ArrayUtil.grow(payloadBytes, payloadByteUpto + payload.length);
         }
+        // 将payload数据写入到payloadBytes数组中
         System.arraycopy(payload.bytes, payload.offset, payloadBytes, payloadByteUpto, payload.length);
         payloadByteUpto += payload.length;
       }
@@ -290,12 +292,15 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     if (writeOffsets) {
       assert startOffset >= lastStartOffset;
       assert endOffset >= startOffset;
+      // 差值存储startOffset
       offsetStartDeltaBuffer[posBufferUpto] = startOffset - lastStartOffset;
+      // 存储其实就是term的长度
       offsetLengthBuffer[posBufferUpto] = endOffset - startOffset;
       lastStartOffset = startOffset;
     }
     // 当posBufferUpto达到BLOCK_SIZE即128，posDeltaBuffer[]数组中的数据会被写入到.pos文件中，并且posBufferUpto为置为0
     // 使得posDeltaBuffer[]数组可以复用
+    // posBufferUpto另外用来描述一个term在payloadLengthBuffer数组、offsetStartDeltaBuffer数组、offsetLengthBuffer、posDeltaBuffer[]数组中的position、payload、offset数据
     posBufferUpto++;
     // 保存当前position的值，如果term在当前文档中还有新位置信息，那么下次处理时position的值用于计算差值
     lastPosition = position;
@@ -357,6 +362,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     } else {
       singletonDocID = -1;
       // vInt encode the remaining doc deltas and freqs:
+      // 每当处理某个term的128篇文档会生成一块，最后一个block中剩余docBufferUpto文档还没有处理
       for(int i=0;i<docBufferUpto;i++) {
         final int docDelta = docDeltaBuffer[i];
         final int freq = freqBuffer[i];
@@ -393,6 +399,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
         int lastPayloadLength = -1;  // force first payload length to be written
         int lastOffsetLength = -1;   // force first offset length to be written
         int payloadBytesReadUpto = 0;
+        // 处理剩余的posBufferUpto个的当前term的位置信息。posBufferUpto的值必定是小于BLOCK_SIZE
         for(int i=0;i<posBufferUpto;i++) {
           final int posDelta = posDeltaBuffer[i];
           if (writePayloads) {
@@ -410,6 +417,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
               payloadBytesReadUpto += payloadLength;
             }
           } else {
+            // 剩余的不满128个的位置信息没有使用PackInt来进行压缩存储
             posOut.writeVInt(posDelta);
           }
 
