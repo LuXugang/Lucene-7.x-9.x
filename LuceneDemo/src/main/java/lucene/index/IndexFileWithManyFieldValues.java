@@ -46,19 +46,19 @@ public class IndexFileWithManyFieldValues {
 //    while (count++ < 440000) {
 //       0
     Document doc = new Document();
-    doc.add(new TextField("author", "aab b ab aabbcc ", Field.Store.YES));
+    doc.add(new TextField("author", "aab b a aabbcc ", Field.Store.YES));
     doc.add(new TextField("content", "a", Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 1
     doc = new Document();
-    doc.add(new TextField("author", "cd ab", Field.Store.YES));
+    doc.add(new TextField("author", "cd a", Field.Store.YES));
     doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 2
     doc = new Document();
-    doc.add(new TextField("author", "aab abb aab", Field.Store.YES));
+    doc.add(new TextField("author", "aab acb aab", Field.Store.YES));
     doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 

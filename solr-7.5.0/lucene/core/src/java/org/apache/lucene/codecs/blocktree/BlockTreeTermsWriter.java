@@ -342,6 +342,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         }
 
         //if (DEBUG) System.out.println("write field=" + fieldInfo.name + " term=" + brToString(term));
+        // 统计包含term的文档号、词频、payload、offset。并生成.doc、.pos、.pay文件
         termsWriter.write(term, termsEnum);
       }
 
@@ -539,6 +540,8 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
     // we append to this stack, and once the top of the stack has enough
     // terms starting with a common prefix, we write a new block with
     // those terms and replace those terms in the stack with a new block:
+    // pending中存放PendingTerm对象。如果有相同前缀的PendingTerm对象超过minItemsInBlock（PendingTerm对象个数可能大于minItemsInBlock）
+    // 会将这些PendingTerm对象变成一个PendingBLock。然后用PendingBLock替换掉pending链表中的PendingTerm
     private final List<PendingEntry> pending = new ArrayList<>();
 
     // Reused in writeBlocks:
@@ -580,6 +583,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
         int suffixLeadLabel;
 
+        // ent为PendingTerm对象
         if (ent.isTerm) {
           PendingTerm term = (PendingTerm) ent;
           if (term.termBytes.length == prefixLength) {
@@ -589,9 +593,11 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             assert lastSuffixLeadLabel == -1: "i=" + i + " lastSuffixLeadLabel=" + lastSuffixLeadLabel;
             suffixLeadLabel = -1;
           } else {
+            // 取相同前缀的后一个字节，例子：如果当前term是 "abe", prefixLength的值为2，那么suffixLeadLabel的值为 “e”
             suffixLeadLabel = term.termBytes[prefixLength] & 0xff;
           }
         } else {
+          // ent为PendingBlock对象
           PendingBlock block = (PendingBlock) ent;
           assert block.prefix.length > prefixLength;
           suffixLeadLabel = block.prefix.bytes[block.prefix.offset + prefixLength] & 0xff;
@@ -600,6 +606,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
         if (suffixLeadLabel != lastSuffixLeadLabel) {
           int itemsInBlock = i - nextBlockStart;
+          // 一个Block中iterm的个数是 25~48 (minItemsInBlock ~ maxItemsInBlock), 如果超过maxItemsInBlock，那么先将部分iterm生成一个floor block
           if (itemsInBlock >= minItemsInBlock && end-nextBlockStart > maxItemsInBlock) {
             // The count is too large for one block, so we must break it into "floor" blocks, where we record
             // the leading label of the suffix of the first term in each floor block, so at search time we can
@@ -608,7 +615,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             // a too-small block as the final block:
             // 每一个floor block的leading label是floor block中第一个term的后缀，这样的话在搜索阶段就能跳转到正确的floor block。
             boolean isFloor = itemsInBlock < count;
-            // nextBlockStart跟i跟别描述了在pending数组中需要处理成一个block的范围
+            // nextBlockStart跟i跟别描述了在pending数组中需要处理成一个floor block的范围
             newBlocks.add(writeBlock(prefixLength, isFloor, nextFloorLeadLabel, nextBlockStart, i, hasTerms, hasSubBlocks));
 
             hasTerms = false;
@@ -658,7 +665,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
      *  were too many (more than maxItemsInBlock) entries sharing the
      *  same prefix, and so we broke it into multiple floor blocks where
      *  we record the starting label of the suffix of each floor block. */
-    // 如果相同前缀的entries的个数超过maxItemInBlock，那么会分成多个floor blocks
+    // 如果相同前缀的entries的个数超过maxItemInBlock，那么会分成多个floor blocks, 并且每个floor block的floorLeadLabel为相同后缀的下一个字节
     private PendingBlock writeBlock(int prefixLength, boolean isFloor, int floorLeadLabel, int start, int end,
                                     boolean hasTerms, boolean hasSubBlocks) throws IOException {
 
@@ -866,7 +873,6 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         // We already allocated to length+1 above:
         prefix.bytes[prefix.length++] = (byte) floorLeadLabel;
       }
-
       return new PendingBlock(prefix, startFP, hasTerms, isFloor, floorLeadLabel, subIndices);
     }
 
@@ -896,7 +902,8 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         assert state.docFreq != 0;
         assert fieldInfo.getIndexOptions() == IndexOptions.DOCS || state.totalTermFreq >= state.docFreq: "postingsWriter=" + postingsWriter;
         pushTerm(text);
-       
+
+        // 每一个term生成一个PendingTerm
         PendingTerm term = new PendingTerm(text, state);
         pending.add(term);
         //if (DEBUG) System.out.println("    add pending term = " + text + " pending.size()=" + pending.size());
@@ -929,10 +936,11 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
       // Close the "abandoned" suffix now:
       for(int i=lastTerm.length()-1;i>=pos;i--) {
-
         // How many items on top of the stack share the current suffix
         // we are closing:
+        // 这里获取具有相同前缀的term的个数最多的
         int prefixTopSize = pending.size() - prefixStarts[i];
+        // 如果相同前缀的term的个数超过25（默认minItemsInBlock的大小为25），那么生成一个PendingBlock对象
         if (prefixTopSize >= minItemsInBlock) {
           // if (DEBUG) System.out.println("pushTerm i=" + i + " prefixTopSize=" + prefixTopSize + " minItemsInBlock=" + minItemsInBlock);
           writeBlocks(i+1, prefixTopSize);
