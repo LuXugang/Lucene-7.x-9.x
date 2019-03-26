@@ -666,6 +666,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
      *  same prefix, and so we broke it into multiple floor blocks where
      *  we record the starting label of the suffix of each floor block. */
     // 如果相同前缀的entries的个数超过maxItemInBlock，那么会分成多个floor blocks, 并且每个floor block的floorLeadLabel为相同后缀的下一个字节
+    //比如说处理包含相同前缀 "ab"的term，如果生成了"ab" "abh" "abl"的floor blocks，那么floorLeadLabel的值分别是"-1" "104" "108",其中104跟108分别是'h' 'l'对应的ASCII码值。
     private PendingBlock writeBlock(int prefixLength, boolean isFloor, int floorLeadLabel, int start, int end,
                                     boolean hasTerms, boolean hasSubBlocks) throws IOException {
 
@@ -674,6 +675,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       // .tim文件中下一个可以写入数据的位置
       long startFP = termsOut.getFilePointer();
 
+      // floorLeadLabel为true，说明相同前缀的term的个数需要至少一个block来存储，一个block中最少包含25个、最多包含45个term的信息
       boolean hasFloorLeadLabel = isFloor && floorLeadLabel != -1;
 
       final BytesRef prefix = new BytesRef(prefixLength + (hasFloorLeadLabel ? 1 : 0));
@@ -683,8 +685,10 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       //if (DEBUG2) System.out.println("    writeBlock field=" + fieldInfo.name + " prefix=" + brToString(prefix) + " fp=" + startFP + " isFloor=" + isFloor + " isLastInFloor=" + (end == pending.size()) + " floorLeadLabel=" + floorLeadLabel + " start=" + start + " end=" + end + " hasTerms=" + hasTerms + " hasSubBlocks=" + hasSubBlocks);
 
       // Write block header:
+      // numEntries的个数为当前block准备处理的term个数
       int numEntries = end - start;
       int code = numEntries << 1;
+      // if语句为真，说明这是最后一个block，这个block可能是NodeBlock最后一个block
       if (end == pending.size()) {
         // Last block:
         code |= 1;
@@ -719,11 +723,12 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         for (int i=start;i<end;i++) {
           PendingEntry ent = pending.get(i);
           assert ent.isTerm: "i=" + i;
-
+          // ent肯定是PendingTerm类型，所以这里直接强制转化
           PendingTerm term = (PendingTerm) ent;
 
           assert StringHelper.startsWith(term.termBytes, prefix): "term.term=" + term.termBytes + " prefix=" + prefix;
           BlockTermState state = term.state;
+          // 取出当前term的相同的后缀的长度
           final int suffix = term.termBytes.length - prefixLength;
           //if (DEBUG2) {
           //  BytesRef suffixBytes = new BytesRef(suffix);
@@ -733,7 +738,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
           //}
 
           // For leaf block we write suffix straight
-          // 写入前缀个数
+          // 写入后缀长度个数
           suffixWriter.writeVInt(suffix);
           // 写入前缀值
           suffixWriter.writeBytes(term.termBytes, prefixLength, suffix);
@@ -744,7 +749,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
           statsWriter.writeVInt(state.docFreq);
           if (fieldInfo.getIndexOptions() != IndexOptions.DOCS) {
             assert state.totalTermFreq >= state.docFreq: state.totalTermFreq + " vs " + state.docFreq;
-            // totalTermFreq是所有文档中term的出现的总数（非去重）
+            // totalTermFreq是所有文档中term的出现的总数（非去重）, 这里目的是存放totalTermFreq，不过用了差值存储(真的是尽力压缩数据呀)
             statsWriter.writeVLong(state.totalTermFreq - state.docFreq);
           }
 
@@ -849,21 +854,24 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
       // 将临时的suffixWriter、statsWriter、metaWriter的数据合并到.tim文件中
       // Write suffixes byte[] blob to terms dict output:
+      // 将所有的term的后缀信息合并到.tim文件中
       termsOut.writeVInt((int) (suffixWriter.getFilePointer() << 1) | (isLeafBlock ? 1:0));
       suffixWriter.writeTo(termsOut);
       suffixWriter.reset();
 
       // Write term stats byte[] blob
-      // 这个值用来描述当前term的statsWriter的数据的在.tim文件中的数据长度
+      // 将所有的term的 termStats信息合并到.tim文件中，每个term的termStats描述是 包含term的词频，term在所有文档中的出现的次数
       termsOut.writeVInt((int) statsWriter.getFilePointer());
       statsWriter.writeTo(termsOut);
       statsWriter.reset();
 
       // Write term meta data byte[] blob
-      // 这个值用来描述当前term的metaWriter的数据的在.tim文件中的数据长度
+      // 将所有的term的 metadata信息合并到.tim文件中，每个term的metadata描述的是在.doc、.pay、.pos文件中的一些信息。
       termsOut.writeVInt((int) metaWriter.getFilePointer());
       metaWriter.writeTo(termsOut);
       metaWriter.reset();
+
+      // 看到这里才明白为什么要使用3个临时的IndexOutput对象，呵呵。
 
       // if (DEBUG) {
       //   System.out.println("      fpEnd=" + out.getFilePointer());
@@ -1049,8 +1057,10 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       
       for(FieldMetaData field : fields) {
         //System.out.println("  field " + field.fieldInfo.name + " " + field.numTerms + " terms");
+        // 当前域的id
         termsOut.writeVInt(field.fieldInfo.number);
         assert field.numTerms > 0;
+        // 当前域中的term的种类
         termsOut.writeVLong(field.numTerms);
         termsOut.writeVInt(field.rootCode.length);
         termsOut.writeBytes(field.rootCode.bytes, field.rootCode.offset, field.rootCode.length);

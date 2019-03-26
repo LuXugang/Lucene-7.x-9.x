@@ -450,11 +450,18 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
       skipOffset = -1;
     }
 
+    // 记录当前term的信息在 .doc文件中的起始位置，在每次处理term前调用 startTerm()来初始化这个值
     state.docStartFP = docStartFP;
+    // 记录当前term的信息在 .pos文件中的起始位置，在每次处理term前调用 startTerm()来初始化这个值
     state.posStartFP = posStartFP;
+    // 记录当前term的信息在 .pay文件中的起始位置，在每次处理term前调用 startTerm()来初始化这个值
     state.payStartFP = payStartFP;
+    // 如果包含term的文档号个数只有一个的情况
     state.singletonDocID = singletonDocID;
+    // skipOffset用来描述term在.doc文件中 跳表信息的起始位置，不过skipOffset是差值存储，所以跳表信息的真实其实地址是 (skipOffset + docStartFP)
     state.skipOffset = skipOffset;
+    // 如果term的词频大于BLOC_SIZE,即大于128个，那么在.pos文件中就会生成一个block，lastPosBlockOffset记录最后一个block结束位置
+    // 通过这个位置就能快速定位到term的剩余的position信息，由于这些position信息的个数肯定是不满128个，可以看Lucene50PostingsWriter.java中finishTerm()的方法
     state.lastPosBlockOffset = lastPosBlockOffset;
     docBufferUpto = 0;
     posBufferUpto = 0;
@@ -469,23 +476,28 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     if (absolute) {
       lastState = emptyState;
     }
-    // docStartFP是term在.doc文件中的起始位置
+    // docStartFP是term在.doc文件中的起始位置, 差值存储
     longs[0] = state.docStartFP - lastState.docStartFP;
     if (writePositions) {
-      // posStartFP是term在.pos文件中的起始位置
+      // posStartFP是term在.pos文件中的起始位置, 差值存储
       longs[1] = state.posStartFP - lastState.posStartFP;
       if (writePayloads || writeOffsets) {
+        // payStartFP是term在.pos文件中的起始位置, 差值存储
         longs[2] = state.payStartFP - lastState.payStartFP;
       }
     }
+    // 如果包含term的文档号个数只有一个的情况
     if (state.singletonDocID != -1) {
       out.writeVInt(state.singletonDocID);
     }
     if (writePositions) {
       if (state.lastPosBlockOffset != -1) {
+        // 如果term的词频大于BLOC_SIZE,即大于128个，那么在.pos文件中就会生成一个block，lastPosBlockOffset记录最后一个block结束位置
+        // 通过这个位置就能快速定位到term的剩余的position信息，由于这些position信息的个数肯定是不满128个，可以看Lucene50PostingsWriter.java中finishTerm()的方法
         out.writeVLong(state.lastPosBlockOffset);
       }
     }
+    // skipOffset用来描述term在.doc文件中 跳表信息的起始位置，不过skipOffset是差值存储，所以跳表信息的真实其实地址是 (skipOffset + docStartFP)
     if (state.skipOffset != -1) {
       out.writeVLong(state.skipOffset);
     }
