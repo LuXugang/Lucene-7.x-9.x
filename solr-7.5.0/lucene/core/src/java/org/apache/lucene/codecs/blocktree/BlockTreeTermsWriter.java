@@ -351,7 +351,8 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       //if (DEBUG) System.out.println("\nBTTW.write done seg=" + segment + " field=" + field);
     }
   }
-  
+
+  // 用一个long类型的值来存放 fp、hasTerms、isFloor的值
   static long encodeOutput(long fp, boolean hasTerms, boolean isFloor) {
     assert fp < (1L << 62);
     return (fp << 2) | (hasTerms ? BlockTreeTermsReader.OUTPUT_FLAG_HAS_TERMS : 0) | (isFloor ? BlockTreeTermsReader.OUTPUT_FLAG_IS_FLOOR : 0);
@@ -444,18 +445,22 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       // (opposite of what Lucene does today), for better
       // outputs sharing in the FST
       // fp为blocks在.tim文件中的起始位置，hasTerms描述blocks中是否包含pendingTerm对象, isFloor表示是否为floor block
+      // 如果blocks中有多个PendingBlock，这些PendingBlock在.tim文件中是相邻存储，所以这里只要第一个block的起始位置
       scratchBytes.writeVLong(encodeOutput(fp, hasTerms, isFloor));
       if (isFloor) {
         // 记录floor block的个数
         scratchBytes.writeVInt(blocks.size()-1);
+        // 注意这里i是从1开始计数的
         for (int i=1;i<blocks.size();i++) {
           PendingBlock sub = blocks.get(i);
           assert sub.floorLeadByte != -1;
           //if (DEBUG) {
           //  System.out.println("    write floorLeadByte=" + Integer.toHexString(sub.floorLeadByte&0xff));
           //}
+          // block中的一个字节，这个字节是相同前缀的后一个字节
           scratchBytes.writeByte((byte) sub.floorLeadByte);
           assert sub.fp > fp;
+          // 记录block在.tim中的位置，同样差值存储
           scratchBytes.writeVLong((sub.fp - fp) << 1 | (sub.hasTerms ? 1 : 0));
         }
       }
@@ -468,10 +473,13 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       //  System.out.println("  compile index for prefix=" + prefix);
       //}
       //indexBuilder.DEBUG = false;
+      // 生成一个bytes数组，用来拷贝scratchBytes对象中的 bytes[]数组
+      // 这个数组会被用FST存储，作为一个output, output的概念可以看fst算法的介绍。
       final byte[] bytes = new byte[(int) scratchBytes.getFilePointer()];
       assert bytes.length > 0;
       scratchBytes.writeTo(bytes, 0);
-      // 往FST中添加一个元素，其中prefix是数据，bytes是prefix附带的值
+      // 往FST中添加一个元素，其中prefix是数据，bytes是prefix附带的值，即output
+      // Util.toIntsRef(prefix, scratchIntsRef用来将prefix转化为fst要求的输入格式
       indexBuilder.add(Util.toIntsRef(prefix, scratchIntsRef), new BytesRef(bytes, 0, bytes.length));
       scratchBytes.reset();
 
@@ -500,6 +508,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
     // TODO: maybe we could add bulk-add method to
     // Builder?  Takes FST and unions it w/ current
     // FST.
+    // 把subIndex的fst数据取出来合并到一个builder对应的新的fst中
     private void append(Builder<BytesRef> builder, FST<BytesRef> subIndex, IntsRefBuilder scratchIntsRef) throws IOException {
       final BytesRefFSTEnum<BytesRef> subIndexEnum = new BytesRefFSTEnum<>(subIndex);
       BytesRefFSTEnum.InputOutput<BytesRef> indexEnt;
@@ -767,6 +776,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         }
       } else {
         // Block has at least one prefix term or a sub block:
+        // 当前要处理的PendingEntry中存在PendingBlock对象
         subIndices = new ArrayList<>();
         for (int i=start;i<end;i++) {
           PendingEntry ent = pending.get(i);
@@ -788,7 +798,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             // if entry is term or sub-block, and 1 bit to record if
             // it's a prefix term.  Terms cannot be larger than ~32 KB
             // so we won't run out of bits:
-
+            // suffix << 1后最低位是0，用来判断当前entry是一个term
             suffixWriter.writeVInt(suffix << 1);
             suffixWriter.writeBytes(term.termBytes, prefixLength, suffix);
 
@@ -827,6 +837,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
             // For non-leaf block we borrow 1 bit to record
             // if entry is term or sub-block:f
+            // suffix << 1后最低位是1，用来判断当前entry是一个sub-block
             suffixWriter.writeVInt((suffix<<1)|1);
             suffixWriter.writeBytes(block.prefix.bytes, prefixLength, suffix);
 
@@ -839,7 +850,8 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
 
             assert floorLeadLabel == -1 || (block.prefix.bytes[prefixLength] & 0xff) >= floorLeadLabel: "floorLeadLabel=" + floorLeadLabel + " suffixLead=" + (block.prefix.bytes[prefixLength] & 0xff);
             assert block.fp < startFP;
-
+            // 因为当前是一个PendingBLock，TermStats、TermMetadata信息已经存放在了.doc中
+            // 所以这里只要存放这个block在.doc中的起始位置，同样使用差值存储
             suffixWriter.writeVLong(startFP - block.fp);
             subIndices.add(block.index);
           }
@@ -1006,13 +1018,17 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         }
         */
         assert firstPendingTerm != null;
-        // 最小的那个term
+        // 一个域中的所有term中按照从小到大的处理，所以能获得最大跟最小的term
+        // 最小的那个term，firstPendingTerm只会赋值一次
         BytesRef minTerm = new BytesRef(firstPendingTerm.termBytes);
 
         assert lastPendingTerm != null;
-        // 最大的那个term
+        // 每次处理一个term时，都会对lastPendingTerm进行更新
         BytesRef maxTerm = new BytesRef(lastPendingTerm.termBytes);
-
+        // indexStartFP是当前域的信息在.tip文件中的起始位置
+        // nuTerms是域中包含的term种类
+        // docsSeen.cardinality()描述了有多少篇文档包含了当前的域
+        // longsSize的值只能是1，2，3三种，1说明了只存储了doc、frequency，2说明了存储了doc、frequency，positions，3说明存储了doc、frequency，positions、offset
         fields.add(new FieldMetaData(fieldInfo,
                                      ((PendingBlock) pending.get(0)).index.getEmptyOutput(),
                                      numTerms,
@@ -1049,8 +1065,10 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
     
     boolean success = false;
     try {
-      
+
+      // dirStart记录了FieldSummary的数据在.tim中的起始位置
       final long dirStart = termsOut.getFilePointer();
+      // indexDirStart记录在.tip文件中第一个域的记录indexStartFP的起始位置
       final long indexDirStart = indexOut.getFilePointer();
 
       termsOut.writeVInt(fields.size());
@@ -1068,6 +1086,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         if (field.fieldInfo.getIndexOptions() != IndexOptions.DOCS) {
           termsOut.writeVLong(field.sumTotalTermFreq);
         }
+        // 偷个懒 不注释了，一目了然
         termsOut.writeVLong(field.sumDocFreq);
         termsOut.writeVInt(field.docCount);
         termsOut.writeVInt(field.longsSize);

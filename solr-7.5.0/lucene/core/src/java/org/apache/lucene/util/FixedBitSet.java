@@ -190,8 +190,8 @@ public final class FixedBitSet extends BitSet implements Bits, Accountable {
     long bitmask = 1L << index;
     return (bits[i] & bitmask) != 0;
   }
-
-    public void set(int index) {
+  @Override
+  public void set(int index) {
         assert index >= 0 && index < numBits: "index=" + index + ", numBits=" + numBits;
         // 将文档号根据 64进行划分，比如 0~63都属于一个wordNum, 64~127属于另一个wordNum
         int wordNum = index >> 6;      // div 64
