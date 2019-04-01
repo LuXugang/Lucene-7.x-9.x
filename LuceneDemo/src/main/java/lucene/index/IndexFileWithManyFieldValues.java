@@ -62,23 +62,25 @@ public class IndexFileWithManyFieldValues {
     doc.add(new TextField("content", getMultiValue(), Field.Store.YES));
     indexWriter.addDocument(doc);
 
-
+    String abPrefixTerm = "abtabcabrabt abfabyabrabxabm abuabeabqabv abhabdabuaba abmabvabaabu ablabhabh abqabcabiabw abmabjabiaby aboabuabtabwabm absabuabrabyabw abyabrabc abhabeabwabl abgabtabcabg abvabdabeabx abnabtabb abyabmablablabt abrabbabuabjabp abcabbabnabu abuabjabfabm abqabmaboabrabv abpablabv abiabmabeabdabc abbabgabtabmabe abwabuabyabiabh abuabyablabxabk absabwabxabbabg abqabtabf abmabaabiabc abeabiabhabrabd abuabsabp abhablabp ablabmabeabr abaabmabbabv abiabhabyabiabl abjabpabaabp abwabiaby absabrabtabx aboabkabg aboabmaba ablabraby abuabyabyabyabc abqabkabcabfabi abhabgabt abrabjabpaby abxabeabs abyabaabm abjabxabl abgabjaba abeabwabq abcabqabx";
     // 3
     doc = new Document();
-    doc.add(new TextField("author", getMultiSamePrefixValue("ab", 50), Field.Store.YES));
+    doc.add(new TextField("author", abPrefixTerm, Field.Store.YES));
     doc.add(new TextField("content", "c", Field.Store.YES));
     indexWriter.addDocument(doc);
 
 
+    String fixTerm = "dah dhinr gnvu nua ufg tvb krcdd nng snxk nqgs dwac pgjw jsdm bfanu shdq nkj psdfp eqc jsbxv vebe ouum vfi ejs kdrm oye fct exqd yyafa elq ted vml xbbdy vavg fdkts hjub squu cewwx shs ulex ibqt umr xree rdux hdm mcgr ach bveq vcyh tnx rxcxq gybn cgh xxd smte drkng uypde ufbq epcx cpek leje akt lmnjk ieu kvet bfc ytsvb uye dqdn nibr djok deay tbl dvy ulh jee ociu pvik wtpv xdrx isym ocl yxuyy wipp ead opw tywd prxmf tbq gbvy fpxq sth bcix klbg ifg fcav lepl pvq pdrdv uqw";
     // 4
     doc = new Document();
-    doc.add(new TextField("author", getMultiValue(), Field.Store.YES));
+    doc.add(new TextField("author", fixTerm, Field.Store.YES));
     doc.add(new TextField("content", "c", Field.Store.YES));
     indexWriter.addDocument(doc);
 
+    String kbPrefixTerm = "kbakbokbwkbnkbx kbrkbbkbwkblkbj kbwkbrkbg kbkkbgkbk kbmkbdkbk kbnkbbkbl kbykbmkblkbw kbfkbnkbrkbn kbakbkkbpkbq kbnkbkkba kbxkbkkbikbr kbakbokbykbqkbp kbskbgkbk kbqkbxkbrkbwkbs kbykbokbbkbqkbc kbfkbdkbt kbdkbtkbokbnkbu kbykbbkbf kblkbvkbh kbfkbukbl kbekbrkbikby kbhkbtkbt kbekbxkbn kbukbxkblkbqkbj kbwkbwkbukbe kbkkbqkbbkbx kbhkbrkbvkbu kbykbtkbj kbgkbbkbckby kblkbskby kbpkbgkbrkbrkbx kbskbekbx kbekbokbb kbykbpkbk kbfkbfkbl kbckbqkbf kbdkbckblkbqkby kbrkbbkbmkby kbpkbjkbt kbukbkkbtkbm kbikbhkbvkbmkbp kbjkbmkbt kbqkbvkbmkbp kbhkbkkbckbo kbrkbykbm kbckbbkbbkbj kbekbqkbqkbqkbd kbckbnkbr kbxkbbkbwkbr kbqkbskbl kbckbqkbekbekbp kbskbnkbr kbtkbjkbskbwkbg kbkkbwkbikba kbmkbwkbdkbvkbi kbvkbxkbu kbwkbokbvkbh kbvkbjkbmkbn kbhkbukbx kbskbnkbtkbpkbv";
     // 5
     doc = new Document();
-    doc.add(new TextField("author", getMultiSamePrefixValue("kb", 60), Field.Store.YES));
+    doc.add(new TextField("author", kbPrefixTerm, Field.Store.YES));
     doc.add(new TextField("content", "c", Field.Store.YES));
     indexWriter.addDocument(doc);
 

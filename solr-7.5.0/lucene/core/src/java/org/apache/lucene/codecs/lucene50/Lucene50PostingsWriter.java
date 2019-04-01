@@ -482,7 +482,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
       // posStartFP是term在.pos文件中的起始位置, 差值存储
       longs[1] = state.posStartFP - lastState.posStartFP;
       if (writePayloads || writeOffsets) {
-        // payStartFP是term在.pos文件中的起始位置, 差值存储
+        // payStartFP是term在.pay文件中的起始位置, 差值存储
         longs[2] = state.payStartFP - lastState.payStartFP;
       }
     }
@@ -493,7 +493,7 @@ public final class Lucene50PostingsWriter extends PushPostingsWriterBase {
     if (writePositions) {
       if (state.lastPosBlockOffset != -1) {
         // 如果term的词频大于BLOC_SIZE,即大于128个，那么在.pos文件中就会生成一个block，lastPosBlockOffset记录最后一个block结束位置
-        // 通过这个位置就能快速定位到term的剩余的position信息，由于这些position信息的个数肯定是不满128个，可以看Lucene50PostingsWriter.java中finishTerm()的方法
+        // 通过这个位置就能快速定位到term的剩余的position信息，并且这些position信息的个数肯定是不满128个，可以看Lucene50PostingsWriter.java中finishTerm()的方法
         out.writeVLong(state.lastPosBlockOffset);
       }
     }

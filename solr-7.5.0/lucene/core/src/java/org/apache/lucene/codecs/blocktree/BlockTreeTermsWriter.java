@@ -851,7 +851,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
             assert floorLeadLabel == -1 || (block.prefix.bytes[prefixLength] & 0xff) >= floorLeadLabel: "floorLeadLabel=" + floorLeadLabel + " suffixLead=" + (block.prefix.bytes[prefixLength] & 0xff);
             assert block.fp < startFP;
             // 因为当前是一个PendingBLock，TermStats、TermMetadata信息已经存放在了.doc中
-            // 所以这里只要存放这个block在.doc中的起始位置，同样使用差值存储
+            // 所以这里只要存放这个block在.tim中的起始位置，同样使用差值存储
             suffixWriter.writeVLong(startFP - block.fp);
             subIndices.add(block.index);
           }
@@ -1026,7 +1026,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
         // 每次处理一个term时，都会对lastPendingTerm进行更新
         BytesRef maxTerm = new BytesRef(lastPendingTerm.termBytes);
         // indexStartFP是当前域的信息在.tip文件中的起始位置
-        // nuTerms是域中包含的term种类
+        // numTerms是域中包含的term种类
         // docsSeen.cardinality()描述了有多少篇文档包含了当前的域
         // longsSize的值只能是1，2，3三种，1说明了只存储了doc、frequency，2说明了存储了doc、frequency，positions，3说明存储了doc、frequency，positions、offset
         fields.add(new FieldMetaData(fieldInfo,
@@ -1070,7 +1070,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       final long dirStart = termsOut.getFilePointer();
       // indexDirStart记录在.tip文件中第一个域的记录indexStartFP的起始位置
       final long indexDirStart = indexOut.getFilePointer();
-
+      //域的个数
       termsOut.writeVInt(fields.size());
       
       for(FieldMetaData field : fields) {
