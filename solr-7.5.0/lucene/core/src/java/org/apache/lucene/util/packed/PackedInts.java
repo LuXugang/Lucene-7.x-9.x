@@ -238,6 +238,7 @@ public class PackedInts {
       valueCount = Integer.MAX_VALUE;
     }
 
+    // 下面的两个步骤来确定acceptableOverheadRatio的取值范围在 COMPACT与FASTEST之间
     acceptableOverheadRatio = Math.max(COMPACT, acceptableOverheadRatio);
     acceptableOverheadRatio = Math.min(FASTEST, acceptableOverheadRatio);
     float acceptableOverheadPerValue = acceptableOverheadRatio * bitsPerValue; // in bits

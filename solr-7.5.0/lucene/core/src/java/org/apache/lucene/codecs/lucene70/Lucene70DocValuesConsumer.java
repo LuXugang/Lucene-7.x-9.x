@@ -170,6 +170,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     MinMaxTracker blockMinMax = new MinMaxTracker();
     long gcd = 0;
     Set<Long> uniqueValues = new HashSet<>();
+    // 遍历的次数为包含当前域的文档个数
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
       for (int i = 0, count = values.docValueCount(); i < count; ++i) {
         long v = values.nextValue();
@@ -186,6 +187,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
         }
 
         minMax.update(v);
+        // 更新最大值跟最小值
         blockMinMax.update(v);
         if (blockMinMax.numValues == NUMERIC_BLOCK_SIZE) {
           blockMinMax.nextBlock();
@@ -202,7 +204,6 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     }
 
     minMax.finish();
-    // 不写你也应该猜出这个是干嘛的
     blockMinMax.finish();
 
     final long numValues = minMax.numValues;
