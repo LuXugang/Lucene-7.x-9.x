@@ -168,6 +168,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     int numDocsWithValue = 0;
     MinMaxTracker minMax = new MinMaxTracker();
     MinMaxTracker blockMinMax = new MinMaxTracker();
+    // gcd： greatest common divisor 最大公约数
     long gcd = 0;
     Set<Long> uniqueValues = new HashSet<>();
     // 遍历的次数为包含当前域的文档个数
@@ -186,13 +187,14 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
           }
         }
 
+        // 更新最大值跟最小值
         minMax.update(v);
         // 更新最大值跟最小值
         blockMinMax.update(v);
         if (blockMinMax.numValues == NUMERIC_BLOCK_SIZE) {
           blockMinMax.nextBlock();
         }
-
+        //  统计不相同的域值
         if (uniqueValues != null
             && uniqueValues.add(v)
             && uniqueValues.size() > 256) {
@@ -207,23 +209,28 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     blockMinMax.finish();
 
     final long numValues = minMax.numValues;
+    // 当前域中最小的值
     long min = minMax.min;
+    // 当前域中最大的值
     final long max = minMax.max;
     assert blockMinMax.spaceInBits <= minMax.spaceInBits;
-
+    // start: 记录包含当前域的文档号
     if (numDocsWithValue == 0) {
       meta.writeLong(-2);
       meta.writeLong(0L);
+      // 当前IndexWrite添加的每一个document中都包含当前域，那么就不用记录文档号了
     } else if (numDocsWithValue == maxDoc) {
       meta.writeLong(-1);
       meta.writeLong(0L);
     } else {
+      // 当前IndexWrite添加的document中并不是所有的document都包含当前域，需要存储具体的文档号
       long offset = data.getFilePointer();
       meta.writeLong(offset);
       values = valuesProducer.getSortedNumeric(field);
       IndexedDISI.writeBitSet(values, data);
       meta.writeLong(data.getFilePointer() - offset);
     }
+    // end: 记录包含当前域的文档号
 
     meta.writeLong(numValues);
     final int numBitsPerValue;
@@ -236,13 +243,18 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       if (uniqueValues != null
           && uniqueValues.size() > 1
           && DirectWriter.unsignedBitsRequired(uniqueValues.size() - 1) < DirectWriter.unsignedBitsRequired((max - min) / gcd)) {
+        // 存储不相同的域值的个数值需要用多少bit位, 注意的是这里使用的是DirectWriter中的unsignedBitsRequired方法
+        // 跟PackedInts.unsignedBitsRequired不同的是，实际返回的bit的个数是DirectWriter中的SUPPORTED_BITS_PER_VALUE数组中的值
         numBitsPerValue = DirectWriter.unsignedBitsRequired(uniqueValues.size() - 1);
+        // sortedUniqueValues数组中存放所有的去重的域值，然后排序
         final Long[] sortedUniqueValues = uniqueValues.toArray(new Long[0]);
         Arrays.sort(sortedUniqueValues);
         meta.writeInt(sortedUniqueValues.length);
+        // 写入所有的去重的域值
         for (Long v : sortedUniqueValues) {
           meta.writeLong(v);
         }
+        // HashMap的key为域值，value描述了这个域值在所有去重的域值中的大小关系
         encode = new HashMap<>();
         for (int i = 0; i < sortedUniqueValues.length; ++i) {
           encode.put(sortedUniqueValues[i], i);

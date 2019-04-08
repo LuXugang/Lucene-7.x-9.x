@@ -23,7 +23,6 @@ public class FixedBitSetTest {
         boolean b = fixedBitSet.get(65);
         System.out.println(""+b+"");
 //        int a = fixedBitSet.nextSetBit(299);
-        System.out.println(a);
     }
 
 }

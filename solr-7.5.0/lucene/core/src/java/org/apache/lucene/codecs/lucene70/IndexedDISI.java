@@ -52,18 +52,22 @@ final class IndexedDISI extends DocIdSetIterator {
   static final int MAX_ARRAY_LENGTH = (1 << 12) - 1;
 
   private static void flush(int block, FixedBitSet buffer, int cardinality, IndexOutput out) throws IOException {
+    // cardinality是当前统计到的包含当前域文档个数
     assert block >= 0 && block < 65536;
     out.writeShort((short) block);
     assert cardinality > 0 && cardinality <= 65536;
     out.writeShort((short) (cardinality - 1));
-    // cardinality的值范围是 1~65536
+    //  MAX_ARRAY_LENGTH的值为4094
     if (cardinality > MAX_ARRAY_LENGTH) {
+      // if条件不满足。这次添加的document中不是每一给document中都包含当前域。
       if (cardinality != 65536) { // all docs are set
+        // 把暂存在FixedBitSet中的文档号都写入到.nvd文件中
         for (long word : buffer.getBits()) {
           out.writeLong(word);
         }
       }
     } else {
+      // 说明这次indexWriter添加的Document中包含的当前域的个数较少，那么直接将文档号（不压缩)写入到.nvd文件中
       BitSetIterator it = new BitSetIterator(buffer, cardinality);
       for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
         out.writeShort((short) doc);
@@ -78,7 +82,7 @@ final class IndexedDISI extends DocIdSetIterator {
     for (int doc = it.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = it.nextDoc()) {
       // 获得文档号所属块
       final int block = doc >>> 16;
-      // 当一个block用结束了（文档号超过了65535）
+      // 当一个block用结束了（文档号超过了65535）,注意的是并不是文档数量有65535
       if (prevBlock != -1 && block != prevBlock) {
         // 先处理当前的block
         flush(prevBlock, buffer, i, out);

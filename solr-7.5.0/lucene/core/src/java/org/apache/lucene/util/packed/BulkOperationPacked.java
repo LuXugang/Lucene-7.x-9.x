@@ -35,11 +35,16 @@ class BulkOperationPacked extends BulkOperation {
     this.bitsPerValue = bitsPerValue;
     assert bitsPerValue > 0 && bitsPerValue <= 64;
     int blocks = bitsPerValue;
+    // 这里通过右移方式来分配n个blocks，使得每个block中的bit位都可以被用到，不会出现bit位浪费的情况
+    // 方法很巧妙~不知道作者是怎么想到这个方法的。。。
     while ((blocks & 1) == 0) {
       blocks >>>= 1;
     }
+    // 要的多少个block使得可以平均分配所有的value
     this.longBlockCount = blocks;
+    // 可以存放多少个value
     this.longValueCount = 64 * longBlockCount / bitsPerValue;
+    // 占用的字节个数
     int byteBlockCount = 8 * longBlockCount;
     int byteValueCount = longValueCount;
     while ((byteBlockCount & 1) == 0 && (byteValueCount & 1) == 0) {

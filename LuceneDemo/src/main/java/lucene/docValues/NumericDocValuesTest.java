@@ -44,7 +44,7 @@ public class NumericDocValuesTest {
         String groupField2 = "b";
         // 0
         int count = 0;
-        while (count++ < 66666) {
+        while (count++ < 1000) {
             Document doc = new Document();
             doc.add(new NumericDocValuesField(groupField1, 88L));
             doc.add(new NumericDocValuesField(groupField2, 10L));
@@ -52,23 +52,39 @@ public class NumericDocValuesTest {
 
             // 1
             doc = new Document();
-            doc.add(new NumericDocValuesField(groupField1, 99L));
+            doc.add(new NumericDocValuesField(groupField1, 92));
+//            doc.add(new TextField("abc", "value", Field.Store.YES));
             indexWriter.addDocument(doc);
 
             // 2
             doc = new Document();
-            doc.add(new NumericDocValuesField(groupField1, 3L));
+            doc.add(new NumericDocValuesField(groupField1, 4L));
+            doc.add(new TextField("abc", "value", Field.Store.YES));
             indexWriter.addDocument(doc);
 
             // 3
             doc = new Document();
-            doc.add(new NumericDocValuesField(groupField1, 23L));
+            doc.add(new NumericDocValuesField(groupField1, 24L));
+            doc.add(new TextField("abc", "value", Field.Store.YES));
             indexWriter.addDocument(doc);
 
             // 4
             doc = new Document();
-            doc.add(new TextField("abc", "value", Field.Store.YES));
+            doc.add(new NumericDocValuesField(groupField1, 20L));
             indexWriter.addDocument(doc);
+
+            // 5
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 32L));
+            indexWriter.addDocument(doc);
+
+            // 6
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 42L));
+            indexWriter.addDocument(doc);
+
+
+
         }
 
         indexWriter.commit();
