@@ -94,33 +94,33 @@ public class NumericDocValuesTest {
 
             int num = 0;
             long number = 100L;
-            while (num++ < (1 << 14)){
-                if(num % 2 == 0){
-                    number = 3;
-                }else {
-                    number = 4;
-                }
-//              number++;
-                doc = new Document();
-                doc.add(new NumericDocValuesField(groupField1, number));
-                indexWriter.addDocument(doc);
-            }
+//            while (num++ < (1 << 14)){
+//                if(num % 2 == 0){
+//                    number = 3;
+//                }else {
+//                    number = 4;
+//                }
+////              number++;
+//                doc = new Document();
+//                doc.add(new NumericDocValuesField(groupField1, number));
+//                indexWriter.addDocument(doc);
+//            }
 
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 3000L));
-//            indexWriter.addDocument(doc);
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 300L));
+            indexWriter.addDocument(doc);
 //
             num = 0;
             number = 100;
             while (num++ < 200){
-                if(num % 2 == 0){
-                    number = 3;
-                }else {
-                    number = 4;
-                }
+//                if(num % 2 == 0){
+//                    number = 3;
+//                }else {
+//                    number = 4;
+//                }
                 doc = new Document();
                 doc.add(new NumericDocValuesField(groupField1, number));
-//                number++;
+                number++;
                 indexWriter.addDocument(doc);
             }
 

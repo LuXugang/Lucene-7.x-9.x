@@ -237,6 +237,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     }
     // end: 记录包含当前域的文档号
 
+
     meta.writeLong(numValues);
     final int numBitsPerValue;
     boolean doBlocks = false;
