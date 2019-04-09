@@ -169,7 +169,10 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     MinMaxTracker minMax = new MinMaxTracker();
     MinMaxTracker blockMinMax = new MinMaxTracker();
     // gcd： greatest common divisor 最大公约数
+    // 计算gcd的目的在于，能在存储时候减少空间，比如说存储9000，8000，7000, 6000他们的最大公约数为1000
+    // 那么实际存储每个值需要的bit为为 （9000 -6000) / 1000 = 3。只要一个bit位就能描述一个域值
     long gcd = 0;
+    // uniqueValues来记录域值的种类（去重）。
     Set<Long> uniqueValues = new HashSet<>();
     // 遍历的次数为包含当前域的文档个数
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
@@ -189,7 +192,8 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
 
         // 更新最大值跟最小值
         minMax.update(v);
-        // 更新最大值跟最小值
+        // 更新最大值跟最小值, 当域值的个数大于NUMERIC_BLOCK_SIZE时，blockMinMax用来判断如果按块处理是否能降低存储空间
+        // 为何能降低存储空间请看博客介绍
         blockMinMax.update(v);
         if (blockMinMax.numValues == NUMERIC_BLOCK_SIZE) {
           blockMinMax.nextBlock();
@@ -202,6 +206,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
         }
       }
 
+      // numDocsWithValue统计域值的总数（非去重）
       numDocsWithValue++;
     }
 
@@ -251,6 +256,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
         Arrays.sort(sortedUniqueValues);
         meta.writeInt(sortedUniqueValues.length);
         // 写入所有的去重的域值
+        // 这里在dvm文件中写入域值的目的是，在dvd文件就不用写真实的域值，而是写入encode的value值
+        // 在读取阶段，就可以通过value从dvm中获得真实的域值
+        // 这么做的好处在于，能优化域值中的最大值跟最小值跨度很大，导致数值较小的域值也要分配多余的bit位
         for (Long v : sortedUniqueValues) {
           meta.writeLong(v);
         }
@@ -264,7 +272,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       } else {
         uniqueValues = null;
         // we do blocks if that appears to save 10+% storage
+        // spaceInBits指的的是存储所有的值需要的bit位总数
         doBlocks = minMax.spaceInBits > 0 && (double) blockMinMax.spaceInBits / minMax.spaceInBits <= 0.9;
+        // doBlocks如果为true，说明按块处理域值能至少降低10%存储空间, 可能更多
         if (doBlocks) {
           numBitsPerValue = 0xFF;
           meta.writeInt(-2 - NUMERIC_BLOCK_SHIFT);
@@ -280,7 +290,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     }
 
     meta.writeByte((byte) numBitsPerValue);
+    // 记录最小值，在读取阶段需要利用min来恢复数据
     meta.writeLong(min);
+    // 记录最大公约数，在读取阶段需要利用gcd来恢复数据
     meta.writeLong(gcd);
     long startOffset = data.getFilePointer();
     meta.writeLong(startOffset);
@@ -316,6 +328,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     int upTo = 0;
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
       for (int i = 0, count = values.docValueCount(); i < count; ++i) {
+        // 将每一给域值写入到buffer数组中，当个数达到NUMERIC_BLOCK_SIZE时候，再进行压缩存储,压缩后的数据写入到encodeBuffer数组中
         buffer[upTo++] = values.nextValue();
         if (upTo == NUMERIC_BLOCK_SIZE) {
           writeBlock(buffer, NUMERIC_BLOCK_SIZE, gcd, encodeBuffer);
@@ -323,6 +336,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
         }
       }
     }
+    // 如果upTo大于0，说明剩余的域值个数小于NUMERIC_BLOCK_SIZE，并且这些域值写入到.dvd文件中
     if (upTo > 0) {
       writeBlock(buffer, upTo, gcd, encodeBuffer);
     }
@@ -332,6 +346,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     assert length > 0;
     long min = values[0];
     long max = values[0];
+    // 遍历values数组，获取数组中最大跟最小值
     for (int i = 1; i < length; ++i) {
       final long v = values[i];
       assert Math.floorMod(values[i] - min, gcd) == 0;
@@ -342,17 +357,22 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       data.writeByte((byte) 0);
       data.writeLong(min);
     } else {
+      // 根据上面得到的最大跟最小值，算出存储每一个值需要的bit位
       final int bitsPerValue = DirectWriter.unsignedBitsRequired(max - min);
       buffer.reset();
       assert buffer.getPosition() == 0;
       final DirectWriter w = DirectWriter.getInstance(buffer, length, bitsPerValue);
+      // 将每一个域值使用DirectWriter处理并压缩
       for (int i = 0; i < length; ++i) {
         w.add((values[i] - min) / gcd);
       }
       w.finish();
       data.writeByte((byte) bitsPerValue);
+      // 记录最小值是为了读取阶段能恢复压缩的数据
       data.writeLong(min);
+      // 记录数据长度
       data.writeInt(buffer.getPosition());
+      // 根据数据长度写入数据
       data.writeBytes(buffer.getBytes(), buffer.getPosition());
     }
   }
