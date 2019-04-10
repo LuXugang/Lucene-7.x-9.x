@@ -64,7 +64,7 @@ public final class DirectMonotonicWriter {
 
     // 求出buffer数组中的最大值跟最小值，他们的差值除以元素个数来求得一个平均值
     final float avgInc = (float) ((double) (buffer[bufferSize-1] - buffer[0]) / Math.max(1, bufferSize - 1));
-    // 趋势分解操作
+    // 趋势分解操作, 平缓数据
     for (int i = 0; i < bufferSize; ++i) {
       final long expected = (long) (avgInc * (long) i);
       buffer[i] -= expected;
@@ -86,8 +86,10 @@ public final class DirectMonotonicWriter {
       maxDelta |= buffer[i];
     }
 
+    // 记录min值，读取阶段用于解码数据
     meta.writeLong(min);
     // 记录浮点数到meta中，用floatToIntBits进行转化
+    // 记录avgInc，读取阶段用于解码数据
     meta.writeInt(Float.floatToIntBits(avgInc));
     meta.writeLong(data.getFilePointer() - baseDataPointer);
     if (maxDelta == 0) {

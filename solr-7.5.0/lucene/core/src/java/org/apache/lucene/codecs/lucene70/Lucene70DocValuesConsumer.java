@@ -176,6 +176,9 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     Set<Long> uniqueValues = new HashSet<>();
     // 遍历的次数为包含当前域的文档个数
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
+      // values.docValueCount()描述的是一篇文档(document)中同一个域名的域的个数。
+      // 对于NumericDocValuesFiled来说，只允许一个document中只有一个同域名的所以count的值永远为1
+      // 对于SortedNumericDocValuesFiled来说，一个document中可以有多个同域名的域，所以count的值就是一篇文档中的同域名的域的个数
       for (int i = 0, count = values.docValueCount(); i < count; ++i) {
         long v = values.nextValue();
 
@@ -206,7 +209,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
         }
       }
 
-      // numDocsWithValue统计域值的总数（非去重）
+      // numDocsWithValue统计包含当前域的文档个数
       numDocsWithValue++;
     }
 
@@ -304,6 +307,10 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     }
     meta.writeLong(data.getFilePointer() - startOffset);
 
+    // numDocsWithValue统计包含当前域的文档个数
+    // numValues域值个数
+    // 对于NumericDocValuesField来说。这两个值总是相等的，因为一个document中只能有一个NumericDocValuesField
+    // 对于SortedNumericDocValues来说，numValues >= numDocsWithValue, 因为一个document中可以有多个相同域名的SortedNumericDocValuesField
     return new long[] {numDocsWithValue, numValues};
   }
 
@@ -620,11 +627,16 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     meta.writeByte(Lucene70DocValuesFormat.SORTED_NUMERIC);
 
     long[] stats = writeValues(field, valuesProducer);
+    // numDocsWithValue统计包含当前域的文档个数
     int numDocsWithField = Math.toIntExact(stats[0]);
+    // numValues域值个数(非去重)
     long numValues = stats[1];
     assert numValues >= numDocsWithField;
 
     meta.writeInt(numDocsWithField);
+    // numValues 总是大于或等于numDocsWithField
+    // if语句为假 说明一篇document中只有一个同名的SortedNumericDocValuesFiled
+    // 如果numValues 等于numDocsWithField, 那么使用SortedNumericDocValuesFiled跟NumericDocValuesFiled生成的索引文件没有差别
     if (numValues > numDocsWithField) {
       long start = data.getFilePointer();
       meta.writeLong(start);

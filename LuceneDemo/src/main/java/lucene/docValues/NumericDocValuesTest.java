@@ -37,54 +37,53 @@ public class NumericDocValuesTest {
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
 
-        String groupField1 = "a";
+        String groupField1 = "age";
         String groupField2 = "b";
         // 0
         int count = 0;
         while (count++ < 1) {
             Document doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 88L));
-//            doc.add(new NumericDocValuesField(groupField2, 10L));
-//            indexWriter.addDocument(doc);
-//
-//            // 1
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 92));
-////            doc.add(new TextField("abc", "value", Field.Store.YES));
-//            indexWriter.addDocument(doc);
-//
-//            // 2
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 4L));
-//            doc.add(new TextField("abc", "value", Field.Store.YES));
-//            indexWriter.addDocument(doc);
-//
-//            // 3
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 24L));
-//            doc.add(new TextField("abc", "value", Field.Store.YES));
-//            indexWriter.addDocument(doc);
-//
-//            // 4
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 20L));
-//            indexWriter.addDocument(doc);
-//
-//            // 5
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 32L));
-//            indexWriter.addDocument(doc);
-//
-//            // 6
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 42L));
-//            indexWriter.addDocument(doc);
-//
-//
-//            // 7
-//            doc = new Document();
-//            doc.add(new StringField("abcd", "good", Field.Store.YES));
-//            indexWriter.addDocument(doc);
+            doc.add(new NumericDocValuesField(groupField1, 88L));
+            doc.add(new NumericDocValuesField(groupField2, 10L));
+            indexWriter.addDocument(doc);
+
+            // 1
+            doc = new Document();
+            doc.add(new NumericDocValuesField("age", 92));
+            indexWriter.addDocument(doc);
+
+            // 2
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 4L));
+            doc.add(new TextField("abc", "value", Field.Store.YES));
+            indexWriter.addDocument(doc);
+
+            // 3
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 24L));
+            doc.add(new TextField("abc", "value", Field.Store.YES));
+            indexWriter.addDocument(doc);
+
+            // 4
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 20L));
+            indexWriter.addDocument(doc);
+
+            // 5
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 32L));
+            indexWriter.addDocument(doc);
+
+            // 6
+            doc = new Document();
+            doc.add(new NumericDocValuesField(groupField1, 42L));
+            indexWriter.addDocument(doc);
+
+
+            // 7
+            doc = new Document();
+            doc.add(new StringField("abcd", "good", Field.Store.YES));
+            indexWriter.addDocument(doc);
 
 //            String groupField = "superStart";
             // 0
@@ -106,26 +105,23 @@ public class NumericDocValuesTest {
 //                indexWriter.addDocument(doc);
 //            }
 
-            doc = new Document();
-            doc.add(new NumericDocValuesField(groupField1, 300L));
-            indexWriter.addDocument(doc);
-//
-            num = 0;
-            number = 100;
-            while (num++ < 200){
-//                if(num % 2 == 0){
-//                    number = 3;
-//                }else {
-//                    number = 4;
-//                }
-                doc = new Document();
-                doc.add(new NumericDocValuesField(groupField1, number));
-                number++;
-                indexWriter.addDocument(doc);
-            }
-
-
-
+//            doc = new Document();
+//            doc.add(new NumericDocValuesField(groupField1, 300L));
+//            indexWriter.addDocument(doc);
+////
+//            num = 0;
+//            number = 100;
+//            while (num++ < 200){
+////                if(num % 2 == 0){
+////                    number = 3;
+////                }else {
+////                    number = 4;
+////                }
+//                doc = new Document();
+//                doc.add(new NumericDocValuesField(groupField1, number));
+//                number++;
+//                indexWriter.addDocument(doc);
+//            }
         }
 
         indexWriter.commit();
