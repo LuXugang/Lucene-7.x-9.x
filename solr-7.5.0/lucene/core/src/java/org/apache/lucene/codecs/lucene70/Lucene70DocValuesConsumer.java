@@ -661,36 +661,40 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     SortedSetDocValues values = valuesProducer.getSortedSet(field);
     int numDocsWithField = 0;
     long numOrds = 0;
-    // doc为文档号
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
+      // 包含当前域的文档号
       numDocsWithField++;
+      // 遍历一篇文档中的所有SortedDocValuesField
       for (long ord = values.nextOrd(); ord != SortedSetDocValues.NO_MORE_ORDS; ord = values.nextOrd()) {
-        // 统计当前文档号的termID的个数(去重)
+        // 域值的总个数
         numOrds++;
       }
     }
-    // 判断文档个数是否跟所有文档包含的termID总数 一样多
+    // if语句为真，说明每一篇文档中只有一个ortedDocValuesField
     if (numDocsWithField == numOrds) {
+      // 标志位在读取阶段，用来表示numDocsWithField == numOrds)
       meta.writeByte((byte) 0);
       doAddSortedField(field, new EmptyDocValuesProducer() {
         @Override
         public SortedDocValues getSorted(FieldInfo field) throws IOException {
+          // 如果numDocsWithField跟numOrds一样，那么SortedSetDocValues就退化为SortedDocValus
           return SortedSetSelector.wrap(valuesProducer.getSortedSet(field), SortedSetSelector.Type.MIN);
         }
       });
       return;
     }
+    // 标志位在读取阶段，用来表示numDocsWithField < numOrds)
     meta.writeByte((byte) 1);
 
     assert numDocsWithField != 0;
     if (numDocsWithField == maxDoc) {
-      // 写8个字节
       meta.writeLong(-1);
       meta.writeLong(0L);
     } else {
       long offset = data.getFilePointer();
       meta.writeLong(offset);
       values = valuesProducer.getSortedSet(field);
+      // 统计所有的文档号
       IndexedDISI.writeBitSet(values, data);
       meta.writeLong(data.getFilePointer() - offset);
     }
@@ -699,39 +703,32 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     // numberOfBitsPerOrd用来记录存储ordMap[]的元素的个数需要的bit位
     int numberOfBitsPerOrd = DirectWriter.unsignedBitsRequired(values.getValueCount() - 1);
     meta.writeByte((byte) numberOfBitsPerOrd);
-    // 获取dvd文件中当前可以写入数据的位置
     long start = data.getFilePointer();
-    // 在meta中记录这个位置. 作为映射使用
     meta.writeLong(start);
-    // numOrds是每个文档包含的term的个数总和
+    // numOrds是每个文档包含的域值的个数总和
     DirectWriter writer = DirectWriter.getInstance(data, numOrds, numberOfBitsPerOrd);
-    // 这里重新获得一次SortedSetDocValuesWriter类中的BufferedSortedSetDocValues对象,因为没有reset()方法来重置一些状态的吗? 哈哈
     values = valuesProducer.getSortedSet(field);
     // 遍历所有的document
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
-      // 遍历某一个document的所有termID
+      // 遍历某一个document的所有域值
       for (long ord = values.nextOrd(); ord != SortedSetDocValues.NO_MORE_ORDS; ord = values.nextOrd()) {
-        // 依次写入每篇文档的包含的termID
         writer.add(ord);
       }
     }
-    // 将数据(encode后的数据)写入到data对象中
     writer.finish();
-    // 将 记录所有文档ord值所需要byte位个数(data对象的buf中)记录到meta中
     meta.writeLong(data.getFilePointer() - start);
 
-    // 记录文档个数
+    // 记录包含当前域的文档个数
     meta.writeInt(numDocsWithField);
     start = data.getFilePointer();
-    //在meta中记录data的一个位置, 一个开始的位置 作为映射使用
     meta.writeLong(start);
-    // 使用VInt类型来记录int类型，使得最少能用一个byte记录一个int值
     meta.writeVInt(DIRECT_MONOTONIC_BLOCK_SHIFT);
 
     final DirectMonotonicWriter addressesWriter = DirectMonotonicWriter.getInstance(meta, data, numDocsWithField + 1, DIRECT_MONOTONIC_BLOCK_SHIFT);
     long addr = 0;
     addressesWriter.add(addr);
     values = valuesProducer.getSortedSet(field);
+    // 统计每篇文档中的包含的域值个数
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
       values.nextOrd();
       addr++;

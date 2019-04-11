@@ -46,7 +46,7 @@ public class SortedDocValuesTest {
     Document doc ;
     // docId = 0
     doc = new Document();
-    doc.add(new SortedDocValuesField(fieldName, new BytesRef("aa")));
+    doc.add(new SortedDocValuesField("superStar", new BytesRef("aa")));
     indexWriter.addDocument(doc);
 
     // docId = 1
