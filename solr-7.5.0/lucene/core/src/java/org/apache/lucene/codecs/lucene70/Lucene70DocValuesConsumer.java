@@ -455,7 +455,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     SortedDocValues values = valuesProducer.getSorted(field);
     int numDocsWithField = 0;
     for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
-      // 统计文档个数
+      // 包含当前域的文档个数
       numDocsWithField++;
     }
 
@@ -476,15 +476,16 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       meta.writeLong(data.getFilePointer() - offset);
     }
 
+    // 写入包含当前域的文档个数
     meta.writeInt(numDocsWithField);
-    // 域值的种类只有一个
+    // 域值的种类（不是域值的个数）只有一个
     if (values.getValueCount() <= 1) {
       meta.writeByte((byte) 0);
       meta.writeLong(0L);
       meta.writeLong(0L);
       // 有多个域值
     } else {
-      // 获得存储域值种类需要的bit位，例如 3种域值，只要2个bit位即可
+      // 计算存储域值种类需要的bit位，例如 3种域值，3的二进制是0b11, 所以只要2个bit位即可
       int numberOfBitsPerOrd = DirectWriter.unsignedBitsRequired(values.getValueCount() - 1);
       meta.writeByte((byte) numberOfBitsPerOrd);
       long start = data.getFilePointer();
@@ -494,6 +495,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       // 遍历所有文档的域值
       for (int doc = values.nextDoc(); doc != DocIdSetIterator.NO_MORE_DOCS; doc = values.nextDoc()) {
         // 这里的values.ordValues()的值的取值范围是 0~values.getValueCount()
+        // values.getValueCount() 描述的个域值的种类
         // 这些值是sortedValues[]下标值(SortedDocValuesWriter类中定义)
         writer.add(values.ordValue());
       }
@@ -505,9 +507,8 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
   }
 
   private void addTermsDict(SortedSetDocValues values) throws IOException {
-    // 获取term的个数(去重)
+    // 获取term的个数(去重), 即域值的种类
     final long size = values.getValueCount();
-    // 可变长度的存储
     meta.writeVLong(size);
     meta.writeInt(Lucene70DocValuesFormat.TERMS_DICT_BLOCK_SHIFT);
 
@@ -518,14 +519,14 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
 
     BytesRefBuilder previous = new BytesRefBuilder();
     long ord = 0;
-    // 获取data中的buf[]数组可以使用的一个位置
     long start = data.getFilePointer();
     int maxLength = 0;
     // 定义一个SortedDocValuesTermsEnum对象
     TermsEnum iterator = values.termsEnum();
     // 每次获得term的时间复杂度是O(1)
     for (BytesRef term = iterator.next(); term != null; term = iterator.next()) {
-      // if条件满足，说明是一个block中的第一个term
+      // 每15个term处理为一个block, 并且每个block的第一个term记录完整的term的值
+      // block中的其他值先计算跟前一个term的相同前缀部分，然后将不相同的后缀值写入到dvd文件中
       if ((ord & Lucene70DocValuesFormat.TERMS_DICT_BLOCK_MASK) == 0) {
         // 记录每一个term相对于start位置占用的byte个数, 查询的时候会用到这个值用来定位一个term在data中的起始位置
         writer.add(data.getFilePointer() - start);
@@ -558,20 +559,15 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
       previous.copyBytes(term);
       ++ord;
     }
-    // writer记录的东西没有明白用来干嘛，斜率 最小值。。。啥意思啊, 不知道干嘛用
     writer.finish();
     // 记录所有term长度最大的值
     meta.writeInt(maxLength);
-    // 记录data的buf[]数组的起始位置, 用来映射上面记录的数据
     meta.writeLong(start);
-    // 记录data的buf[]数组的结束位置, 用来映射上面记录的数据
     meta.writeLong(data.getFilePointer() - start);
 
     start = data.getFilePointer();
     addressBuffer.writeTo(data);
-    // 不写你也应该猜出这个是干嘛的, addressBuffer.writeTo(data)的操作又在data中新增了数据呗
     meta.writeLong(start);
-    // 不写你也应该猜出这个是干嘛的
     meta.writeLong(data.getFilePointer() - start);
 
     // Now write the reverse terms index
@@ -579,7 +575,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
   }
 
   private void writeTermsIndex(SortedSetDocValues values) throws IOException {
-    // 获取term的个数(去重)
+    // 获取域值的种类（不是域值的个数）
     final long size = values.getValueCount();
     meta.writeInt(Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_SHIFT);
     long start = data.getFilePointer();
@@ -592,7 +588,7 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
     BytesRefBuilder previous = new BytesRefBuilder();
     long offset = 0;
     long ord = 0;
-    // 按照term值有序的取出
+    // 按照term值有序的取出，并且只处理第0个，第1024个，第2048个... ...第n*1024个term
     for (BytesRef term = iterator.next(); term != null; term = iterator.next()) {
       if ((ord & Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_MASK) == 0) {
         writer.add(offset);
@@ -601,10 +597,11 @@ final class Lucene70DocValuesConsumer extends DocValuesConsumer implements Close
           // no previous term: no bytes to write
           sortKeyLength = 0;
         } else {
-          // 计算出两个term相同前缀的长度
+          // sortKeyLength的长度 = （两个term相同前缀个数 + 1）
           sortKeyLength = StringHelper.sortKeyLength(previous.get(), term);
         }
         offset += sortKeyLength;
+        // 只存储跟上一个term 长度为sortKeyLength的部分值
         data.writeBytes(term.bytes, term.offset, sortKeyLength);
       } else if ((ord & Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_MASK) == Lucene70DocValuesFormat.TERMS_DICT_REVERSE_INDEX_MASK) {
         previous.copyBytes(term);
