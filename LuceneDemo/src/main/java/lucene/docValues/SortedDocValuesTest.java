@@ -42,47 +42,46 @@ public class SortedDocValuesTest {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
 
-    String groupField = "superStart";
+    String fieldName = "superStar";
     Document doc ;
-//    // 0
-//      doc = new Document();
-//    doc.add(new SortedDocValuesField(groupField, new BytesRef("aa")));
-//    indexWriter.addDocument(doc);
-//
-//    // 1
-//    doc = new Document();
-//    doc.add(new SortedDocValuesField(groupField, new BytesRef("cc")));
-//    indexWriter.addDocument(doc);
-//
-//    // 2
-//    doc = new Document();
-//    doc.add(new SortedDocValuesField(groupField, new BytesRef("bb")));
-//    indexWriter.addDocument(doc);
-//
-//    // 3
-//    doc = new Document();
-//    doc.add(new SortedDocValuesField(groupField, new BytesRef("ff")));
-//    indexWriter.addDocument(doc);
-//
-    // 4
+    // docId = 0
     doc = new Document();
-    doc.add(new SortedDocValuesField(groupField, new BytesRef("aa")));
-    doc.add(new TextField("abc", "luxugang", Field.Store.YES));
-    indexWriter.addDocument(doc);
-//
-//    // 5
-    doc = new Document();
-    doc.add(new TextField("abc", "liudehua", Field.Store.YES));
-    doc.add(new SortedDocValuesField(groupField, new BytesRef("a")));
+    doc.add(new SortedDocValuesField(fieldName, new BytesRef("aa")));
     indexWriter.addDocument(doc);
 
-    int count = 0;
-    while (count++ < 2090){
-      doc = new Document();
-      doc.add(new SortedDocValuesField(groupField, new BytesRef(getSamePrefixRandomValue("ab"))));
-    doc.add(new TextField("abc", "value", Field.Store.YES));
-      indexWriter.addDocument(doc);
-    }
+    // docId = 1
+    doc = new Document();
+    doc.add(new SortedDocValuesField(fieldName, new BytesRef("ff")));
+    indexWriter.addDocument(doc);
+
+    // docId = 2
+    doc = new Document();
+    doc.add(new SortedDocValuesField(fieldName, new BytesRef("bb")));
+    indexWriter.addDocument(doc);
+
+    // docId = 3
+    doc = new Document();
+    doc.add(new SortedDocValuesField(fieldName, new BytesRef("cc")));
+    indexWriter.addDocument(doc);
+
+    // docId = 4
+    doc = new Document();
+    doc.add(new SortedDocValuesField(fieldName, new BytesRef("cc")));
+    indexWriter.addDocument(doc);
+//
+////    // 5
+//    doc = new Document();
+//    doc.add(new TextField("abc", "liudehua", Field.Store.YES));
+//    doc.add(new SortedDocValuesField(fieldName, new BytesRef("a")));
+//    indexWriter.addDocument(doc);
+//
+//    int count = 0;
+//    while (count++ < 2090){
+//      doc = new Document();
+//      doc.add(new SortedDocValuesField(fieldName, new BytesRef(getSamePrefixRandomValue("ab"))));
+//    doc.add(new TextField("abc", "value", Field.Store.YES));
+//      indexWriter.addDocument(doc);
+//    }
 
     indexWriter.commit();
 
@@ -91,8 +90,8 @@ public class SortedDocValuesTest {
 
 
 //    Sort sort = new Sort(new SortedNumericSortField("age", SortField.Type.LONG), new SortedNumericSortField("price", SortField.Type.LONG));
-    Sort sort = new Sort(new SortField(groupField, SortField.Type.STRING));
 
+    Sort sort = new Sort(new SortField(fieldName, SortField.Type.STRING));
     TopDocs docs = searcher.search(new MatchAllDocsQuery(), 3, sort);
 
     for (ScoreDoc scoreDoc: docs.scoreDocs){

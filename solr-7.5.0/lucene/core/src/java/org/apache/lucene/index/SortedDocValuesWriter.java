@@ -219,9 +219,9 @@ class SortedDocValuesWriter extends DocValuesWriter {
         // 获得文档号
       int docID = docsWithField.nextDoc();
       if (docID != NO_MORE_DOCS) {
-        // 获得termId
+        // 得termId
         ord = Math.toIntExact(iter.next());
-        // 根据termID获得sortedValues数组的一个下标值
+        // 根据termID获得sortedValues数组的一个下标值, 即ord，ord描述了域值的大小关系
         ord = ordMap[ord];
       }
       return docID;
