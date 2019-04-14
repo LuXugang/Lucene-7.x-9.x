@@ -52,9 +52,9 @@ public class SortField {
     STRING,
 
     /** Sort using term values as encoded Integers.  Sort values are Integer and
-     * lower values are at the front. */
+//     * lower values are at the front. */
     INT,
-
+//
     /** Sort using term values as encoded Floats.  Sort values are Float and
      * lower values are at the front. */
     FLOAT,

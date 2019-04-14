@@ -159,9 +159,11 @@ public abstract class FieldValueHitQueue<T extends FieldValueHitQueue.Entry> ext
       throw new IllegalArgumentException("Sort must contain at least one field");
     }
 
+    // 只有一个比较规则
     if (fields.length == 1) {
       return new OneComparatorFieldValueHitQueue<>(fields, size);
     } else {
+      // 多个比较规则
       return new MultiComparatorsFieldValueHitQueue<>(fields, size);
     }
   }

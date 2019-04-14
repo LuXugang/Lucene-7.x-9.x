@@ -175,8 +175,10 @@ public abstract class TopFieldCollector extends TopDocsCollector<Entry> {
             }
 
             // This hit is competitive - replace bottom element in queue & adjustTop
+            // 将新的胜出者替换bottom的loser
             comparator.copy(bottom.slot, doc);
             updateBottom(doc, score);
+            // 更新FieldComparator中的bottom
             comparator.setBottom(bottom.slot);
           } else {
             // Startup transient: queue hasn't gathered numHits yet
