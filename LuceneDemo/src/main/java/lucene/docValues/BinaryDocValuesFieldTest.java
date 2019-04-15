@@ -5,10 +5,9 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.BinaryDocValuesField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -44,54 +43,38 @@ public class BinaryDocValuesFieldTest {
 
         String fieldName = "superStar";
         Document doc ;
-        // docId = 0
+        // 0
         doc = new Document();
-        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("aa")));
+        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("c")));
+        doc.add(new TextField("superStar", "Andy", Field.Store.YES));
         indexWriter.addDocument(doc);
-
-        // docId = 1
+        // 1
         doc = new Document();
-        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("f")));
+        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("b")));
+        doc.add(new TextField("superStar", "Eason", Field.Store.YES));
         indexWriter.addDocument(doc);
-
-        // docId = 2
+        // 2
         doc = new Document();
-        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("bb")));
+        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("d")));
+        doc.add(new TextField("superStar", "Jay", Field.Store.YES));
         indexWriter.addDocument(doc);
-
-        // docId = 3
+        // 3
         doc = new Document();
-        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("cc")));
+        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("e")));
+        doc.add(new TextField("superStar", "Jolin", Field.Store.YES));
         indexWriter.addDocument(doc);
-
-        // docId = 4
+        // 4
         doc = new Document();
-        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("cc")));
+        doc.add(new BinaryDocValuesField(fieldName, new BytesRef("a")));
+        doc.add(new TextField("superStar", "KUN", Field.Store.YES));
         indexWriter.addDocument(doc);
-//
-////    // 5
-//    doc = new Document();
-//    doc.add(new TextField("abc", "liudehua", Field.Store.YES));
-//    doc.add(new BinaryDocValuesField(fieldName, new BytesRef("a")));
-//    indexWriter.addDocument(doc);
-//
-//    int count = 0;
-//    while (count++ < 2090){
-//      doc = new Document();
-//      doc.add(new BinaryDocValuesField(fieldName, new BytesRef(getSamePrefixRandomValue("ab"))));
-//    doc.add(new TextField("abc", "value", Field.Store.YES));
-//      indexWriter.addDocument(doc);
-//    }
-
         indexWriter.commit();
 
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
 
-//    Sort sort = new Sort(new SortedNumericSortField("age", SortField.Type.LONG), new SortedNumericSortField("price", SortField.Type.LONG));
-    Sort sort = new Sort(new SortField(fieldName, SortField.Type.STRING_VAL));
-
+        Sort sort = new Sort(new SortField(fieldName, SortField.Type.STRING_VAL));
         TopDocs docs = searcher.search(new MatchAllDocsQuery(), 3 , sort);
 
         for (ScoreDoc scoreDoc: docs.scoreDocs){

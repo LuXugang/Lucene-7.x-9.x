@@ -104,6 +104,7 @@ final class Boolean2ScorerSupplier extends ScorerSupplier {
     // combine the two: if minNrShouldMatch > 0, then it's a conjunction: because the
     // optional side must match. otherwise it's required + optional
 
+    // 既有MUST又有SHOULD
     if (minShouldMatch > 0) {
       Scorer req = excl(req(subs.get(Occur.FILTER), subs.get(Occur.MUST), leadCost), subs.get(Occur.MUST_NOT), leadCost);
       Scorer opt = opt(subs.get(Occur.SHOULD), minShouldMatch, needsScores, leadCost);
