@@ -149,6 +149,7 @@ final class MultiTermQueryConstantScoreWrapper<Q extends MultiTermQuery> extends
         PostingsEnum docs = null;
 
         final List<TermAndState> collectedTerms = new ArrayList<>();
+        // if 语句为真，说明term的个数没有超过16 (BOOLEAN_REWRITE_TERM_COUNT_THRESHOLD)
         if (collectTerms(context, termsEnum, collectedTerms)) {
           // build a boolean query
           BooleanQuery.Builder bq = new BooleanQuery.Builder();
