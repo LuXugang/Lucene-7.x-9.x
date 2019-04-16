@@ -75,6 +75,7 @@ final class IntersectTermsEnumFrame {
         
   final Transition transition = new Transition();
   int transitionIndex;
+  // 当前state可以有多少种transition，即可以跳转到其他state的个数
   int transitionCount;
 
   FST.Arc<BytesRef> arc;

@@ -71,6 +71,9 @@ public abstract class RunAutomaton {
     points = a.getStartPoints();
     size = Math.max(1,a.getNumStates());
     accept = new boolean[size];
+    // transitions数组根据state的个数，数组分为state个区域，第一个区域额也就是 state = 0，第二个区域也就是state = 1.。如此类推
+    // 拿第二个区域举例，这块区域表示 state中是否有一个转换(transition)可以使得 某个一个字节在这个区域内
+    // 比如state的转换区间是 99~255，即state的min是99，max为255, 那么某一个字节，即100就在这个区域内。
     transitions = new int[size * points.length];
     Arrays.fill(transitions, -1);
     for (int n=0;n<size;n++) {
@@ -85,6 +88,7 @@ public abstract class RunAutomaton {
     /*
      * Set alphabet table for optimal run performance.
      */
+    // classmap数组的下标值是0~255的值，数组元素是 point中的数组元素在point数组中的下标值
     classmap = new int[Math.min(256, alphabetSize)];
     int i = 0;
     for (int j = 0; j < classmap.length; j++) {
@@ -177,6 +181,8 @@ public abstract class RunAutomaton {
     if (c >= classmap.length) {
       return transitions[state * points.length + getCharClass(c)];
     } else {
+      // state * points.length 用来确定当前state对应的信息在transitions[]数组中的起始位置。
+      //
       return transitions[state * points.length + classmap[c]];
     }
   }

@@ -552,6 +552,8 @@ final class IntersectTermsEnum extends TermsEnum {
         // Advance where we are in the automaton to match this label:
 
         while (label > currentTransition.max) {
+          // transitionIndex的个数从0开始计数，transitionCount描述可以跳转到多少个其他的state
+          // 所以transitionIndex的的最大值是 transitionCount - 1
           if (currentFrame.transitionIndex >= currentFrame.transitionCount-1) {
             // Pop this frame: no further matches are possible because
             // we've moved beyond what the max transition will allow
@@ -565,7 +567,9 @@ final class IntersectTermsEnum extends TermsEnum {
             isSubBlock = popPushNext();
             continue nextTerm;
           }
+          // 需要跳转到其他state，所以transitionIndex加1
           currentFrame.transitionIndex++;
+          // 更新transition, 所有的transition的都是先按照min进行排序的
           automaton.getNextTransition(currentTransition);
 
           if (label < currentTransition.min) {
@@ -641,9 +645,12 @@ final class IntersectTermsEnum extends TermsEnum {
         lastState = currentFrame.state;
         state = currentTransition.dest;
 
+        // currentFrame.startBytePos 与 end 描述了当前term在suffixBytes数组中的数据区间
         int end = currentFrame.startBytePos + currentFrame.suffix;
+        // 遍历当前term的每一个字节,
         for (int idx=currentFrame.startBytePos+1;idx<end;idx++) {
           lastState = state;
+          // state 不为-1的话 说明当前term在范围内
           state = runAutomaton.step(state, suffixBytes[idx] & 0xff);
           if (state == -1) {
             // No match

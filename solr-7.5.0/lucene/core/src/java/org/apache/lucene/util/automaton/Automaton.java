@@ -293,6 +293,7 @@ public class Automaton implements Accountable {
     states[2*curState+1] = upto;
 
     // Sort transitions by min/max/dest:
+    // 这里先按照min进行排序的目的在于，为了在读取阶段的state跳转时，能按照从小到大的顺序
     minMaxDestSorter.sort(start, start+upto);
 
     if (deterministic && upto > 1) {
@@ -624,7 +625,9 @@ public class Automaton implements Accountable {
     Set<Integer> pointset = new HashSet<>();
     pointset.add(Character.MIN_CODE_POINT);
     //System.out.println("getStartPoints");
+    // 遍历每一个state
     for (int s=0;s<nextState;s+=2) {
+        // trans跟limit描述了当前state在transitions[]数组中对应的数据区间
       int trans = states[s];
       int limit = trans+3*states[s+1];
       //System.out.println("  state=" + (s/2) + " trans=" + trans + " limit=" + limit);
@@ -634,6 +637,7 @@ public class Automaton implements Accountable {
         //System.out.println("    min=" + min);
         pointset.add(min);
         if (max < Character.MAX_CODE_POINT) {
+            // 注意的是这里的max会加1后存放到pointset中。
           pointset.add(max + 1);
         }
         trans += 3;
@@ -658,6 +662,7 @@ public class Automaton implements Accountable {
   public int step(int state, int label) {
     assert state >= 0;
     assert label >= 0;
+    // trans跟limit描述了当前state在transitions[]数组中对应的数据区间
     int trans = states[2*state];
     int limit = trans + 3*states[2*state+1];
     // TODO: we could do bin search; transitions are sorted

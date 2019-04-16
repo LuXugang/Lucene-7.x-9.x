@@ -48,7 +48,7 @@ public class TermRangeQueryTest {
         indexWriter.addDocument(doc);
         // 1
         doc = new Document();
-        doc.add(new TextField("content", "b", Field.Store.YES));
+        doc.add(new TextField("content", "bcd", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 2
         doc = new Document();
@@ -59,16 +59,16 @@ public class TermRangeQueryTest {
         doc.add(new TextField("content", "d", Field.Store.YES));
         indexWriter.addDocument(doc);
 
-        int count = 0;
-        while (count++ < 15){
-            doc = new Document();
-            doc.add(new TextField("content", IndexFileWithManyFieldValues.getSamePrefixRandomValue("d"), Field.Store.YES));
-            indexWriter.addDocument(doc);
-        }
+//        int count = 0;
+//        while (count++ < 15){
+//            doc = new Document();
+//            doc.add(new TextField("content", IndexFileWithManyFieldValues.getSamePrefixRandomValue("d"), Field.Store.YES));
+//            indexWriter.addDocument(doc);
+//        }
 
         // 4
         doc = new Document();
-        doc.add(new TextField("content", "e", Field.Store.YES));
+        doc.add(new TextField("content", "ea", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 5
         doc = new Document();
@@ -96,7 +96,7 @@ public class TermRangeQueryTest {
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        Query query = new TermRangeQuery("content", new BytesRef("c"), new BytesRef("i"), true, true);
+        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("ef"), true, true);
 
 
         ScoreDoc[]docs = searcher.search(query, 3).scoreDocs;
