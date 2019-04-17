@@ -45,50 +45,32 @@ public class TermRangeQueryTest {
         // 0
         doc = new Document();
         doc.add(new TextField("content", "a", Field.Store.YES));
+        doc.add(new TextField("name", "Cris", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 1
         doc = new Document();
         doc.add(new TextField("content", "bcd", Field.Store.YES));
+        doc.add(new TextField("name", "Andy", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 2
         doc = new Document();
-        doc.add(new TextField("content", "c", Field.Store.YES));
+        doc.add(new TextField("content", "ga", Field.Store.YES));
+        doc.add(new TextField("name", "Jack", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 3
         doc = new Document();
-        doc.add(new TextField("content", "d", Field.Store.YES));
+        doc.add(new TextField("content", "gc", Field.Store.YES));
+        doc.add(new TextField("name", "Pony", Field.Store.YES));
         indexWriter.addDocument(doc);
-
-//        int count = 0;
-//        while (count++ < 15){
-//            doc = new Document();
-//            doc.add(new TextField("content", IndexFileWithManyFieldValues.getSamePrefixRandomValue("d"), Field.Store.YES));
-//            indexWriter.addDocument(doc);
-//        }
-
         // 4
         doc = new Document();
-        doc.add(new TextField("content", "ea", Field.Store.YES));
+        doc.add(new TextField("content", "gch", Field.Store.YES));
+        doc.add(new TextField("name", "Jolin", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 5
         doc = new Document();
-        doc.add(new TextField("content", "f", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 6
-        doc = new Document();
-        doc.add(new TextField("content", "g", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 7
-        doc = new Document();
-        doc.add(new TextField("content", "f", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 8
-        doc = new Document();
-        doc.add(new TextField("content", "h", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 9
-        doc = new Document();
-        doc.add(new TextField("content", "i", Field.Store.YES));
+        doc.add(new TextField("content", "gchb", Field.Store.YES));
+        doc.add(new TextField("name", "Jay", Field.Store.YES));
         indexWriter.addDocument(doc);
         indexWriter.commit();
 
@@ -96,7 +78,7 @@ public class TermRangeQueryTest {
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("ef"), true, true);
+        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gch"), true, true);
 
 
         ScoreDoc[]docs = searcher.search(query, 3).scoreDocs;

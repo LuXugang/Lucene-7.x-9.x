@@ -271,6 +271,7 @@ final public class Automata {
     }
 
     if (max != null &&
+            // 判断min是否为max的前缀值
         StringHelper.startsWith(max, min) &&
         suffixIsZeros(max, min.length)) {
 
@@ -331,10 +332,12 @@ final public class Automata {
     int firstMaxState = -1;
     int sharedPrefixLength = 0;
     for(int i=0;i<min.length;i++) {
+      // 获取min中第一个字符
       int minLabel = min.bytes[min.offset+i] & 0xff;
 
       int maxLabel;
       if (max != null && equalPrefix && i < max.length) {
+        // 获取max中第一个字符
         maxLabel = max.bytes[max.offset+i] & 0xff;
       } else {
         maxLabel = -1;
