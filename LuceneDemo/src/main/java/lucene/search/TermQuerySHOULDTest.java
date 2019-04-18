@@ -43,7 +43,7 @@ public class TermQuerySHOULDTest {
         Document doc ;
         // 0
         doc = new Document();
-        doc.add(new TextField("content", "a", Field.Store.YES));
+        doc.add(new TextField("content", "h", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 1
         doc = new Document();
@@ -51,7 +51,7 @@ public class TermQuerySHOULDTest {
         indexWriter.addDocument(doc);
         // 2
         doc = new Document();
-        doc.add(new TextField("content", "c", Field.Store.YES));
+        doc.add(new TextField("content", "a c", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 3
         doc = new Document();
@@ -67,7 +67,7 @@ public class TermQuerySHOULDTest {
         indexWriter.addDocument(doc);
         // 6
         doc = new Document();
-        doc.add(new TextField("content", "c a", Field.Store.YES));
+        doc.add(new TextField("content", "c a e", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 7
         doc = new Document();
@@ -90,7 +90,7 @@ public class TermQuerySHOULDTest {
         builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.MUST_NOT);
+        builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(2);
 
 

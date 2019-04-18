@@ -357,6 +357,7 @@ final class BooleanScorer extends BulkScorer {
     collector.setScorer(fakeScorer);
 
     // 获得next值最小的那个BulkScorerAndDoc对象
+    // next描述了当前term对应的下一个待处理的文档号
     // 当下面的方法调用结束后，head中的元素按照next排好序了
     BulkScorerAndDoc top = advance(min);
     while (top.next < max) {
