@@ -9,6 +9,6 @@ import org.apache.lucene.util.automaton.Automata;
  */
 public class AutoMataTest {
   public static void main(String[] args) {
-    Automata.makeBinaryInterval(new BytesRef("bcd"), true, new BytesRef("efgh"), true);
+    Automata.makeBinaryInterval(new BytesRef("bc"), true, new BytesRef("gch"), true);
   }
 }

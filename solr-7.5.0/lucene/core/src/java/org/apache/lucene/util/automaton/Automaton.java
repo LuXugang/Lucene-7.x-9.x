@@ -240,6 +240,7 @@ public class Automaton implements Accountable {
 
     int offset = states[2*curState];
     int start = offset/3;
+    // 排序的目的是为了能reduce具有相同dest的转移
     destMinMaxSorter.sort(start, start+numTransitions);
 
     // Reduce any "adjacent" transitions:

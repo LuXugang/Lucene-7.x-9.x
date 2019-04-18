@@ -319,12 +319,15 @@ final public class Automata {
     }
 
     Automaton a = new Automaton();
+    // 新增一个初始状态
     int startState = a.createState();
 
     int sinkState = a.createState();
+    // 设置状态位可接受，这里设置的目的是为了查询时能提前结束字符的比较
     a.setAccept(sinkState, true);
 
     // This state accepts all suffixes:
+    // 新增sinkState到自身的转移，这是一个可接受状态，到达这个状态后，出现的任何字符都是满足查询范围的, 所以是一个自旋的可接受状态
     a.addTransition(sinkState, sinkState, 0, 255);
 
     boolean equalPrefix = true;
@@ -367,6 +370,7 @@ final public class Automata {
           a.addTransition(lastState, nextState, minLabel);
 
           if (maxLabel > minLabel + 1) {
+            // 新增一个到 可接受状态的转移, 在查询阶段，如果字符是大于等于minLabel或者大于等于maxLabel，那么肯定是在查询范围内的
             a.addTransition(lastState, sinkState, minLabel+1, maxLabel-1);
           }
 
@@ -414,6 +418,7 @@ final public class Automata {
       for(int i=sharedPrefixLength;i<max.length;i++) {
         int maxLabel = max.bytes[max.offset+i]&0xff;
         if (maxLabel > 0) {
+          // 0~maxLabel-1的字符肯定是在查询范围内，所以新增一个到可接受状态的转移
           a.addTransition(lastState, sinkState, 0, maxLabel-1);
         }
         if (maxInclusive || i < max.length-1) {

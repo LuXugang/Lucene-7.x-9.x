@@ -57,6 +57,15 @@ public class TermRangeQueryTest {
         doc.add(new TextField("content", "ga", Field.Store.YES));
         doc.add(new TextField("name", "Jack", Field.Store.YES));
         indexWriter.addDocument(doc);
+
+        int count = 0;
+        while (count++ < 14){
+            doc = new Document();
+            doc.add(new TextField("content", IndexFileWithManyFieldValues.getSamePrefixRandomValue("f"), Field.Store.YES));
+            doc.add(new TextField("name", "Jack", Field.Store.YES));
+            indexWriter.addDocument(doc);
+        }
+
         // 3
         doc = new Document();
         doc.add(new TextField("content", "gc", Field.Store.YES));
