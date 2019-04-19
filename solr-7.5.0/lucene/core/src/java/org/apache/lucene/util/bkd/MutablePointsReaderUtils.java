@@ -133,8 +133,11 @@ public final class MutablePointsReaderUtils {
   public static void partition(int maxDoc, int splitDim, int bytesPerDim, int commonPrefixLen,
                                MutablePointValues reader, int from, int to, int mid,
                                BytesRef scratch1, BytesRef scratch2) {
+    // 每一个pointValue中的偏移位置，从这个位置作比较，来计算属于哪一边的子树
     final int offset = splitDim * bytesPerDim + commonPrefixLen;
+    // 只要比较前缀不相同的部分
     final int cmpBytes = bytesPerDim - commonPrefixLen;
+    // 计算出存储maxDoc的值需要用到的最少bit位
     final int bitsPerDocId = PackedInts.bitsRequired(maxDoc - 1);
     new RadixSelector(cmpBytes + (bitsPerDocId + 7) / 8) {
 

@@ -456,6 +456,7 @@ public class BKDWriter implements Closeable {
       innerNodeCount *= 2;
     }
 
+    // BKD-tree中的叶子结点的个数, 每个叶子结点中最多个1024个pointValue
     int numLeaves = Math.toIntExact(innerNodeCount);
 
     checkMaxLeafNodeCount(numLeaves);
@@ -1476,6 +1477,8 @@ public class BKDWriter implements Closeable {
       maxNumSplits = Math.max(maxNumSplits, numSplits);
     }
     for (int dim = 0; dim < numDims; ++dim) {
+      // maxNumSplits描述了所有维度中，划分次数最多的那个维度
+      // 如果当前维度的划分次数小于maxNumSplits / 2 并且 当前维度中最小值跟最大值不一样, 那么下一次按照当前维度进行
       final int offset = dim * bytesPerDim;
       if (parentSplits[dim] < maxNumSplits / 2 &&
           FutureArrays.compareUnsigned(minPackedValue, offset, offset + bytesPerDim, maxPackedValue, offset, offset + bytesPerDim) != 0) {
@@ -1484,6 +1487,7 @@ public class BKDWriter implements Closeable {
     }
 
     // Find which dim has the largest span so we can split on it:
+    // 取出每个维度中最小值跟最大值的差，差值越大的作为划分维度
     int splitDim = -1;
     for(int dim=0;dim<numDims;dim++) {
       NumericUtils.subtract(bytesPerDim, dim, maxPackedValue, minPackedValue, scratchDiff);
@@ -1527,10 +1531,12 @@ public class BKDWriter implements Closeable {
 
     if (nodeID >= leafNodeOffset) {
       // leaf node
+      //开始处理叶节点
       final int count = to - from;
       assert count <= maxPointsInLeafNode;
 
       // Compute common prefixes
+      // 计算出每个维度中所有pointValue的相同相同前缀长度
       Arrays.fill(commonPrefixLengths, bytesPerDim);
       reader.getValue(from, scratchBytesRef1);
       for (int i = from + 1; i < to; ++i) {
@@ -1547,9 +1553,11 @@ public class BKDWriter implements Closeable {
       }
 
       // Find the dimension that has the least number of unique bytes at commonPrefixLengths[dim]
+      // 找到每一个维度中出去相同的前缀，下一个字节不相同的个数
       FixedBitSet[] usedBytes = new FixedBitSet[numDims];
       for (int dim = 0; dim < numDims; ++dim) {
         if (commonPrefixLengths[dim] < bytesPerDim) {
+          // ASCII码
           usedBytes[dim] = new FixedBitSet(256);
         }
       }
@@ -1561,6 +1569,8 @@ public class BKDWriter implements Closeable {
           }
         }
       }
+
+      // 选出SortedDim，用于对当前叶节点中的PointValue的排序提供一个排序规则
       int sortedDim = 0;
       int sortedDimCardinality = Integer.MAX_VALUE;
       for (int dim = 0; dim < numDims; ++dim) {
@@ -1574,6 +1584,7 @@ public class BKDWriter implements Closeable {
       }
 
       // sort by sortedDim
+      // 使用内省排序对当前叶节点中的PointValue进行排序
       MutablePointsReaderUtils.sortByDim(sortedDim, bytesPerDim, commonPrefixLengths,
           reader, from, to, scratchBytesRef1, scratchBytesRef2);
 
@@ -1583,6 +1594,8 @@ public class BKDWriter implements Closeable {
       assert scratchOut.getPosition() == 0;
 
       // Write doc IDs
+      // 记录当前leaveNode中pointValues对应的文档号
+      // docID数组是复用的
       int[] docIDs = spareDocIds;
       for (int i = from; i < to; ++i) {
         docIDs[i - from] = reader.getDocID(i);
@@ -1612,11 +1625,14 @@ public class BKDWriter implements Closeable {
 
     } else {
       // inner node
+      // 处理非叶结点
 
       // compute the split dimension and partition around it
+      // 计算出用哪个维度进行切分
       final int splitDim = split(minPackedValue, maxPackedValue, parentSplits);
       final int mid = (from + to + 1) >>> 1;
 
+      // 计算当前维度(splitDim已经被计算出来了)中的最大值跟最小值相同的前缀，目的是在划分左右子树时能减少判断的字节个数
       int commonPrefixLen = bytesPerDim;
       for (int i = 0; i < bytesPerDim; ++i) {
         if (minPackedValue[splitDim * bytesPerDim + i] != maxPackedValue[splitDim * bytesPerDim + i]) {
@@ -1625,10 +1641,12 @@ public class BKDWriter implements Closeable {
         }
       }
 
+      // 使用最大有效位的基数排序（MSB radix sort）进行排序
       MutablePointsReaderUtils.partition(maxDoc, splitDim, bytesPerDim, commonPrefixLen,
           reader, from, to, mid, scratchBytesRef1, scratchBytesRef2);
 
       // set the split value
+      // address当前node的划分左右子树的信息：包括 划分值(split value)和划分维度(splitDim)
       final int address = nodeID * (1+bytesPerDim);
       splitPackedValues[address] = (byte) splitDim;
       reader.getValue(mid, scratchBytesRef1);
@@ -1642,7 +1660,9 @@ public class BKDWriter implements Closeable {
           maxSplitPackedValue, splitDim * bytesPerDim, bytesPerDim);
 
       // recurse
+      // 该数组传递给子节点，用于划分维度的选择提供提交
       parentSplits[splitDim]++;
+      // 从这里可以看出，构建出来的BKD-tree是一个完全二叉树
       build(nodeID * 2, leafNodeOffset, reader, from, mid, out,
           minPackedValue, maxSplitPackedValue, parentSplits,
           splitPackedValues, leafBlockFPs, spareDocIds);

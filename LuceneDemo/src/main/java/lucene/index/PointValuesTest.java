@@ -13,6 +13,7 @@ import org.apache.lucene.store.MMapDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -39,21 +40,37 @@ public class PointValuesTest {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
 
+    Random random = new Random();
     Document doc;
     // 0
     doc = new Document();
-    doc.add(new IntPoint("content", 3, 5, 9));
-    doc.add(new IntPoint("content", 1, 2, 8));
+    doc.add(new IntPoint("content", 3, 5));
     indexWriter.addDocument(doc);
     // 1
     doc = new Document();
-    doc.add(new IntPoint("content", 10, 55, 23));
+    doc.add(new IntPoint("content", 10, 55));
     indexWriter.addDocument(doc);
+
+    int count = 0 ;
+    while (count++ < 2048){
+      doc = new Document();
+      int a = random.nextInt(100);
+      a = a == 0 ? a + 1 : a;
+      int b = random.nextInt(100);
+      b = b == 0 ? b + 1 : b;
+      doc.add(new IntPoint("content", a , b));
+      indexWriter.addDocument(doc);
+    }
+
+
     indexWriter.commit();
   }
 
   public static void main(String[] args) throws Exception{
     PointValuesTest test = new PointValuesTest();
     test.doSearch();
+//    byte[] packed = new byte[100];
+//    IntPoint.encodeDimension(256, packed, 0);
+//    System.out.println(packed);
   }
 }
