@@ -456,7 +456,7 @@ public class BKDWriter implements Closeable {
       innerNodeCount *= 2;
     }
 
-    // BKD-tree中的叶子结点的个数, 每个叶子结点中最多个1024个pointValue
+    // BKD-tree中的叶子节点的个数, 每个叶子节点中最多个1024个pointValue
     int numLeaves = Math.toIntExact(innerNodeCount);
 
     checkMaxLeafNodeCount(numLeaves);
@@ -1627,7 +1627,7 @@ public class BKDWriter implements Closeable {
 
     } else {
       // inner node
-      // 处理非叶结点
+      // 处理非叶节点
 
       // compute the split dimension and partition around it
       // 计算出用哪个维度进行切分
@@ -1643,7 +1643,7 @@ public class BKDWriter implements Closeable {
         }
       }
 
-      // 使用最大有效位的基数排序（MSB radix sort）进行排序
+      // 当前节点中的点数据集进行排序，排序规则根据该每个点数据中的该维度的值，排序算法使用最大有效位的基数排序(MSB radix sort)。
       MutablePointsReaderUtils.partition(maxDoc, splitDim, bytesPerDim, commonPrefixLen,
           reader, from, to, mid, scratchBytesRef1, scratchBytesRef2);
 
