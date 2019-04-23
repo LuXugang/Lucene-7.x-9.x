@@ -45,10 +45,12 @@ public class PointValuesTest {
     // 0
     doc = new Document();
     doc.add(new IntPoint("content", 3, 5));
+    doc.add(new IntPoint("title", 2, 5));
     indexWriter.addDocument(doc);
     // 1
     doc = new Document();
     doc.add(new IntPoint("content", 10, 55));
+    doc.add(new IntPoint("title", 10, 55));
     indexWriter.addDocument(doc);
 
     int count = 0 ;
@@ -59,6 +61,7 @@ public class PointValuesTest {
       int b = random.nextInt(100);
       b = b == 0 ? b + 1 : b;
       doc.add(new IntPoint("content", a , b));
+      doc.add(new IntPoint("title", 10, 55));
       indexWriter.addDocument(doc);
     }
 

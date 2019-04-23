@@ -36,7 +36,7 @@ import org.apache.lucene.index.SegmentWriteState;
  *
  * <p>The <code>.dim</code> file has both blocks and the index split
  * values, for each field.  The file starts with {@link CodecUtil#writeIndexHeader}.
- *
+
  * <p>The blocks are written like this:
  *
  * <ul>

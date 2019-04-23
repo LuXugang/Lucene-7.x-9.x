@@ -29,33 +29,44 @@ class DocIdsWriter {
   static void writeDocIds(int[] docIds, int start, int count, DataOutput out) throws IOException {
     // docs can be sorted either when all docs in a block have the same value
     // or when a segment is sorted
+    // 如果一个叶子结点中的数据都是一样的，那么文档号是有序的
     boolean sorted = true;
+    // 遍历每一个文档号，尝试判断下是否文档已经有序，当发现有无序的文档则退出遍历
     for (int i = 1; i < count; ++i) {
       if (docIds[start + i - 1] > docIds[start + i]) {
         sorted = false;
         break;
       }
     }
-    if (sorted) {
+    if (sorted){
+      // 写入一个标志位，表示叶子节点中的点数据对应的文档号有序
       out.writeByte((byte) 0);
       int previous = 0;
+      // 将文档依次写入
       for (int i = 0; i < count; ++i) {
         int doc = docIds[start + i];
+        // 因为有序，所以可以使用差值存储
         out.writeVInt(doc - previous);
         previous = doc;
       }
     } else {
       long max = 0;
+      // 先遍历一遍，找出最大的文档号
       for (int i = 0; i < count; ++i) {
         max |= Integer.toUnsignedLong(docIds[start + i]);
       }
+      // if语句为真说明 最大的文档号可以用3个字节表示
       if (max <= 0xffffff) {
+        // 标志位表示 一个文档号用3个字节表示
         out.writeByte((byte) 24);
         for (int i = 0; i < count; ++i) {
+          // 3个字节表示一个int类型，但是没有一种类型可以表示3个字节
+          // 所以只能用 1个short跟1个Byte来表示3个字节，哈哈
           out.writeShort((short) (docIds[start + i] >>> 8));
           out.writeByte((byte) docIds[start + i]);
         }
       } else {
+        // 标志位表示 一个文档号用4个字节表示
         out.writeByte((byte) 32);
         for (int i = 0; i < count; ++i) {
           out.writeInt(docIds[start + i]);
