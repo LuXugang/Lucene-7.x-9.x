@@ -461,7 +461,8 @@ public class BKDWriter implements Closeable {
     int numLeaves = Math.toIntExact(innerNodeCount);
 
     checkMaxLeafNodeCount(numLeaves);
-    // splitPackedValues数组中每5个字节为一个块，每个块描述了 根据哪个维度进行划分 以及 维度值
+    // splitPackedValues数组中每5个字节为一个块，每个块描述了非叶节点根据哪个维度进行划分 以及 维度值
+    // 因为最终生成的是一个满二叉树，所以非叶节点的个数 等于 (叶子节点 - 1), 所以使用numLeaves来初始化
     final byte[] splitPackedValues = new byte[numLeaves * (bytesPerDim + 1)];
     // leafBlockFPs为每个叶子节点在.dim中的偏移位置
     final long[] leafBlockFPs = new long[numLeaves];
@@ -1082,9 +1083,21 @@ public class BKDWriter implements Closeable {
     RAMOutputStream writeBuffer = new RAMOutputStream();
 
     // This is the "file" we append the byte[] to:
+    // blocks用来存储非叶节点的信息
+    // 如果非叶节点的左右子树是叶子节点，那么连续3个block元素来记录这个非叶节点的信息
+    // 如果非叶节点的左右子树不是叶子节点，那么连续2个block元素来记录这个非叶节点的信息
+
+    // 非叶节点的左右子树不是叶子节点的block的第一个元素记录非叶节点的 划分结点 和 划分维度的信息, 它对应的最左子树（叶子节点)在.dim文件中的偏移
+    // 非叶节点的左右子树不是叶子节点的block的第二个元素记录非叶节点的 存储左子树的占用的字节个数
+
+    // 非叶节点的左右子树是叶子节点的block的第一个元素记录非叶节点的 划分结点 和 划分维度的信息, 它对应的左子树（叶子节点)在.dim文件中的偏移
+    // 非叶节点的左右子树是叶子节点的block的第二个元素为空值
+    // 非叶节点的左右子树是叶子节点的block的第三个元素记录了右子树(叶子节点)在.dim文件中的偏移
+
     List<byte[]> blocks = new ArrayList<>();
     byte[] lastSplitValues = new byte[bytesPerDim * numDims];
     //System.out.println("\npack index");
+    // totalSize记录了存储所有非叶节点信息占用的字节数
     int totalSize = recursePackIndex(writeBuffer, leafBlockFPs, splitPackedValues, 0l, blocks, 1, lastSplitValues, new boolean[numDims], false);
 
     // Compact the byte[] blocks into single byte index:
@@ -1114,13 +1127,16 @@ public class BKDWriter implements Closeable {
    */
   private int recursePackIndex(RAMOutputStream writeBuffer, long[] leafBlockFPs, byte[] splitPackedValues, long minBlockFP, List<byte[]> blocks,
                                int nodeID, byte[] lastSplitValues, boolean[] negativeDeltas, boolean isLeft) throws IOException {
+    // 处理 叶子节点
     if (nodeID >= leafBlockFPs.length) {
       int leafID = nodeID - leafBlockFPs.length;
       //System.out.println("recursePack leaf nodeID=" + nodeID);
 
       // In the unbalanced case it's possible the left most node only has one child:
       if (leafID < leafBlockFPs.length) {
+        // 计算与上一个叶子节点在.dim文件中起始位置的差值
         long delta = leafBlockFPs[leafID] - minBlockFP;
+        // 如果是左子树，直接退出
         if (isLeft) {
           assert delta == 0;
           return 0;
@@ -1133,9 +1149,10 @@ public class BKDWriter implements Closeable {
         return 0;
       }
     } else {
+      // 处理 非叶节点
       long leftBlockFP;
       if (isLeft == false) {
-        // 取出nodeID对应的叶子节点的数据在.dim文件中的偏移位置
+        // 取出nodeID对应的最左叶子节点（mostLeafNode)的数据在.dim文件中的偏移位置
         leftBlockFP = getLeftMostLeafBlockFP(leafBlockFPs, nodeID);
         long delta = leftBlockFP - minBlockFP;
         assert nodeID == 1 || delta > 0;
@@ -1145,7 +1162,9 @@ public class BKDWriter implements Closeable {
         leftBlockFP = minBlockFP;
       }
 
+      // 获取当前非叶节点的splitPackedValues数组的下标值
       int address = nodeID * (1+bytesPerDim);
+      // 获取当前非叶节点的切分维度
       int splitDim = splitPackedValues[address++] & 0xff;
 
       //System.out.println("recursePack inner nodeID=" + nodeID + " splitDim=" + splitDim + " splitValue=" + new BytesRef(splitPackedValues, address, bytesPerDim));
@@ -1165,6 +1184,7 @@ public class BKDWriter implements Closeable {
         //System.out.println("  delta byte cur=" + Integer.toHexString(splitPackedValues[address+prefix]&0xFF) + " prev=" + Integer.toHexString(lastSplitValues[splitDim * bytesPerDim + prefix]&0xFF) + " negated?=" + negativeDeltas[splitDim]);
         firstDiffByteDelta = (splitPackedValues[address+prefix]&0xFF) - (lastSplitValues[splitDim * bytesPerDim + prefix]&0xFF);
         if (negativeDeltas[splitDim]) {
+          //
           firstDiffByteDelta = -firstDiffByteDelta;
         }
         //System.out.println("  delta=" + firstDiffByteDelta);
@@ -1182,9 +1202,12 @@ public class BKDWriter implements Closeable {
       writeBuffer.writeVInt(code);
 
       // write the split value, prefix coded vs. our parent's split value:
+      // 获取后缀值
       int suffix = bytesPerDim - prefix;
       byte[] savSplitValue = new byte[suffix];
       if (suffix > 1) {
+        // 第一个不相同字节已经被记录了，所以这里记录后缀的长度需要减一，即 Suffix-1
+        // 如果与上一个 划分值 一样，那么Suffix的值为0
         writeBuffer.writeBytes(splitPackedValues, address+prefix+1, suffix-1);
       }
 
@@ -1193,25 +1216,34 @@ public class BKDWriter implements Closeable {
       System.arraycopy(lastSplitValues, splitDim * bytesPerDim + prefix, savSplitValue, 0, suffix);
 
       // copy our split value into lastSplitValues for our children to prefix-code against
+      // 把与上一个 划分值不相同的后缀部分存放到lastSplitValues中，用于跟下一个划分值作前缀编码
       System.arraycopy(splitPackedValues, address+prefix, lastSplitValues, splitDim * bytesPerDim + prefix, suffix);
 
+      // numBytes描述的是记录当前非叶节点的划分信息占用的字节个数, 用来作为读取边界读取blocks中的元素
       int numBytes = appendBlock(writeBuffer, blocks);
 
       // placeholder for left-tree numBytes; we need this so that at search time if we only need to recurse into the right sub-tree we can
       // quickly seek to its starting point
       int idxSav = blocks.size();
+      // 这里添加一个占位符(null)，用来预留一个位置
       blocks.add(null);
 
       boolean savNegativeDelta = negativeDeltas[splitDim];
+      // 因为lastSplitValues即将跟左子树的划分值执行差值存储，而lastSplitValues肯定是大于左子树的划分值，他们的差值可能是负数，所以这里要设置为true
+      // 因为前缀存储只能存储非负的值
       negativeDeltas[splitDim] = true;
 
+      // 处理当前非叶节点的左子树
+      // leftNumBytes描述当前非叶节点的左子树占用的字节个数, 如果左子树是叶子节点，那么numBytes2的值为0, 因为这个当前方法是记录非叶节点的信息
       int leftNumBytes = recursePackIndex(writeBuffer, leafBlockFPs, splitPackedValues, leftBlockFP, blocks, 2*nodeID, lastSplitValues, negativeDeltas, true);
 
+      // if语句为真说明当前非叶节点的左右子树也是非叶节点，那么leftNumBytes的值不是0，需要记录
       if (nodeID * 2 < leafBlockFPs.length) {
         writeBuffer.writeVInt(leftNumBytes);
       } else {
         assert leftNumBytes == 0: "leftNumBytes=" + leftNumBytes;
       }
+      // leftNumBytes的值被编码后存储到block中，numBytes2用来作为读取边界读取blocks中的元素
       int numBytes2 = Math.toIntExact(writeBuffer.getFilePointer());
       byte[] bytes2 = new byte[numBytes2];
       writeBuffer.writeTo(bytes2, 0);
@@ -1219,7 +1251,9 @@ public class BKDWriter implements Closeable {
       // replace our placeholder:
       blocks.set(idxSav, bytes2);
 
+      // 因为lastSplitValues即将跟右子树的划分值执行差值存储，而lastSplitValues肯定小于等于右子树的划分值，他们的差值不可能是负数，所以这里要设置为false
       negativeDeltas[splitDim] = false;
+      // rightNumBytes描述当前非叶节点的右子树占用的字节个数
       int rightNumBytes = recursePackIndex(writeBuffer, leafBlockFPs, splitPackedValues, leftBlockFP, blocks, 2*nodeID+1, lastSplitValues, negativeDeltas, false);
 
       negativeDeltas[splitDim] = savNegativeDelta;
@@ -1228,7 +1262,11 @@ public class BKDWriter implements Closeable {
       System.arraycopy(savSplitValue, 0, lastSplitValues, splitDim * bytesPerDim + prefix, suffix);
 
       assert Arrays.equals(lastSplitValues, cmp);
-      
+
+      // numBytes描述的是记录当前非叶节点的划分信息占用的字节个数, 用来作为读取边界读取blocks中的元素
+      // leftNumBytes描述当前非叶节点的左子树占用的字节个数, 如果左子树是叶子节点，那么numBytes2的值为0, 因为这个当前方法是记录非叶节点的信息
+      // leftNumBytes的值被编码后存储到block中，numBytes2用来作为读取边界读取blocks中的元素
+      // rightNumBytes描述当前非叶节点的右子树占用的字节个数
       return numBytes + numBytes2 + leftNumBytes + rightNumBytes;
     }
   }
