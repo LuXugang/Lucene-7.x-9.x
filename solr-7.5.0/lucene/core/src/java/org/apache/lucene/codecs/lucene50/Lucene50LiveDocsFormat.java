@@ -98,8 +98,10 @@ public final class Lucene50LiveDocsFormat extends LiveDocsFormat {
     try (IndexOutput output = dir.createOutput(name, context)) {
       CodecUtil.writeIndexHeader(output, CODEC_NAME, VERSION_CURRENT, info.info.getId(), Long.toString(gen, Character.MAX_RADIX));
       final int longCount = FixedBitSet.bits2words(bits.length());
+      // 遍历所有的long
       for (int i = 0; i < longCount; ++i) {
         long currentBits = 0;
+        // 遍历long的每一给bit位，如果为0，说明是被删除的文档号，那么delCount++；
         for (int j = i << 6, end = Math.min(j + 63, bits.length() - 1); j <= end; ++j) {
           if (bits.get(j)) {
             currentBits |= 1L << j; // mod 64

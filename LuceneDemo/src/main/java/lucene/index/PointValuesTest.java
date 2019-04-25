@@ -71,7 +71,7 @@ public class PointValuesTest {
 
   public static void main(String[] args) throws Exception{
     PointValuesTest test = new PointValuesTest();
-    test.doSearch();
+      test.doSearch();
 //    byte[] packed = new byte[100];
 //    IntPoint.encodeDimension(256, packed, 0);
 //    System.out.println(packed);
