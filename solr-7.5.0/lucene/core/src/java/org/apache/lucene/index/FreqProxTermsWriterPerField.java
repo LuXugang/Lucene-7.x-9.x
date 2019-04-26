@@ -130,6 +130,7 @@ final class FreqProxTermsWriterPerField extends TermsHashPerField {
       if (hasProx) {
         // 写入term在文档中的位置信息
         writeProx(termID, fieldState.position);
+        // 写入term在文档中的偏移信息
         if (hasOffsets) {
           writeOffsets(termID, fieldState.offset);
         }

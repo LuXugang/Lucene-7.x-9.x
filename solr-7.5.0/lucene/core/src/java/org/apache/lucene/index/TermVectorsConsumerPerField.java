@@ -71,6 +71,7 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
     // of a given field in the doc.  At this point we flush
     // our hash into the DocWriter.
 
+    // 获取倒排表数据
     TermVectorsPostingsArray postings = termVectorsPostingsArray;
     final TermVectorsWriter tv = termsWriter.writer;
 
@@ -125,6 +126,7 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
 
       hasPayloads = false;
 
+      // 判断当前域是否存储词向量
       doVectors = field.fieldType().storeTermVectors();
 
       if (doVectors) {
@@ -190,16 +192,23 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
     return doVectors;
   }
   
-  void writeProx(TermVectorsPostingsArray postings, int termID) {    
+  void writeProx(TermVectorsPostingsArray postings, int termID) {
+     //  记录offset信息
     if (doVectorOffsets) {
+      // startOffset是当前term第一个字符在当前文档中的起始位置
       int startOffset = fieldState.offset + offsetAttribute.startOffset();
+      //( endOffset - 1)是当前term最后一个字符在当前文档中的位置的
       int endOffset = fieldState.offset + offsetAttribute.endOffset();
 
+      // 差值存储startOffset的信息到倒排表中
       writeVInt(1, startOffset - postings.lastOffsets[termID]);
+      // term的字节长度
       writeVInt(1, endOffset - startOffset);
+      // 本篇文档中再次出现当前term时用来计算差值
       postings.lastOffsets[termID] = endOffset;
     }
 
+    // 记录position跟payload信息
     if (doVectorPositions) {
       final BytesRef payload;
       if (payloadAttribute == null) {
@@ -210,11 +219,15 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
       
       final int pos = fieldState.position - postings.lastPositions[termID];
       if (payload != null && payload.length > 0) {
+        // 带有payload，那么pos的二进制的最低位置为1，在读取阶段表示下一个字节是payload的长度。
         writeVInt(0, (pos<<1)|1);
+        // payload占用的字节长度
         writeVInt(0, payload.length);
+        // payload的值
         writeBytes(0, payload.bytes, payload.offset, payload.length);
         hasPayloads = true;
       } else {
+        // 没有payload，那么pos的二进制的最低位置为1，在读取阶段表示下一个字节是payload的长度。
         writeVInt(0, pos<<1);
       }
       postings.lastPositions[termID] = fieldState.position;

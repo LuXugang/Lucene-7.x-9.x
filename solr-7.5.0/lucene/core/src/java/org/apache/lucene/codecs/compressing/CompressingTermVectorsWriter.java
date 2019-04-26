@@ -263,6 +263,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
 
   @Override
   public void startDocument(int numVectorFields) throws IOException {
+    // numVectorFields为需要存储词向量的域的个数
     curDoc = addDocData(numVectorFields);
   }
 

@@ -108,6 +108,7 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
   // because token text has already been "interned" into
   // textStart, so we hash by textStart.  term vectors use
   // this API.
+  // 词向量term Vector通过这个api来生成倒排表
   public void add(int textStart) throws IOException {
     int termID = bytesHash.addByPoolOffset(textStart);
     if (termID >= 0) {      // New posting
