@@ -1,18 +1,16 @@
 package lucene.index;
 
 import io.FileOperation;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.Document;
+import lucene.AnalyzerTest.PayloadAnalyzer;
+import org.apache.lucene.document.*;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
 /**
@@ -32,11 +30,12 @@ public class TermVectorTest {
     }
   }
 
-  private Analyzer analyzer = new WhitespaceAnalyzer();
-  private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-  private IndexWriter indexWriter;
 
   public void doSearch() throws Exception {
+    PayloadAnalyzer analyzer = new PayloadAnalyzer();
+    IndexWriterConfig conf = new IndexWriterConfig(analyzer);
+    IndexWriter indexWriter;
+
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
 
@@ -49,21 +48,23 @@ public class TermVectorTest {
     type.setTokenized(true);
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
+
+    analyzer.setPayloadData("content", "I am payload".getBytes(StandardCharsets.UTF_8), 0, 12);
     Document doc ;
     // 0
     doc = new Document();
-    doc.add(new Field("content", "a b a", type));
-    doc.add(new Field("title", "a", type));
+    doc.add(new Field("content", "the book is a book", type));
+    doc.add(new Field("title", "book", type));
     indexWriter.addDocument(doc);
     // 1
     doc = new Document();
-    doc.add(new Field("content", "c a", type));
-    doc.add(new Field("title", "b", type));
+    doc.add(new Field("content", "the fake news is news", type));
+    doc.add(new Field("title", "news", type));
     indexWriter.addDocument(doc);
     // 2
     doc = new Document();
-    doc.add(new Field("content", "a a", type));
-    doc.add(new Field("title", "a", type));
+    doc.add(new Field("content", "the name is name", type));
+    doc.add(new Field("title", "name", type));
     indexWriter.addDocument(doc);
 
     indexWriter.commit();
@@ -84,6 +85,7 @@ public class TermVectorTest {
 
     System.out.println("hah");
   }
+
 
   public static void main(String[] args) throws Exception{
     TermVectorTest termVectorTest = new TermVectorTest();

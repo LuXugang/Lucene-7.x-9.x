@@ -39,6 +39,7 @@ public class TermQuerySHOULDMUSTTest {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
 
+
     Document doc ;
     // 0
     doc = new Document();
