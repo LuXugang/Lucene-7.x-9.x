@@ -168,7 +168,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
     this.numStoredFields[numBufferedDocs] = numStoredFieldsInDoc;
     numStoredFieldsInDoc = 0;
     // 一个文档的所有域的域值都存放在bufferedDocs中
-    // 记录当前文档的最后一个域的最后一个域值在buffer[]数组中的位置
+    // 记录当前文档的最后一个域的最后一个域值在 bufferedDocs[]数组中的位置
     endOffsets[numBufferedDocs] = bufferedDocs.getPosition();
     // 文档号+1
     ++numBufferedDocs;
