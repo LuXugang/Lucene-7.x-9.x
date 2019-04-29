@@ -51,20 +51,25 @@ public class TermVectorTest {
 
     analyzer.setPayloadData("content", "it is payload".getBytes(StandardCharsets.UTF_8), 0, 13);
     Document doc ;
-    // 0
-    doc = new Document();
-    doc.add(new Field("content", "the book is book", type));
-    doc.add(new Field("title", "book", type));
-    indexWriter.addDocument(doc);
-    // 1
-    doc = new Document();
-    doc.add(new Field("content", "the fake news is news", type));
-    doc.add(new Field("title", "news", type));
-    indexWriter.addDocument(doc);
-    // 2
-    doc = new Document();
-    doc.add(new Field("content", "the name is name", type));
-    indexWriter.addDocument(doc);
+
+    int count = 0;
+    while (count++ < 170000){
+
+      // 0
+      doc = new Document();
+      doc.add(new Field("content", "the book boo boo boo book", type));
+      doc.add(new Field("title", "book", type));
+      indexWriter.addDocument(doc);
+      // 1
+      doc = new Document();
+      doc.add(new Field("content", "the fake news is news", type));
+      doc.add(new Field("title", "news", type));
+      indexWriter.addDocument(doc);
+      // 2
+      doc = new Document();
+      doc.add(new Field("content", "the name is name", type));
+      indexWriter.addDocument(doc);
+    }
     indexWriter.commit();
 
 
@@ -83,7 +88,6 @@ public class TermVectorTest {
 
     System.out.println("hah");
   }
-
 
   public static void main(String[] args) throws Exception{
     TermVectorTest termVectorTest = new TermVectorTest();

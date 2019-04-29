@@ -325,13 +325,14 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
     }
   }
 
+  // 生成一个chunk的条件是 域值长度达到4096，或者文档个数达到128个
   private boolean triggerFlush() {
     return termSuffixes.getPosition() >= chunkSize
         || pendingDocs.size() >= MAX_DOCUMENTS_PER_CHUNK;
   }
 
   private void flush() throws IOException {
-    // 包含了设置了TermVector的域的文档的个数
+    // 一个chunk中的文档个数
     final int chunkDocs = pendingDocs.size();
     assert chunkDocs > 0 : chunkDocs;
 
@@ -343,26 +344,37 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
     vectorsStream.writeVInt(chunkDocs);
 
     // total number of fields of the chunk
+    // 记录chunk中每一篇文档中包含的存储域的个数
     final int totalFields = flushNumFields(chunkDocs);
 
     if (totalFields > 0) {
       // unique field numbers (sorted)
+      // 记录所有的域的编号
       final int[] fieldNums = flushFieldNums();
       // offsets in the array of unique field numbers
+      // 记录每一篇文档中每一个存储域的域的编号，但实际存储的一个fieldNums[]数组的下标值
+      // 通过下标值可以找到真正的域的编号
       flushFields(totalFields, fieldNums);
       // flags (does the field have positions, offsets, payloads?)
+      // 记录域的flag信息，flag描述了一个域是否记录positions, offsets, payloads?
       flushFlags(totalFields, fieldNums);
       // number of terms of each field
+      // 记录每一篇文档中的每一个域包含的term个数(域值在分词后的token个数)
       flushNumTerms(totalFields);
       // prefix and suffix lengths for each field
+      // 记录每一篇文档中的每一个域的term的长度
       flushTermLengths();
       // term freqs - 1 (because termFreq is always >=1) for each term
+      // 记录每一篇文档中的每一个域的term的词频
       flushTermFreqs();
       // positions for all terms, when enabled
+      // 记录每一篇文档中的每一个域的term的位置信息
       flushPositions();
       // offsets for all terms, when enabled
+      // 记录每一篇文档中的每一个域的term的offset信息
       flushOffsets(fieldNums);
       // payload lengths for all terms, when enabled
+      // 记录每一篇文档中的每一个域的term的payload信息
       flushPayloadLengths();
 
       // compress terms and payloads and write them to the output
@@ -378,6 +390,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
   }
 
   private int flushNumFields(int chunkDocs) throws IOException {
+    // 当前chunk中只有一篇文档
     if (chunkDocs == 1) {
       final int numFields = pendingDocs.getFirst().numFields;
       vectorsStream.writeVInt(numFields);
@@ -385,6 +398,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
     } else {
       writer.reset(vectorsStream);
       int totalFields = 0;
+      // 记录每一篇文档中的存储域的个数
       for (DocData dd : pendingDocs) {
         writer.add(dd.numFields);
         totalFields += dd.numFields;
@@ -396,6 +410,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
 
   /** Returns a sorted array containing unique field numbers */
   private int[] flushFieldNums() throws IOException {
+    // 存储所有的域的编号
     SortedSet<Integer> fieldNums = new TreeSet<>();
     for (DocData dd : pendingDocs) {
       for (FieldData fd : dd.fields) {
@@ -403,14 +418,19 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
       }
     }
 
+    // 当前chunk中域名的种类
     final int numDistinctFields = fieldNums.size();
     assert numDistinctFields > 0;
+    // 获取最大的域的编号，根据这个编号来获得存储所有编号需要的固定bit位个数
     final int bitsRequired = PackedInts.bitsRequired(fieldNums.last());
+    // 域的编号是int类型, 所以左移5位, 因为token用一个字节存储，所以numDistinctFields≤7的情况下可以跟bitsRequired一起存储
     final int token = (Math.min(numDistinctFields - 1, 0x07) << 5) | bitsRequired;
     vectorsStream.writeByte((byte) token);
+    // if语句为真，那么需要另外存储numDistinctFields,因为可能token无法表示所有的numDistinctFields值 ，如果if语句为假，那么numDistinctFields可以通过token获得
     if (numDistinctFields - 1 >= 0x07) {
       vectorsStream.writeVInt(numDistinctFields - 1 - 0x07);
     }
+    // 使用PackedInts存储当前chunk中所有的域的编号
     final PackedInts.Writer writer = PackedInts.getWriterNoHeader(vectorsStream, PackedInts.Format.PACKED, fieldNums.size(), bitsRequired, 1);
     for (Integer fieldNum : fieldNums) {
       writer.add(fieldNum);
@@ -439,6 +459,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
 
   private void flushFlags(int totalFields, int[] fieldNums) throws IOException {
     // check if fields always have the same flags
+    // 检查不同文档中的同一个域的flag是否相同，flag描述了当前域是否记录position、offset、payload信息
     boolean nonChangingFlags = true;
     int[] fieldFlags = new int[fieldNums.length];
     Arrays.fill(fieldFlags, -1);
@@ -456,10 +477,12 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
       }
     }
 
+    // if语句为真：不同的文档中的相同域具有相同的flag
     if (nonChangingFlags) {
       // write one flag per field num
       vectorsStream.writeVInt(0);
       final PackedInts.Writer writer = PackedInts.getWriterNoHeader(vectorsStream, PackedInts.Format.PACKED, fieldFlags.length, FLAGS_BITS, 1);
+      // 将每种域的flag记录下来
       for (int flags : fieldFlags) {
         assert flags >= 0;
         writer.add(flags);
@@ -468,8 +491,10 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
       writer.finish();
     } else {
       // write one flag for every field instance
+      // if语句为真：不同的文档中的相同域不都有相同的flag
       vectorsStream.writeVInt(1);
       final PackedInts.Writer writer = PackedInts.getWriterNoHeader(vectorsStream, PackedInts.Format.PACKED, totalFields, FLAGS_BITS, 1);
+      // 将记录所有域的flag
       for (DocData dd : pendingDocs) {
         for (FieldData fd : dd.fields) {
           writer.add(fd.flags);
@@ -482,6 +507,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
 
   private void flushNumTerms(int totalFields) throws IOException {
     int maxNumTerms = 0;
+    // 统计出所有域中包含term最多的term个数
     for (DocData dd : pendingDocs) {
       for (FieldData fd : dd.fields) {
         maxNumTerms |= fd.numTerms;
@@ -491,6 +517,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
     vectorsStream.writeVInt(bitsRequired);
     final PackedInts.Writer writer = PackedInts.getWriterNoHeader(
         vectorsStream, PackedInts.Format.PACKED, totalFields, bitsRequired, 1);
+    // 将每篇文档中的每一个存储域包含的term个数记录下来
     for (DocData dd : pendingDocs) {
       for (FieldData fd : dd.fields) {
         writer.add(fd.numTerms);
@@ -501,6 +528,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
   }
 
   private void flushTermLengths() throws IOException {
+    // 一个term的长度等于 prefixLengths跟suffixLengths的和
     writer.reset(vectorsStream);
     for (DocData dd : pendingDocs) {
       for (FieldData fd : dd.fields) {
@@ -543,6 +571,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
             int previousPosition = 0;
             for (int j = 0; j < fd.freqs[i]; ++j) {
               final int position = positionsBuf[fd .posStart + pos++];
+              // 存储一个term的所有位置值，差值存储
               writer.add(position - previousPosition);
               previousPosition = position;
             }
@@ -589,6 +618,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
 
     final float[] charsPerTerm = new float[fieldNums.length];
     for (int i = 0; i < fieldNums.length; ++i) {
+      // 计算每个域的每一个term平均占用多少个字节
       charsPerTerm[i] = (sumPos[i] <= 0 || sumOffsets[i] <= 0) ? 0 : (float) ((double) sumOffsets[i] / sumPos[i]);
     }
 

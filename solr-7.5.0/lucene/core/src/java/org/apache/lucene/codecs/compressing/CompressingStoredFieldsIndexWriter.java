@@ -188,9 +188,12 @@ public final class CompressingStoredFieldsIndexWriter implements Closeable {
     }
     assert firstStartPointer > 0 && startPointer >= firstStartPointer;
 
+    // 记录当前chunk中的文档个数
     docBaseDeltas[blockChunks] = numDocs;
+    // 记录当前chunk在.fdt或者.tvd文件中的 起始位置
     startPointerDeltas[blockChunks] = startPointer - maxStartPointer;
 
+    // 累加chunk个数，当达到blockSize时就会在.fdx或.tvx中建立索引
     ++blockChunks;
     blockDocs += numDocs;
     totalDocs += numDocs;
