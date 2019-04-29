@@ -103,6 +103,7 @@ public final class CompressingStoredFieldsIndexWriter implements Closeable {
 
   private void writeBlock() throws IOException {
     assert blockChunks > 0;
+    // block中包含的chunk的个数
     fieldsIndexOut.writeVInt(blockChunks);
 
     // The trick here is that we only store the difference from the average start
@@ -113,6 +114,7 @@ public final class CompressingStoredFieldsIndexWriter implements Closeable {
     // See LUCENE-4512
 
     // doc bases
+    // 平均一个chunk中包含的文档个数
     final int avgChunkDocs;
     if (blockChunks == 1) {
       avgChunkDocs = 0;
@@ -123,6 +125,7 @@ public final class CompressingStoredFieldsIndexWriter implements Closeable {
     fieldsIndexOut.writeVInt(avgChunkDocs);
     int docBase = 0;
     long maxDelta = 0;
+    // 计算存储文档号需要的bit位
     for (int i = 0; i < blockChunks; ++i) {
       final int delta = docBase - avgChunkDocs * i;
       maxDelta |= zigZagEncode(delta);
