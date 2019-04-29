@@ -104,6 +104,7 @@ class TermVectorsConsumer extends TermsHash {
     fill(docState.docID);
 
     // Append term vectors to the real outputs:
+    // numVectorFields描述了当前文档中设置了VectorField的域的种类
     writer.startDocument(numVectorFields);
     for (int i = 0; i < numVectorFields; i++) {
       perFields[i].finishDocument();

@@ -139,6 +139,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
   private class FieldData {
     final boolean hasPositions, hasOffsets, hasPayloads;
     final int fieldNum, flags, numTerms;
+    // freqs[] 记录term的词频
     final int[] freqs, prefixLengths, suffixLengths;
     final int posStart, offStart, payStart;
     int totalPositions;
@@ -302,6 +303,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
       prefix = StringHelper.bytesDifference(lastTerm, term);
     }
     curField.addTerm(freq, prefix, term.length - prefix);
+    // 前缀存储term值
     termSuffixes.writeBytes(term.bytes, term.offset + prefix, term.length - prefix);
     // copy last term
     if (lastTerm.bytes.length < term.length) {
@@ -309,6 +311,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
     }
     lastTerm.offset = 0;
     lastTerm.length = term.length;
+    // 更新lastTerm
     System.arraycopy(term.bytes, term.offset, lastTerm.bytes, 0, term.length);
   }
 
@@ -328,6 +331,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
   }
 
   private void flush() throws IOException {
+    // 包含了设置了TermVector的域的文档的个数
     final int chunkDocs = pendingDocs.size();
     assert chunkDocs > 0 : chunkDocs;
 
@@ -670,6 +674,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
     assert (curField.hasPositions) == (positions != null);
     assert (curField.hasOffsets) == (offsets != null);
 
+    // 读取 位置&&payload信息
     if (curField.hasPositions) {
       final int posStart = curField.posStart + curField.totalPositions;
       if (posStart + numProx > positionsBuf.length) {
@@ -681,8 +686,11 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
         if (payStart + numProx > payloadLengthsBuf.length) {
           payloadLengthsBuf = ArrayUtil.grow(payloadLengthsBuf, payStart + numProx);
         }
+        // numProx描述了term的位置值，即当前文档中包含了多少个当前term
+        // for循环里面就是读取倒排表的过程了
         for (int i = 0; i < numProx; ++i) {
           final int code = positions.readVInt();
+          // if语句为真，说明当前position带有payload
           if ((code & 1) != 0) {
             // This position has a payload
             final int payloadLength = positions.readVInt();
@@ -691,6 +699,7 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
           } else {
             payloadLengthsBuf[payStart + i] = 0;
           }
+          // 获得真正的位置值
           position += code >>> 1;
           positionsBuf[posStart + i] = position;
         }
@@ -702,6 +711,8 @@ public final class CompressingTermVectorsWriter extends TermVectorsWriter {
       }
     }
 
+    // 读取offset信息
+    // 如果了解倒排表是怎么生成的，那么下面的逻辑一目了然，所以我就注释啦
     if (curField.hasOffsets) {
       final int offStart = curField.offStart + curField.totalPositions;
       if (offStart + numProx > startOffsetsBuf.length) {

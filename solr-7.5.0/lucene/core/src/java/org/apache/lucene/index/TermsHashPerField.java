@@ -82,12 +82,17 @@ abstract class TermsHashPerField implements Comparable<TermsHashPerField> {
   // 初始化参数reader
   public void initReader(ByteSliceReader reader, int termID, int stream) {
     assert stream < streamCount;
-    // term在倒排表IntBlockPool中的值，这个值描述了term的文档&&词频 跟 位置&&payload 在ByteBlockPool中的最后位置
+    // 如果是读取STORE.YES生成的倒排表，即term在倒排表IntBlockPool中的值，这个值描述了term的文档&&词频 跟 位置&&payload&&offset 在ByteBlockPool中的最后位置
+    // 如果是读取TermVector生成的倒排表，即term在倒排表IntBlockPool中的值，这个值描述了term的位置&&payload 跟 offset 在ByteBlockPool中的最后位置
     int intStart = postingsArray.intStarts[termID];
     // 获取所在的一维数组数组(二维数组由多个一维数组组成)
     final int[] ints = intPool.buffers[intStart >> IntBlockPool.INT_BLOCK_SHIFT];
     final int upto = intStart & IntBlockPool.INT_BLOCK_MASK;
-    // 获取term的文档号&&词频的数据段的起始跟结束位置作为参数来初始化Reader
+    // 如果是读取TermVector生成的倒排表并且stream的值为0，说明读取位置&&payload信息
+    // 如果是读取TermVecotr生成的倒排表并且stream的值为1，说明读取offset信息
+
+    // 如果是读取STORE.YES生成的倒排表并且stream的值为0，说明读取文档号&&词频信息
+    // 如果是读取STORE.YES生成的倒排表并且stream的值为1，说明读取位置&&payload&&offset信息
     reader.init(bytePool,
                 postingsArray.byteStarts[termID]+stream*ByteBlockPool.FIRST_LEVEL_SIZE,
                 ints[upto+stream]);

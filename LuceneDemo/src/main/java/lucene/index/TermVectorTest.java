@@ -29,12 +29,12 @@ public class TermVectorTest {
       e.printStackTrace();
     }
   }
+  IndexWriter indexWriter;
 
 
   public void doSearch() throws Exception {
     PayloadAnalyzer analyzer = new PayloadAnalyzer();
     IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-    IndexWriter indexWriter;
 
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
@@ -49,11 +49,11 @@ public class TermVectorTest {
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
 
-    analyzer.setPayloadData("content", "I am payload".getBytes(StandardCharsets.UTF_8), 0, 12);
+    analyzer.setPayloadData("content", "it is payload".getBytes(StandardCharsets.UTF_8), 0, 13);
     Document doc ;
     // 0
     doc = new Document();
-    doc.add(new Field("content", "the book is a book", type));
+    doc.add(new Field("content", "the book is book", type));
     doc.add(new Field("title", "book", type));
     indexWriter.addDocument(doc);
     // 1
@@ -64,9 +64,7 @@ public class TermVectorTest {
     // 2
     doc = new Document();
     doc.add(new Field("content", "the name is name", type));
-    doc.add(new Field("title", "name", type));
     indexWriter.addDocument(doc);
-
     indexWriter.commit();
 
 

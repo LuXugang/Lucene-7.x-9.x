@@ -61,6 +61,7 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
 
     doVectors = false;
 
+    // 当前域中的term种类
     final int numPostings = bytesHash.size();
 
     final BytesRef flushTerm = termsWriter.flushTerm;
@@ -71,22 +72,28 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
     // of a given field in the doc.  At this point we flush
     // our hash into the DocWriter.
 
-    // 获取倒排表数据
+    // 获取倒排表数据, 即ParallelPostingsArray对象中各种数组、例如 freq[]、lastOffset[]数组等等
     TermVectorsPostingsArray postings = termVectorsPostingsArray;
     final TermVectorsWriter tv = termsWriter.writer;
 
+    // termIDs数组中的元素是有序的，不过排序规则不是根据数组元素的大小，而是数组元素对应的term值
+    // 排序的目的是为了能前缀存储
     final int[] termIDs = sortPostings();
 
     tv.startField(fieldInfo, numPostings, doVectorPositions, doVectorOffsets, hasPayloads);
-    
+
+    // 初始化一个读取term 位置&&payload的对象
     final ByteSliceReader posReader = doVectorPositions ? termsWriter.vectorSliceReaderPos : null;
+    // 初始化一个读取term offset信息的对象
     final ByteSliceReader offReader = doVectorOffsets ? termsWriter.vectorSliceReaderOff : null;
-    
+
     for(int j=0;j<numPostings;j++) {
       final int termID = termIDs[j];
+      // term在本篇文档中的词频
       final int freq = postings.freqs[termID];
 
       // Get BytesRef
+      // 获取当前term的信息，由于TermVector词向量生成的倒排表没有term信息，所以需要从 STORE.YES生成的倒排表中获取
       termBytePool.setBytesRef(flushTerm, postings.textStarts[termID]);
       tv.startTerm(flushTerm, freq);
       
@@ -103,6 +110,7 @@ final class TermVectorsConsumerPerField extends TermsHashPerField {
     }
     tv.finishField();
 
+    // 清楚当前域的所有倒排表数据
     reset();
 
     fieldInfo.setStoreTermVectors();

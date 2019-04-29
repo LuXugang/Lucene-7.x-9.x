@@ -174,7 +174,7 @@ public final class CompressingStoredFieldsIndexWriter implements Closeable {
   }
 
   void writeIndex(int numDocs, long startPointer) throws IOException {
-    // 每一个块的大小是1024
+    // 每一个块的大小是1024, 没1024个文档生成一个block
     if (blockChunks == blockSize) {
       writeBlock();
       reset();
