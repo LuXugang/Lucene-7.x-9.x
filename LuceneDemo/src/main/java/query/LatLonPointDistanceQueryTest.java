@@ -1,17 +1,17 @@
-package lucene.index;
+package query;
 
 import io.FileOperation;
+import lucene.rangeQuery.NumericalRangeQuery;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.DoublePoint;
+import org.apache.lucene.document.LatLonPoint;
+import org.apache.lucene.document.LatLonPoint;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
@@ -21,10 +21,9 @@ import java.util.Random;
 
 /**
  * @author Lu Xugang
- * @date 2019-04-18 15:43
+ * @date 2019-05-05 16:40
  */
-public class PointValuesTest {
-
+public class LatLonPointDistanceQueryTest {
   private Directory directory;
 
   {
@@ -40,7 +39,7 @@ public class PointValuesTest {
   private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
   private IndexWriter indexWriter;
 
-  public void doSearch() throws Exception {
+  public void doIndex() throws Exception {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
 
@@ -48,39 +47,54 @@ public class PointValuesTest {
     Document doc;
     // 0
     doc = new Document();
-    doc.add(new IntPoint("content", 3, 5));
-    doc.add(new IntPoint("title", 2, 5));
+    doc.add(new LatLonPoint("content", 0, 0));
     indexWriter.addDocument(doc);
     // 1
     doc = new Document();
-    doc.add(new IntPoint("content", 10, 55));
-    doc.add(new IntPoint("title", 10, 55));
+    doc.add(new LatLonPoint("content", 90, 180));
+    indexWriter.addDocument(doc);
+
+
+    doc = new Document();
+//    doc.add(new DoublePoint("title", 10, 55));
     indexWriter.addDocument(doc);
 
     int count = 0 ;
     while (count++ < 2048){
       doc = new Document();
-      int a = random.nextInt(100);
-      a = a == 0 ? a + 1 : a;
-      int b = random.nextInt(100);
-      b = b == 0 ? b + 1 : b;
-      doc.add(new IntPoint("content", a , b));
-      doc.add(new IntPoint("title", 10, 55));
+      double a = random.nextDouble();
+      int a1 = random.nextInt(90);
+      a = a > 90 ? a - 1 : a;
+      a = a + a1;
+      double b = random.nextDouble();
+      b = b > 180 ? b - 1 : b;
+      int b1 = random.nextInt(180);
+      b = b + b1;
+      System.out.println(a);
+      System.out.println(b);
+      System.out.println("-------");
+      doc.add(new LatLonPoint("content", a , b));
       indexWriter.addDocument(doc);
     }
 
-
     indexWriter.commit();
+    DirectoryReader r = DirectoryReader.open(indexWriter);
+    IndexSearcher s = new IndexSearcher(r);
 
 
 
+    int num;
+    num = s.count(LatLonPoint.newDistanceQuery("content", 20, 30, 100));
+    System.out.println("result number : "+ num +"");
+
+
+    // Per-top-reader state:k
   }
 
+
+
   public static void main(String[] args) throws Exception{
-    PointValuesTest test = new PointValuesTest();
-      test.doSearch();
-//    byte[] packed = new byte[100];
-//    IntPoint.encodeDimension(256, packed, 0);
-//    System.out.println(packed);
+    LatLonPointDistanceQueryTest test = new LatLonPointDistanceQueryTest();
+    test.doIndex();
   }
 }

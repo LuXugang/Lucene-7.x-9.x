@@ -504,6 +504,7 @@ public class BKDWriter implements Closeable {
   /* In the 1D case, we can simply sort points in ascending order and use the
    * same writing logic as we use at merge time. */
   private long writeField1Dim(IndexOutput out, String fieldName, MutablePointValues reader) throws IOException {
+    // 使用MSB Radix sort,先根据值排序，如果相同再根据文档号
     MutablePointsReaderUtils.sort(maxDoc, packedBytesLength, reader, 0, Math.toIntExact(reader.size()));
 
     final OneDimensionBKDWriter oneDimWriter = new OneDimensionBKDWriter(out);
@@ -577,9 +578,12 @@ public class BKDWriter implements Closeable {
   private class OneDimensionBKDWriter {
 
     final IndexOutput out;
+    // 每一个叶子节点的数据在.dim文件中的起始位置
     final List<Long> leafBlockFPs = new ArrayList<>();
     final List<byte[]> leafBlockStartValues = new ArrayList<>();
+    // leafValues中每4个字节为一个点数据，并且这些点数据是有序的，并且leafValues的数组大小为1024
     final byte[] leafValues = new byte[maxPointsInLeafNode * packedBytesLength];
+    // leafDocs[]数组的数组元素为文档号，数组元素之间的前后关系描述了点数据的大小关系
     final int[] leafDocs = new int[maxPointsInLeafNode];
     private long valueCount;
     private int leafCount;
@@ -662,7 +666,9 @@ public class BKDWriter implements Closeable {
 
     private void writeLeafBlock() throws IOException {
       assert leafCount != 0;
+      // valueCount为目前处理过的点数据的个数
       if (valueCount == 0) {
+        // 将最小值记录到 minPackedValue
         System.arraycopy(leafValues, 0, minPackedValue, 0, packedBytesLength);
       }
       System.arraycopy(leafValues, (leafCount - 1) * packedBytesLength, maxPackedValue, 0, packedBytesLength);
@@ -671,12 +677,14 @@ public class BKDWriter implements Closeable {
 
       if (leafBlockFPs.size() > 0) {
         // Save the first (minimum) value in each leaf block except the first, to build the split value index in the end:
+        // 记录每一个叶子节点中最小的点数据，即leafValues[]数组中的第一个数据 到leafBlockStartValues中
         leafBlockStartValues.add(ArrayUtil.copyOfSubArray(leafValues, 0, packedBytesLength));
       }
       leafBlockFPs.add(out.getFilePointer());
       checkMaxLeafNodeCount(leafBlockFPs.size());
 
       // Find per-dim common prefix:
+      // 找到出这1024个点数据的相同前缀的长度，由于leafValues[]中的数据已经排序了，所以只要比较第leafValues[]中的最小值跟最大值即可
       int prefix = bytesPerDim;
       int offset = (leafCount - 1) * packedBytesLength;
       for(int j=0;j<bytesPerDim;j++) {
@@ -728,10 +736,12 @@ public class BKDWriter implements Closeable {
         //System.out.println("    cycle countLeft=" + countLeft + " coutAtLevel=" + countAtLevel);
         if (countLeft <= countAtLevel) {
           // This is the last level, possibly partially filled:
+          //最后一层中左子树的个数
           int lastLeftCount = Math.min(countAtLevel/2, countLeft);
           assert lastLeftCount >= 0;
+          // 当前node下包含的非叶结点个数
           int leftHalf = (totalCount-1)/2 + lastLeftCount;
-
+          // rootOffset的值作为leafBlockStartValues[]下标就可以获得当前最右叶子节点的值，作为分割值
           int rootOffset = offset + leftHalf;
           /*
           System.out.println("  last left count " + lastLeftCount);
@@ -1317,7 +1327,9 @@ public class BKDWriter implements Closeable {
 
   private void writeLeafBlockDocs(DataOutput out, int[] docIDs, int start, int count) throws IOException {
     assert count > 0: "maxPointsInLeafNode=" + maxPointsInLeafNode;
+    // 记录点数据的个数
     out.writeVInt(count);
+    // 记录点数据的文档号
     DocIdsWriter.writeDocIds(docIDs, start, count, out);
   }
 

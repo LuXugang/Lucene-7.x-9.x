@@ -42,45 +42,49 @@ public class TermQuerySHOULDMUSTTest {
 
     Document doc ;
     // 0
-    doc = new Document();
-    doc.add(new TextField("content", "a e c", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 1
-    doc = new Document();
-    doc.add(new TextField("content", "e", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 2
-    doc = new Document();
-    doc.add(new TextField("content", "c", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 3
-    doc = new Document();
-    doc.add(new TextField("content", "a c e", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 4
-    doc = new Document();
-    doc.add(new TextField("content", "h", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 5
-    doc = new Document();
-    doc.add(new TextField("content", "b h", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 6
-    doc = new Document();
-    doc.add(new TextField("content", "c a", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 7
-    doc = new Document();
-    doc.add(new TextField("content", "a e h", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 8
-    doc = new Document();
-    doc.add(new TextField("content", "b c d e h e", Field.Store.YES));
-    indexWriter.addDocument(doc);
-    // 9
-    doc = new Document();
-    doc.add(new TextField("content", "a e a b ", Field.Store.YES));
-    indexWriter.addDocument(doc);
+
+    int count = 0;
+    while (count++ < 7999) {
+      doc = new Document();
+      doc.add(new TextField("content", "a e c", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 1
+      doc = new Document();
+      doc.add(new TextField("content", "e", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 2
+      doc = new Document();
+      doc.add(new TextField("content", "c", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 3
+      doc = new Document();
+      doc.add(new TextField("content", "a c e", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 4
+      doc = new Document();
+      doc.add(new TextField("content", "h", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 5
+      doc = new Document();
+      doc.add(new TextField("content", "b h", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 6
+      doc = new Document();
+      doc.add(new TextField("content", "c a", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 7
+      doc = new Document();
+      doc.add(new TextField("content", "a e h", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 8
+      doc = new Document();
+      doc.add(new TextField("content", "b c d e h e", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      // 9
+      doc = new Document();
+      doc.add(new TextField("content", "a e a b ", Field.Store.YES));
+      indexWriter.addDocument(doc);
+    }
     indexWriter.commit();
 
     IndexReader reader = DirectoryReader.open(indexWriter);
@@ -95,8 +99,13 @@ public class TermQuerySHOULDMUSTTest {
     builder.add(new TermQuery(new Term("content", "h")), BooleanClause.Occur.MUST);
     builder.setMinimumNumberShouldMatch(2);
 
+    TotalHitCountCollector collector = new TotalHitCountCollector();
 
-    ScoreDoc[]docs = searcher.search(builder.build(), 10).scoreDocs;
+    searcher.search(builder.build(), collector);
+
+
+    searcher.search(builder.build(), collector);
+
 
     System.out.println("hah");
   }

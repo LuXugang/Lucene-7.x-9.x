@@ -41,101 +41,66 @@ public class TermRangeQueryTest {
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
 //
-//        Document doc ;
-//        // 0
-//        doc = new Document();
-//        doc.add(new TextField("content", "a", Field.Store.YES));
-//        doc.add(new TextField("name", "Cris", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        // 1
-//        doc = new Document();
-//        doc.add(new TextField("content", "bcd", Field.Store.YES));
-//        doc.add(new TextField("name", "Andy", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        // 2
-//        doc = new Document();
-//        doc.add(new TextField("content", "ga", Field.Store.YES));
-//        doc.add(new TextField("name", "Jack", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//
-//        String values = "fififv fnfufkfkfl ftfufs fbfqfxfe fufmfefkfp fsfdfp fdfsfbfmfm fpfofqfy fwfvfffr flfcftfg fmfyfefv fsfifbflff flfefx fffifmfmfk";
-//        // 3
-//        doc = new Document();
-//        doc.add(new TextField("content", values, Field.Store.YES));
-//        doc.add(new TextField("name", "Jack", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//
-//        // 4
-//        doc = new Document();
-//        doc.add(new TextField("content", "gc", Field.Store.YES));
-//        doc.add(new TextField("name", "Pony", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        // 5
-//        doc = new Document();
-//        doc.add(new TextField("content", "gch", Field.Store.YES));
-//        doc.add(new TextField("name", "Jolin", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        // 6
-//        doc = new Document();
-//        doc.add(new TextField("content", "gchb", Field.Store.YES));
-//        doc.add(new TextField("name", "Jay", Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        indexWriter.commit();
-
         Document doc ;
-        // 0
-        doc = new Document();
-        doc.add(new TextField("content", "a", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 1
-        doc = new Document();
-        doc.add(new TextField("content", "b", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 2
-        doc = new Document();
-        doc.add(new TextField("content", "c", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 3
-        doc = new Document();
-        doc.add(new TextField("content", "a c e", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 4
-        doc = new Document();
-        doc.add(new TextField("content", "h", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 5
-        doc = new Document();
-        doc.add(new TextField("content", "c e", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 6
-        doc = new Document();
-        doc.add(new TextField("content", "c a", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 7
-        doc = new Document();
-        doc.add(new TextField("content", "f", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 8
-        doc = new Document();
-        doc.add(new TextField("content", "b c d e c e", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 9
-        doc = new Document();
-        doc.add(new TextField("content", "a c e a b c", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        indexWriter.commit();
 
+        int count = 0;
+        while (count++ < 5000) {
+
+            // 0
+            doc = new Document();
+            doc.add(new TextField("content", "a", Field.Store.YES));
+            doc.add(new TextField("name", "Cris", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 1
+            doc = new Document();
+            doc.add(new TextField("content", "bcd", Field.Store.YES));
+            doc.add(new TextField("name", "Andy", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 2
+            doc = new Document();
+            doc.add(new TextField("content", "ga", Field.Store.YES));
+            doc.add(new TextField("name", "Jack", Field.Store.YES));
+            indexWriter.addDocument(doc);
+
+            String values = "fififv fnfufkfkfl ftfufs fbfqfxfe fufmfefkfp fsfdfp fdfsfbfmfm fpfofqfy fwfvfffr flfcftfg fmfyfefv fsfifbflff flfefx fffifmfmfk";
+            // 3
+            doc = new Document();
+            doc.add(new TextField("content", values, Field.Store.YES));
+            doc.add(new TextField("name", "Jack", Field.Store.YES));
+            indexWriter.addDocument(doc);
+
+            // 4
+            doc = new Document();
+            doc.add(new TextField("content", "gc", Field.Store.YES));
+            doc.add(new TextField("name", "Pony", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 5
+            doc = new Document();
+            doc.add(new TextField("content", "gch", Field.Store.YES));
+            doc.add(new TextField("name", "Jolin", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 6
+            doc = new Document();
+            doc.add(new TextField("content", "gchb", Field.Store.YES));
+            doc.add(new TextField("name", "Jay", Field.Store.YES));
+            indexWriter.addDocument(doc);
+        }
+        indexWriter.commit();
 
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("h"), true, true);
+        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gc"), true, true);
 //        Query query = new TermRangeQuery("content", new BytesRef("c"), new BytesRef("f"), true, true);
 
+        TotalHitCountCollector collector = new TotalHitCountCollector();
 
-        ScoreDoc[]docs = searcher.search(query, 3).scoreDocs;
+        searcher.search(query, collector);
+        searcher.search(query, collector);
+        searcher.search(query, collector);
+        searcher.search(query, collector);
 
-        System.out.println("hah");
+        System.out.println(collector.getTotalHits());
     }
 
     public static void main(String[] args)throws Exception {

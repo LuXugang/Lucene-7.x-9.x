@@ -751,13 +751,16 @@ public final class BKDReader extends PointValues implements Accountable {
       }
 
     } else {
-      
+      // 处理非叶节点
+
       // Non-leaf node: recurse on the split left and right nodes
+      // 获取分割维度
       int splitDim = state.index.getSplitDim();
       assert splitDim >= 0: "splitDim=" + splitDim;
       assert splitDim < numDims;
 
       byte[] splitPackedValue = state.index.getSplitPackedValue();
+      // 获取分割值中分割维度值
       BytesRef splitDimValue = state.index.getSplitDimValue();
       assert splitDimValue.length == bytesPerDim;
       //System.out.println("  splitDimValue=" + splitDimValue + " splitDim=" + splitDim);
@@ -807,11 +810,13 @@ public final class BKDReader extends PointValues implements Accountable {
     } else {
       
       // Non-leaf node: recurse on the split left and right nodes
+      // 获得分割维度
       int splitDim = state.index.getSplitDim();
       assert splitDim >= 0: "splitDim=" + splitDim;
       assert splitDim < numDims;
 
       byte[] splitPackedValue = state.index.getSplitPackedValue();
+      // 获得分割维度
       BytesRef splitDimValue = state.index.getSplitDimValue();
       assert splitDimValue.length == bytesPerDim;
       //System.out.println("  splitDimValue=" + splitDimValue + " splitDim=" + splitDim);

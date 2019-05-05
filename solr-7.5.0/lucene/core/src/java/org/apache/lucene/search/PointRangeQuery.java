@@ -150,6 +150,9 @@ public abstract class PointRangeQuery extends Query {
 
               if (FutureArrays.compareUnsigned(minPackedValue, offset, offset + bytesPerDim, upperPoint, offset, offset + bytesPerDim) > 0 ||
                   FutureArrays.compareUnsigned(maxPackedValue, offset, offset + bytesPerDim, lowerPoint, offset, offset + bytesPerDim) < 0) {
+                // Reader中的点数据的最小值比查询的最大值还要大 或者
+                // Reader中的点数据的最大值比查询的最小值还要小
+                // 说明当前Reader中的点数据不在查询范围内
                 return Relation.CELL_OUTSIDE_QUERY;
               }
 
@@ -243,11 +246,14 @@ public abstract class PointRangeQuery extends Query {
 
         boolean allDocsMatch;
         if (values.getDocCount() == reader.maxDoc()) {
+          // 获取最小点数据
           final byte[] fieldPackedLower = values.getMinPackedValue();
+          // 获取最大数据
           final byte[] fieldPackedUpper = values.getMaxPackedValue();
           allDocsMatch = true;
           for (int i = 0; i < numDims; ++i) {
             int offset = i * bytesPerDim;
+            // 判断当前Reader中的所有点数据都在查询范围内
             if (FutureArrays.compareUnsigned(lowerPoint, offset, offset + bytesPerDim, fieldPackedLower, offset, offset + bytesPerDim) > 0
                 || FutureArrays.compareUnsigned(upperPoint, offset, offset + bytesPerDim, fieldPackedUpper, offset, offset + bytesPerDim) < 0) {
               allDocsMatch = false;
@@ -282,6 +288,8 @@ public abstract class PointRangeQuery extends Query {
 
             @Override
             public Scorer get(long leadCost) throws IOException {
+              // if语句为真说明 当前Reader中每一篇文档都有当前域的点数据 并且
+              // 每一篇文档中只有一个当前域的点数据
               if (values.getDocCount() == reader.maxDoc()
                   && values.getDocCount() == values.size()
                   && cost() > reader.maxDoc() / 2) {

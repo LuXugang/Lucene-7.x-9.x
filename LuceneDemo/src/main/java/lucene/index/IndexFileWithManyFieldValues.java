@@ -43,7 +43,7 @@ public class IndexFileWithManyFieldValues {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
-    while (count++ < 4096) {
+    while (count++ < 7096) {
 //       0
     Document doc = new Document();
 //    doc.add(new TextField("author", "aab b a aabbcc ", Field.Store.YES));
@@ -53,7 +53,7 @@ public class IndexFileWithManyFieldValues {
     // 1
     doc = new Document();
 //    doc.add(new TextField("author", "cd a", Field.Store.YES));
-    doc.add(new TextField("content", getRandomValue(), Field.Store.YES));
+    doc.add(new TextField("content", "b", Field.Store.YES));
     indexWriter.addDocument(doc);
 
     // 2
@@ -91,12 +91,16 @@ public class IndexFileWithManyFieldValues {
     IndexSearcher searcher = new IndexSearcher(reader);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
 //    builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.MUST);
-    builder.add(new TermQuery(new Term("author", "a")), BooleanClause.Occur.MUST);
+    builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
     Query query = builder.build();
-    ScoreDoc[] scoreDoc = searcher.search(query, 100).scoreDocs;
+
+
+    TotalHitCountCollector collector = new TotalHitCountCollector();
+
+    searcher.search(query, collector);
+
     Document document  = reader.document(2);
-    System.out.println(document.get("author"));
-    System.out.println(scoreDoc.length);
+    System.out.println(document.get("content"));
 
     // Per-top-reader state:
   }

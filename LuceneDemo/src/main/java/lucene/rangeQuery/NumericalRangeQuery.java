@@ -14,6 +14,7 @@ import org.apache.lucene.store.MMapDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -39,34 +40,48 @@ public class NumericalRangeQuery {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
 
+    Random random = new Random();
+    Document doc;
     // 0
-    Document doc = new Document();
-    doc.add(new IntPoint("point", -3));
+    doc = new Document();
+    doc.add(new IntPoint("content", 3, 5));
+    doc.add(new IntPoint("title", 2, 5));
     indexWriter.addDocument(doc);
-
     // 1
     doc = new Document();
-    doc.add(new IntPoint("point", -9));
+    doc.add(new IntPoint("content", 10, 55));
+    doc.add(new IntPoint("title", 10, 55));
     indexWriter.addDocument(doc);
 
-    // 2
+
     doc = new Document();
-    doc.add(new IntPoint("point", 11));
+//    doc.add(new IntPoint("title", 10, 55));
     indexWriter.addDocument(doc);
 
-
-    // 3
-    doc = new Document();
-    doc.add(new IntPoint("point", 1));
-    indexWriter.addDocument(doc);
+    int count = 0 ;
+    while (count++ < 2048){
+      doc = new Document();
+      int a = random.nextInt(100);
+      a = a == 0 ? a + 1 : a;
+      int b = random.nextInt(100);
+      b = b == 0 ? b + 1 : b;
+      doc.add(new IntPoint("content", a , b));
+      doc.add(new IntPoint("title", 10, 55));
+      indexWriter.addDocument(doc);
+    }
 
     indexWriter.commit();
-
     DirectoryReader r = DirectoryReader.open(indexWriter);
     IndexSearcher s = new IndexSearcher(r);
 
+    int [] lowValue = {3, 8};
+    int [] upValue = {25, 85};
+//
+//    int [] lowValue = {-1, -1};
+//    int [] upValue = {100, 100};
+
     int num;
-    num = s.count(IntPoint.newRangeQuery("point", -9, 1));
+    num = s.count(IntPoint.newRangeQuery("content", lowValue, upValue));
     System.out.println("result number : "+ num +"");
 
 
