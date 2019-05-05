@@ -1,7 +1,6 @@
-package lucene.rangeQuery;
+package lucene.query.rangeQuery;
 
 import io.FileOperation;
-import lucene.index.IndexFileWithManyFieldValues;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -98,7 +97,8 @@ public class TermRangeQueryTest {
         searcher.search(query, collector);
         searcher.search(query, collector);
         searcher.search(query, collector);
-        searcher.search(query, collector);
+
+
 
         System.out.println(collector.getTotalHits());
     }

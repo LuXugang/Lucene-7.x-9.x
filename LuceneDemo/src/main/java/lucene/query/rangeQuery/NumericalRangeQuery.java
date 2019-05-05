@@ -1,4 +1,4 @@
-package lucene.rangeQuery;
+package lucene.query.rangeQuery;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;

@@ -124,8 +124,8 @@ j  org.apache.lucene.search.IndexSearcher.search(Lorg/apache/lucene/search/Query
 j  org.apache.lucene.search.IndexSearcher.search(Lorg/apache/lucene/search/Query;Lorg/apache/lucene/search/CollectorManager;)Ljava/lang/Object;+17
 j  org.apache.lucene.search.IndexSearcher.searchAfter(Lorg/apache/lucene/search/ScoreDoc;Lorg/apache/lucene/search/Query;I)Lorg/apache/lucene/search/TopDocs;+91
 j  org.apache.lucene.search.IndexSearcher.search(Lorg/apache/lucene/search/Query;I)Lorg/apache/lucene/search/TopDocs;+4
-j  lucene.rangeQuery.TermRangeQueryTest.doSearch()V+438
-j  lucene.rangeQuery.TermRangeQueryTest.main([Ljava/lang/String;)V+9
+j  lucene.query.rangeQuery.TermRangeQueryTest.doSearch()V+438
+j  lucene.query.rangeQuery.TermRangeQueryTest.main([Ljava/lang/String;)V+9
 v  ~StubRoutines::call_stub
 V  [libjvm.dylib+0x2ef1f6]
 V  [libjvm.dylib+0x326185]
@@ -155,8 +155,8 @@ j  org.apache.lucene.search.IndexSearcher.search(Lorg/apache/lucene/search/Query
 j  org.apache.lucene.search.IndexSearcher.search(Lorg/apache/lucene/search/Query;Lorg/apache/lucene/search/CollectorManager;)Ljava/lang/Object;+17
 j  org.apache.lucene.search.IndexSearcher.searchAfter(Lorg/apache/lucene/search/ScoreDoc;Lorg/apache/lucene/search/Query;I)Lorg/apache/lucene/search/TopDocs;+91
 j  org.apache.lucene.search.IndexSearcher.search(Lorg/apache/lucene/search/Query;I)Lorg/apache/lucene/search/TopDocs;+4
-j  lucene.rangeQuery.TermRangeQueryTest.doSearch()V+438
-j  lucene.rangeQuery.TermRangeQueryTest.main([Ljava/lang/String;)V+9
+j  lucene.query.rangeQuery.TermRangeQueryTest.doSearch()V+438
+j  lucene.query.rangeQuery.TermRangeQueryTest.main([Ljava/lang/String;)V+9
 v  ~StubRoutines::call_stub
 
 ---------------  P R O C E S S  ---------------
@@ -510,7 +510,7 @@ Dynamic libraries:
 
 VM Arguments:
 jvm_args: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:53233,suspend=y,server=n -Dvisualvm.id=666262967084384 -javaagent:/Users/luxugang/Library/Caches/IntelliJIdea2019.1/captureAgent/debugger-agent.jar -Dfile.encoding=UTF-8 
-java_command: lucene.rangeQuery.TermRangeQueryTest
+java_command: lucene.query.rangeQuery.TermRangeQueryTest
 java_class_path (initial): /Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home
 Launcher Type: SUN_STANDARD
 

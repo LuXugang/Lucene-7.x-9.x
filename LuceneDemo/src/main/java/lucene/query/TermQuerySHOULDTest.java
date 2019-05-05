@@ -1,4 +1,4 @@
-package lucene.search;
+package lucene.query;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
@@ -10,7 +10,6 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;

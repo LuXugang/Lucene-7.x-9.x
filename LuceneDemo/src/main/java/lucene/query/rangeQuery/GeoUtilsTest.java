@@ -1,7 +1,6 @@
-package lucene.rangeQuery;
+package lucene.query.rangeQuery;
 
 import org.apache.lucene.geo.GeoEncodingUtils;
-import org.apache.lucene.geo.GeoUtils;
 
 /**
  * @author Lu Xugang

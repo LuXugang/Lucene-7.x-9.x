@@ -298,6 +298,7 @@ public class LRUQueryCache implements QueryCache, Accountable {
     lock.lock();
     try {
       Query singleton = uniqueQueries.putIfAbsent(query, query);
+      // if语句为真，说明cache中没有当前的Query
       if (singleton == null) {
         onQueryCache(query, LINKED_HASHTABLE_RAM_BYTES_PER_ENTRY + QUERY_DEFAULT_RAM_BYTES_USED);
       } else {
@@ -313,6 +314,7 @@ public class LRUQueryCache implements QueryCache, Accountable {
         // we just created a new leaf cache, need to register a close listener
         cacheHelper.addClosedListener(this::clearCoreCacheKey);
       }
+      // Key为Query对象，Value为缓存的文档号
       leafCache.putIfAbsent(query, set);
       evictIfNecessary();
     } finally {
@@ -683,7 +685,10 @@ public class LRUQueryCache implements QueryCache, Accountable {
 
     private boolean cacheEntryHasReasonableWorstCaseSize(int maxDoc) {
       // The worst-case (dense) is a bit set which needs one bit per document
+      // cache的内容为文档号，并且用BitSet来描述文档号，一个bit代表一个文档号
+      // 所以worstCaseRamUsage描述了缓存所有文档号需要的字节个数
       final long worstCaseRamUsage = maxDoc / 8;
+      // maxRamBytesUsed是个可调参数，描述可用内存量
       final long totalRamAvailable = maxRamBytesUsed;
       // Imagine the worst-case that a cache entry is large than the size of
       // the cache: not only will this entry be trashed immediately but it
@@ -704,16 +709,22 @@ public class LRUQueryCache implements QueryCache, Accountable {
 
     /** Check whether this segment is eligible for caching, regardless of the query. */
     private boolean shouldCache(LeafReaderContext context) throws IOException {
+      // 判断是否可以缓存，条件有三个
+      // 条件1：缓存的文档号占用的内存的大小
+      // 条件2：缓存的文档号个数要大于一个阈值（默认值10000）
+      // 条件3：子Reader中包含的文档号个数占总Reader的文档数比例sizeRatio大于一个阈值(默认值0.03)
       return cacheEntryHasReasonableWorstCaseSize(ReaderUtil.getTopLevelContext(context).reader().maxDoc())
           && leavesToCache.test(context);
     }
 
     @Override
     public ScorerSupplier scorerSupplier(LeafReaderContext context) throws IOException {
+      // 在多线程执行IndexSearcher.search()的情况下，可能其他线程执行了同样的Query，那么这里需要允许cache的Query计数
       if (used.compareAndSet(false, true)) {
         policy.onUse(getQuery());
       }
 
+      // 判断索引文件目前能否缓存，比如说存放DocValues的.dvm .dvd文件在更新后，那么就不允许缓存
       if (in.isCacheable(context) == false) {
         // this segment is not suitable for caching
         return in.scorerSupplier(context);
@@ -721,17 +732,27 @@ public class LRUQueryCache implements QueryCache, Accountable {
 
       // Short-circuit: Check whether this segment is eligible for caching
       // before we take a lock because of #get
+      // 判断是否可以缓存，条件有三个
+      // 条件1：缓存的文档号占用的内存的大小
+      // 条件2：缓存的文档号个数要大于一个阈值（默认值10000）
+      // 条件3：子Reader中包含的文档号个数占总Reader的文档数比例sizeRatio大于一个阈值(默认值0.03)
       if (shouldCache(context) == false) {
         return in.scorerSupplier(context);
       }
 
       final IndexReader.CacheHelper cacheHelper = context.reader().getCoreCacheHelper();
+      // 有些Reader是不适合缓存的, 比如说facet中的存放分类的Reader
       if (cacheHelper == null) {
         // this reader has no cache helper
         return in.scorerSupplier(context);
       }
 
       // If the lock is already busy, prefer using the uncached version than waiting
+      // 如果有其他线程正在占用锁，那么相比较等待释放锁还不如不使用cache
+      // 占用锁的有以下几种情况：
+      // 情况1：其他线程在添加一个cache，这个cache有可能不是当前Query的cache
+      // 情况2：基于LRU或者其他原因正在删除某个Query或所有的Query的cache，并且这个cache有可能不是当前Query的cache
+      // 情况3：其他线程正在读取cache，那么如果当前Thread可能会有些cache会执行写操作
       if (lock.tryLock() == false) {
         return in.scorerSupplier(context);
       }
@@ -744,6 +765,7 @@ public class LRUQueryCache implements QueryCache, Accountable {
       }
 
       if (docIdSet == null) {
+        // 继续判断当前的Query是否允许cache，判断的条件见UsageTrackingQueryCachingPolicy.java中的shouldCache(...)方法
         if (policy.shouldCache(in.getQuery())) {
           docIdSet = cache(context);
           putIfAbsent(in.getQuery(), context, docIdSet, cacheHelper);

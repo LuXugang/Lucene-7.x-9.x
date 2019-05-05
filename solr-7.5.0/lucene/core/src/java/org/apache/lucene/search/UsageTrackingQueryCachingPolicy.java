@@ -57,23 +57,27 @@ public class UsageTrackingQueryCachingPolicy implements QueryCachingPolicy {
   private static boolean shouldNeverCache(Query query) {
     if (query instanceof TermQuery) {
       // We do not bother caching term queries since they are already plenty fast.
+      // TermQuery直接查询会更快，不需要Cache
       return true;
     }
 
     if (query instanceof MatchAllDocsQuery) {
       // MatchAllDocsQuery has an iterator that is faster than what a bit set could do.
+      // MatchAllDocsQuery 中的iterator 比bitSet(cache)更快
       return true;
     }
 
     // For the below queries, it's cheap to notice they cannot match any docs so
     // we do not bother caching them.
     if (query instanceof MatchNoDocsQuery) {
+      // 改查询不会匹配任何的文档，所以没有缓存的必要
       return true;
     }
 
     if (query instanceof BooleanQuery) {
       BooleanQuery bq = (BooleanQuery) query;
       if (bq.clauses().isEmpty()) {
+        // 一个空的BooleanQuery是不用缓存的
         return true;
       }
     }
@@ -81,6 +85,7 @@ public class UsageTrackingQueryCachingPolicy implements QueryCachingPolicy {
     if (query instanceof DisjunctionMaxQuery) {
       DisjunctionMaxQuery dmq = (DisjunctionMaxQuery) query;
       if (dmq.getDisjuncts().isEmpty()) {
+        // 一个空的DisjunctionMaxQuery是不用缓存的
         return true;
       }
     }
@@ -172,6 +177,7 @@ public class UsageTrackingQueryCachingPolicy implements QueryCachingPolicy {
 
   @Override
   public boolean shouldCache(Query query) throws IOException {
+    // 有几种Query是不用缓存的，因为直接查询会更快
     if (shouldNeverCache(query)) {
       return false;
     }
