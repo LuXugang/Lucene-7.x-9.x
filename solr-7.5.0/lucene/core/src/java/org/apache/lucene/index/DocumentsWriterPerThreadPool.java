@@ -173,6 +173,7 @@ final class DocumentsWriterPerThreadPool {
     synchronized (this) {
       if (freeList.isEmpty()) {
         // ThreadState is already locked before return by this method:
+        // 返回该对象之前就已经获得了锁
         return newThreadState();
       } else {
         // Important that we are LIFO here! This way if number of concurrent indexing threads was once high, but has now reduced, we only use a
