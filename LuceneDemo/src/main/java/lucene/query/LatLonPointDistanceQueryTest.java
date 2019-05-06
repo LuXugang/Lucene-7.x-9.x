@@ -1,4 +1,4 @@
-package query;
+package lucene.query;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;

@@ -70,7 +70,7 @@ public class UsageTrackingQueryCachingPolicy implements QueryCachingPolicy {
     // For the below queries, it's cheap to notice they cannot match any docs so
     // we do not bother caching them.
     if (query instanceof MatchNoDocsQuery) {
-      // 改查询不会匹配任何的文档，所以没有缓存的必要
+      // 该查询不会匹配任何的文档，所以没有缓存的必要
       return true;
     }
 

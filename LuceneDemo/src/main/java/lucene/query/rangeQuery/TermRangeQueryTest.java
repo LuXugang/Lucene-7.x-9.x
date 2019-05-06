@@ -90,9 +90,11 @@ public class TermRangeQueryTest {
         IndexSearcher searcher = new IndexSearcher(reader);
 
         Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gc"), true, true);
+        Query query1 = new TermRangeQuery("content", new BytesRef("c"), new BytesRef("gc"), true, true);
 //        Query query = new TermRangeQuery("content", new BytesRef("c"), new BytesRef("f"), true, true);
 
         TotalHitCountCollector collector = new TotalHitCountCollector();
+
 
         searcher.search(query, collector);
         searcher.search(query, collector);

@@ -1,7 +1,6 @@
-package query;
+package lucene.query;
 
 import io.FileOperation;
-import lucene.index.IndexFileWithLessFieldValues;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
