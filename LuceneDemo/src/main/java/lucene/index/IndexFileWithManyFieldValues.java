@@ -6,10 +6,7 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -41,26 +38,31 @@ public class IndexFileWithManyFieldValues {
   public void doIndex() throws Exception {
 
     conf.setUseCompoundFile(false);
+    LogMergePolicy policy = new LogDocMergePolicy();
+    policy.setMergeFactor(5);
+    conf.setMergePolicy(policy);
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
-    while (count++ < 7096) {
+    int n = 0;
+    boolean exchange = true;
+    while (count++ < 7777096) {
 //       0
-    Document doc = new Document();
-//    doc.add(new TextField("author", "aab b a aabbcc ", Field.Store.YES));
-    doc.add(new TextField("content", "a", Field.Store.YES));
-    indexWriter.addDocument(doc);
+      Document doc = new Document();
+////    doc.add(new TextField("author", "aab b a aabbcc ", Field.Store.YES));
+//    doc.add(new TextField("content", "a", Field.Store.YES));
+//    indexWriter.addDocument(doc);
+//
+//    // 1
+//    doc = new Document();
+////    doc.add(new TextField("author", "cd a", Field.Store.YES));
+//    doc.add(new TextField("content", "b", Field.Store.YES));
+//    indexWriter.addDocument(doc);
 
-    // 1
-    doc = new Document();
-//    doc.add(new TextField("author", "cd a", Field.Store.YES));
-    doc.add(new TextField("content", "b", Field.Store.YES));
-    indexWriter.addDocument(doc);
-
-    // 2
-    doc = new Document();
+      // 2
+      doc = new Document();
 //    doc.add(new TextField("author", "aab acb aab", Field.Store.YES));
-    doc.add(new TextField("content", getRandomValue(), Field.Store.YES));
-    indexWriter.addDocument(doc);
+      doc.add(new TextField("content", getRandomValue(), Field.Store.YES));
+      indexWriter.addDocument(doc);
 
 //    String abPrefixTerm = "abtabcabrabt abfabyabrabxabm abuabeabqabv abhabdabuaba abmabvabaabu ablabhabh abqabcabiabw abmabjabiaby aboabuabtabwabm absabuabrabyabw abyabrabc abhabeabwabl abgabtabcabg abvabdabeabx abnabtabb abyabmablablabt abrabbabuabjabp abcabbabnabu abuabjabfabm abqabmaboabrabv abpablabv abiabmabeabdabc abbabgabtabmabe abwabuabyabiabh abuabyablabxabk absabwabxabbabg abqabtabf abmabaabiabc abeabiabhabrabd abuabsabp abhablabp ablabmabeabr abaabmabbabv abiabhabyabiabl abjabpabaabp abwabiaby absabrabtabx aboabkabg aboabmaba ablabraby abuabyabyabyabc abqabkabcabfabi abhabgabt abrabjabpaby abxabeabs abyabaabm abjabxabl abgabjaba abeabwabq abcabqabx";
 //    // 3
@@ -83,7 +85,13 @@ public class IndexFileWithManyFieldValues {
 //    doc.add(new TextField("author", kbPrefixTerm, Field.Store.YES));
 //    doc.add(new TextField("content", "c", Field.Store.YES));
 //    indexWriter.addDocument(doc);
-
+      if(count % 800 == 0){
+        if(n++ == 2){
+          n = 0;
+          continue;
+        }
+        indexWriter.flush();
+      }
     }
     indexWriter.commit();
 

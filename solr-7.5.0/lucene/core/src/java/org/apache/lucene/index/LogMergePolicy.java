@@ -137,8 +137,10 @@ public abstract class LogMergePolicy extends MergePolicy {
    *  #setCalibrateSizeByDeletes} is set. */
   protected long sizeDocs(SegmentCommitInfo info, MergeContext mergeContext) throws IOException {
     if (calibrateSizeByDeletes) {
+      // 计算出被标记位删除的文档
       int delCount = mergeContext.numDeletesToMerge(info);
       assert assertDelCount(delCount, info);
+      // 返回的是当前段中除去被删除的文档个数
       return (info.info.maxDoc() - (long)delCount);
     } else {
       return info.info.maxDoc();
@@ -450,6 +452,7 @@ public abstract class LogMergePolicy extends MergePolicy {
     final List<SegmentInfoAndLevel> levels = new ArrayList<>(numSegments);
     final float norm = (float) Math.log(mergeFactor);
 
+    // mergingSegments中包含了其他线程正在合并的段，为了防止重复合并同一个段
     final Set<SegmentCommitInfo> mergingSegments = mergeContext.getMergingSegments();
 
     for(int i=0;i<numSegments;i++) {
@@ -496,6 +499,7 @@ public abstract class LogMergePolicy extends MergePolicy {
 
       // Find max level of all segments not already
       // quantized.
+      // 找到所有段中量化值最大的那个
       float maxLevel = levels.get(start).level;
       for(int i=1+start;i<numMergeableSegments;i++) {
         final float level = levels.get(i).level;
@@ -538,6 +542,7 @@ public abstract class LogMergePolicy extends MergePolicy {
         for(int i=start;i<end;i++) {
           final SegmentCommitInfo info = levels.get(i).info;
           anyTooLarge |= (size(info, mergeContext) >= maxMergeSize || sizeDocs(info, mergeContext) >= maxMergeDocs);
+          // 判断当前的段是否被其他线程正在执行合并操作，如果是的话就不能重复合并
           if (mergingSegments.contains(info)) {
             anyMerging = true;
             break;
