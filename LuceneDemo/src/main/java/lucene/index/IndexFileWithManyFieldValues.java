@@ -37,9 +37,9 @@ public class IndexFileWithManyFieldValues {
 
   public void doIndex() throws Exception {
 
-    conf.setUseCompoundFile(false);
-    LogMergePolicy policy = new LogDocMergePolicy();
-    policy.setMergeFactor(5);
+    conf.setUseCompoundFile(true);
+    MergePolicy policy = new TieredMergePolicy();
+//    MergePolicy policy = new LogDocMergePolicy();
     conf.setMergePolicy(policy);
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;

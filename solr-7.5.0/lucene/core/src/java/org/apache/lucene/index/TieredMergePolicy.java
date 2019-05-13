@@ -312,18 +312,23 @@ public class TieredMergePolicy extends MergePolicy {
   public MergeSpecification findMerges(MergeTrigger mergeTrigger, SegmentInfos infos, MergeContext mergeContext) throws IOException {
     final Set<SegmentCommitInfo> merging = mergeContext.getMergingSegments();
     // Compute total index bytes & print details about the index
+    // 记录所有段的索引大小总和，不包含被删除文档的索引信息
     long totIndexBytes = 0;
+    // 记录最小的段大小，不包含被删除的文档的索引信息
     long minSegmentBytes = Long.MAX_VALUE;
 
     int totalDelDocs = 0;
+    // totalMaxDoc包含了所有段的文档号，包括被删除的文档，如果某个段正在被合并，那么被删除的文档号个数不能纳入totalMaxDoc
     int totalMaxDoc = 0;
 
     long mergingBytes = 0;
 
+    // 根据段中索引文件大小，不包含被删除的文档的索引信息
     List<SegmentSizeAndDocs> sortedInfos = getSortedBySegmentSize(infos, mergeContext);
     Iterator<SegmentSizeAndDocs> iter = sortedInfos.iterator();
     while (iter.hasNext()) {
       SegmentSizeAndDocs segSizeDocs = iter.next();
+      // segBytes的大小不包含被删除文档的索引信息
       final long segBytes = segSizeDocs.sizeInBytes;
       if (verbose(mergeContext)) {
         String extra = merging.contains(segSizeDocs.segInfo) ? " [merging]" : "";
@@ -351,6 +356,7 @@ public class TieredMergePolicy extends MergePolicy {
     assert totalMaxDoc >= 0;
     assert totalDelDocs >= 0;
 
+    // 计算所有段的被删除的文档占总文档数的比例
     final double totalDelPct = 100 * (double) totalDelDocs / totalMaxDoc;
     int allowedDelCount = (int) (deletesPctAllowed * totalMaxDoc / 100);
 
@@ -365,7 +371,11 @@ public class TieredMergePolicy extends MergePolicy {
 
     while (iter.hasNext()) {
       SegmentSizeAndDocs segSizeDocs = iter.next();
+      // segDelPct描述了当前某个段中被删除文档的个数占总文档的比例
       double segDelPct = 100 * (double) segSizeDocs.delCount / (double) segSizeDocs.maxDoc;
+      // 同时满足下面两个条件，则当前段不参与合并
+      // 条件1：如果当前段的大小大于maxMergedSegmentBytes(默认值5G)的一半
+      // 条件2：这次合并的所有段包含的被删除的文档个数小于等于deletesPctAllowed  或者 当前段中包含的被删除的文档小于等于deletesPctAllowed
       if (segSizeDocs.sizeInBytes > maxMergedSegmentBytes / 2 && (totalDelPct <= deletesPctAllowed || segDelPct <= deletesPctAllowed)) {
         iter.remove();
         tooBigCount++; // Just for reporting purposes.
@@ -375,9 +385,11 @@ public class TieredMergePolicy extends MergePolicy {
     }
     allowedDelCount = Math.max(0, allowedDelCount);
 
+
     final int mergeFactor = (int) Math.min(maxMergeAtOnce, segsPerTier);
     // Compute max allowed segments in the index
     long levelSize = Math.max(minSegmentBytes, floorSegmentBytes);
+    // totIndexBytes记录所有段的索引大小总和，不包含被删除文档的索引信息
     long bytesLeft = totIndexBytes;
     double allowedSegCount = 0;
     while (true) {
