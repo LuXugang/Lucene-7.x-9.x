@@ -96,6 +96,7 @@ final class SegmentMerger {
     if (!shouldMerge()) {
       throw new IllegalStateException("Merge would result in 0 document segment");
     }
+    // 合并存储域的数据，即合并.fdx、.fdt索引文件
     mergeFieldInfos();
     long t0 = 0;
     if (mergeState.infoStream.isEnabled("SM")) {
@@ -113,6 +114,7 @@ final class SegmentMerger {
     if (mergeState.infoStream.isEnabled("SM")) {
       t0 = System.nanoTime();
     }
+    //合并.tim、tip、.doc、pos、pay索引文件
     mergeTerms(segmentWriteState);
     if (mergeState.infoStream.isEnabled("SM")) {
       long t1 = System.nanoTime();
@@ -123,6 +125,7 @@ final class SegmentMerger {
       t0 = System.nanoTime();
     }
     if (mergeState.mergeFieldInfos.hasDocValues()) {
+      // 合并.dvd、.dvm文件
       mergeDocValues(segmentWriteState);
     }
     if (mergeState.infoStream.isEnabled("SM")) {
@@ -133,6 +136,7 @@ final class SegmentMerger {
     if (mergeState.infoStream.isEnabled("SM")) {
       t0 = System.nanoTime();
     }
+    // 合并.dim、.dii索引文件
     if (mergeState.mergeFieldInfos.hasPointValues()) {
       mergePoints(segmentWriteState);
     }
@@ -140,7 +144,8 @@ final class SegmentMerger {
       long t1 = System.nanoTime();
       mergeState.infoStream.message("SM", ((t1-t0)/1000000) + " msec to merge points [" + numMerged + " docs]");
     }
-    
+
+    // 合并.nvd、nvm索引文件
     if (mergeState.mergeFieldInfos.hasNorms()) {
       if (mergeState.infoStream.isEnabled("SM")) {
         t0 = System.nanoTime();
@@ -152,6 +157,7 @@ final class SegmentMerger {
       }
     }
 
+    // 合并.tvx、.tvd文件
     if (mergeState.mergeFieldInfos.hasVectors()) {
       if (mergeState.infoStream.isEnabled("SM")) {
         t0 = System.nanoTime();

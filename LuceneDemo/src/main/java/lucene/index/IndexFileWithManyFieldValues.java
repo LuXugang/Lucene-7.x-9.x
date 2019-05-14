@@ -38,9 +38,11 @@ public class IndexFileWithManyFieldValues {
   public void doIndex() throws Exception {
 
     conf.setUseCompoundFile(true);
-    MergePolicy policy = new TieredMergePolicy();
+    TieredMergePolicy policy = new TieredMergePolicy();
 //    MergePolicy policy = new LogDocMergePolicy();
+    policy.setFloorSegmentMB(1);
     conf.setMergePolicy(policy);
+    conf.setMergeScheduler(new SerialMergeScheduler());
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
     int n = 0;
@@ -85,12 +87,12 @@ public class IndexFileWithManyFieldValues {
 //    doc.add(new TextField("author", kbPrefixTerm, Field.Store.YES));
 //    doc.add(new TextField("content", "c", Field.Store.YES));
 //    indexWriter.addDocument(doc);
-      if(count % 800 == 0){
-        if(n++ == 2){
-          n = 0;
-          continue;
-        }
-        indexWriter.flush();
+      if(count % 200000 == 0){
+//        Random random = new Random();
+//        int a = random.nextInt(10);
+//        if(a == 3){
+          indexWriter.flush();
+//        }
       }
     }
     indexWriter.commit();
