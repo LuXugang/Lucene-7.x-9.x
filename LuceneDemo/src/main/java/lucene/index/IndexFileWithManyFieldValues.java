@@ -40,59 +40,26 @@ public class IndexFileWithManyFieldValues {
     conf.setUseCompoundFile(true);
     TieredMergePolicy policy = new TieredMergePolicy();
 //    MergePolicy policy = new LogDocMergePolicy();
-    policy.setFloorSegmentMB(1);
     conf.setMergePolicy(policy);
+    policy.setFloorSegmentMB(1);
     conf.setMergeScheduler(new SerialMergeScheduler());
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
     int n = 0;
-    boolean exchange = true;
-    while (count++ < 7777096) {
-//       0
+    while (count++ < 77770906) {
       Document doc = new Document();
-////    doc.add(new TextField("author", "aab b a aabbcc ", Field.Store.YES));
-//    doc.add(new TextField("content", "a", Field.Store.YES));
-//    indexWriter.addDocument(doc);
-//
-//    // 1
-//    doc = new Document();
-////    doc.add(new TextField("author", "cd a", Field.Store.YES));
-//    doc.add(new TextField("content", "b", Field.Store.YES));
-//    indexWriter.addDocument(doc);
-
-      // 2
-      doc = new Document();
-//    doc.add(new TextField("author", "aab acb aab", Field.Store.YES));
       doc.add(new TextField("content", getRandomValue(), Field.Store.YES));
       indexWriter.addDocument(doc);
 
-//    String abPrefixTerm = "abtabcabrabt abfabyabrabxabm abuabeabqabv abhabdabuaba abmabvabaabu ablabhabh abqabcabiabw abmabjabiaby aboabuabtabwabm absabuabrabyabw abyabrabc abhabeabwabl abgabtabcabg abvabdabeabx abnabtabb abyabmablablabt abrabbabuabjabp abcabbabnabu abuabjabfabm abqabmaboabrabv abpablabv abiabmabeabdabc abbabgabtabmabe abwabuabyabiabh abuabyablabxabk absabwabxabbabg abqabtabf abmabaabiabc abeabiabhabrabd abuabsabp abhablabp ablabmabeabr abaabmabbabv abiabhabyabiabl abjabpabaabp abwabiaby absabrabtabx aboabkabg aboabmaba ablabraby abuabyabyabyabc abqabkabcabfabi abhabgabt abrabjabpaby abxabeabs abyabaabm abjabxabl abgabjaba abeabwabq abcabqabx";
-//    // 3
-//    doc = new Document();
-//    doc.add(new TextField("author", abPrefixTerm, Field.Store.YES));
-//    doc.add(new TextField("content", "c", Field.Store.YES));
-//    indexWriter.addDocument(doc);
-//
-//
-//    String fixTerm = "dah dhinr gnvu nua ufg tvb krcdd nng snxk nqgs dwac pgjw jsdm bfanu shdq nkj psdfp eqc jsbxv vebe ouum vfi ejs kdrm oye fct exqd yyafa elq ted vml xbbdy vavg fdkts hjub squu cewwx shs ulex ibqt umr xree rdux hdm mcgr ach bveq vcyh tnx rxcxq gybn cgh xxd smte drkng uypde ufbq epcx cpek leje akt lmnjk ieu kvet bfc ytsvb uye dqdn nibr djok deay tbl dvy ulh jee ociu pvik wtpv xdrx isym ocl yxuyy wipp ead opw tywd prxmf tbq gbvy fpxq sth bcix klbg ifg fcav lepl pvq pdrdv uqw";
-//    // 4
-//    doc = new Document();
-//    doc.add(new TextField("author", fixTerm, Field.Store.YES));
-//    doc.add(new TextField("content", "c", Field.Store.YES));
-//    indexWriter.addDocument(doc);
-//
-//    String kbPrefixTerm = "kbakbokbwkbnkbx kbrkbbkbwkblkbj kbwkbrkbg kbkkbgkbk kbmkbdkbk kbnkbbkbl kbykbmkblkbw kbfkbnkbrkbn kbakbkkbpkbq kbnkbkkba kbxkbkkbikbr kbakbokbykbqkbp kbskbgkbk kbqkbxkbrkbwkbs kbykbokbbkbqkbc kbfkbdkbt kbdkbtkbokbnkbu kbykbbkbf kblkbvkbh kbfkbukbl kbekbrkbikby kbhkbtkbt kbekbxkbn kbukbxkblkbqkbj kbwkbwkbukbe kbkkbqkbbkbx kbhkbrkbvkbu kbykbtkbj kbgkbbkbckby kblkbskby kbpkbgkbrkbrkbx kbskbekbx kbekbokbb kbykbpkbk kbfkbfkbl kbckbqkbf kbdkbckblkbqkby kbrkbbkbmkby kbpkbjkbt kbukbkkbtkbm kbikbhkbvkbmkbp kbjkbmkbt kbqkbvkbmkbp kbhkbkkbckbo kbrkbykbm kbckbbkbbkbj kbekbqkbqkbqkbd kbckbnkbr kbxkbbkbwkbr kbqkbskbl kbckbqkbekbekbp kbskbnkbr kbtkbjkbskbwkbg kbkkbwkbikba kbmkbwkbdkbvkbi kbvkbxkbu kbwkbokbvkbh kbvkbjkbmkbn kbhkbukbx kbskbnkbtkbpkbv";
-//    // 5
-//    doc = new Document();
-//    doc.add(new TextField("author", kbPrefixTerm, Field.Store.YES));
-//    doc.add(new TextField("content", "c", Field.Store.YES));
-//    indexWriter.addDocument(doc);
-      if(count % 200000 == 0){
-//        Random random = new Random();
-//        int a = random.nextInt(10);
-//        if(a == 3){
+      if(count % 800 == 0){
+        Random random = new Random();
+        int a = random.nextInt(10);
+        if(a == 3){
           indexWriter.flush();
-//        }
+        }else {
+          continue;
+        }
+        indexWriter.flush();
       }
     }
     indexWriter.commit();
@@ -100,7 +67,6 @@ public class IndexFileWithManyFieldValues {
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexSearcher searcher = new IndexSearcher(reader);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
-//    builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.MUST);
     builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
     Query query = builder.build();
 

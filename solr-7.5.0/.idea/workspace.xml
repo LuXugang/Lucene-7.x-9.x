@@ -3,14 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentMerger.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentMerger.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
@@ -26,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/MergePolicy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6583">
+            <state relative-caret-position="6675">
               <caret line="507" column="41" selection-start-line="507" selection-start-column="41" selection-end-line="507" selection-end-column="41" />
               <folding>
                 <element signature="e#4521#4522#0" expanded="true" />
@@ -43,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentCommitInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
+            <state relative-caret-position="2520">
               <caret line="212" column="14" selection-start-line="212" selection-start-column="14" selection-end-line="212" selection-end-column="14" />
             </state>
           </provider>
@@ -52,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/IndexWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
+            <state relative-caret-position="59550">
               <caret line="4074" column="27" selection-start-line="4074" selection-start-column="27" selection-end-line="4074" selection-end-column="27" />
             </state>
           </provider>
@@ -61,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentMerger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="110" selection-start-line="110" selection-end-line="110" />
+            <state relative-caret-position="1215">
+              <caret line="111" selection-start-line="111" selection-end-line="111" />
             </state>
           </provider>
         </entry>
@@ -70,7 +73,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/perfield/PerFieldPostingsFormat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="917">
+            <state relative-caret-position="3300">
               <caret line="273" selection-start-line="273" selection-end-line="273" />
             </state>
           </provider>
@@ -79,8 +82,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="240" column="14" selection-start-line="240" selection-start-column="4" selection-end-line="240" selection-end-column="15" />
+            <state relative-caret-position="955">
+              <caret line="543" column="13" selection-start-line="543" selection-start-column="10" selection-end-line="543" selection-end-column="14" />
               <folding>
                 <element signature="e#7140#7141#0" expanded="true" />
                 <element signature="e#7174#7175#0" expanded="true" />
@@ -192,16 +195,17 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="344" />
+    <option name="y" value="-783" />
+    <option name="width" value="1680" />
+    <option name="height" value="947" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -214,91 +218,11 @@
               <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
               <item name="lucene" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="codecs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="codecs" type="462c0819:PsiDirectoryNode" />
-              <item name="perfield" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="document" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="geo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="solr-7.5.0" type="b2602c69:ProjectViewProjectNode" />
-              <item name="solr-7.5.0" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="lucene" type="462c0819:PsiDirectoryNode" />
-              <item name="index" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -414,11 +338,12 @@
       <workItem from="1557406268594" duration="6109000" />
       <workItem from="1557749327859" duration="2868000" />
       <workItem from="1557817206966" duration="7831000" />
+      <workItem from="1557841107024" duration="2231000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="412406000" />
+    <option name="totallyTimeSpent" value="414637000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -430,10 +355,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
+    <frame x="-85" y="-1080" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4772462" visible="true" weight="0.17238913" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4772462" visible="true" weight="0.1517572" />
       <window_info id="Structure" order="1" sideWeight="0.5227538" side_tool="true" weight="0.14376996" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -917,37 +842,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/IndexWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="4074" column="27" selection-start-line="4074" selection-start-column="27" selection-end-line="4074" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentMerger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="110" selection-start-line="110" selection-end-line="110" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentCommitInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="212" column="14" selection-start-line="212" selection-start-column="14" selection-end-line="212" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/perfield/PerFieldPostingsFormat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="917">
-          <caret line="273" selection-start-line="273" selection-end-line="273" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/MergePolicy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6583">
+        <state relative-caret-position="6675">
           <caret line="507" column="41" selection-start-line="507" selection-start-column="41" selection-end-line="507" selection-end-column="41" />
           <folding>
             <element signature="e#4521#4522#0" expanded="true" />
@@ -960,10 +857,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentCommitInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="212" column="14" selection-start-line="212" selection-start-column="14" selection-end-line="212" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/IndexWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59550">
+          <caret line="4074" column="27" selection-start-line="4074" selection-start-column="27" selection-end-line="4074" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentMerger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="111" selection-start-line="111" selection-end-line="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/perfield/PerFieldPostingsFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3300">
+          <caret line="273" selection-start-line="273" selection-end-line="273" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="240" column="14" selection-start-line="240" selection-start-column="4" selection-end-line="240" selection-end-column="15" />
+        <state relative-caret-position="955">
+          <caret line="543" column="13" selection-start-line="543" selection-start-column="10" selection-end-line="543" selection-end-column="14" />
           <folding>
             <element signature="e#7140#7141#0" expanded="true" />
             <element signature="e#7174#7175#0" expanded="true" />
