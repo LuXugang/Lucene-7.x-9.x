@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,8 +84,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="955">
-              <caret line="543" column="13" selection-start-line="543" selection-start-column="10" selection-end-line="543" selection-end-column="14" />
+            <state relative-caret-position="1317">
+              <caret line="350" column="6" selection-start-line="350" selection-start-column="6" selection-end-line="350" selection-end-column="6" />
               <folding>
                 <element signature="e#7140#7141#0" expanded="true" />
                 <element signature="e#7174#7175#0" expanded="true" />
@@ -187,8 +189,8 @@
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/LRUQueryCache.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/DocumentsWriterPerThreadPool.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/LogMergePolicy.java" />
-        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java" />
         <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/SegmentMerger.java" />
+        <option value="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java" />
       </list>
     </option>
   </component>
@@ -196,10 +198,8 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="344" />
-    <option name="y" value="-783" />
     <option name="width" value="1680" />
-    <option name="height" value="947" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -339,11 +339,15 @@
       <workItem from="1557749327859" duration="2868000" />
       <workItem from="1557817206966" duration="7831000" />
       <workItem from="1557841107024" duration="2231000" />
+      <workItem from="1557919029598" duration="2411000" />
+      <workItem from="1558006829210" duration="1883000" />
+      <workItem from="1558018934314" duration="668000" />
+      <workItem from="1558095026158" duration="1648000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="414637000" />
+    <option name="totallyTimeSpent" value="421247000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -355,10 +359,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-85" y="-1080" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4772462" visible="true" weight="0.1517572" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4772462" visible="true" weight="0.15873016" />
       <window_info id="Structure" order="1" sideWeight="0.5227538" side_tool="true" weight="0.14376996" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -887,8 +891,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/TieredMergePolicy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="955">
-          <caret line="543" column="13" selection-start-line="543" selection-start-column="10" selection-end-line="543" selection-end-column="14" />
+        <state relative-caret-position="1317">
+          <caret line="350" column="6" selection-start-line="350" selection-start-column="6" selection-end-line="350" selection-end-column="6" />
           <folding>
             <element signature="e#7140#7141#0" expanded="true" />
             <element signature="e#7174#7175#0" expanded="true" />

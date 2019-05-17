@@ -42,7 +42,7 @@ public class IndexFileWithManyFieldValues {
 //    MergePolicy policy = new LogDocMergePolicy();
     conf.setMergePolicy(policy);
     policy.setFloorSegmentMB(1);
-    conf.setMergeScheduler(new SerialMergeScheduler());
+    conf.setMergeScheduler(new ConcurrentMergeScheduler());
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
     int n = 0;

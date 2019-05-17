@@ -388,6 +388,8 @@ public class TieredMergePolicy extends MergePolicy {
 
     final int mergeFactor = (int) Math.min(maxMergeAtOnce, segsPerTier);
     // Compute max allowed segments in the index
+    // 根据当前索引大小来估算当前索引中"应该"有多少个段，如果实际的段个数小于估算值
+    // 那么说明索引中的段不满足差不多都相同（approximately equal size），那么就不会选出OneMerge
     long levelSize = Math.max(minSegmentBytes, floorSegmentBytes);
     // totIndexBytes记录所有段的索引大小总和，不包含被删除文档的索引信息
     long bytesLeft = totIndexBytes;
@@ -457,6 +459,7 @@ public class TieredMergePolicy extends MergePolicy {
       while (iter.hasNext()) {
         SegmentSizeAndDocs segSizeDocs = iter.next();
         if (toBeMerged.contains(segSizeDocs.segInfo)) {
+          // 移除前几轮（level）已经被确定要合并的段
           iter.remove();
         }
       }
@@ -472,6 +475,7 @@ public class TieredMergePolicy extends MergePolicy {
       final int remainingDelCount = sortedEligible.stream().mapToInt(c -> c.delCount).sum();
       if (mergeType == MERGE_TYPE.NATURAL &&
           sortedEligible.size() <= allowedSegCount &&
+          // 即使段的个数不满足allowedSegCount ，但是如果包含的删除文档数量达到阈值，还是可以参与打分
           remainingDelCount <= allowedDelCount) {
         return spec;
       }
@@ -482,6 +486,8 @@ public class TieredMergePolicy extends MergePolicy {
       boolean bestTooLarge = false;
       long bestMergeBytes = 0;
 
+      // 类似窗口滑动来判断每一种段的组合生成的OneMerge，最后获得一个打分最高的OneMerge
+      // 每次移动一个段，窗口大小最多为mergeFactor个，窗口中的段不一定的是连续
       for (int startIdx = 0; startIdx < sortedEligible.size(); startIdx++) {
 
         long totAfterMergeBytes = 0;
@@ -530,6 +536,7 @@ public class TieredMergePolicy extends MergePolicy {
         // the tail of the list of segments and will only find smaller merges.
         // Stop here.
         if (bestScore != null &&
+            // 即使OneMerge中的个数不满足Merge，体积很大的OneMerge也要去参与打分
             hitTooLarge == false &&
             candidate.size() < mergeFactor) {
           break;
@@ -570,6 +577,7 @@ public class TieredMergePolicy extends MergePolicy {
       }
       // whether we're going to return this list in the spec of not, we need to remove it from
       // consideration on the next loop.
+      // 记录被确定需要合并的段
       toBeMerged.addAll(best);
     }
   }
@@ -592,6 +600,7 @@ public class TieredMergePolicy extends MergePolicy {
     // 1.0/numSegsBeingMerged (good) to 1.0 (poor). Heavily
     // lopsided merges (skew near 1.0) is no good; it means
     // O(N^2) merge cost over time:
+    // 粗略的计算OneMerge的偏斜值，衡量OneMerge中段之间大小的是否都差不多相同
     final double skew;
     if (hitTooLarge) {
       // Pretend the merge has perfect skew; skew doesn't
@@ -612,9 +621,11 @@ public class TieredMergePolicy extends MergePolicy {
     // don't want to make this exponent too large else we
     // can end up doing poor merges of small segments in
     // order to avoid the large merges:
+    // 描述了段合并比较倾向于(Gently favor )较小的OneMerge
     mergeScore *= Math.pow(totAfterMergeBytes, 0.05);
 
     // Strongly favor merges that reclaim deletes:
+    // nonDelRatio越小说明OneMerge中包含更多的被删除的文档，该值相比较totAfterMergeBytes，对总体打分影响度更大，因为段合并的一个重要目的就是去除被删除的文档
     final double nonDelRatio = ((double) totAfterMergeBytes)/totBeforeMergeBytes;
     mergeScore *= Math.pow(nonDelRatio, 2);
 
