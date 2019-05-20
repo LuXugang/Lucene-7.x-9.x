@@ -3,13 +3,12 @@ package lucene.index;
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -44,21 +43,26 @@ public class IndexFileWithManyFieldValues {
     policy.setFloorSegmentMB(1);
     conf.setMergeScheduler(new ConcurrentMergeScheduler());
     indexWriter = new IndexWriter(directory, conf);
+    FieldType type = new FieldType();
+    type.setStored(true);
+    type.setStoreTermVectors(true);
+    type.setStoreTermVectorPositions(true);
+    type.setStoreTermVectorPayloads(true);
+    type.setStoreTermVectorOffsets(true);
+    type.setTokenized(true);
+    type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
     int count = 0;
-    int n = 0;
-    while (count++ < 77770906) {
+    while (count++ < 1) {
+
       Document doc = new Document();
-      doc.add(new TextField("content", getRandomValue(), Field.Store.YES));
+
+      doc.add(new Field("content", getRandomValue(), type));
+      doc.add(new IntPoint("space", 3, 4, 6));
+      doc.add(new SortedDocValuesField("author", new BytesRef(getRandomValue())));
       indexWriter.addDocument(doc);
 
+
       if(count % 800 == 0){
-        Random random = new Random();
-        int a = random.nextInt(10);
-        if(a == 3){
-          indexWriter.flush();
-        }else {
-          continue;
-        }
         indexWriter.flush();
       }
     }
@@ -73,9 +77,9 @@ public class IndexFileWithManyFieldValues {
 
     TotalHitCountCollector collector = new TotalHitCountCollector();
 
-    searcher.search(query, collector);
+     searcher.search(query, collector);
 
-    Document document  = reader.document(2);
+    Document document  = reader.document(0);
     System.out.println(document.get("content"));
 
     // Per-top-reader state:

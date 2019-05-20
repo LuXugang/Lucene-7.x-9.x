@@ -166,7 +166,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
   /** Sets max merges and threads to proper defaults for rotational
    *  or non-rotational storage.
    *
-   * @param spins true to set defaults best for traditional rotatational storage (spinning disks), 
+   * @param spins true to set defaults best for traditional rotational storage (spinning disks),
    *        else false (e.g. for solid-state disks)
    */
   public synchronized void setDefaultMaxMergesAndThreads(boolean spins) {
@@ -174,6 +174,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
       maxThreadCount = 1;
       maxMergeCount = 6;
     } else {
+      // 当前JVM可用的cpu核心数
       int coreCount = Runtime.getRuntime().availableProcessors();
 
       // Let tests override this to help reproducing a failure on a machine that has a different
@@ -304,6 +305,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
     final List<MergeThread> activeMerges = new ArrayList<>();
 
     int threadIdx = 0;
+    // 获取正在允许的线程至activeMerges
     while (threadIdx < mergeThreads.size()) {
       final MergeThread mergeThread = mergeThreads.get(threadIdx);
       if (!mergeThread.isAlive()) {
@@ -324,6 +326,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
 
     for (threadIdx=activeMergeCount-1;threadIdx>=0;threadIdx--) {
       MergeThread mergeThread = activeMerges.get(threadIdx);
+      // 按照从小到大的顺序遍历，遇到第一个大于MIN_BIG_MERGE_MB停止遍历
       if (mergeThread.merge.estimatedMergeBytes > MIN_BIG_MERGE_MB*1024*1024) {
         bigMergeCount = 1+threadIdx;
         break;
@@ -351,6 +354,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
       double newMBPerSec;
       if (doPause) {
         newMBPerSec = 0.0;
+        // forceMerge时，if的语句会为真
       } else if (merge.maxNumSegments != -1) {
         newMBPerSec = forceMergeMBPerSec;
       } else if (doAutoIOThrottle == false) {
@@ -498,6 +502,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
 
     assert !Thread.holdsLock(writer);
 
+    // 初始化maxMergeCount、maxThreadCount
     initDynamicDefaults(writer);
 
     if (trigger == MergeTrigger.CLOSING) {
@@ -522,6 +527,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
     // pending merges, until it's empty:
     while (true) {
 
+      // 判断是否需要拖延newMergeThread的生成
       if (maybeStall(writer) == false) {
         break;
       }
@@ -542,9 +548,11 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
 
         // OK to spawn a new merge thread to handle this
         // merge:
+        // 获得一个线程来执行合并操作, 所有现场持有相同的IndexWriter引用
         final MergeThread newMergeThread = getMergeThread(writer, merge);
         mergeThreads.add(newMergeThread);
 
+        // 调整当前线程的IO
         updateIOThrottle(newMergeThread.merge, newMergeThread.rateLimiter);
 
         if (verbose()) {
@@ -659,6 +667,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
           message("  merge thread: start");
         }
 
+        // 执行合并
         doMerge(writer, merge);
 
         if (verbose()) {
@@ -667,6 +676,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
 
         // Let CMS run new merges if necessary:
         try {
+          // 再次去取新的OneMerge进行合并
           merge(writer, MergeTrigger.MERGE_FINISHED, true);
         } catch (AlreadyClosedException ace) {
           // OK
@@ -688,10 +698,12 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
         synchronized(ConcurrentMergeScheduler.this) {
           removeMergeThread();
 
+          // 调整MergeThread中的I/O上限值
           updateMergeThreads();
 
           // In case we had stalled indexing, we can now wake up
           // and possibly unstall:
+          // 唤醒那些wait(250)的，因为合并线程的生成节流导致的wait
           ConcurrentMergeScheduler.this.notifyAll();
         }
       }
@@ -739,6 +751,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
           mergeStartNS != -1 &&
           mergeThread.merge.estimatedMergeBytes >= MIN_BIG_MERGE_MB*1024*1024 &&
           nsToSec(now-mergeStartNS) > 3.0) {
+        // 其他线程中OneMerge的大小
         double otherMergeMB = bytesToMB(mergeThread.merge.estimatedMergeBytes);
         double ratio = otherMergeMB / mergeMB;
         if (ratio > 0.3 && ratio < 3.0) {
@@ -755,9 +768,10 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
     if (doAutoIOThrottle == false) {
       return;
     }
-
+    // OneMerge的大小，不包括被删除的文档的索引信息
     double mergeMB = bytesToMB(newMerge.estimatedMergeBytes);
     if (mergeMB < MIN_BIG_MERGE_MB) {
+      // 为了保证能合并较大的OneMerge
       // Only watch non-trivial merges for throttling; this is safe because the MP must eventually
       // have to do larger merges:
       return;
@@ -768,6 +782,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
     // Simplistic closed-loop feedback control: if we find any other similarly
     // sized merges running, then we are falling behind, so we bump up the
     // IO throttle, else we lower it:
+    // 判断是否发生了积压
     boolean newBacklog = isBacklog(now, newMerge);
 
     boolean curBacklog = false;
@@ -789,6 +804,7 @@ public class ConcurrentMergeScheduler extends MergeScheduler {
 
     double curMBPerSec = targetMBPerSec;
 
+    // 流程中的OneMerge为积压状态
     if (newBacklog) {
       // This new merge adds to the backlog: increase IO throttle by 20%
       targetMBPerSec *= 1.20;

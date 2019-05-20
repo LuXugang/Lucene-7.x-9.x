@@ -316,7 +316,9 @@ public class IndexWriter implements Closeable, TwoPhaseCommit, Accountable,
   HashSet<SegmentCommitInfo> mergingSegments = new HashSet<>();
 
   private final MergeScheduler mergeScheduler;
+
   private LinkedList<MergePolicy.OneMerge> pendingMerges = new LinkedList<>();
+
   private Set<MergePolicy.OneMerge> runningMerges = new HashSet<>();
   private List<MergePolicy.OneMerge> mergeExceptions = new ArrayList<>();
   private long mergeGen;
