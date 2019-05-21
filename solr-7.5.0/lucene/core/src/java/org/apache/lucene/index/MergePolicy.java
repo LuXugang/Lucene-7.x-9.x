@@ -203,6 +203,7 @@ public abstract class MergePolicy {
     int maxNumSegments = -1;        // used by IndexWriter
 
     /** Estimated size in bytes of the merged segment. */
+    // 估算OneMerge的大小，不包括被删除的文档
     public volatile long estimatedMergeBytes;       // used by IndexWriter
 
     // Sum of sizeInBytes of all SegmentInfos; set by IW.mergeInit
