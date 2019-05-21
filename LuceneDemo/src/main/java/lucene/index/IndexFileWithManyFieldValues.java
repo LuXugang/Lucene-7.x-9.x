@@ -54,12 +54,34 @@ public class IndexFileWithManyFieldValues {
     int count = 0;
     int n = 0;
     Document doc ;
-    while (count++ < 77770906) {
+    while (count++ < 5555555) {
       doc = new Document();
       doc.add(new Field("content", getRandomValue(), type));
-      doc.add(new Field("author", getRandomValue(), type));
-      doc.add(new SortedDocValuesField("my", new BytesRef(getRandomValue())));
-      doc.add(new IntPoint("hah", 3, 4, 6));
+      if(count % 2 == 0){
+        doc.add(new Field("content", getRandomValue(), type));
+      }
+
+
+//      doc.add(new Field("content", "abc", type));
+//      doc.add(new Field("content", "cd", type));
+//      doc.add(new StoredField("content", 3));
+//      doc.add(new Field("author", "efg", type));
+
+      // 0
+      doc = new Document();
+      doc.add(new Field("content", "abc", type));
+      doc.add(new Field("content", "cd", type));
+      doc.add(new StoredField("content", 3));
+      doc.add(new Field("author", "efg", type));
+      indexWriter.addDocument(doc);
+      // 1
+      doc = new Document();
+      doc.add(new Field("content", "abc", type));
+      indexWriter.addDocument(doc);
+
+//
+//      doc.add(new SortedDocValuesField("myDocValues", new BytesRef("good")));
+//      doc.add(new IntPoint("myIntPoint", 3, 4, 6));
       indexWriter.addDocument(doc);
 
       if(count % 800 == 0){
