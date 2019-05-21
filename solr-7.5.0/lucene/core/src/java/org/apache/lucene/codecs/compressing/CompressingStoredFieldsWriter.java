@@ -282,6 +282,7 @@ public final class CompressingStoredFieldsWriter extends StoredFieldsWriter {
   public void writeField(FieldInfo info, IndexableField field)
       throws IOException {
 
+    // 当前域中包含的文档个数+1
     ++numStoredFieldsInDoc;
 
     int bits = 0;

@@ -396,6 +396,7 @@ final class DefaultIndexingChain extends DocConsumer {
 
     startStoredFields(docState.docID);
     try {
+      // 处理当前文档中的每一个域
       for (IndexableField field : docState.doc) {
         fieldCount = processField(field, fieldGen, fieldCount);
       }
@@ -435,7 +436,7 @@ final class DefaultIndexingChain extends DocConsumer {
       // 获得封装了 域名 的信息的PerFiled对象，如果之前已经有了那么复用，否则创建
       fp = getOrAddField(fieldName, fieldType, true);
       boolean first = fp.fieldGen != fieldGen;
-      // 生成倒排表
+      // 写入倒排表
       fp.invert(field, first);
 
       if (first) {
