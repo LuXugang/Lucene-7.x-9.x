@@ -33,6 +33,7 @@ final class DocsWithFieldSet extends DocIdSet {
   // 记录上一次文档号
   private int lastDocId = -1;
 
+  // 用来记录文档号， 当添加的文档号是连续的，那么能提高记录速度
   void add(int docID) {
     if (docID <= lastDocId) {
       throw new IllegalArgumentException("Out of order doc ids: last=" + lastDocId + ", next=" + docID);

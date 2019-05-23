@@ -54,34 +54,33 @@ public class IndexFileWithManyFieldValues {
     int count = 0;
     int n = 0;
     Document doc ;
-    while (count++ < 5555555) {
-      doc = new Document();
-      doc.add(new Field("content", getRandomValue(), type));
-      if(count % 2 == 0){
-        doc.add(new Field("content", getRandomValue(), type));
-      }
-
-
+    while (count++ < 1) {
 //      doc.add(new Field("content", "abc", type));
 //      doc.add(new Field("content", "cd", type));
 //      doc.add(new StoredField("content", 3));
 //      doc.add(new Field("author", "efg", type));
 
-      // 0
+      // 文档0
       doc = new Document();
-      doc.add(new Field("content", "abc", type));
-      doc.add(new Field("content", "cd", type));
-      doc.add(new StoredField("content", 3));
-      doc.add(new Field("author", "efg", type));
-      indexWriter.addDocument(doc);
-      // 1
-      doc = new Document();
-      doc.add(new Field("content", "abc", type));
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("c")));
+      doc.add(new Field("content", "a", type));
       indexWriter.addDocument(doc);
 
-//
-//      doc.add(new SortedDocValuesField("myDocValues", new BytesRef("good")));
-//      doc.add(new IntPoint("myIntPoint", 3, 4, 6));
+      // 文档1
+      doc = new Document();
+      doc.add(new Field("content", "a", type));
+      indexWriter.addDocument(doc);
+
+      // 文档2
+      doc = new Document();
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("a")));
+      doc.add(new Field("content", "a", type));
+      indexWriter.addDocument(doc);
+
+      // 文档3
+      doc = new Document();
+      doc.add(new Field("content", "a", type));
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("b")));
       indexWriter.addDocument(doc);
 
       if(count % 800 == 0){
@@ -93,14 +92,11 @@ public class IndexFileWithManyFieldValues {
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexSearcher searcher = new IndexSearcher(reader);
-    BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-    Query query = builder.build();
 
 
-    TotalHitCountCollector collector = new TotalHitCountCollector();
-
-    searcher.search(query, collector);
+    Query query = new TermQuery(new Term("content", "a"));
+    Sort sort = new Sort(new SortField("forSort", SortField.Type.STRING));
+    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
 
     Document document  = reader.document(2);
     System.out.println(document.get("content"));
