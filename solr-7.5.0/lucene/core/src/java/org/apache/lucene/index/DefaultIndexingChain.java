@@ -404,8 +404,10 @@ final class DefaultIndexingChain extends DocConsumer {
       if (docWriter.hasHitAbortingException() == false) {
         // Finish each indexed field name seen in the document:
         for (int i=0;i<fieldCount;i++) {
+          // 处理存储域的norm
           fields[i].finish();
         }
+        // 增量统计存储域的信息
         finishStoredFields();
       }
     }
@@ -478,7 +480,7 @@ final class DefaultIndexingChain extends DocConsumer {
       }
       indexDocValue(fp, dvType, field);
     }
-    // 处理数值类型
+    // 处理点数据域
     if (fieldType.pointDimensionCount() != 0) {
       if (fp == null) {
         fp = getOrAddField(fieldName, fieldType, false);

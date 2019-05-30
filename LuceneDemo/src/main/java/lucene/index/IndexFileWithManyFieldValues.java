@@ -68,18 +68,18 @@ public class IndexFileWithManyFieldValues {
 
       // 文档1
       doc = new Document();
-      doc.add(new Field("content", "a", type));
+      doc.add(new Field("content", "a b", type));
       indexWriter.addDocument(doc);
 
       // 文档2
       doc = new Document();
       doc.add(new SortedDocValuesField("forSort", new BytesRef("a")));
-      doc.add(new Field("content", "a", type));
+      doc.add(new Field("content", "a b c", type));
       indexWriter.addDocument(doc);
 
       // 文档3
       doc = new Document();
-      doc.add(new Field("content", "a", type));
+      doc.add(new Field("content", "a b c d", type));
       doc.add(new SortedDocValuesField("forSort", new BytesRef("b")));
       indexWriter.addDocument(doc);
 
