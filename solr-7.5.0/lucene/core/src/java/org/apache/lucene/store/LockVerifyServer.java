@@ -54,7 +54,7 @@ public class LockVerifyServer {
 
     try (final ServerSocket s = new ServerSocket()) {
       s.setReuseAddress(true);
-      s.setSoTimeout(30000); // initially 30 secs to give clients enough time to startup
+      s.setSoTimeout(3000000); // initially 30 secs to give clients enough time to startup
       s.bind(new InetSocketAddress(hostname, 0));
       final InetSocketAddress localAddr = (InetSocketAddress) s.getLocalSocketAddress();
       System.out.println("Listening on " + localAddr + "...");

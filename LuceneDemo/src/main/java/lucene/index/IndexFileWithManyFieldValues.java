@@ -1,16 +1,19 @@
 package lucene.index;
 
 import io.FileOperation;
+import io.NativeFSLockFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
@@ -24,7 +27,7 @@ public class IndexFileWithManyFieldValues {
   {
     try {
       FileOperation.deleteFile("./data");
-      directory = new MMapDirectory(Paths.get("./data"));
+      directory = FSDirectory.open(Paths.get("./data"), NativeFSLockFactory.INSTANCE);
     } catch (IOException e) {
       e.printStackTrace();
     }
