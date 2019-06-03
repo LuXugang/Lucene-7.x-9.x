@@ -15,7 +15,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
 import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Random;
 
 /**
@@ -69,6 +72,14 @@ public class IndexFileWithLessFieldValues {
   public static void main(String[] args) throws Exception{
     IndexFileWithLessFieldValues test = new IndexFileWithLessFieldValues();
     test.doIndex();
+//    FileChannel         channel = FileChannel.open(Paths.get("/Users/luxugang/project/Lucene-7.5.0/LuceneDemo/data/write.lock"), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+//    FileLock fileLock = channel.tryLock();
+//    System.out.printf("abc");
+//    System.out.printf("abc");
+//    System.out.printf("abc");
+//    fileLock.release();
+//    FileLock fileLock1 = FileChannel.open(Paths.get("/Users/luxugang/project/Lucene-7.5.0/LuceneDemo/data/write.lock"), StandardOpenOption.CREATE, StandardOpenOption.WRITE).lock();
+//    System.out.printf("abc");
   }
 
 }

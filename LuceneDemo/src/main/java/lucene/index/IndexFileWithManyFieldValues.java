@@ -10,6 +10,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.store.SimpleFSLockFactory;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class IndexFileWithManyFieldValues {
   {
     try {
       FileOperation.deleteFile("./data");
-      directory = FSDirectory.open(Paths.get("./data"), NativeFSLockFactory.INSTANCE);
+      directory = FSDirectory.open(Paths.get("./data"));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -49,11 +50,8 @@ public class IndexFileWithManyFieldValues {
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
     conf.setUseCompoundFile(false);
-    TieredMergePolicy policy = new TieredMergePolicy();
-//    MergePolicy policy = new LogDocMergePolicy();
-    conf.setMergePolicy(policy);
-    conf.setMergeScheduler(new SerialMergeScheduler());
     indexWriter = new IndexWriter(directory, conf);
+
     int count = 0;
     int n = 0;
     Document doc ;
