@@ -1,4 +1,4 @@
-# 索引文件锁LockFactory
+# [索引文件锁LockFactory](http://www.amazingkoala.com.cn/Lucene/Store/)
 
 &emsp;&emsp;LockFactory在Lucene中用来对索引文件所在的目录进行加锁，使得同一时间总是只有一个IndexWriter对象可以更改索引文件，即保证单进程内(single in-process)多个不同IndexWriter对象互斥更改（多线程持有相同引用的IndexWriter对象视为一个IndexWriter不会受制于LockFactory，而是受制于对象锁（synchronized(this)）、多进程内(multi-processes)多个对象互斥更改。
 
@@ -7,7 +7,7 @@
 &emsp;&emsp;LockFactory是一个抽象类，提供了以下几种子类，即NoLockFactory、SingleInstanceLockFactory、SimpleFSLockFactory、NativeFSLockFactory、VerifyingLockFactory，下面一一介绍。
 
 图1：
-<img src="LockFactory-image/1.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Store/LockFactory/1.png">
 
 ## NoLockFactory
 
@@ -38,7 +38,7 @@
 &emsp;&emsp;在IndexWriter类中，定义了一个不可更改的lockName，使得无论哪个线程通过IndexWriter来获得索引文件锁时，lockName的值都是相同的，这样就能通过判断该lockName是否在locks容器中来实现互斥，lockName在IndexWriter类中的定义如下：
 
 图2：
-<img src="LockFactory-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Store/LockFactory/2.png">
 
 ### 释放索引文件锁
 &emsp;&emsp;释放锁的过程即从locks容器(HashSet对象)中移除键值为write.lock的元素。
