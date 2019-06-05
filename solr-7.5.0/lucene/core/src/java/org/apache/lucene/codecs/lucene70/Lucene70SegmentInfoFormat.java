@@ -302,6 +302,7 @@ public class Lucene70SegmentInfoFormat extends SegmentInfoFormat {
       }
 
       assert version.prerelease == 0;
+      // 当前段中包含的文档(Document)个数
       output.writeInt(si.maxDoc());
 
       output.writeByte((byte) (si.getUseCompoundFile() ? SegmentInfo.YES : SegmentInfo.NO));

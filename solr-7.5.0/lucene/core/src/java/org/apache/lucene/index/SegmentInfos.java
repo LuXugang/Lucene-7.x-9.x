@@ -492,7 +492,9 @@ public final class SegmentInfos implements Cloneable, Iterable<SegmentCommitInfo
     out.writeVInt(indexCreatedVersionMajor);
 
     out.writeLong(version);
+    // 给下一个段文件提供名字，即Segment_N的N值
     out.writeVLong(counter); // write counter
+    // 当前索引中SegmentCommitInfo的个数
     out.writeInt(size());
 
     if (size() > 0) {
@@ -520,6 +522,7 @@ public final class SegmentInfos implements Cloneable, Iterable<SegmentCommitInfo
         throw new IllegalStateException("Segments must record minVersion if they have been created on or after Lucene 7: " + si);
       }
       out.writeString(si.name);
+      // segmentID是全局的非加密的，用来表示一个SegmentCommitInfo
       byte segmentID[] = si.getId();
       if (segmentID.length != StringHelper.ID_LENGTH) {
         throw new IllegalStateException("cannot write segment: invalid id segment=" + si.name + "id=" + StringHelper.idToString(segmentID));

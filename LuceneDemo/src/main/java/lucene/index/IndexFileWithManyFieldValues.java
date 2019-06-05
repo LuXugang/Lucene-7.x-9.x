@@ -50,6 +50,9 @@ public class IndexFileWithManyFieldValues {
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
     conf.setUseCompoundFile(false);
+    conf.setSoftDeletesField("myDeleteFiled");
+    Sort sort = new Sort(new SortField("forSort", SortField.Type.STRING));
+    conf.setIndexSort(sort);
     indexWriter = new IndexWriter(directory, conf);
 
     int count = 0;
@@ -65,39 +68,40 @@ public class IndexFileWithManyFieldValues {
       doc = new Document();
       doc.add(new SortedDocValuesField("forSort", new BytesRef("c")));
       doc.add(new Field("content", "a", type));
+      doc.add(new IntPoint("abc", 3, 5, 9));
       indexWriter.addDocument(doc);
 
       // 文档1
       doc = new Document();
-      doc.add(new Field("content", "a b", type));
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("a")));
+      doc.add(new Field("content", "b", type));
+      doc.add(new IntPoint("abc", 3, 9, 9));
       indexWriter.addDocument(doc);
 
       // 文档2
       doc = new Document();
-      doc.add(new SortedDocValuesField("forSort", new BytesRef("a")));
-      doc.add(new Field("content", "a b c", type));
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("b")));
+      doc.add(new Field("content", "c", type));
       indexWriter.addDocument(doc);
+
+
+      indexWriter.deleteDocuments(new Term("content", "c"));
 
       // 文档3
       doc = new Document();
       doc.add(new Field("content", "a b c d", type));
-      doc.add(new SortedDocValuesField("forSort", new BytesRef("b")));
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("d")));
       indexWriter.addDocument(doc);
-
-      if(count % 800 == 0){
-        System.out.println("count is "+count+"");
-        indexWriter.flush();
-      }
+      indexWriter.flush();
     }
-    indexWriter.commit();
+//    indexWriter.commit();
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexSearcher searcher = new IndexSearcher(reader);
 
 
     Query query = new TermQuery(new Term("content", "a"));
-    Sort sort = new Sort(new SortField("forSort", SortField.Type.STRING));
-    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
+    ScoreDoc[] scoreDocs = searcher.search(query, 10).scoreDocs;
 
     Document document  = reader.document(2);
     System.out.println(document.get("content"));
