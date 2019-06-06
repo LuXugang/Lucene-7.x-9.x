@@ -51,14 +51,12 @@ public class IndexFileWithManyFieldValues {
 
     conf.setUseCompoundFile(false);
     conf.setSoftDeletesField("myDeleteFiled");
-    Sort sort = new Sort(new SortField("forSort", SortField.Type.STRING));
-    conf.setIndexSort(sort);
     indexWriter = new IndexWriter(directory, conf);
 
     int count = 0;
     int n = 0;
     Document doc ;
-    while (count++ < 1) {
+    while (count++ < 88600) {
 //      doc.add(new Field("content", "abc", type));
 //      doc.add(new Field("content", "cd", type));
 //      doc.add(new StoredField("content", 3));
@@ -80,21 +78,30 @@ public class IndexFileWithManyFieldValues {
 
       // 文档2
       doc = new Document();
-      doc.add(new SortedDocValuesField("forSort", new BytesRef("b")));
+      doc.add(new NumericDocValuesField("abc", 0));
       doc.add(new Field("content", "c", type));
       indexWriter.addDocument(doc);
 
+      indexWriter.updateDocValues(new Term("content", "c"), new NumericDocValuesField("new", 3));
 
-      indexWriter.deleteDocuments(new Term("content", "c"));
+      if(count % 800 == 0){
+        System.out.println("count is 800: "+count+"");
+        doc = new Document();
+        doc.add(new NumericDocValuesField("mybad", 3));
+        doc.add(new Field("content", "c", type));
+        indexWriter.addDocument(doc);
+        indexWriter.commit();
+      }
 
       // 文档3
       doc = new Document();
       doc.add(new Field("content", "a b c d", type));
-      doc.add(new SortedDocValuesField("forSort", new BytesRef("d")));
+      doc.add(new SortedDocValuesField("myDocValues", new BytesRef("d")));
       indexWriter.addDocument(doc);
       indexWriter.flush();
+
     }
-//    indexWriter.commit();
+    indexWriter.commit();
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexSearcher searcher = new IndexSearcher(reader);
