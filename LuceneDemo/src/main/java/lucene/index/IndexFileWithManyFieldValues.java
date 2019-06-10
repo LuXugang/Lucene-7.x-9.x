@@ -16,6 +16,9 @@ import org.apache.lucene.util.BytesRef;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -50,13 +53,14 @@ public class IndexFileWithManyFieldValues {
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
     conf.setUseCompoundFile(false);
+    conf.setMergePolicy(NoMergePolicy.INSTANCE);
     conf.setSoftDeletesField("myDeleteFiled");
     indexWriter = new IndexWriter(directory, conf);
 
     int count = 0;
     int n = 0;
     Document doc ;
-    while (count++ < 88600) {
+    while (count++ < 1) {
 //      doc.add(new Field("content", "abc", type));
 //      doc.add(new Field("content", "cd", type));
 //      doc.add(new StoredField("content", 3));
@@ -64,7 +68,7 @@ public class IndexFileWithManyFieldValues {
 
       // 文档0
       doc = new Document();
-      doc.add(new SortedDocValuesField("forSort", new BytesRef("c")));
+      doc.add(new NumericDocValuesField("abc", 0));
       doc.add(new Field("content", "a", type));
       doc.add(new IntPoint("abc", 3, 5, 9));
       indexWriter.addDocument(doc);
@@ -82,25 +86,22 @@ public class IndexFileWithManyFieldValues {
       doc.add(new Field("content", "c", type));
       indexWriter.addDocument(doc);
 
-      indexWriter.updateDocValues(new Term("content", "c"), new NumericDocValuesField("new", 3));
-
-      if(count % 800 == 0){
-        System.out.println("count is 800: "+count+"");
-        doc = new Document();
-        doc.add(new NumericDocValuesField("mybad", 3));
-        doc.add(new Field("content", "c", type));
-        indexWriter.addDocument(doc);
-        indexWriter.commit();
-      }
+      indexWriter.updateDocValues(new Term("content", "c"), new NumericDocValuesField("文档2", 3));
+      indexWriter.updateDocValues(new Term("content", "a"), new NumericDocValuesField("文档0", 4));
 
       // 文档3
       doc = new Document();
-      doc.add(new Field("content", "a b c d", type));
-      doc.add(new SortedDocValuesField("myDocValues", new BytesRef("d")));
+      doc.add(new Field("content", "d", type));
+      doc.add(new BinaryDocValuesField("myDocValues", new BytesRef("d")));
       indexWriter.addDocument(doc);
       indexWriter.flush();
+      indexWriter.updateDocValues(new Term("content", "d"), new BinaryDocValuesField("文档3", new BytesRef("e")));
 
     }
+    Map<String, String> userData = new HashMap<>();
+    userData.put("1", "abc");
+    userData.put("2", "efd");
+    indexWriter.setLiveCommitData(userData.entrySet());
     indexWriter.commit();
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
