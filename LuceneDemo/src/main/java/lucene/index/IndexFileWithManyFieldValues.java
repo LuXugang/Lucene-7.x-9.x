@@ -54,13 +54,14 @@ public class IndexFileWithManyFieldValues {
 
     conf.setUseCompoundFile(false);
     conf.setMergePolicy(NoMergePolicy.INSTANCE);
+    conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
     conf.setSoftDeletesField("myDeleteFiled");
     indexWriter = new IndexWriter(directory, conf);
 
     int count = 0;
     int n = 0;
     Document doc ;
-    while (count++ < 1) {
+    while (count++ < 20) {
 //      doc.add(new Field("content", "abc", type));
 //      doc.add(new Field("content", "cd", type));
 //      doc.add(new StoredField("content", 3));
@@ -86,16 +87,20 @@ public class IndexFileWithManyFieldValues {
       doc.add(new Field("content", "c", type));
       indexWriter.addDocument(doc);
 
-      indexWriter.updateDocValues(new Term("content", "c"), new NumericDocValuesField("文档2", 3));
-      indexWriter.updateDocValues(new Term("content", "a"), new NumericDocValuesField("文档0", 4));
+//      indexWriter.updateDocValues(new Term("content", "c"), new NumericDocValuesField("文档2", 3));
+//      indexWriter.updateDocValues(new Term("content", "a"), new NumericDocValuesField("文档0", 4));
 
       // 文档3
       doc = new Document();
       doc.add(new Field("content", "d", type));
       doc.add(new BinaryDocValuesField("myDocValues", new BytesRef("d")));
       indexWriter.addDocument(doc);
-      indexWriter.flush();
-      indexWriter.updateDocValues(new Term("content", "d"), new BinaryDocValuesField("文档3", new BytesRef("e")));
+//      indexWriter.flush();
+//      indexWriter.updateDocValues(new Term("content", "d"), new BinaryDocValuesField("文档3", new BytesRef("e")));
+
+     if(count % 10 == 0){
+       indexWriter.commit();
+     }
 
     }
     Map<String, String> userData = new HashMap<>();
