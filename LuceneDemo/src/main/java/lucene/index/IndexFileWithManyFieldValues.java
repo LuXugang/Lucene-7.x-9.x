@@ -7,19 +7,13 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.store.SimpleFSLockFactory;
+import org.apache.lucene.store.*;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author Lu Xugang
@@ -27,10 +21,21 @@ import java.util.Random;
  */
 public class IndexFileWithManyFieldValues {
   private Directory directory;
+  private Directory directory2;
+  private Directory directory3;
 
   {
     try {
       FileOperation.deleteFile("./data");
+//      FileOperation.deleteFile("./data1");
+//      directory3 = FSDirectory.open(Paths.get("./data"));
+//      directory2 = FSDirectory.open(Paths.get("./data1"));
+//      Set<String> primaryExtensions = new HashSet<>();
+//      primaryExtensions.add("fdx");
+//      primaryExtensions.add("fdt");
+//      primaryExtensions.add("nvd");
+//      primaryExtensions.add("nvm");
+//      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
     } catch (IOException e) {
       e.printStackTrace();
