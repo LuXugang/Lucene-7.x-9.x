@@ -66,6 +66,11 @@
             <artifactId>lucene-codecs</artifactId>
             <version>7.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-misc</artifactId>
+            <version>7.5.0</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queries -->
         <dependency>

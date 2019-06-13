@@ -20,13 +20,13 @@ import java.util.*;
  * @date 2019-02-21 09:58
  */
 public class IndexFileWithManyFieldValues {
-  private Directory directory;
+  private Directory directory = new ByteBuffersDirectory();
   private Directory directory2;
   private Directory directory3;
 
-  {
-    try {
-      FileOperation.deleteFile("./data");
+//  {
+//    try {
+//      FileOperation.deleteFile("./data");
 //      FileOperation.deleteFile("./data1");
 //      directory3 = FSDirectory.open(Paths.get("./data"));
 //      directory2 = FSDirectory.open(Paths.get("./data1"));
@@ -36,11 +36,12 @@ public class IndexFileWithManyFieldValues {
 //      primaryExtensions.add("nvd");
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
-      directory = FSDirectory.open(Paths.get("./data"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+//      directory = FSDirectory.open(Paths.get("./data"));
+//      directory = new NIOFSDirectory(Paths.get("./data"));
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
 
   private Analyzer analyzer = new WhitespaceAnalyzer();
   private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
