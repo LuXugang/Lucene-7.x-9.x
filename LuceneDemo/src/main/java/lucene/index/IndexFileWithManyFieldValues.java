@@ -20,28 +20,28 @@ import java.util.*;
  * @date 2019-02-21 09:58
  */
 public class IndexFileWithManyFieldValues {
-  private Directory directory = new ByteBuffersDirectory();
+  private Directory directory ;
   private Directory directory2;
   private Directory directory3;
 
-//  {
-//    try {
+  {
+    try {
 //      FileOperation.deleteFile("./data");
 //      FileOperation.deleteFile("./data1");
-//      directory3 = FSDirectory.open(Paths.get("./data"));
-//      directory2 = FSDirectory.open(Paths.get("./data1"));
+//      directory3 = FSDirectory.open(Paths.get("./data01"));
+//      directory2 = FSDirectory.open(Paths.get("./data02"));
 //      Set<String> primaryExtensions = new HashSet<>();
 //      primaryExtensions.add("fdx");
 //      primaryExtensions.add("fdt");
 //      primaryExtensions.add("nvd");
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
-//      directory = FSDirectory.open(Paths.get("./data"));
+      directory = FSDirectory.open(Paths.get("./data"));
 //      directory = new NIOFSDirectory(Paths.get("./data"));
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//  }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   private Analyzer analyzer = new WhitespaceAnalyzer();
   private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
@@ -58,7 +58,7 @@ public class IndexFileWithManyFieldValues {
     type.setTokenized(true);
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
-    conf.setUseCompoundFile(false);
+    conf.setUseCompoundFile(true);
     conf.setMergePolicy(NoMergePolicy.INSTANCE);
     conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
     conf.setSoftDeletesField("myDeleteFiled");
@@ -67,7 +67,7 @@ public class IndexFileWithManyFieldValues {
     int count = 0;
     int n = 0;
     Document doc ;
-    while (count++ < 20) {
+    while (count++ < 0) {
 //      doc.add(new Field("content", "abc", type));
 //      doc.add(new Field("content", "cd", type));
 //      doc.add(new StoredField("content", 3));
@@ -113,7 +113,7 @@ public class IndexFileWithManyFieldValues {
     userData.put("1", "abc");
     userData.put("2", "efd");
     indexWriter.setLiveCommitData(userData.entrySet());
-    indexWriter.commit();
+//    indexWriter.commit();
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexSearcher searcher = new IndexSearcher(reader);
