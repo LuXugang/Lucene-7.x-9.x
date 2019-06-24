@@ -10,6 +10,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.*;
 import org.apache.lucene.util.BytesRef;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,7 +41,7 @@ public class IndexFileWithManyFieldValues {
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
-      conf.setUseCompoundFile(true);
+      conf.setUseCompoundFile(false);
       conf.setMergePolicy(NoMergePolicy.INSTANCE);
       conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       conf.setSoftDeletesField("myDeleteFiled");
@@ -69,43 +70,76 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     int n = 0;
-    Document doc ;
-    while (count++ < 100000000) {
+    while (count++ < 1) {
 //      doc.add(new Field("content", "abc", type));
 //      doc.add(new Field("content", "cd", type));
 //      doc.add(new StoredField("content", 3));
 //      doc.add(new Field("author", "efg", type));
 
       // 文档0
-//      doc = new Document();
-//      doc.add(new NumericDocValuesField("abc", 0));
-//      doc.add(new Field("content", "a", type));
-//      doc.add(new IntPoint("abc", 3, 5, 9));
-//      indexWriter.addDocument(doc);
+      Document doc ;
+      doc = new Document();
+      doc.add(new NumericDocValuesField("age", 0));
+      doc.add(new StringField("content", "a", Field.Store.YES));
+      doc.add(new IntPoint("coordinate", 3, 5, 9));
+      indexWriter.addDocument(doc);
 
-      // 文档1
-//      doc = new Document();
-//      doc.add(new SortedDocValuesField("forSort", new BytesRef("a")));
-//      doc.add(new Field("content", "b", type));
-//      doc.add(new IntPoint("abc", 3, 9, 9));
-//      indexWriter.addDocument(doc);
+//       文档1
+      doc = new Document();
+      doc.add(new SortedDocValuesField("forSort", new BytesRef("a")));
+      doc.add(new Field("content", "b", type));
+      doc.add(new IntPoint("abc", 3, 9, 9));
+      indexWriter.addDocument(doc);
 
-      // 文档2
-//      doc = new Document();
-//      doc.add(new NumericDocValuesField("abc", 0));
-//      doc.add(new Field("content", "c", type));
-//      indexWriter.addDocument(doc);
+//       文档2
+      doc = new Document();
+      doc.add(new NumericDocValuesField("abc", 0));
+      doc.add(new Field("author", "Shakespeare", type));
+      indexWriter.addDocument(doc);
 
-      indexWriter.deleteDocuments(new Term("content", "a"));
-      indexWriter.deleteDocuments(new Term("content", "b"));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
-      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", "abc"));
+//
+//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "bdc")));
+//
+//      indexWriter.deleteAll();
+
+
+//      doc = new Document();
+//      doc.add(new StringField("newField", "newFieldValue", Field.Store.YES));
+//      indexWriter.updateDocument(new Term("content", "a"), doc);
+//
+//
+//
+//      List<Document> documents = new ArrayList<>();
+//      doc = new Document();
+//      doc.add(new TextField("content", "random text", Field.Store.YES));
+//      documents.add(doc);
+//
+//      doc = new Document();
+//      doc.add(new TextField("content", "random name", Field.Store.YES));
+//      documents.add(doc);
+//
+//      indexWriter.updateDocuments(new Term("author", "Shakespeare"), documents);
+
+      indexWriter.updateNumericDocValue(new Term("author", "Shakespeare"), "age", 23);
+
+      indexWriter.updateBinaryDocValue(new Term("subject", "Calculus"), "inventor", new BytesRef("Leibniz"));
+
+      Field[] fields= new Field[2];
+      fields[0] = new NumericDocValuesField("age", 23);
+      fields[1] = new BinaryDocValuesField("inventor", new BytesRef("Leibniz"));
+      indexWriter.updateDocValues(new Term("author", "Shakespeare"), fields);
+
+
+//      indexWriter.deleteDocuments(new Term("content", "b"));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
+//      indexWriter.deleteDocuments(new Term("content", getRandomValue()));
 //      indexWriter.updateDocValues(new Term("content", "c"), new NumericDocValuesField("文档2", 3));
 //      indexWriter.updateDocValues(new Term("content", "a"), new NumericDocValuesField("文档0", 4));
 
