@@ -42,9 +42,9 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
       conf.setUseCompoundFile(false);
-      conf.setMergePolicy(NoMergePolicy.INSTANCE);
       conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       conf.setSoftDeletesField("myDeleteFiled");
+      conf.setMergePolicy(new SoftDeletesRetentionMergePolicy(conf.getSoftDeletesField(), MatchAllDocsQuery::new, NoMergePolicy.INSTANCE) );
       conf.setRAMBufferSizeMB(10);
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
@@ -83,6 +83,7 @@ public class IndexFileWithManyFieldValues {
       doc.add(new StringField("content", "a", Field.Store.YES));
       doc.add(new IntPoint("coordinate", 3, 5, 9));
       indexWriter.addDocument(doc);
+      indexWriter.commit();
 
 //       文档1
       doc = new Document();
@@ -90,12 +91,14 @@ public class IndexFileWithManyFieldValues {
       doc.add(new Field("content", "b", type));
       doc.add(new IntPoint("abc", 3, 9, 9));
       indexWriter.addDocument(doc);
+      indexWriter.commit();
 
 //       文档2
       doc = new Document();
       doc.add(new NumericDocValuesField("abc", 0));
       doc.add(new Field("author", "Shakespeare", type));
       indexWriter.addDocument(doc);
+      indexWriter.commit();
 
 //      indexWriter.deleteDocuments(new Term("content", "abc"));
 //
@@ -115,20 +118,23 @@ public class IndexFileWithManyFieldValues {
 //      doc.add(new TextField("content", "random text", Field.Store.YES));
 //      documents.add(doc);
 //
-//      doc = new Document();
-//      doc.add(new TextField("content", "random name", Field.Store.YES));
+      doc = new Document();
+      doc.add(new TextField("content", "random name", Field.Store.YES));
 //      documents.add(doc);
 //
 //      indexWriter.updateDocuments(new Term("author", "Shakespeare"), documents);
 
-      indexWriter.updateNumericDocValue(new Term("author", "Shakespeare"), "age", 23);
-
+//      indexWriter.updateNumericDocValue(new Term("author", "Shakespeare"), "age", 23);
+//
       indexWriter.updateBinaryDocValue(new Term("subject", "Calculus"), "inventor", new BytesRef("Leibniz"));
+//
+//      Field[] fields= new Field[2];
+//      fields[0] = new NumericDocValuesField("age", 23);
+//      fields[1] = new BinaryDocValuesField("inventor", new BytesRef("Leibniz"));
+//      indexWriter.updateDocValues(new Term("author", "Shakespeare"), fields);
 
-      Field[] fields= new Field[2];
-      fields[0] = new NumericDocValuesField("age", 23);
-      fields[1] = new BinaryDocValuesField("inventor", new BytesRef("Leibniz"));
-      indexWriter.updateDocValues(new Term("author", "Shakespeare"), fields);
+      indexWriter.softUpdateDocument(new Term("content", "a"), doc, new NumericDocValuesField(conf.getSoftDeletesField(), 223));
+      indexWriter.commit();
 
 
 //      indexWriter.deleteDocuments(new Term("content", "b"));
@@ -156,14 +162,17 @@ public class IndexFileWithManyFieldValues {
 //     }
 
     }
-    Map<String, String> userData = new HashMap<>();
-    userData.put("1", "abc");
-    userData.put("2", "efd");
-    indexWriter.setLiveCommitData(userData.entrySet());
+//    Map<String, String> userData = new HashMap<>();
+//    userData.put("1", "abc");
+//    userData.put("2", "efd");
+//    indexWriter.setLiveCommitData(userData.entrySet());
 //    indexWriter.commit();
 
-    DirectoryReader  reader = DirectoryReader.open(indexWriter);
+    DirectoryReader  reader = DirectoryReader.open(directory);
     IndexSearcher searcher = new IndexSearcher(reader);
+
+    SoftDeletesDirectoryReaderWrapper readerWrapper = new SoftDeletesDirectoryReaderWrapper(reader, conf.getSoftDeletesField());
+
 
 
     Query query = new TermQuery(new Term("content", "a"));

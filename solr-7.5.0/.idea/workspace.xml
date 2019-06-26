@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="" />
+    <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,15 +42,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3765">
-              <caret line="289" column="51" selection-start-line="289" selection-start-column="51" selection-end-line="289" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/grouping/src/java/org/apache/lucene/search/grouping/DistinctValuesCollector.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="405">
@@ -65,11 +59,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lucene/misc/src/test/org/apache/lucene/misc/SweetSpotSimilarityTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="59" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="210">
+              <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lucene/core/src/test/org/apache/lucene/index/TestSoftDeletesDirectoryReaderWrapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="104" column="65" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -136,7 +139,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>LatlonPoint</find>
       <find>FunctionScoreQuery</find>
       <find>Linux</find>
       <find>linux only</find>
@@ -166,6 +168,7 @@
       <find>BEST_SPEED</find>
       <find>IndexSort</find>
       <find>DocValuesBits</find>
+      <find>SoftDeletesDirectoryReaderWrapper</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -242,15 +245,16 @@
     <servers />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1680" />
-    <option name="height" value="1050" />
+    <option name="x" value="-85" />
+    <option name="y" value="-1080" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -306,6 +310,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -462,11 +467,13 @@
       <workItem from="1560256712556" duration="3599000" />
       <workItem from="1560435952144" duration="834000" />
       <workItem from="1560667753066" duration="7000" />
+      <workItem from="1561389588242" duration="929000" />
+      <workItem from="1561559696119" duration="11000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="474046000" />
+    <option name="totallyTimeSpent" value="474986000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -478,9 +485,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <frame x="-85" y="-1080" width="1920" height="1080" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.46528497" visible="true" weight="0.1959707" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.46528497" visible="true" weight="0.17518637" />
       <window_info id="Structure" order="1" sideWeight="0.52970296" side_tool="true" weight="0.157082" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -606,13 +613,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/IndexReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3420">
-          <caret line="254" column="23" selection-start-line="254" selection-start-column="23" selection-end-line="254" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/codecs/compressing/CompressingStoredFieldsIndexWriter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -956,6 +956,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lucene/misc/src/test/org/apache/lucene/misc/SweetSpotSimilarityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lucene/misc/src/test/org/apache/lucene/store/TestRAFDirectory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1002,10 +1009,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lucene/misc/src/test/org/apache/lucene/misc/SweetSpotSimilarityTest.java">
+    <entry file="file://$PROJECT_DIR$/lucene/core/src/test/org/apache/lucene/index/TestSoftDeletesDirectoryReaderWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        <state relative-caret-position="153">
+          <caret line="104" column="65" selection-start-line="104" selection-start-column="33" selection-end-line="104" selection-end-column="66" />
         </state>
       </provider>
     </entry>
