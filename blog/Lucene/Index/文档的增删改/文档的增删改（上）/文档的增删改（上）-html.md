@@ -1,4 +1,4 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)(上)
+# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（上）
 
 &emsp;&emsp;在Lucene中，可以对文档（Document）进行添加（增）、删除（删）、更新（改）的操作，而每一种操作各自又有多个功能的扩展。
 
@@ -94,7 +94,7 @@
 - 更新NumericDocValues：updateNumericDocValue( )
 - 更新多个DocValues：updateDocValues( )
 
-## 文档Document的增删改流程图
+## 文档的增删改流程图
 
 &emsp;&emsp;单文档跟多文档的添加/更新操作的流程图略有不同：
 
