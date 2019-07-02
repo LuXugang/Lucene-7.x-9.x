@@ -70,22 +70,30 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     int n = 0;
-    while (count++ < 100000000) {
-      Document doc ;
-//      doc.add(new Field("content", "abc", type));
-//      doc.add(new Field("content", "cd", type));
-//      doc.add(new StoredField("content", 3));
-//      doc.add(new Field("author", "efg", type));
-//      doc = new Document();
-//      doc.add(new StringField("newField", "newFieldValue", Field.Store.YES));
+    while (count++ < 1) {
+      Document doc  = new Document();
+      doc.add(new Field("content", "abc", type));
+      doc.add(new Field("content", "a", type));
+      doc.add(new StoredField("content", 3));
+      doc.add(new Field("author", "efg", type));
+      indexWriter.addDocument(doc);
+
+      doc = new Document();
+      doc.add(new StringField("newField", "newFieldValue", Field.Store.YES));
+      indexWriter.addDocument(doc);
+      if(Thread.currentThread().getName().equals("ThreadAAAA")){
+        System.out.println("sleep");
+        Thread.sleep(10000);
+        System.out.println("sleep");
+      }
 //      indexWriter.updateDocument(new Term("content", "a"), doc);
 
       // 文档0
-      doc = new Document();
-      doc.add(new NumericDocValuesField("age", 0));
-      doc.add(new StringField("content", getRandomValue(), Field.Store.YES));
-      doc.add(new IntPoint("coordinate", 3, 5, 9));
-      indexWriter.addDocument(doc);
+//      doc = new Document();
+//      doc.add(new NumericDocValuesField("age", 0));
+//      doc.add(new StringField("content", getRandomValue(), Field.Store.YES));
+//      doc.add(new IntPoint("coordinate", 3, 5, 9));
+//      indexWriter.addDocument(doc);
 
 //       文档1
 //      doc = new Document();
@@ -102,14 +110,29 @@ public class IndexFileWithManyFieldValues {
 
 //      indexWriter.deleteDocuments(new Term("content", "abc"));
 //
-//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "bdc")));
+      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
 //
 //      indexWriter.deleteAll();
 
+      doc.add(new Field("content", "abc", type));
+      doc.add(new Field("content", "a", type));
+      doc.add(new StoredField("content", 3));
+      doc.add(new Field("author", "efg", type));
+      indexWriter.addDocument(doc);
+
 
       doc = new Document();
-      doc.add(new StringField("newField", "newFieldValue", Field.Store.YES));
-      indexWriter.updateDocument(new Term("content", getRandomValue()), doc);
+      doc.add(new StringField("content", "abc", Field.Store.YES));
+      indexWriter.updateDocument(new Term("content", "abc"), doc);
+
+
+        System.out.println("current ThreadName is "+Thread.currentThread().getName()+"");
+        if(Thread.currentThread().getName().equals("ThreadAAAA")){
+          indexWriter.flush();
+          break;
+        }
+        indexWriter.flush();
+        return;
 //
 //
 //
@@ -166,7 +189,11 @@ public class IndexFileWithManyFieldValues {
 //    userData.put("1", "abc");
 //    userData.put("2", "efd");
 //    indexWriter.setLiveCommitData(userData.entrySet());
-//    indexWriter.commit();
+    if(Thread.currentThread().getName().equals("ThreadAAAA")){
+      indexWriter.commit();
+      System.out.println("hah");
+    }
+
 
     DirectoryReader  reader = DirectoryReader.open(directory);
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -252,6 +279,7 @@ public class IndexFileWithManyFieldValues {
     public void run(){
       try {
         test.doIndex();
+        System.out.println("DONE current ThreadName is "+Thread.currentThread().getName()+"");
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -274,8 +302,8 @@ public class IndexFileWithManyFieldValues {
     System.out.println("b start to run");
     t2.setDaemon(true);
     System.out.println(""+t2.isDaemon()+"");
-//    t2.run();
+    t2.start();
     t1.join();
-//    t2.join();
+    t2.join();
   }
 }
