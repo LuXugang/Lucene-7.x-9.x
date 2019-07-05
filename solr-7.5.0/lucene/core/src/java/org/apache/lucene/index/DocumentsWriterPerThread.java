@@ -359,9 +359,11 @@ final class DocumentsWriterPerThread {
     boolean applySlice = numDocsInRAM != 0;
     long seqNo;
     if (deleteNode != null) {
+      // 更新自己添加的删除信息，如果有其他线程新增了删除信息， 那么同样添加到自己的deleteSlice中
       seqNo = deleteQueue.add(deleteNode, deleteSlice);
       assert deleteSlice.isTail(deleteNode) : "expected the delete node as the tail";
     } else  {
+      // 检查其他线程有删除操作，如果有，那么删除信息需要更新到到该DWPT的deleteSlice中
       seqNo = deleteQueue.updateSlice(deleteSlice);
       
       if (seqNo < 0) {
@@ -372,6 +374,7 @@ final class DocumentsWriterPerThread {
     }
     
     if (applySlice) {
+      // 将删除信息添加到DWPT私有的BufferedUpdates中
       deleteSlice.apply(pendingUpdates, numDocsInRAM);
     } else { // if we don't need to apply we must reset!
       deleteSlice.reset();
