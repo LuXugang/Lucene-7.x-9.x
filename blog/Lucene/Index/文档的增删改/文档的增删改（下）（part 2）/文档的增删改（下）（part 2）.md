@@ -235,8 +235,6 @@ DeleteSlice(Node<?> currentTail) {
 
 ### 删除文档
 
-&emsp;&emsp;删除文档即deleteDocuments(Querys)、deleteDocuments(Terms)，这两种操作仅仅是将删除结点添加到deleteQueue中。不同于添加/更新文档，删除文档没有DWPT的概念，即没有私有DeleteSlice的概念。
-
 &emsp;&emsp;由于删除文档的`处理删除信息`的流程与添加/更新文档的`处理文档后的工作`的流程有很多的相似点，又因为剩余的内容会导致本篇文章的篇幅过长，故在下一篇文章中展开。
 
 # 结语
