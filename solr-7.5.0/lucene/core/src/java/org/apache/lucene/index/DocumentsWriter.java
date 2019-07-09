@@ -391,16 +391,20 @@ final class DocumentsWriter implements Closeable, Accountable {
     ensureOpen();
     boolean hasEvents = false;
 
+    // index速度大于flush速度
     if (flushControl.anyStalledThreads() || (flushControl.numQueuedFlushes() > 0 && config.checkPendingFlushOnUpdate)) {
       // Help out flushing any queued DWPTs so we can un-stall:
       do {
         // Try pick up pending threads here if possible
         DocumentsWriterPerThread flushingDWPT;
+        // 从flushQueue中取出DWPT 帮助执行doFlush，缓解flush速度慢的问题
+        // 如果当前没有触发全局flush，那么当flushQueue为空，则还可以从DWPTP中取出flushPending为true的ThreadState的DWPT，执行doFlush
         while ((flushingDWPT = flushControl.nextPendingFlush()) != null) {
           // Don't push the delete here since the update could fail!
           hasEvents |= doFlush(flushingDWPT);
         }
-        
+
+        // 查看此次的index是否需要阻塞
         flushControl.waitIfStalled(); // block if stalled
       } while (flushControl.numQueuedFlushes() != 0); // still queued DWPTs try help flushing
     }
@@ -476,8 +480,10 @@ final class DocumentsWriter implements Closeable, Accountable {
   long updateDocument(final Iterable<? extends IndexableField> doc, final Analyzer analyzer,
                       final DocumentsWriterDeleteQueue.Node<?> delNode) throws IOException {
 
+    // 处理文档前的工作
     boolean hasEvents = preUpdate();
 
+    // 从DWPTP中获取一个ThreadState，从这个方法返回的时候，线程已经获得了ThreadState的锁
     final ThreadState perThread = flushControl.obtainAndLock();
 
     final DocumentsWriterPerThread flushingDWPT;
