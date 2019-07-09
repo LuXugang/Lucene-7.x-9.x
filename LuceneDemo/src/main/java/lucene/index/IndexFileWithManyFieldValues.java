@@ -45,7 +45,7 @@ public class IndexFileWithManyFieldValues {
       conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       conf.setSoftDeletesField("myDeleteFiled");
       conf.setMergePolicy(new SoftDeletesRetentionMergePolicy(conf.getSoftDeletesField(), MatchAllDocsQuery::new, NoMergePolicy.INSTANCE) );
-      conf.setRAMBufferSizeMB(10);
+      conf.setMaxBufferedDocs(10);
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
@@ -79,17 +79,18 @@ public class IndexFileWithManyFieldValues {
       doc = new Document();
       doc.add(new StringField("author", "Lucy", Field.Store.YES));
       doc.add(new StringField("title", "care", Field.Store.YES));
+      doc.add(new StringField("content", "a", Field.Store.YES));
       indexWriter.addDocument(doc);
       // 文档1
-      doc = new Document();
-      doc.add(new StringField("title", "care", Field.Store.YES));
-      Term term1 = new Term("title", "care");
-      indexWriter.updateDocument(term1, doc);
-//      // 文档2
 //      doc = new Document();
-//      doc.add(new StringField("author", "Lily", Field.Store.YES));
 //      doc.add(new StringField("title", "care", Field.Store.YES));
-//      indexWriter.addDocument(doc);
+//      Term term1 = new Term("title", "care");
+//      indexWriter.updateDocument(term1, doc);
+//      // 文档2
+      doc = new Document();
+      doc.add(new StringField("author", "Lily", Field.Store.YES));
+      doc.add(new StringField("title", "care", Field.Store.YES));
+      indexWriter.addDocument(doc);
 //      // 文档3
 //      doc = new Document();
 //      doc.add(new StringField("content", "nothing", Field.Store.YES));
@@ -104,9 +105,10 @@ public class IndexFileWithManyFieldValues {
 
 //      indexWriter.deleteDocuments(new Term("content", "abc"));
 //
-//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
+      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
 //
 //      indexWriter.deleteAll();
+      indexWriter.flush();
 
 //      doc = new Document();
 //      doc.add(new Field("content", "abc", type));
@@ -120,7 +122,7 @@ public class IndexFileWithManyFieldValues {
 //      doc.add(new StringField("content", "abc", Field.Store.YES));
 //      indexWriter.updateDocument(new Term("newField", "newFieldValue"), doc);
 //
-      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
+//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
 //
 //      doc = new Document();
 //      doc.add(new Field("content", "abc", type));
@@ -129,7 +131,6 @@ public class IndexFileWithManyFieldValues {
 //      doc.add(new Field("author", "efg", type));
 //      indexWriter.addDocument(doc);
 
-      indexWriter.flush();
 //
 //
 //
@@ -174,7 +175,9 @@ public class IndexFileWithManyFieldValues {
 //    userData.put("1", "abc");
 //    userData.put("2", "efd");
 //    indexWriter.setLiveCommitData(userData.entrySet());
-      indexWriter.commit();
+//    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
+//    Thread.sleep(1000000000);
+//      indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
     IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -275,16 +278,16 @@ public class IndexFileWithManyFieldValues {
     Thread t1 = new Thread(a, "ThreadAAAA");
     Thread t2 = new Thread(b, "ThreadBBBB");
 
-//    System.out.println("a start to run");
-//    t1.setDaemon(true);
-//    System.out.println(""+t1.isDaemon()+"");
-//    t1.start();
-//    System.out.println("b start to run");
-//    t2.setDaemon(true);
-//    System.out.println(""+t2.isDaemon()+"");
-//    t2.start();
-//    t1.join();
-//    t2.join();
-    test.doIndex();
+    System.out.println("a start to run");
+    t1.setDaemon(true);
+    System.out.println(""+t1.isDaemon()+"");
+    t1.start();
+    System.out.println("b start to run");
+    t2.setDaemon(true);
+    System.out.println(""+t2.isDaemon()+"");
+    t2.start();
+    t1.join();
+    t2.join();
+//    test.doIndex();
   }
 }
