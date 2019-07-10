@@ -140,6 +140,7 @@ final class DocumentsWriterFlushControl implements Accountable {
   }
 
   private void commitPerThreadBytes(ThreadState perThread) {
+    //  通过差值计算出这次添加/更新操作 收集的索引量
     final long delta = perThread.dwpt.bytesUsed() - perThread.bytesUsed;
     perThread.bytesUsed += delta;
     /*
@@ -147,6 +148,7 @@ final class DocumentsWriterFlushControl implements Accountable {
      * moves the perThread memory to the flushBytes and we could be set to
      * pending during a delete
      */
+    // 当前ThreadState从DWPTPT中被取出来时就已经是flushPending状态
     if (perThread.flushPending) {
       flushBytes += delta;
     } else {
@@ -167,16 +169,21 @@ final class DocumentsWriterFlushControl implements Accountable {
 
   synchronized DocumentsWriterPerThread doAfterDocument(ThreadState perThread, boolean isUpdate) {
     try {
+      // 将DWPT这次处理文档后收集到的文档的索引信息量提交到全局的变量中
+      // 变量分别是flushBytes跟activeBytes
       commitPerThreadBytes(perThread);
       if (!perThread.flushPending) {
+         // 执行 FlushPolicy
         if (isUpdate) {
           flushPolicy.onUpdate(this, perThread);
         } else {
           flushPolicy.onInsert(this, perThread);
         }
+        // 即使没有达到允许最大的索引内存使用量,单个DWPT也只能收集最多hardMaxBytesPerDWPT的索引量，达到阈值后执行flush
         if (!perThread.flushPending && perThread.bytesUsed > hardMaxBytesPerDWPT) {
           // Safety check to prevent a single DWPT exceeding its RAM limit. This
           // is super important since we can not address more than 2048 MB per DWPT
+          // 将ThreadState置为flushPending
           setFlushPending(perThread);
         }
       }
@@ -188,9 +195,12 @@ final class DocumentsWriterFlushControl implements Accountable {
   }
 
   private DocumentsWriterPerThread checkout(ThreadState perThread, boolean markPending) {
+    // 其他线程触发了全局flush
     if (fullFlush) {
       if (perThread.flushPending) {
+        // 将当期ThreadState的DWPT添加到blockedFlushes中，随后会被添加到flushQueue中
         checkoutAndBlock(perThread);
+        // 从flushQueue中取出一个DWPT，让当前线程帮忙flush，缓解flush的压力
         return nextPendingFlush();
       } else {
         return null;
@@ -348,6 +358,8 @@ final class DocumentsWriterFlushControl implements Accountable {
             dwpt = perThreadPool.reset(perThread);
             assert !flushingWriters.containsKey(dwpt) : "DWPT is already flushing";
             // Record the flushing DWPT to reduce flushBytes in doAfterFlush
+            // 该DWPT已经被处理为准备执行flush，所以它占用的索引量被添加到flushingWriters
+            // 当执行完flush，DWPT对应的索引量从flushingWriters中取出，从全局的变量扣除，用来监控内存中索引量
             flushingWriters.put(dwpt, Long.valueOf(bytes));
             numPending--; // write access synced
             return dwpt;
@@ -459,14 +471,18 @@ final class DocumentsWriterFlushControl implements Accountable {
   }
   
   ThreadState obtainAndLock() {
+    // 从DWPTP中获得一个ThreadState，该方法退出后就获得了lock
     final ThreadState perThread = perThreadPool.getAndLock(Thread
         .currentThread(), documentsWriter);
     boolean success = false;
     try {
+      // 取出来的ThreadState持有的DWPT不为空，并且该ThreadState中的删除队列跟当前全局的删除不一样
+      // 删除队列不一样说明有其他线程调用了全局的flush
       if (perThread.isInitialized() && perThread.dwpt.deleteQueue != documentsWriter.deleteQueue) {
         // There is a flush-all in process and this DWPT is
         // now stale -- enroll it for flush and try for
         // another DWPT:
+        // 将所有DWPTP中所有ThreadState，并且持有的DWPT不为空的都添加到fullFlushBuffer中，随后fullFlushBuffer中的DWPT会被添加到flushQueue中
         addFlushableState(perThread);
       }
       success = true;

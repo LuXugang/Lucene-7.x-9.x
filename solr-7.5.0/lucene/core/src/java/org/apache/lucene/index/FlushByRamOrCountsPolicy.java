@@ -59,7 +59,9 @@ class FlushByRamOrCountsPolicy extends FlushPolicy {
 
   @Override
   public void onDelete(DocumentsWriterFlushControl control, ThreadState state) {
+    // 删除信息占用的内存过多也要处理
     if ((flushOnRAM() && control.getDeleteBytesUsed() > 1024*1024*indexWriterConfig.getRAMBufferSizeMB())) {
+      // 设置一个标志位true，表示需要执行flush操作
       control.setApplyAllDeletes();
       if (infoStream.isEnabled("FP")) {
         infoStream.message("FP", "force apply deletes bytesUsed=" + control.getDeleteBytesUsed() + " vs ramBufferMB=" + indexWriterConfig.getRAMBufferSizeMB());
@@ -69,11 +71,13 @@ class FlushByRamOrCountsPolicy extends FlushPolicy {
 
   @Override
   public void onInsert(DocumentsWriterFlushControl control, ThreadState state) {
+    // flush的条件基于DWPT中收集的文档个数
     if (flushOnDocCount()
         && state.dwpt.getNumDocsInRAM() >= indexWriterConfig
             .getMaxBufferedDocs()) {
       // Flush this state by num docs
       control.setFlushPending(state);
+      // flush的条件基于目前缓存在内存中的索引量大小
     } else if (flushOnRAM()) {// flush by RAM
       final long limit = (long) (indexWriterConfig.getRAMBufferSizeMB() * 1024.d * 1024.d);
       final long totalRam = control.activeBytes() + control.getDeleteBytesUsed();
@@ -81,6 +85,7 @@ class FlushByRamOrCountsPolicy extends FlushPolicy {
         if (infoStream.isEnabled("FP")) {
           infoStream.message("FP", "trigger flush: activeBytes=" + control.activeBytes() + " deleteBytes=" + control.getDeleteBytesUsed() + " vs limit=" + limit);
         }
+        // 从DWPTPT中找到一个DWPT收集索引量最大的ThreadState，并且置为flushPending
         markLargestWriterPending(control, state, totalRam);
       }
     }
