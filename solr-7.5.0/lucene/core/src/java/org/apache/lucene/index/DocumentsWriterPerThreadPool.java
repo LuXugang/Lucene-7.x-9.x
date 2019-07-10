@@ -178,6 +178,7 @@ final class DocumentsWriterPerThreadPool {
       } else {
         // Important that we are LIFO here! This way if number of concurrent indexing threads was once high, but has now reduced, we only use a
         // limited number of thread states:
+        // 在这里可能正好取到被其他线程刚刚值为flushPending的ThreadState，这种情况只有在内存索引已经达到最大允许缓存值的情况下发生
         threadState = freeList.remove(freeList.size()-1);
 
         if (threadState.dwpt == null) {
@@ -189,6 +190,8 @@ final class DocumentsWriterPerThreadPool {
           // indefinitely buffered, tying up RAM.  This
           // will instead get those thread states flushed,
           // freeing up RAM for larger segment flushes:
+          // 总是取出一个DWPT不为空，让该DWPT尽快达到flush条件, 释放内存
+          // 否则可能会造成大量的DWPT在内存中，最后还会导致merge频繁的问题
           for(int i=0;i<freeList.size();i++) {
             ThreadState ts = freeList.get(i);
             if (ts.dwpt != null) {

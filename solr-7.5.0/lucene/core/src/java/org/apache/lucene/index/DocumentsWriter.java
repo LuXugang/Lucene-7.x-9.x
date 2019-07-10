@@ -412,6 +412,7 @@ final class DocumentsWriter implements Closeable, Accountable {
   }
 
   private boolean postUpdate(DocumentsWriterPerThread flushingDWPT, boolean hasEvents) throws IOException {
+    // 处理删除信息
     hasEvents |= applyAllDeletes(deleteQueue);
     if (flushingDWPT != null) {
       hasEvents |= doFlush(flushingDWPT);
@@ -492,11 +493,14 @@ final class DocumentsWriter implements Closeable, Accountable {
       // This must happen after we've pulled the ThreadState because IW.close
       // waits for all ThreadStates to be released:
       ensureOpen();
+      // 可能取出ThreadState持有的DWPT为空，那么重新初始化一个新的DWPT
       ensureInitialized(perThread);
       assert perThread.isInitialized();
       final DocumentsWriterPerThread dwpt = perThread.dwpt;
+      // 记录DWPT已经处理过的文档数，随后用来作差值算出这次 添加/更新 文档处理的文档数
       final int dwptNumDocs = dwpt.getNumDocsInRAM();
       try {
+        // 这里DWPT开始执行 添加/更新 操作， 这里可以看出这些操作跟ThreadState没有关联
         seqNo = dwpt.updateDocument(doc, analyzer, delNode, flushNotifications);
       } finally {
         if (dwpt.isAborted()) {
@@ -508,6 +512,7 @@ final class DocumentsWriter implements Closeable, Accountable {
         numDocsInRAM.addAndGet(dwpt.getNumDocsInRAM() - dwptNumDocs);
       }
       final boolean isUpdate = delNode != null && delNode.isDelete();
+      // DWPT处理完文档后的工作
       flushingDWPT = flushControl.doAfterDocument(perThread, isUpdate);
 
       assert seqNo > perThread.lastSeqNo: "seqNo=" + seqNo + " lastSeqNo=" + perThread.lastSeqNo;
