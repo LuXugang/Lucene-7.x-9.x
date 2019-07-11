@@ -77,9 +77,10 @@ public class IndexFileWithManyFieldValues {
 
       // 文档0
       doc = new Document();
-      doc.add(new StringField("author", "Lucy", Field.Store.YES));
+      doc.add(new Field("author", "Lucy", type));
       doc.add(new StringField("title", "care", Field.Store.YES));
       doc.add(new StringField("content", "a", Field.Store.YES));
+      doc.add(new SortedDocValuesField("abc", new BytesRef("a")));
       indexWriter.addDocument(doc);
       // 文档1
 //      doc = new Document();
@@ -88,8 +89,9 @@ public class IndexFileWithManyFieldValues {
 //      indexWriter.updateDocument(term1, doc);
 //      // 文档2
       doc = new Document();
-      doc.add(new StringField("author", "Lily", Field.Store.YES));
+      doc.add(new Field("author", "Lily", type));
       doc.add(new StringField("title", "care", Field.Store.YES));
+      doc.add(new SortedDocValuesField("abc", new BytesRef("b")));
       indexWriter.addDocument(doc);
 //      // 文档3
 //      doc = new Document();
@@ -179,6 +181,8 @@ public class IndexFileWithManyFieldValues {
 //    Thread.sleep(1000000000);
 //      indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
+
+
     IndexSearcher searcher = new IndexSearcher(reader);
 
     SoftDeletesDirectoryReaderWrapper readerWrapper = new SoftDeletesDirectoryReaderWrapper(reader, conf.getSoftDeletesField());
@@ -187,6 +191,7 @@ public class IndexFileWithManyFieldValues {
 
     Query query = new MatchAllDocsQuery();
     ScoreDoc[] scoreDocs = searcher.search(query, 10).scoreDocs;
+
 
     System.out.println(""+scoreDocs.length+"");
 
@@ -278,16 +283,16 @@ public class IndexFileWithManyFieldValues {
     Thread t1 = new Thread(a, "ThreadAAAA");
     Thread t2 = new Thread(b, "ThreadBBBB");
 
-    System.out.println("a start to run");
-    t1.setDaemon(true);
-    System.out.println(""+t1.isDaemon()+"");
-    t1.start();
-    System.out.println("b start to run");
-    t2.setDaemon(true);
-    System.out.println(""+t2.isDaemon()+"");
-    t2.start();
-    t1.join();
-    t2.join();
-//    test.doIndex();
+//    System.out.println("a start to run");
+//    t1.setDaemon(true);
+//    System.out.println(""+t1.isDaemon()+"");
+//    t1.start();
+//    System.out.println("b start to run");
+//    t2.setDaemon(true);
+//    System.out.println(""+t2.isDaemon()+"");
+//    t2.start();
+//    t1.join();
+//    t2.join();
+    test.doIndex();
   }
 }

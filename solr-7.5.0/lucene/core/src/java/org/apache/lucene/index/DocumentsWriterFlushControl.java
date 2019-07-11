@@ -323,6 +323,10 @@ final class DocumentsWriterFlushControl implements Accountable {
     }
   }
 
+  /**
+   *这里使用synchronized是因为，可能线程A正在执行 {@link DocumentsWriterFlushControl#nextPendingFlush()} 的操作
+   * 而线程B则是刚刚添加完一篇文档到达此方法，并且ThreadState达到flush的状态, 如果线程A抢到DWPT那么可以提前执行DWPT的doFlush
+   */
   synchronized DocumentsWriterPerThread tryCheckoutForFlush(
       ThreadState perThread) {
    return perThread.flushPending ? internalTryCheckOutForFlush(perThread) : null;
