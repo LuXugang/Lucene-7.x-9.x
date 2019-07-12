@@ -82,7 +82,7 @@ private final List<ThreadState> freeList = new ArrayList<>();
 
 - 调用IndexWriter.commit( )方法
 - 调用IndexWriter.flush( )方法
-- 调用IndexWriter.getReader( )方法，即使用NRT（near real-time）搜索功能。
+- 调用IndexWriter.openIfChanged(DirectoryReader )方法，即使用NRT（near real-time）搜索功能。
 
 #### 让ThreadState持有一个DWPT对象的引用
 
