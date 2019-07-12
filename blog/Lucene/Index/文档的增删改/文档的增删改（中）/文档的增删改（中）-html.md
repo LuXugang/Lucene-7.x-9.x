@@ -30,7 +30,7 @@ private final List<ThreadState> freeList = new ArrayList<>();
 &emsp;&emsp;ThreadState在两种情况下`不持有`一个DWPT的引用：
 
 - 情况一：当一个新的添加文档任务来时，DocumentsWriterPerThreadPool中没有可用的ThreadState对象，那么会生成一个新的ThreadState对象，此时新生成的ThreadState对象没有DWPT的引用(个人理解：从源码结构上看ThreadState的构造函数所在的类DocumentsWriterPerThreadPool没有可用的生成一个DWPT对象所需要的参数)
-- 情况二：上文中提到DWPT在执行完添加文档操作后，会收集numDocs跟IndexByteUsed的值，其中IndexByteUsed的值会被`累加`到一个全局的变量activeBytes（线程共享）中，另外还有一个全局变量deleteRamByteUsed，它描述了被删除文档的信息占用的内存大小（在后面介绍flush的文章中会展开），如果activeBytes与deleteRamByteUsed的和值，以及numDocs 分别超过下面两个变量，那么持有DWPT的ThreadState会被标记为flushPending状态，并且失去该DWPT的引用，DWPT被加入到flush队列，其包含的索引信息等待被写入到磁盘：
+- 情况二：上文中提到DWPT在执行完添加文档操作后，会收集numDocs跟IndexByteUsed的值，其中IndexByteUsed的值会被`累加`到一个全局的变量activeBytes（线程共享）中，另外还有一个全局变量deleteRamByteUsed，它描述了被删除文档的信息占用的内存大小（在后面介绍flush的文章中会展开），如果activeBytes与deleteRamByteUsed的和值，以及numDocs 分别超过下面两个变量，那么持有DWPT的ThreadState会被标记为flushPending状态，并且失去该DWPT的引用，随后DWPT执行doFlush操作，将收集到的索引信息生成索引文件：
   - ramBufferSizeMB：该值描述了索引信息被写入到磁盘前暂时缓存在内存中允许的最大使用内存值
   - maxBufferedDocs：该值描述了索引信息被写入到磁盘前暂时缓存在内存中允许的文档最大数量，这里注意的是这里指的是一个DWPT允许添加的最大文档数量，在多线程下，可以同时存在多个DWPT，而maxBufferedDocs并不是所有线程的DWPT中添加的文档数量和值
 
@@ -68,7 +68,7 @@ private final List<ThreadState> freeList = new ArrayList<>();
 
 &emsp;&emsp;为什么可能会取到不持有DWPT对象引用的ThreadState：
 
-- 当一个ThreadState完成添加文档的任务后，其引用的DWPT对象收集的numDocs或者全局变量activeBytes达到flush的要求，ThreadState会被标记为flushPending为true状态，那么失去该DWPT的引用，而该DWPT被加入到flush队列，其包含的索引信息等待被写入到磁盘，该ThreadState重新添加到freeList中，并且重新标记flushPending为false
+- 当一个ThreadState完成添加文档的任务后，其引用的DWPT对象收集的numDocs或者全局变量activeBytes达到flush的要求，ThreadState会被标记为flushPending为true状态，那么失去该DWPT的引用，DWPT执行doFlush操作（该操作目前只需要知道它会将内存索引信息转化为生成索引文件，减少内存，在后面介绍flush的文章中会详细介绍），将收集到的索引信息生成索引文件，该ThreadState重新添加到freeList中，并且重新标记flushPending为false
 
 #### 全局flush被触发
 
@@ -78,7 +78,7 @@ private final List<ThreadState> freeList = new ArrayList<>();
 
 &emsp;&emsp;当前的ThreadState持有DWPT对象引用，说明在上一步的流程中，从freeList中取到了一个刚刚完成文档添加任务的ThreadState，如果此时全局flush被触发，那么ThreadState会失去该DWPT的引用，而该DWPT被加入到flush队列，其包含的索引信息等待被写入到磁盘，并且ThreadState被重置（恢复到刚生成ThreadState对象的状态）
 
-&emsp;&emsp;这里简单提下哪些情况会触发全局flush，具体的内容会在介绍flush时展开：
+&emsp;&emsp;这里简单提下常见的几个会触发全局flush的场景，其他场景以及具体的逻辑会在后面介绍flush的文章时展开：
 
 - 调用IndexWriter.commit( )方法
 - 调用IndexWriter.flush( )方法
@@ -121,7 +121,8 @@ private final List<ThreadState> freeList = new ArrayList<>();
 - flushBytes（long类型）：待写入到磁盘的索引数据量，如果全局的flush被触发，即使某个ThreadState中的DWPT达不到flush的要求，DWPT中的索引信息也会被累加到flushBytes中(没有触发全局flush的话，则是被累加到activeBytes中)
 - numPending（int类型）：描述了被标记为flushPending的ThreadState的个数
 - fullFlush（boolean 类型）：全局flush是否被触发的标志
-- flushQueue（Queue类型）：存放DWPT的队列，即flush队列
+- flushQueue（Queue类型）：存放DWPT的队列，即flush队列，在此队列中的DWPT等待执行doFlush操作
+- flushingWriters（Map类型）:该Map的key为DWPT，value为DWPT收集的索引信息的大小，当一个ThreadState被标记为flushPending，那么它持有的DWPT对象收集到的索引信息的大小会被添加到当flushingWriters中，同样地一个DWPT执行完doFlush，那么该DWPT对应的索引大小就可以从flushBytes扣除，故它用来维护flushBytes的值
 - commitPerThreadBytes( ) (方法)：该方法描述了刚刚完成添加/更新的DWPT收集到的索引信息应该被添加到activeBytes还是flushBytes中，取决于ThreadState的flushPending状态
 - setFlushPending( )(方法)：该方法用来设置一个ThreadState为flushPending状态
 

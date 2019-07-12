@@ -30,7 +30,7 @@ public class IndexFileWithManyFieldValues {
 
   {
     try {
-      FileOperation.deleteFile("./data");
+//      FileOperation.deleteFile("./data");
 //      FileOperation.deleteFile("./data1");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
@@ -107,10 +107,9 @@ public class IndexFileWithManyFieldValues {
 
 //      indexWriter.deleteDocuments(new Term("content", "abc"));
 //
-      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
+//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
 //
 //      indexWriter.deleteAll();
-      indexWriter.flush();
 
 //      doc = new Document();
 //      doc.add(new Field("content", "abc", type));
@@ -124,7 +123,7 @@ public class IndexFileWithManyFieldValues {
 //      doc.add(new StringField("content", "abc", Field.Store.YES));
 //      indexWriter.updateDocument(new Term("newField", "newFieldValue"), doc);
 //
-//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
+      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
 //
 //      doc = new Document();
 //      doc.add(new Field("content", "abc", type));
@@ -179,7 +178,7 @@ public class IndexFileWithManyFieldValues {
 //    indexWriter.setLiveCommitData(userData.entrySet());
 //    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
 //    Thread.sleep(1000000000);
-//      indexWriter.commit();
+      indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
 
 
