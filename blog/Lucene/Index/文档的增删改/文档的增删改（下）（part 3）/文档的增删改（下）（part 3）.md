@@ -5,7 +5,7 @@
 # 预备知识
 
 ## 三个重要的容器对象
-&emsp;&emsp;以下介绍的几个容器对理解 添加/更新 跟 flush是异步操作、索引占用内存大小控制起关键的作用。
+&emsp;&emsp;以下介绍的几个容器对理解 添加/更新 跟 flush是并行操作、索引占用内存大小控制起关键的作用。
 
 ### fullFlushBuffer
 &emsp;&emsp;定义如下：
@@ -32,13 +32,13 @@ private final Queue<BlockedFlush> blockedFlushes = new LinkedList<>();
   }
 ```
 
-&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)的文章中我们知道，一个线程总是从DWPTP中获得一个ThreadState，然后执行添加/更新文档的操作，当成功获得ThreadState，该线程就获得了ThreadState的锁，直到处理完文档后才会释放锁。如果在处理文档期间（未释放锁），有其他线程触发了全局的flush，并且ThreadState中持有的DWPT对象达到了flush的条件（见[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)中介绍ThreadState失去DWPT引用的章节），那么该DWPT会被添加到blockedFlushes中，并且在blockedFlushes中的DWPT需要等待fullFlushBuffer中的所有DWPT 执行完doFlush( )(每个DWPT中收集的索引信息生成索引文件，或者说生成一个段)才能执行该操作。
+&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)的文章中我们知道，一个线程总是从DWPTP中获得一个ThreadState，然后执行添加/更新文档的操作，当成功获得ThreadState，该线程就获得了ThreadState的锁，直到处理完文档后才会释放锁。如果在处理文档期间（未释放锁），有其他线程触发了全局的flush，并且ThreadState中持有的DWPT对象达到了flush的条件（见[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)中介绍ThreadState失去DWPT引用的章节），那么该DWPT会被添加到blockedFlushes中，并且在blockedFlushes中的DWPT`优先`fullFlushBuffer中的所有DWPT去执行doFlush( )(每个DWPT中收集的索引信息生成索引文件，或者说生成一个段)。
 
-&emsp;&emsp;为什么blockedFlushes中的DWPT最后才执行doFlush( )，具体原因会在介绍flush时候展开：
+&emsp;&emsp;为什么blockedFlushes中的DWPT优先执行doFlush( )，这个问题可以拆分两个小问题：
 
-```text
-    源码中给出的解释：only for safety reasons if a DWPT is close to the RAM limit
-```
+- 为什么要优先执行doFlush( )：该ThreadState被置为flushingPending状态，其中一种情况是因为某个DWPT添加/更新文档数量达到阈值maxBufferedDocs（用户设定通过indexWriterConfig设定文档个数作为flush的条件），由于仅仅是通过文档个数来控制flush，而不考虑这些文档对应的索引信息总量，所以可能会出现及时文档个数很小，但是占用的内存很大的情况，无法估计实际的内存占用，为了安全起见，所以该DWPT必须优先flush，正如源码中的注释说道：only for safety reasons if a DWPT is close to the RAM limit，而如果通过indexWriterConfig设定通过ramBufferSizeMB作为flush的条件时，由于能掌握索引占用的内存量，无需通过这种方式来优先执行doFlush( )
+- 为什么使用一个额外的队列blockedFlushes存放该DWPT：为了能保证blockedFlushes中的DWPT能优先添加到flushQueue中，这里先简单的提一句，具体的原因在介绍flush时候会展开，这里留个坑
+
 
 ### flushingWriters
 
@@ -147,7 +147,7 @@ private final Queue<DocumentsWriterPerThread> flushQueue = new LinkedList<>();
 
 &emsp;&emsp;如果当前的ThreadState没有被置为flushPending(内存索引未达到ramBufferSizeMB前ThreadState都是flushPending为false的状态)，那么需要执行flush策略，目前Lucene7.5.0中有且仅有一种flush策略：FlushByRamOrCountsPolicy。用户可以实现自己的flush策略并通过IndexWriterConfig自定义设置。
 
-&emsp;&emsp;flush策略用来判断执行完增删改的操作后，是否要执行flush，这里的介绍是对[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（中）的补充：
+&emsp;&emsp;flush策略用来判断执行完增删改的操作后，是否要执行flush，这里的介绍是对[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)的补充：
 
 - 添加操作：如果设置了flushOnDocCount，那么判断DWPT处理的文档个数是否达到maxBufferedDocs，满足条件则将ThreadState置为flushPending，否则判断activeBytes与deleteRamByteUsed的和值是否达到ramBufferSizeMB，如果达到阈值，那么从DWPTP中找到一个持有DWPT，并且该DWPT收集的索引信息量最大的ThreadState，将其置为flushPending。
 - 删除操作：判断deleteRamByteUsed是否达到ramBufferSizeMB，满足条件则另flushDeletes为true
@@ -191,7 +191,14 @@ private final Queue<DocumentsWriterPerThread> flushQueue = new LinkedList<>();
 
 <img src="文档的增删改（下）（part 3）-image/13.png">
 
-&emsp;&emsp;如果DWPT为空，那么我们这个线程需要"帮助"(help out)那些已经可以生成一个段的DWPT执行doFlush( )。帮助的方式是先尝试从flushQueue中找到一个DWPT，如果没有，那么从DWPTP中找，前提是当前没有触发全局flush，因为在全局flush的情况下，执行全局flush的线程会去DWPTP中找到所有已经收集过文档的DWPT，无论DWPT对应的ThreadState是否被置为flushPending。
+&emsp;&emsp;如果DWPT为空，那么我们这个线程需要"帮助"(help out)那些已经可以生成一个段的DWPT执行doFlush( )。帮助的方式是先尝试从flushQueue中找到一个DWPT，如果没有，那么从DWPTP中找，前提是其他线程没有触发全局flush，因为在全局flush的情况下，执行全局flush的线程会去DWPTP中找到所有已经收集过文档的DWPT，无论DWPT对应的ThreadState是否被置为flushPending，所以如果此时能从DWPTP中得到一个被置为flushPending的ThreadState，说明在其他线程中的ThreadState持有的DWPT刚刚执行完添加文档的任务，就被当前线程”抢夺“了DWPT，让DWPT提前执行了doFlush()。在DocumentsWriterFlushControl.java的tryCheckoutForFlush()方法抢夺了"DWPT"。方法定义如下：
+
+```java
+synchronized DocumentsWriterPerThread tryCheckoutForFlush(
+    ThreadState perThread) {
+    return perThread.flushPending ? internalTryCheckOutForFlush(perThread) : null;
+}
+```
 
 ### DWPT不为空的情况
 

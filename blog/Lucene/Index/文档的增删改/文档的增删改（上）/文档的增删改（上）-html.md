@@ -84,8 +84,8 @@
 
 &emsp;&emsp;删除文档操作：
 
-- 按照Term进行删除：deleteDocuments(Term)
-- 按照Query进行删除：deleteDocuments(Query)
+- 按照Term进行删除：deleteDocuments(Terms)
+- 按照Query进行删除：deleteDocuments(Querys)
 - 删除所有文档：deleteAll( )
 
 &emsp;&emsp;更新DocValues域操作：

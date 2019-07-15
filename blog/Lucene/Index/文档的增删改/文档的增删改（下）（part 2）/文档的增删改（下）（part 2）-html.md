@@ -211,8 +211,8 @@ DeleteSlice(Node<?> currentTail) {
 
 &emsp;&emsp;通过DWPT的numDocsInRAM是否大于0来判断是否已经添加过文档：
 
-- 没有添加过文档：只有DWPT第一次执行添加/更新的操作，该值才会为0，由于上一个流程点，该DWPT的私有DeleteSlice可能被更新了，但由于DWPT中没有添加过任何的文档，所以所以私有DeleteSlice中不需要删除信息，故需要重置DeleteSlice，重置的方法即将另私有DeleteSlice的sliceHead引用跟sliceTail相同的对象，当sliceHead跟sliceTail引用相同的对象时，表示DWPT的私有DeleteSlice没有删除信息
-- 添加过文档：如果上一个流程点没有更新私有DeleteSlice，那么就不要更新BufferedUpdates，否则需要将新增的删除信息添加到BufferedUpdates中，更新BufferedUpdates的过程已在上文BufferedUpdate类中介绍，不赘述
+- 没有添加过文档：只有DWPT第一次执行添加/更新的操作，该值才会为0，由于上一个流程点，该DWPT的私有DeleteSlice可能被更新了，但由于DWPT中没有添加过任何的文档，所以私有DeleteSlice中不需要删除信息，故需要重置DeleteSlice，重置的方法即将另私有DeleteSlice的sliceHead引用跟sliceTail相同的对象，当sliceHead跟sliceTail引用相同的对象时，表示DWPT的私有DeleteSlice没有删除信息
+- 添加过文档：如果上一个流程点没有更新私有DeleteSlice，那么就不要更新BufferedUpdates，否则需要将新增的删除信息添加到BufferedUpdates中，这些新增的删除信息作用于DWPT已经收集的所有文档（不包含本次添加的文档）更新BufferedUpdates的过程已在上文BufferedUpdate类中介绍，不赘述
 
 ##### 更新numDocsInRAM
 

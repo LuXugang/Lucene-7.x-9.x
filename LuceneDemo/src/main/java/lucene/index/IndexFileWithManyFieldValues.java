@@ -30,7 +30,7 @@ public class IndexFileWithManyFieldValues {
 
   {
     try {
-//      FileOperation.deleteFile("./data");
+      FileOperation.deleteFile("./data");
 //      FileOperation.deleteFile("./data1");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
@@ -45,7 +45,7 @@ public class IndexFileWithManyFieldValues {
       conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       conf.setSoftDeletesField("myDeleteFiled");
       conf.setMergePolicy(new SoftDeletesRetentionMergePolicy(conf.getSoftDeletesField(), MatchAllDocsQuery::new, NoMergePolicy.INSTANCE) );
-      conf.setMaxBufferedDocs(10);
+      conf.setRAMBufferSizeMB(10);
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
@@ -178,7 +178,8 @@ public class IndexFileWithManyFieldValues {
 //    indexWriter.setLiveCommitData(userData.entrySet());
 //    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
 //    Thread.sleep(1000000000);
-      indexWriter.commit();
+    indexWriter.flush();
+    indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
 
 

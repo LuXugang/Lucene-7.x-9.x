@@ -5,9 +5,9 @@
 # 预备知识
 
 ## DocumentsWriterStallControl
-&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)我们知道，多线程（持有相同的IndexWriter对象的引用）执行添加/更新操作时，每个线程都会获取一个ThreadState，每次执行完一次添加/更新的后，如果持有的DWPT对象收集的索引信息没有达到flush的要求，该索引信息的大小会被累加到activeBytes，否则会被累加到flushBytes中，并且执行flush操作，这种方式即 添加/更新和flush为异步操作。
+&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)我们知道，多线程（持有相同的IndexWriter对象的引用）执行添加/更新操作时，每个线程都会获取一个ThreadState，每次执行完一次添加/更新的后，如果持有的DWPT对象收集的索引信息没有达到flush的要求，该索引信息的大小会被累加到activeBytes，否则会被累加到flushBytes中，并且执行flush操作，这种方式即 添加/更新和flush为并行操作。
 
-&emsp;&emsp;异步操作即某些ThreadState执行添加/更新，而其他ThreadState执行flush，故可能会存在 添加/更新的速度一直快于flush的情况，导致内存中堆积索引信息，那么很容 易出现OOM的错误。所以DocumentsWriterStallControl类就是用来通过阻塞添加/更新的操作来保证写入(indexing)的健康度(This class used to block incoming indexing threads if flushing significantly slower than indexing to ensure the healthiness)
+&emsp;&emsp;并行操作即某些ThreadState执行添加/更新，而其他ThreadState执行flush，故可能会存在 添加/更新的速度一直快于flush的情况，导致内存中堆积索引信息，那么很容 易出现OOM的错误。所以DocumentsWriterStallControl类就是用来通过阻塞添加/更新的操作来保证写入(indexing)的健康度(This class used to block incoming indexing threads if flushing significantly slower than indexing to ensure the healthiness)
 
 &emsp;&emsp;满足下面的条件时需要阻塞添加/更新的操作：
 
