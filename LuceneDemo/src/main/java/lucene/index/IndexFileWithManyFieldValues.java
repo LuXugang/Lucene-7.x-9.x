@@ -41,7 +41,7 @@ public class IndexFileWithManyFieldValues {
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
-      conf.setUseCompoundFile(false);
+      conf.setUseCompoundFile(true);
       conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       conf.setSoftDeletesField("myDeleteFiled");
       conf.setMergePolicy(new SoftDeletesRetentionMergePolicy(conf.getSoftDeletesField(), MatchAllDocsQuery::new, NoMergePolicy.INSTANCE) );
@@ -64,7 +64,7 @@ public class IndexFileWithManyFieldValues {
     type.setStoreTermVectorPayloads(true);
     type.setStoreTermVectorOffsets(true);
     type.setTokenized(true);
-    type.setIndexOptions(IndexOptions.DOCS);
+    type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
 
 
@@ -78,9 +78,9 @@ public class IndexFileWithManyFieldValues {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
-      doc.add(new StringField("title", "care", Field.Store.YES));
-      doc.add(new StringField("content", "a", Field.Store.YES));
-      doc.add(new SortedDocValuesField("abc", new BytesRef("a")));
+      doc.add(new Field("title", "notCare", type));
+      doc.add(new IntPoint("pointValue", 3, 4, 5));
+      doc.add(new SortedDocValuesField("docValuesField", new BytesRef("a")));
       indexWriter.addDocument(doc);
       // 文档1
 //      doc = new Document();
@@ -91,18 +91,14 @@ public class IndexFileWithManyFieldValues {
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
       doc.add(new StringField("title", "care", Field.Store.YES));
-      doc.add(new SortedDocValuesField("abc", new BytesRef("b")));
+      doc.add(new SortedDocValuesField("docValuesField", new BytesRef("b")));
       indexWriter.addDocument(doc);
 //      // 文档3
-//      doc = new Document();
-//      doc.add(new StringField("content", "nothing", Field.Store.YES));
-//      Term term2 = new Term("title", "care");
-//      indexWriter.updateDocument(term2, doc);
-//      // 文档4
-//      doc = new Document();
-//      doc.add(new StringField("content", "everything", Field.Store.YES));
-//      Term term3 = new Term("title", "notCare");
-//      indexWriter.updateDocument(term3, doc);
+      doc = new Document();
+      doc.add(new StringField("content", "nothing", Field.Store.YES));
+      Term term2 = new Term("title", "care");
+      indexWriter.updateDocument(term2, doc);
+      // 文档4
 
 
 //      indexWriter.deleteDocuments(new Term("content", "abc"));
