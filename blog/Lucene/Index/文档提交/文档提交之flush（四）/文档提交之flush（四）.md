@@ -28,15 +28,15 @@ static final class FlushTicket {
 }
 ```
 
-&emsp;&emsp;frozenUpdates是一个包含删除信息且作用于其他段中的文档的全局FrozenBufferedUpdate对象（见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)），而segment则是图2中的流程点`将DWPT中收集的索引信息生成一个段newSegment`执行结束后生成的FlushedSegment对象，它至少包含了一个DWPT处理的文档对应的索引信息、段中被删除的文档信息（[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)对象）、Sorter.DocMap对象，以上内容在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)的文章中已介绍。
+&emsp;&emsp;frozenUpdates是一个包含删除信息且作用于其他段中的文档的全局FrozenBufferedUpdate对象（见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)），而segment则是图2中的流程点`将DWPT中收集的索引信息生成一个段newSegment`执行结束后生成的FlushedSegment对象，它至少包含了一个DWPT处理的文档对应的索引信息（SegmentCommitInfo）、段中被删除的文档信息（[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)对象）还未处理的信息（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）、Sorter.DocMap对象，以上内容在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)的文章中已介绍。
+
+&emsp;&emsp;**为什么FlushTicket中生成FrozenBufferedUpdates跟FlushedSegment是两个有先后关系的流程**
+
+- 如果FrozenBufferedUpdates未能正确生成，那么FlushedSegment也不会生成，即全局的删除信息跟DWPT收集的文档就无法生成索引文件，但是如果FrozenBufferedUpdates正确生成（只有第一个DWPT会生成不为null的FrozenBufferedUpdates，见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)），而FlushedSegment没有生成，那删除信息还能正确的作用（apply）到索引目录中的所有段，即只丢失添加的文档的信息，不会丢失删除信息
 
 &emsp;&emsp;**如何处理DWPT未能正确的生成一个FlushedSegment对象的情况**：
 
 - 在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)中我们了解到，如果DWPT在收集文档索引信息阶段（见[两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)），那么出错的文档的文档号会被标记在索引文件[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)中，而如果DWPT因某种原因（在介绍IndexWriter的异常处理时会展开）导致没有完成图2中的`将DWPT中收集的索引信息生成一个段newSegment`流程点，那么需要删除该DWPT中的对应的所有索引数据（如果已经生成的索引文件的话）
-
-&emsp;&emsp;**FlushTicket未能正确生成的会导致哪些情况的发生**：
-
-- FlushTicket中的frozenUpdates跟segment，生成这两个对象的过程中，任何的出错都会导致FlushTicket未能正确生成，这种场景会导致首先DWPT处理的所有文档无法生成一个段，其次如果frozenUpdates不会空（为什么可能为空，见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)），那么它包含的删除信息就无法作用到索引目录已有的段
 
 ## Queue&lt;FlushTicket&gt; queue
 
@@ -170,7 +170,7 @@ activeBytes + deleteBytesUsed >= ramBufferSizeMB
 
 &emsp;&emsp;**为什么通过`强制发布生成的段`能用来处理删除信息**
 
-- 使得所有执行flush的线程必须等待Queue&lt;FlushTicket&gt; queue中所有的FlushTicket处理结束后才能去执行新的添加/更新文档、以删除的任务，放慢自动flush的速度
+- 使得所有执行flush的线程必须等待Queue&lt;FlushTicket&gt; queue中所有的FlushTicket处理结束后才能去执行新的添加/更新文档、删除的任务，等待删除信息从内存写到磁盘（[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)索引文件），同时放慢触发自动flush的速度
 
 # 结语
 

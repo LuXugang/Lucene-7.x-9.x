@@ -41,11 +41,8 @@ public class IndexFileWithManyFieldValues {
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
-      conf.setUseCompoundFile(true);
-      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
-      conf.setSoftDeletesField("myDeleteFiled");
-      conf.setMergePolicy(new SoftDeletesRetentionMergePolicy(conf.getSoftDeletesField(), MatchAllDocsQuery::new, NoMergePolicy.INSTANCE) );
-      conf.setRAMBufferSizeMB(10);
+      conf.setUseCompoundFile(false);
+      conf.setSoftDeletesField("docValuesField");
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
@@ -78,9 +75,9 @@ public class IndexFileWithManyFieldValues {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
-      doc.add(new Field("title", "notCare", type));
+      doc.add(new Field("title", "care", type));
       doc.add(new IntPoint("pointValue", 3, 4, 5));
-      doc.add(new SortedDocValuesField("docValuesField", new BytesRef("a")));
+      doc.add(new NumericDocValuesField("docValuesField", 8));
       indexWriter.addDocument(doc);
       // 文档1
 //      doc = new Document();
@@ -90,14 +87,19 @@ public class IndexFileWithManyFieldValues {
 //      // 文档2
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
-      doc.add(new StringField("title", "care", Field.Store.YES));
-      doc.add(new SortedDocValuesField("docValuesField", new BytesRef("b")));
+      doc.add(new StringField("title", "notCare", Field.Store.YES));
+      doc.add(new NumericDocValuesField("docValuesField", 3));
+      indexWriter.addDocument(doc);
+
+      doc = new Document();
+      doc.add(new Field("author", "papa", type));
+      doc.add(new StringField("title", "maybe", Field.Store.YES));
       indexWriter.addDocument(doc);
 //      // 文档3
-      doc = new Document();
-      doc.add(new StringField("content", "nothing", Field.Store.YES));
-      Term term2 = new Term("title", "care");
-      indexWriter.updateDocument(term2, doc);
+//      doc = new Document();
+//      doc.add(new StringField("content", "nothing", Field.Store.YES));
+//      Term term2 = new Term("title", "care");
+//      indexWriter.updateNumericDocValue(term2, "docValuesField", 10);
       // 文档4
 
 
@@ -119,7 +121,7 @@ public class IndexFileWithManyFieldValues {
 //      doc.add(new StringField("content", "abc", Field.Store.YES));
 //      indexWriter.updateDocument(new Term("newField", "newFieldValue"), doc);
 //
-      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
+      indexWriter.deleteDocuments(new TermQuery(new Term("title", "notCare")));
 //
 //      doc = new Document();
 //      doc.add(new Field("content", "abc", type));
@@ -174,7 +176,7 @@ public class IndexFileWithManyFieldValues {
 //    indexWriter.setLiveCommitData(userData.entrySet());
 //    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
 //    Thread.sleep(1000000000);
-    indexWriter.flush();
+//    indexWriter.flush();
     indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
 
