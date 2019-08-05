@@ -42,7 +42,7 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
       conf.setUseCompoundFile(false);
-      conf.setSoftDeletesField("docValuesField");
+//      conf.setSoftDeletesField("docValuesField");
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
@@ -75,7 +75,7 @@ public class IndexFileWithManyFieldValues {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
-      doc.add(new Field("title", "care", type));
+      doc.add(new Field("title", "notCare", type));
       doc.add(new IntPoint("pointValue", 3, 4, 5));
       doc.add(new NumericDocValuesField("docValuesField", 8));
       indexWriter.addDocument(doc);
@@ -90,11 +90,11 @@ public class IndexFileWithManyFieldValues {
       doc.add(new StringField("title", "notCare", Field.Store.YES));
       doc.add(new NumericDocValuesField("docValuesField", 3));
       indexWriter.addDocument(doc);
-
-      doc = new Document();
-      doc.add(new Field("author", "papa", type));
-      doc.add(new StringField("title", "maybe", Field.Store.YES));
-      indexWriter.addDocument(doc);
+//
+//      doc = new Document();
+//      doc.add(new Field("author", "papa", type));
+//      doc.add(new StringField("title", "maybe", Field.Store.YES));
+//      indexWriter.addDocument(doc);
 //      // 文档3
 //      doc = new Document();
 //      doc.add(new StringField("content", "nothing", Field.Store.YES));
@@ -103,10 +103,10 @@ public class IndexFileWithManyFieldValues {
       // 文档4
 
 
-//      indexWriter.deleteDocuments(new Term("content", "abc"));
+//      indexWriter.deleteDocuments(new Term("title", "notCare"));
 //
 //      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
-//
+
 //      indexWriter.deleteAll();
 
 //      doc = new Document();
@@ -121,7 +121,7 @@ public class IndexFileWithManyFieldValues {
 //      doc.add(new StringField("content", "abc", Field.Store.YES));
 //      indexWriter.updateDocument(new Term("newField", "newFieldValue"), doc);
 //
-      indexWriter.deleteDocuments(new TermQuery(new Term("title", "notCare")));
+//      indexWriter.deleteDocuments(new TermQuery(new Term("title", "notCare")));
 //
 //      doc = new Document();
 //      doc.add(new Field("content", "abc", type));
@@ -154,7 +154,6 @@ public class IndexFileWithManyFieldValues {
 //      indexWriter.updateDocValues(new Term("author", "Shakespeare"), fields);
 
 //      indexWriter.softUpdateDocument(new Term("content", "a"), doc, new NumericDocValuesField(conf.getSoftDeletesField(), 223));
-//      indexWriter.commit();
 
 
       // 文档3
@@ -179,21 +178,6 @@ public class IndexFileWithManyFieldValues {
 //    indexWriter.flush();
     indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
-
-
-    IndexSearcher searcher = new IndexSearcher(reader);
-
-    SoftDeletesDirectoryReaderWrapper readerWrapper = new SoftDeletesDirectoryReaderWrapper(reader, conf.getSoftDeletesField());
-
-
-
-    Query query = new MatchAllDocsQuery();
-    ScoreDoc[] scoreDocs = searcher.search(query, 10).scoreDocs;
-
-
-    System.out.println(""+scoreDocs.length+"");
-
-
     // Per-top-reader state:
   }
 
