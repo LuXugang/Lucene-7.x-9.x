@@ -1,20 +1,17 @@
 package lucene.index;
 
 import io.FileOperation;
-import io.NativeFSLockFactory;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.search.*;
-import org.apache.lucene.store.*;
-import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
-import javax.print.Doc;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -87,14 +84,14 @@ public class IndexFileWithManyFieldValues {
 //      // 文档2
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
-      doc.add(new StringField("title", "notCare", Field.Store.YES));
+      doc.add(new StringField("title", "Care", Field.Store.YES));
       doc.add(new NumericDocValuesField("docValuesField", 3));
       indexWriter.addDocument(doc);
 //
-//      doc = new Document();
-//      doc.add(new Field("author", "papa", type));
-//      doc.add(new StringField("title", "maybe", Field.Store.YES));
-//      indexWriter.addDocument(doc);
+      doc = new Document();
+      doc.add(new Field("author", "papa", type));
+      doc.add(new StringField("title", "maybe", Field.Store.YES));
+      indexWriter.addDocument(doc);
 //      // 文档3
 //      doc = new Document();
 //      doc.add(new StringField("content", "nothing", Field.Store.YES));
@@ -103,9 +100,9 @@ public class IndexFileWithManyFieldValues {
       // 文档4
 
 
-//      indexWriter.deleteDocuments(new Term("title", "notCare"));
+      indexWriter.deleteDocuments(new Term("title", "notCare"));
 //
-//      indexWriter.deleteDocuments(new TermQuery(new Term("content", "a")));
+      indexWriter.deleteDocuments(new TermQuery(new Term("author", "Lily")));
 
 //      indexWriter.deleteAll();
 
@@ -176,7 +173,7 @@ public class IndexFileWithManyFieldValues {
 //    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
 //    Thread.sleep(1000000000);
 //    indexWriter.flush();
-    indexWriter.commit();
+    indexWriter.flush();
     DirectoryReader  reader = DirectoryReader.open(directory);
     // Per-top-reader state:
   }

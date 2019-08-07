@@ -1,6 +1,6 @@
 # [文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/)
 
-&emsp;&emsp;本文承接[文档提交之flush（五）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0730/78.html)，继续依次介绍每一个流程点。
+&emsp;&emsp;本文承接[文档提交之flush（五）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0801/78.html)，继续依次介绍每一个流程点。
 
 # 文档提交之flush的整体流程图
 
@@ -106,6 +106,17 @@
 - 从blockedFlushes（见[文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0709/72.html)）中将newQueue（见[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/)）对应的DWPT添加到flushQueue（见[文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0709/72.html)）中，如果在主动flush期间，其他线程的添加/更新文档操作满足自动flush的要求，那么对应的DWPT会暂时被存放在blockedFlushes中，至于原因已在前面的文章中介绍，不赘述
 - fullFlush（见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)）置为false：该值置为false，表示此次主动flush已经执行结束，自动flush的DWPT（跟主动flush中的DWPT具有不同的全局删除队列deleteSlice，见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)）可以开始执行图1中`执行DWPT的doFlush()`的流程，注意的是当前线程还未释放用来同步主动flush的fullFlushLock对象（见[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)）
 - 调用updateStallState：更新拖延状态，即调整当前索引写入的健康度，见[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)中的详细介绍
+
+&emsp;&emsp;上面的收尾工作结束后，接着还需要**尝试**处理newQueue中的删除信息。
+
+&emsp;&emsp;**为什么此时需要尝试处理newQueue中的删除信息**：
+
+- 在[文档提交之flush（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0730/77.html)中其实我们在图1的`执行DWPT的doFlush()`流程中已经处理过一次newQueue中的删除信息，条件是内存中的删除信息如果超过阈值的一半，那么需要处理删除信息，阈值即通过[IndexWriterConfig setRAMBufferSizeMB](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置允许缓存在内存的索引量（包括删除信息）的最大值，目的是为了防止产生过多的小段。
+- 而在此流程点，判断的条件是内存中的删除信息是否超过阈值，如果超过阈值并且此时不处理删除信息，那么其他线程的添加/更新文档的操作会被阻塞（见[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)）
+
+&emsp;&emsp;**为什么此时能尝试处理newQueue中的删除信息**：
+
+- 主动flush对应的FrozenBufferedUpdates已经获得了nextGen，即能保证正确的作用（apply）删除信息的顺序，故处理自动flush的删除信息是没有问题的
 
 &emsp;&emsp;执行完收尾工作后，当前线程从eventQueue队列中**逐个**取出所有的事件，即执行事件对应的函数调用，关于事件的概念见[文档提交之flush（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0730/77.html)。
 
