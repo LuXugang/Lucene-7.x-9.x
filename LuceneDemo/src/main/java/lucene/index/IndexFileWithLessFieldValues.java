@@ -5,6 +5,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
@@ -42,12 +43,16 @@ public class IndexFileWithLessFieldValues {
   public void doIndex() throws Exception {
 
     conf.setUseCompoundFile(false);
+    SortField sortField = new SortField("docValuesField", SortField.Type.LONG);
+    Sort sort = new Sort(sortField);;
+    conf.setIndexSort(sort);
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
     while (count++ < 1) {
       Document doc = new Document();
       doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
       doc.add(new TextField("content", "a b", Field.Store.YES));
+      doc.add(new NumericDocValuesField("docValuesField", 2));
       indexWriter.addDocument(doc);
 
       // 1
@@ -55,18 +60,21 @@ public class IndexFileWithLessFieldValues {
       doc.add(new TextField("author", "cd a", Field.Store.YES));
       doc.add(new TextField("content", "a b c h", Field.Store.YES));
       doc.add(new TextField("title", "d a", Field.Store.YES));
+      doc.add(new NumericDocValuesField("docValuesField", 3));
       indexWriter.addDocument(doc);
 
       // 2
       doc = new Document();
       doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
       doc.add(new TextField("content", "a c b e", Field.Store.YES));
+      doc.add(new NumericDocValuesField("docValuesField", 1));
       indexWriter.addDocument(doc);
 
       // 4
       doc = new Document();
       doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
       doc.add(new TextField("content", "b c e", Field.Store.YES));
+      doc.add(new NumericDocValuesField("docValuesField", 4));
       indexWriter.addDocument(doc);
     }
     indexWriter.commit();
@@ -85,7 +93,10 @@ public class IndexFileWithLessFieldValues {
     builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
     builder.setMinimumNumberShouldMatch(2);
 
-    indexSearcher.search(builder.build(), 2);
+    SortField field = new SortField("docValuesField", SortField.Type.LONG, true);
+    Sort sort1 = new Sort(field);
+    TopFieldDocs topFieldDocs = indexSearcher.search(builder.build(), 2, sort1);
+    System.out.printf("ha");
 
   }
 
