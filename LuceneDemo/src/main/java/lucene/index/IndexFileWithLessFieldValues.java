@@ -7,6 +7,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
+import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -43,27 +44,48 @@ public class IndexFileWithLessFieldValues {
     conf.setUseCompoundFile(false);
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
-    while (count++ < 1700000) {
+    while (count++ < 1) {
       Document doc = new Document();
       doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
-      doc.add(new TextField("content", "a", Field.Store.YES));
+      doc.add(new TextField("content", "a b", Field.Store.YES));
       indexWriter.addDocument(doc);
 
       // 1
       doc = new Document();
       doc.add(new TextField("author", "cd a", Field.Store.YES));
-      doc.add(new TextField("content", "c", Field.Store.YES));
+      doc.add(new TextField("content", "a b c h", Field.Store.YES));
       doc.add(new TextField("title", "d a", Field.Store.YES));
       indexWriter.addDocument(doc);
 
       // 2
       doc = new Document();
       doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
-      doc.add(new TextField("content", "a", Field.Store.YES));
+      doc.add(new TextField("content", "a c b e", Field.Store.YES));
+      indexWriter.addDocument(doc);
+
+      // 4
+      doc = new Document();
+      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+      doc.add(new TextField("content", "b c e", Field.Store.YES));
       indexWriter.addDocument(doc);
     }
     indexWriter.commit();
     // Per-top-reader state:
+
+    DirectoryReader reader = DirectoryReader.open(indexWriter);
+
+    IndexSearcher indexSearcher = new IndexSearcher(reader);
+
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+
+    builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
+    builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
+    builder.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
+    builder.add(new TermQuery(new Term("content", "h")), BooleanClause.Occur.SHOULD);
+    builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
+    builder.setMinimumNumberShouldMatch(2);
+
+    indexSearcher.search(builder.build(), 2);
 
   }
 

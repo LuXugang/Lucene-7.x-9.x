@@ -5,6 +5,8 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -173,8 +175,12 @@ public class IndexFileWithManyFieldValues {
 //    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
 //    Thread.sleep(1000000000);
 //    indexWriter.flush();
-    indexWriter.flush();
+    indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(directory);
+
+    IndexSearcher searcher = new IndexSearcher(reader);
+    Query query = new TermQuery(new Term("author", "Lily"));
+    searcher.search(query, 10);
     // Per-top-reader state:
   }
 
