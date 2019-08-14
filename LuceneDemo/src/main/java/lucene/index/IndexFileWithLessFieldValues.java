@@ -36,16 +36,19 @@ public class IndexFileWithLessFieldValues {
     }
   }
 
-  private Analyzer analyzer = new WhitespaceAnalyzer();
-  private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
   private IndexWriter indexWriter;
 
   public void doIndex() throws Exception {
 
+    Analyzer analyzer = new WhitespaceAnalyzer();
+    IndexWriterConfig conf = new IndexWriterConfig(analyzer);
+    SortField indexSortField = new SortedNumericSortField("sortByNumber", SortField.Type.LONG);
+    Sort indexSort = new Sort(indexSortField);;
+    conf.setIndexSort(indexSort);
+
+
     conf.setUseCompoundFile(false);
-    SortField sortField = new SortField("docValuesField", SortField.Type.LONG);
-    Sort sort = new Sort(sortField);;
-    conf.setIndexSort(sort);
+
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
     while (count++ < 1) {
@@ -80,12 +83,7 @@ public class IndexFileWithLessFieldValues {
     indexWriter.commit();
     // Per-top-reader state:
 
-    DirectoryReader reader = DirectoryReader.open(indexWriter);
-
-    IndexSearcher indexSearcher = new IndexSearcher(reader);
-
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
-
     builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
     builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
     builder.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
@@ -93,9 +91,12 @@ public class IndexFileWithLessFieldValues {
     builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
     builder.setMinimumNumberShouldMatch(2);
 
-    SortField field = new SortField("docValuesField", SortField.Type.LONG, true);
-    Sort sort1 = new Sort(field);
-    TopFieldDocs topFieldDocs = indexSearcher.search(builder.build(), 2, sort1);
+    DirectoryReader reader = DirectoryReader.open(indexWriter);
+    IndexSearcher indexSearcher = new IndexSearcher(reader);
+    SortField searchSortField = new SortedNumericSortField("sortByNumber", SortField.Type.LONG);
+    Sort searchSort = new Sort(searchSortField);
+    indexSearcher.search(new MatchAllDocsQuery(), 5, searchSort);
+
     System.out.printf("ha");
 
   }
