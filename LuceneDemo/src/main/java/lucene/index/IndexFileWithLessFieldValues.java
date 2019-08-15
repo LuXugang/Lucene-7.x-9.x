@@ -3,22 +3,18 @@ package lucene.index;
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.NumericDocValuesField;
-import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
+import org.apache.lucene.document.*;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -42,7 +38,7 @@ public class IndexFileWithLessFieldValues {
 
     Analyzer analyzer = new WhitespaceAnalyzer();
     IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-    SortField indexSortField = new SortedNumericSortField("sortByNumber", SortField.Type.LONG);
+    SortField indexSortField = new SortField("sortByNumber", SortField.Type.LONG);
     Sort indexSort = new Sort(indexSortField);;
     conf.setIndexSort(indexSort);
 
@@ -52,33 +48,83 @@ public class IndexFileWithLessFieldValues {
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
     while (count++ < 1) {
+
+      // 文档0
       Document doc = new Document();
       doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
       doc.add(new TextField("content", "a b", Field.Store.YES));
-      doc.add(new NumericDocValuesField("docValuesField", 2));
       indexWriter.addDocument(doc);
 
-      // 1
+      // 文档1
       doc = new Document();
       doc.add(new TextField("author", "cd a", Field.Store.YES));
       doc.add(new TextField("content", "a b c h", Field.Store.YES));
       doc.add(new TextField("title", "d a", Field.Store.YES));
-      doc.add(new NumericDocValuesField("docValuesField", 3));
+      doc.add(new NumericDocValuesField("sortByNumber", -1));
       indexWriter.addDocument(doc);
 
-      // 2
+      // 文档2
       doc = new Document();
       doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
       doc.add(new TextField("content", "a c b e", Field.Store.YES));
-      doc.add(new NumericDocValuesField("docValuesField", 1));
+      doc.add(new NumericDocValuesField("sortByNumber", 4));
       indexWriter.addDocument(doc);
 
-      // 4
+      // 文档3
       doc = new Document();
       doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
       doc.add(new TextField("content", "b c e", Field.Store.YES));
-      doc.add(new NumericDocValuesField("docValuesField", 4));
+      doc.add(new NumericDocValuesField("sortByNumber", 1));
       indexWriter.addDocument(doc);
+
+      // 文档4
+      doc = new Document();
+      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+      doc.add(new TextField("content", "a c e f g d", Field.Store.YES));
+      indexWriter.addDocument(doc);
+
+//      // 文档0
+//      Document doc = new Document();
+//      doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
+//      doc.add(new TextField("content", "a b", Field.Store.YES));
+//      indexWriter.addDocument(doc);
+//
+//      // 文档1
+//      doc = new Document();
+//      doc.add(new TextField("author", "cd a", Field.Store.YES));
+//      doc.add(new TextField("content", "a b c h", Field.Store.YES));
+//      doc.add(new TextField("title", "d a", Field.Store.YES));
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("a"))); // MIN
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("h"))); // MIDDLE_MAX
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("f"))); // MIDDLE_MIN
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("y"))); // MAX
+//      indexWriter.addDocument(doc);
+//
+//      // 文档2
+//      doc = new Document();
+//      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+//      doc.add(new TextField("content", "a c b e", Field.Store.YES));
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("c"))); // MIN
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("i"))); // MIDDLE_MAX
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("e"))); // MIDDLE_MIN
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("z"))); // MAX
+//      indexWriter.addDocument(doc);
+//
+//      // 文档3
+//      doc = new Document();
+//      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+//      doc.add(new TextField("content", "b c e", Field.Store.YES));
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("b"))); // MIN
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("j"))); // MIDDLE_MAX
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("d"))); // MIDDLE_MIN
+//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("x"))); // MAX
+//      indexWriter.addDocument(doc);
+//
+//      // 文档4
+//      doc = new Document();
+//      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+//      doc.add(new TextField("content", "b c e d f w e", Field.Store.YES));
+//      indexWriter.addDocument(doc);
     }
     indexWriter.commit();
     // Per-top-reader state:
@@ -93,9 +139,11 @@ public class IndexFileWithLessFieldValues {
 
     DirectoryReader reader = DirectoryReader.open(indexWriter);
     IndexSearcher indexSearcher = new IndexSearcher(reader);
-    SortField searchSortField = new SortedNumericSortField("sortByNumber", SortField.Type.LONG);
+    SortField searchSortField = new SortField("sortByNumber", SortField.Type.LONG);
     Sort searchSort = new Sort(searchSortField);
-    indexSearcher.search(new MatchAllDocsQuery(), 5, searchSort);
+    indexSearcher.search(new MatchAllDocsQuery(), 2, searchSort);
+
+//    TopFieldDocs fieldDocs = indexSearcher.search(new MatchAllDocsQuery(), 5, searchSort);
 
     System.out.printf("ha");
 

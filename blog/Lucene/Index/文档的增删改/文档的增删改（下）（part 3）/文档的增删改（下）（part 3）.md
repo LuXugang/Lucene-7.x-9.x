@@ -39,7 +39,7 @@ private final Queue<BlockedFlush> blockedFlushes = new LinkedList<>();
 - 为什么要优先执行doFlush( )：该ThreadState被置为flushingPending状态，其中一种情况是因为某个DWPT添加/更新文档数量达到阈值maxBufferedDocs（用户设定通过indexWriterConfig设定文档个数作为flush的条件），由于仅仅是通过文档个数来控制flush，而不考虑这些文档对应的索引信息总量，所以可能会出现及时文档个数很小，但是占用的内存很大的情况，无法估计实际的内存占用，为了安全起见，所以该DWPT必须优先flush，正如源码中的注释说道：only for safety reasons if a DWPT is close to the RAM limit，而如果通过indexWriterConfig设定通过ramBufferSizeMB作为flush的条件时，由于能掌握索引占用的内存量，无需通过这种方式来优先执行doFlush( )
 - 为什么使用一个额外的队列blockedFlushes存放该DWPT：为了能保证blockedFlushes中的DWPT能优先添加到flushQueue中，这里先简单的提一句，具体的原因在介绍flush时候会展开，这里留个坑，称为一号坑
 
-&emsp;&emsp;blockedFlushes除了上述描述的作用外，在另一种情况下的也需要暂时存放DWPT，并且该DWPT同样需要优先执行，但并不是因为安全问题，这里先不展开，在介绍flush时会解释，同样地留个坑，称为二号坑。
+&emsp;&emsp;blockedFlushes除了上述描述的作用外，在另一种情况下的也需要暂时存放DWPT，并且该DWPT同样需要优先执行，这里先不展开，在介绍flush时会解释，同样地留个坑，称为二号坑。
 ### flushingWriters
 
 &emsp;&emsp;定义如下：

@@ -1,6 +1,6 @@
 # [Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/)
 
-&emsp;&emsp;本文承接[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)，继续依次介绍每一个流程点，继续介绍其他的收集器。
+&emsp;&emsp;本文承接[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)，继续介绍其他的收集器。
 
 &emsp;&emsp;图1是Lucene常用的几个Collector：
 

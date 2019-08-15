@@ -150,7 +150,9 @@
 
 <img src="文档提交之flush（一）-image/9.png">
 
-&emsp;&emsp;blockedFlushes用来存放优先执行doFLush( )的DWPT，在[文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/)文章中介绍了为什么有些DWPT需要优先执行doFLush( )，而在这里文章里面我们介绍了为什么需要额外的blockedFlushes对象来存放该DWPT，原因就是添加/更新跟主动flush是同步操作，我们必须通过遍历存放所有ThreadState的threadStates链表才能找到所有满足flush要求的DWPT，如果不使用blockedFlushes，我们需要从这些DWPT挑选出一个优先执行doFlush( )的DWPT，相比较之下，使用blockedFlushes更简单高效。
+&emsp;&emsp;blockedFlushes用来存放优先执行doFLush( )的DWPT，在[文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0709/72.html)文章中介绍了为什么有些DWPT需要优先执行doFLush( )，而在这里文章里面我们介绍了为什么需要额外的blockedFlushes对象来存放该DWPT，原因就是添加/更新跟主动flush是同步操作，我们必须通过遍历存放所有ThreadState的threadStates链表才能找到所有满足flush要求的DWPT，如果不使用blockedFlushes，我们需要从这些DWPT挑选出一个优先执行doFlush( )的DWPT，相比较之下，使用blockedFlushes更简单高效。
+
+&emsp;&emsp;上述填了[文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0709/72.html)文章中提到的一号坑，而还有一个二号坑则还得在后面的文章中解释。
 
 &emsp;&emsp;将blockedFlushes跟fullFlushBuffer中的DWPT都添加到flushQueue中之后，那么`收集所有达到flush条件的DWPT`的流程就完成了。
 

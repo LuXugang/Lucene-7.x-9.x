@@ -83,6 +83,8 @@
                            文档0 --> 文档4 --> 文档1 --> 文档2 --> 文档3
 ```
 
+&emsp;&emsp;**SortedNumericSortField也可以在索引阶段设置多个具有相同域名的不同域值，其用法跟SortedSetSortField一致，不赘述。**
+
 &emsp;&emsp;接下来我们根据过滤（filtering）规则，我们接着介绍TopFieldCollector的两个子类：
 
 - SimpleFieldCollector：无过滤规则
@@ -112,7 +114,7 @@
 
 <img src="Collector（三）-image/7.png">
 
-&emsp;&emsp;**搜索期间**，给出比图3更全面的代码，图8
+&emsp;&emsp;**搜索期间**，替换下图3的内容，使得图2中的例子中 搜索期间跟查询期间的有一样的排序规则，图8
 
 <img src="Collector（三）-image/8.png">
 
@@ -136,6 +138,6 @@
 
 &emsp;&emsp;TopFieldCollector相比较[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)中TopScoreDocCollector，尽管他们都是TopDocsCollector的子类，由于存在**索引期间**的排序机制，使得TopFieldCollector的collect(int doc)的流程更加复杂，当然带来了更好的查询性能，至于如何能提高查询性能，由于篇幅原因，会在下一篇介绍图6的collect(int doc)的流程中展开介绍。
 
-[点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/Collector/Collector（三）/Collector（三）.zip)下载附件
+[点击]()下载附件
 
 

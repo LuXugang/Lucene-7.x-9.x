@@ -34,24 +34,33 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档提交/文档提交之flush（二）/4.png">
 
-&emsp;&emsp;图4中，尽管主动flush跟自动flush都是执行DWPT的doFlush( )，但是DWPT的来源是不一样的，在介绍为何来源不同之前，我们先说一个重要的事实：
+&emsp;&emsp;图4中，尽管主动flush跟自动flush都是执行DWPT的doFlush( )，但是DWPT的来源是不一样的。
 
-- 主动flush跟自动flush不会同时进入`执行DWPT的doFlush()的流程图`这个流程点（该流程点的入口对应源码中DocumentsWriter.doFlush(DocumentsWriterPerThread)）
+&emsp;&emsp;在全局flush触发的情况下，如果此时自动flush处理的DWPT跟全局flush的DWPT类型不一致（只可能存在两种不同类型的DWPT，见[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)），那么主动flush跟自动flush的线程不能同时进入`执行DWPT的doFlush()的流程图`（该流程点的入口对应源码中DocumentsWriter.doFlush(DocumentsWriterPerThread)），反之如果自动flush处理的DWPT跟全局flush的DWPT类型是一致的，那么允许并发的执行`执行DWPT的doFlush()`。
 
-&emsp;&emsp;首先介绍下通过什么方式防止主动flush跟自动flush同时进入`执行DWPT的doFlush()的流程图`这个流程点：
+&emsp;&emsp;**什么情况下自动flush处理的DWPT跟全局flush的DWPT类型会不一致：**
+
+- 在[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)中我们了解到，当主动flush触发后，会执行`替换全局删除队列`的流程，此时如果有新的添加/更新文档的操作，意味着会生成另一种类型的DWPT，即该DWPT持有不同全局删除队列，如果在执行完处理文档的任务后，DWPT满足自动flush的条件，那么此时就会出现自动flush处理的DWPT跟全局flush的DWPT类型会不一致的情况
+
+&emsp;&emsp;**什么情况下自动flush处理的DWPT跟全局flush的DWPT类型是一致的：**
+
+- 全局flush未触发的情况下，线程A中的DWPT满足自动flush的条件，准备执行`执行DWPT的doFlush()`的流程，此时线程B执行主动flush，那么此时就会出现自动flush处理的DWPT跟全局flush的DWPT类型是一致的情况 
+
+&emsp;&emsp;**通过什么方式防止同时进入`执行DWPT的doFlush()的流程图`这个流程点**：
 
 - 在线程A触发了全局flush后，并且在flush期间（全局变量fullFlush为true）如果线程B（持有的DWPT跟当前正在flush的DWPT持有不一样的删除队列deleteQueue）中的DWPT执行了添加/更新的操作后，如果因为达到了maxBufferedDocs而触发自动flush，那么该DWPT会被添加到blockedFlushes中；如果因为达到ramBufferSizeMB而触发自动flush，并且该DWPT收集的索引量是DWPTP中所有跟它具有相同删除队列的DWPT集合中最大的，那么它也会被添加到blockedFlushes中，否则什么也不做。**另外当主动flush在执行完后，会马上将blockedFlushes中的DWPT添加到flushQueue中**
 - 上面的描述同时也填了我们在[文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0709/72.html)中介绍blockedFlushes时挖的二号坑，即blockedFlushes的另一个作用是防止主动flush跟自动flush同时进入`执行DWPT的doFlush()的流程图`这个流程点
 
-&emsp;&emsp;**为什么不允许主动flush跟自动flush同时进入`执行DWPT的doFlush()的流程图`这个流程点：**
+&emsp;&emsp;**为什么不允许同时进入`执行DWPT的doFlush()的流程图`这个流程点：**
 
 - 这里先暂时给出结论：为了能正确处理删除信息。在下面的流程点中会展开
 
-&emsp;&emsp;**为什么主动flush跟自动flush都是执行DWPT的doFlush( )，但是DWPT的来源是不一样的：**
+&emsp;&emsp;**为什么都是执行DWPT的doFlush( )，但是DWPT的来源是不一样的：**
 
 - 主动flush：在[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)的文章中我们介绍了，由于主动flush跟添加/更新文档是并行操作，此时的DWPTP中可能有最多两种包含不同的删除队列deleteQueue的DWPT类型，所以主动flush需要从DWPTP中挑选出这次flush的DWPT，并存放到flushQueue中，随后依次执行doFLush( )
 - 自动flush：全局flush没有被触发，那么DWPTP中的DWPT肯定都包含相同的deleteQueue（原因见[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)），所以可以从DWPTP中把所有满足flush条件的DWPT都依次取出来执行doFLush( )，为什么还要`先去`flushQueue中找DWPT呢：
-  - 上文中我们提到，由于线程A正在执行主动flush，线程B中的满足flush条件的DWPT被存到了blockedFlushes中，并且在主动flush结束后，这些DWPT被添加到了flushQueue中，所以先到要flushQueue中找DWPT，并且这些DWPT能被优先执行doFLush( )，毕竟是它们的存在说明内存中堆积了不少的索引内存量
+  - 自动flush处理的DWPT类型跟主动flush的不一致：上文中我们提到，由于线程A正在执行主动flush，线程B中的满足flush条件的DWPT被存到了blockedFlushes中，并且在主动flush结束后，这些DWPT被添加到了flushQueue中，所以先到要flushQueue中找DWPT，并且这些DWPT能被优先执行doFLush( )，毕竟它们的存在说明内存中堆积了不少的索引内存量
+  - 自动flush处理的DWPT类型跟主动flush的是一致的：在后面的文章中我们将会知道，`执行DWPT的doFlush()`是开销较大的流程点，先去flushQueue中找DWPT可以的线程可以帮助正在执行主动flush的线程将DWPT生成一个段，提高主动flush的性能
 
 #### 更新拖延状态
 

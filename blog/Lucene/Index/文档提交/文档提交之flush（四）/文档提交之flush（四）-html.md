@@ -28,7 +28,7 @@ static final class FlushTicket {
 }
 ```
 
-&emsp;&emsp;frozenUpdates是一个包含删除信息且作用于其他段中的文档的全局FrozenBufferedUpdate对象（见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)），而segment则是图2中的流程点`将DWPT中收集的索引信息生成一个段newSegment`执行结束后生成的FlushedSegment对象，它至少包含了一个DWPT处理的文档对应的索引信息（SegmentCommitInfo）、段中被删除的文档信息（[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)对象）还未处理的信息（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）、Sorter.DocMap对象，以上内容在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)的文章中已介绍。
+&emsp;&emsp;frozenUpdates是一个包含删除信息且作用于其他段中的文档的全局FrozenBufferedUpdate对象（见[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)），而segment则是图2中的流程点`将DWPT中收集的索引信息生成一个段newSegment`执行结束后生成的FlushedSegment对象，它至少包含了一个DWPT处理的文档对应的索引信息（SegmentCommitInfo）、段中被删除的文档信息（[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)对象）、未处理的删除信息FrozenBufferedUpdates（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）、Sorter.DocMap对象，以上内容在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)的文章中已介绍。
 
 &emsp;&emsp;**为什么FlushTicket中生成FrozenBufferedUpdates跟FlushedSegment是两个有先后关系的流程**
 

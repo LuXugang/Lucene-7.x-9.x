@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>FieldComparator-html</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+<title>FieldComparator的副本</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
 html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
 iframe { margin: auto; }
 a.url { word-break: break-all; }
 a:active, a:hover { outline: 0px; }
@@ -22,7 +22,7 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
   .CodeMirror-sizer { margin-left: 0px !important; }
   .CodeMirror-gutters { display: none !important; }
 }
-#write li > figure:first-child { margin-top: -20px; }
+#write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
 img { max-width: 100%; vertical-align: middle; }
 button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
@@ -30,6 +30,7 @@ input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px;
 *, ::after, ::before { box-sizing: border-box; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
 h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
 p { orphans: 4; }
 h1 { font-size: 2rem; }
@@ -87,7 +88,6 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
   html.blink-to-pdf { font-size: 13px; }
   .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
   .typora-export #write::after { height: 0px; }
-  @page { margin: 20mm 0px; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
 a img, img a { cursor: pointer; }
@@ -138,10 +138,10 @@ a.md-print-anchor { white-space: pre !important; border: none !important; displa
 .MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
 .MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
 .MathJax_SVG * { transition: none; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
 .os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
 .md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
 [lang="mermaid"] .node text { font-size: 1rem; }
 table tr th { border-bottom-width: 0px; }
 video { max-width: 100%; display: block; margin: 0px auto; }
@@ -489,37 +489,19 @@ header, .context-menu, .megamenu-content, footer{
     border-color: #e5e5e5;
 }
 
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
  .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
 </style>
 </head>
 <body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name='header-n904' class='md-header-anchor '></a>FieldComparator &amp;&amp; LeafFieldComparator</h1><p>当满足搜索要求的文档被TopFieldCollector收集后，我们可以通过FieldComparator类来对这些结果（文档document）进行排序，并同时可以实现TopN的筛选。</p><h1><a name='header-n907' class='md-header-anchor '></a>排序类型</h1><p>在介绍如果通过FieldComparator实现排序前，我们先介绍下排序类型，根据我们的排序对象，提供了下面几种类型。</p><h2><a name='header-n909' class='md-header-anchor '></a>SCORE</h2><p>根据文档打分(相关性 relevance)进行排序。打分越高越靠前。</p><h2><a name='header-n911' class='md-header-anchor '></a>DOC</h2><p>根据文档号进行排序，文档号越小越靠前</p><h2><a name='header-n913' class='md-header-anchor '></a>STRING</h2><p>根据String类型数据，即字符串对应的ord值(int类型)进行排序，ord越小越靠前(ord值的概念在<a href='http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html'>SortedDocValues</a>有详细介绍)。</p><h2><a name='header-n915' class='md-header-anchor '></a>STRING_VAL</h2><p>根据String类型数据，即字符串进行排序，上文的STRING通过对应的ord进行排序，而在STRING_VAL则是按照字典序逐个比较字符串的每一个字符。
-通常情况下排序速度没有STRING快。比如只使用了<a href='http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html'>BinaryDocValues</a>的情况下，就只能使用这种排序类型，因为BinaryDocValues没有为String类型的域值设置ord值。</p><h2><a name='header-n917' class='md-header-anchor '></a>INT</h2><p>根据int类型数值进行排序，数值越小越靠前。</p><h2><a name='header-n919' class='md-header-anchor '></a>FLOAT</h2><p>根据float类型数值进行排序，数值越小越靠前。</p><h2><a name='header-n921' class='md-header-anchor '></a>LONG</h2><p>根据long类型数值进行排序，数值越小越靠前。</p><h2><a name='header-n923' class='md-header-anchor '></a>DOUBLE</h2><p>根据double类型数值进行排序，数值越小越靠前。</p><h2><a name='header-n925' class='md-header-anchor '></a>CUSTOM</h2><p>自定义类型，自定义实现一个实现FieldComparator类的子类。</p><h2><a name='header-n927' class='md-header-anchor '></a>REWRITEABLE</h2><p>设置一个排序类型为可变的，使得每次搜索时候我们可以随时更新为新的排序规则。</p><h2><a name='header-n929' class='md-header-anchor '></a>流程图</h2><p>我们一个例子来说明排序的过程，在这个例子中，我们使用STRING_VAL来排序，即在索引阶段必须在每篇文档中定义BinaryDocValuesField，在介绍例子前，先介绍下排序的流程图。
-图1：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/1.png"></p><h3><a name='header-n931' class='md-header-anchor '></a>初始化</h3><p>图2：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/2.png"> 
-在初始化阶段，根据设置TopN(必须设置)来初始化一个value[ ]数组，数组大小为N。value[ ]数组用来存放文档号对应的域值，在下面的例子中，即BinaryDocValuesField的域值，N的值为3。</p><h3><a name='header-n933' class='md-header-anchor '></a>文档号</h3><p>图3：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/3.png"> 
-由于比较的过程是在Collector类中的collect(int doc)中进行的，所以输入只能是满足搜索要求的文档号。</p><h3><a name='header-n935' class='md-header-anchor '></a>队列满？</h3><p>图4：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/4.png"> 
-即value[ ]数组中的元素个数是否等于数组的最大容量。</p><h3><a name='header-n937' class='md-header-anchor '></a>添加</h3><p>图5：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/5.png"> 
-根据文档号取出对应的BinaryDocValuesField的域值，将域值存放到value中。如何根据文档号取出域值在这里不赘述，如果你已经看过了<a href='http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html'>BinaryDocValues</a>这篇文章，那么就知道过程啦。</p><h3><a name='header-n939' class='md-header-anchor '></a>设置bottom</h3><p>图6：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/6.png"> 
-在添加的过程中，当队列满了，那么我们需要设置一个bottom值，bottom的值为数组中最小的那个（当前例子中按照字典序），设置bottom的目的在于，当有新的添加时，只要跟bottom做比较，如果大于bottom，那么就替换bottom，否则就直接跳过。</p><h3><a name='header-n941' class='md-header-anchor '></a>大于bottom？</h3><p>图7：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/7.png"> 
-判断新的添加是否大于bottom。</p><h3><a name='header-n943' class='md-header-anchor '></a>替换bottom</h3><p>图8：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/8.png"> 
-新的添加大于bottom，那么替换bottom。</p><h3><a name='header-n945' class='md-header-anchor '></a>更新bottom</h3><p>图9：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/9.png"> 
-替换了bottom后，需要调整bottom，因为新的添加只跟bottom作了比较，它有可能比其他的域值更大。</p><h2><a name='header-n947' class='md-header-anchor '></a>例子</h2><p>图10：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/10.png">
-图11：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/11.png">
-文档会按照从小到大的传到collect(int doc)方法中，所以域值的出现顺序即 &quot;c&quot;、&quot;b&quot;、&quot;d&quot;、&quot;e&quot;、&quot;a&quot; 。</p><h3><a name='header-n949' class='md-header-anchor '></a>处理文档号0、1、2</h3><p>本例子中TopN的N值为3，所以添加这三篇文档时，直接将对应的域值添加到value[]数组即可。添加结束后，队列已满，故需要设置bottom值。
-图12：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/12.png"> </p><h3><a name='header-n951' class='md-header-anchor '></a>处理文档号3</h3><p>文档号3对应的域值为&quot;e&quot;， 它比bottom值&quot;d&quot;小，所以直接跳过。</p><h3><a name='header-n953' class='md-header-anchor '></a>处理文档号4</h3><p>文档号4对应的域值为&quot;a&quot;，它比bottom值&quot;d&quot;大，所以替换bottom，然后再更新bottom。
-图13：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/13.png"> </p><h1><a name='header-n955' class='md-header-anchor '></a>结语</h1><p>本篇文章介绍了FileComparator的排序过程，出于仅原理的理解，只介绍了基本的流程，其细节的部分比如说，如果排序对象为STRING，并且在搜索阶段存在多个IndexReader时，当IndexSearcher切换IndexReader时，还要考虑在不同的IndexReader中同一个域值可能有不用的ord值的情况。完整的过程大家看源码吧，然后就是由于源码比较简单，所以我并没有添加源码注释~</p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/Search/FieldComparator/FieldComparator.zip'>点击下载</a>Markdown文档</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></div>
+<div  id='write'  class = 'is-mac'><h1><a name="fieldcomparator-&amp;&amp;-leaffieldcomparator" class="md-header-anchor"></a><span>FieldComparator &amp;&amp; LeafFieldComparator</span></h1><p>&emsp;&emsp;<span>当满足搜索要求的文档被TopFieldCollector收集后，我们可以通过FieldComparator类来对这些结果（文档document）进行排序，并同时可以实现TopN的筛选。</span></p><h1><a name="排序类型" class="md-header-anchor"></a><span>排序类型</span></h1><p>&emsp;&emsp;<span>在介绍如果通过FieldComparator实现排序前，我们先介绍下排序类型，根据我们的排序对象，提供了下面几种类型。</span></p><h2><a name="score" class="md-header-anchor"></a><span>SCORE</span></h2><p>&emsp;&emsp;<span>根据文档打分(相关性 relevance)进行排序。打分越高越靠前。</span></p><h2><a name="doc" class="md-header-anchor"></a><span>DOC</span></h2><p>&emsp;&emsp;<span>根据文档号进行排序，文档号越小越靠前</span></p><h2><a name="string" class="md-header-anchor"></a><span>STRING</span></h2><p>&emsp;&emsp;<span>根据String类型数据，即字符串对应的ord值(int类型)进行排序，ord越小越靠前(ord值的概念在</span><a href='http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html'><span>SortedDocValues</span></a><span>有详细介绍)。</span></p><h2><a name="string_val" class="md-header-anchor"></a><span>STRING_VAL</span></h2><p>&emsp;&emsp;<span>根据String类型数据，即字符串进行排序，上文的STRING通过对应的ord进行排序，而在STRING_VAL则是按照字典序逐个比较字符串的每一个字符。</span></p><p>&emsp;&emsp;<span>通常情况下排序速度没有STRING快。比如只使用了</span><a href='http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html'><span>BinaryDocValues</span></a><span>的情况下，就只能使用这种排序类型，因为BinaryDocValues没有为String类型的域值设置ord值。</span></p><h2><a name="int" class="md-header-anchor"></a><span>INT</span></h2><p>&emsp;&emsp;<span>根据int类型数值进行排序，数值越小越靠前。</span></p><h2><a name="float" class="md-header-anchor"></a><span>FLOAT</span></h2><p>&emsp;&emsp;<span>根据float类型数值进行排序，数值越小越靠前。</span></p><h2><a name="long" class="md-header-anchor"></a><span>LONG</span></h2><p>&emsp;&emsp;<span>根据long类型数值进行排序，数值越小越靠前。</span></p><h2><a name="double" class="md-header-anchor"></a><span>DOUBLE</span></h2><p>&emsp;&emsp;<span>根据double类型数值进行排序，数值越小越靠前。</span></p><h2><a name="custom" class="md-header-anchor"></a><span>CUSTOM</span></h2><p>&emsp;&emsp;<span>自定义类型，自定义实现一个实现FieldComparator类的子类。</span></p><h2><a name="rewriteable" class="md-header-anchor"></a><span>REWRITEABLE</span></h2><p>&emsp;&emsp;<span>设置一个排序类型为可变的，使得每次搜索时候我们可以随时更新为新的排序规则。</span></p><h2><a name="流程图" class="md-header-anchor"></a><span>流程图</span></h2><p>&emsp;&emsp;<span>我们一个例子来说明排序的过程，在这个例子中，我们使用STRING_VAL来排序，即在索引阶段必须在每篇文档中定义BinaryDocValuesField，在介绍例子前，先介绍下排序的流程图。</span></p><p><span>图1：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/1.png"></p><h3><a name="初始化" class="md-header-anchor"></a><span>初始化</span></h3><p><span>图2：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/2.png"><span> </span></p><p>&emsp;&emsp;<span>在初始化阶段，根据设置TopN(必须设置)来初始化一个value[ ]数组，数组大小为N。value[ ]数组用来存放文档号对应的域值，在下面的例子中，即BinaryDocValuesField的域值，N的值为3。</span></p><h3><a name="文档号" class="md-header-anchor"></a><span>文档号</span></h3><p><span>图3：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/3.png"><span> </span></p><p>&emsp;&emsp;<span>由于比较的过程是在Collector类中的collect(int doc)中进行的，所以输入只能是满足搜索要求的文档号。</span></p><h3><a name="队列满？" class="md-header-anchor"></a><span>队列满？</span></h3><p><span>图4：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/4.png"><span> </span></p><p>&emsp;&emsp;<span>即value[ ]数组中的元素个数是否等于数组的最大容量。</span></p><h3><a name="添加" class="md-header-anchor"></a><span>添加</span></h3><p><span>图5：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/5.png"><span> </span></p><p>&emsp;&emsp;<span>根据文档号取出对应的BinaryDocValuesField的域值，将域值存放到value中。如何根据文档号取出域值在这里不赘述，如果你已经看过了</span><a href='http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html'><span>BinaryDocValues</span></a><span>这篇文章，那么就知道过程啦。</span></p><h3><a name="设置bottom" class="md-header-anchor"></a><span>设置bottom</span></h3><p><span>图6：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/6.png"><span> </span></p><p>&emsp;&emsp;<span>在添加的过程中，当队列满了，那么我们需要设置一个bottom值，bottom的值为数组中最小的那个（当前例子中按照字典序），设置bottom的目的在于，当有新的添加时，只要跟bottom做比较，如果大于bottom，那么就替换bottom，否则就直接跳过。</span></p><h3><a name="大于bottom？" class="md-header-anchor"></a><span>大于bottom？</span></h3><p><span>图7：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/7.png"><span> </span></p><p>&emsp;&emsp;<span>判断新的添加是否大于bottom。</span></p><h3><a name="替换bottom" class="md-header-anchor"></a><span>替换bottom</span></h3><p><span>图8：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/8.png"><span> </span></p><p>&emsp;&emsp;<span>新的添加大于bottom，那么替换bottom。</span></p><h3><a name="更新bottom" class="md-header-anchor"></a><span>更新bottom</span></h3><p><span>图9：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/9.png"><span> </span></p><p>&emsp;&emsp;<span>替换了bottom后，需要调整bottom，因为新的添加只跟bottom作了比较，它有可能比其他的域值更大。</span></p><h2><a name="例子" class="md-header-anchor"></a><span>例子</span></h2><p><span>图10：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/10.png"></p><p><span>图11：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/11.png"></p><p>&emsp;&emsp;<span>文档会按照从小到大的传到collect(int doc)方法中，所以域值的出现顺序即 &quot;c&quot;、&quot;b&quot;、&quot;d&quot;、&quot;e&quot;、&quot;a&quot; 。</span></p><h3><a name="处理文档号0、1、2" class="md-header-anchor"></a><span>处理文档号0、1、2</span></h3><p>&emsp;&emsp;<span>本例子中TopN的N值为3，所以添加这三篇文档时，直接将对应的域值添加到value[]数组即可。添加结束后，队列已满，故需要设置bottom值。</span></p><p><span>图12：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/12.png"><span> </span></p><h3><a name="处理文档号3" class="md-header-anchor"></a><span>处理文档号3</span></h3><p>&emsp;&emsp;<span>文档号3对应的域值为&quot;e&quot;， 它比bottom值&quot;d&quot;小，所以直接跳过。</span></p><h3><a name="处理文档号4" class="md-header-anchor"></a><span>处理文档号4</span></h3><p><span>文档号4对应的域值为&quot;a&quot;，它比bottom值&quot;d&quot;大，所以替换bottom，然后再更新bottom。</span></p><p><span>图13：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/13.png"><span> </span></p><h1><a name="结语" class="md-header-anchor"></a><span>结语</span></h1><p>&emsp;&emsp;<span>本篇文章介绍了FileComparator的排序过程，出于仅原理的理解，只介绍了基本的流程，其细节的部分比如说，如果排序对象为STRING，并且在搜索阶段存在多个IndexReader时，当IndexSearcher切换IndexReader时，还要考虑在不同的IndexReader中同一个域值可能有不用的ord值的情况。完整的过程大家看源码吧，然后就是由于源码比较简单，所以我并没有添加源码注释~</span></p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></div>
 </body>
 </html>
