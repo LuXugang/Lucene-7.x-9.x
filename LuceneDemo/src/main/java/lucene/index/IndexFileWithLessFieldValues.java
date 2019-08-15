@@ -141,7 +141,9 @@ public class IndexFileWithLessFieldValues {
     IndexSearcher indexSearcher = new IndexSearcher(reader);
     SortField searchSortField = new SortField("sortByNumber", SortField.Type.LONG);
     Sort searchSort = new Sort(searchSortField);
-    indexSearcher.search(new MatchAllDocsQuery(), 2, searchSort);
+
+    TopFieldCollector collector = TopFieldCollector.create(searchSort, 2, true, false, false, false);
+    indexSearcher.search(new MatchAllDocsQuery(),  collector);
 
 //    TopFieldDocs fieldDocs = indexSearcher.search(new MatchAllDocsQuery(), 5, searchSort);
 
