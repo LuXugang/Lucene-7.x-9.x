@@ -16,14 +16,15 @@ import java.nio.file.Paths;
 
 /**
  * @author Lu Xugang
- * @date 2019-04-14 22:59
+ * @date 2019-08-19 16:14
  */
-public class TermQuerySHOULDTest {
+public class TermQueryTest {
 
     private Directory directory;
 
     {
         try {
+            // 每次运行demo先清空索引目录中的索引文件
             FileOperation.deleteFile("./data");
             directory = new MMapDirectory(Paths.get("./data"));
         } catch (IOException e) {
@@ -31,82 +32,90 @@ public class TermQuerySHOULDTest {
         }
     }
 
+    // 空格分词器
     private Analyzer analyzer = new WhitespaceAnalyzer();
     private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-    private IndexWriter indexWriter;
 
-    public void doSearch() throws Exception {
-        conf.setUseCompoundFile(false);
-        indexWriter = new IndexWriter(directory, conf);
-
+    private void doDemo() throws Exception {
+        IndexWriter indexWriter = new IndexWriter(directory, conf);
         Document doc ;
         // 0
         doc = new Document();
         doc.add(new TextField("content", "h", Field.Store.YES));
+        doc.add(new TextField("author", "author1", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 1
         doc = new Document();
         doc.add(new TextField("content", "b", Field.Store.YES));
+        doc.add(new TextField("author", "author2", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 2
         doc = new Document();
         doc.add(new TextField("content", "a c", Field.Store.YES));
+        doc.add(new TextField("author", "author3", Field.Store.YES));
+
         indexWriter.addDocument(doc);
         // 3
         doc = new Document();
         doc.add(new TextField("content", "a c e", Field.Store.YES));
+        doc.add(new TextField("author", "author4", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 4
         doc = new Document();
         doc.add(new TextField("content", "h", Field.Store.YES));
+        doc.add(new TextField("author", "author5", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 5
         doc = new Document();
         doc.add(new TextField("content", "c e", Field.Store.YES));
+        doc.add(new TextField("author", "author6", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 6
         doc = new Document();
         doc.add(new TextField("content", "c a e", Field.Store.YES));
+        doc.add(new TextField("author", "author7", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 7
         doc = new Document();
         doc.add(new TextField("content", "f", Field.Store.YES));
+        doc.add(new TextField("author", "author8", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 8
         doc = new Document();
         doc.add(new TextField("content", "b c d e c e", Field.Store.YES));
+        doc.add(new TextField("author", "author9", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 9
         doc = new Document();
         doc.add(new TextField("content", "a c e a b c", Field.Store.YES));
+        doc.add(new TextField("author", "author10", Field.Store.YES));
         indexWriter.addDocument(doc);
         indexWriter.commit();
+        // 索引阶段结束
 
+        //查询阶段
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
-        builder.setMinimumNumberShouldMatch(5);
-
-
-        ScoreDoc []docs = searcher.search(builder.build(), 10).scoreDocs;
-//        ScoreDoc []docs = searcher.search(new TermQuery(new Term("content", "a")), 10).scoreDocs;
-
+        // 查询条件, 找出 域名为"content", 域值中包含"a"的文档（Document）
         Query query = new TermQuery(new Term("content", "a"));
 
-        ScoreDoc [] scoreDoc = searcher.search(query, 3).scoreDocs;
+        // 返回Top5的结果
+        int resultTopN = 5;
 
-        System.out.println(docs.length);
+        ScoreDoc [] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
 
-        System.out.println("hah");
+        System.out.println("Total Result Number: "+scoreDocs.length+"");
+        for (int i = 0; i < scoreDocs.length; i++) {
+            ScoreDoc scoreDoc = scoreDocs[i];
+            // 输出满足查询条件的 文档号
+            System.out.println("result"+i+": "+scoreDoc.doc+"");
+        }
+
     }
 
     public static void main(String[] args) throws Exception{
-        TermQuerySHOULDTest termQuerySHOULDTest = new TermQuerySHOULDTest();
-        termQuerySHOULDTest.doSearch();
+        TermQueryTest termQueryTest = new TermQueryTest();
+        termQueryTest.doDemo();
     }
 }

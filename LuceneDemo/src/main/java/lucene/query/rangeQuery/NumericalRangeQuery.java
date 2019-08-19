@@ -9,6 +9,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
@@ -81,6 +82,7 @@ public class NumericalRangeQuery {
 //    int [] upValue = {100, 100};
 
     int num;
+    TopDocs topDocs = s.search(IntPoint.newRangeQuery("content", lowValue, upValue), 100);
     num = s.count(IntPoint.newRangeQuery("content", lowValue, upValue));
     System.out.println("result number : "+ num +"");
 
