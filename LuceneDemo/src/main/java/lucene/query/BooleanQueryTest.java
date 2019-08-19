@@ -16,10 +16,9 @@ import java.nio.file.Paths;
 
 /**
  * @author Lu Xugang
- * @date 2019-08-19 16:14
+ * @date 2019-08-19 16:33
  */
-public class TermQueryTest {
-
+public class BooleanQueryTest {
     private Directory directory;
 
     {
@@ -82,7 +81,7 @@ public class TermQueryTest {
         indexWriter.addDocument(doc);
         // 8
         doc = new Document();
-        doc.add(new TextField("content", "b c d e c e", Field.Store.YES));
+        doc.add(new TextField("content", "b c d h e c e", Field.Store.YES));
         doc.add(new TextField("author", "author9", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 9
@@ -97,13 +96,17 @@ public class TermQueryTest {
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        // 查询条件, 找出 域名为"content", 域值中包含"a"的文档（Document）
-        Query query = new TermQuery(new Term("content", "a"));
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+        builder.add(new TermQuery(new Term("content", "h")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("content", "f")), BooleanClause.Occur.SHOULD);
+        builder.setMinimumNumberShouldMatch(1);
+
+        Query query = builder.build();
 
         // 返回Top5的结果
         int resultTopN = 5;
 
-        ScoreDoc [] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
+        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
 
         System.out.println("Total Result Number: "+scoreDocs.length+"");
         for (int i = 0; i < scoreDocs.length; i++) {
@@ -115,7 +118,7 @@ public class TermQueryTest {
     }
 
     public static void main(String[] args) throws Exception{
-        TermQueryTest termQueryTest = new TermQueryTest();
-        termQueryTest.doDemo();
+        BooleanQueryTest queryTest = new BooleanQueryTest();
+        queryTest.doDemo();
     }
 }
