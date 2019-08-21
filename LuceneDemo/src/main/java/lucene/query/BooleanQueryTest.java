@@ -38,53 +38,52 @@ public class BooleanQueryTest {
     private void doDemo() throws Exception {
         IndexWriter indexWriter = new IndexWriter(directory, conf);
         Document doc ;
-        // 0
+        // 文档0
         doc = new Document();
         doc.add(new TextField("content", "h", Field.Store.YES));
         doc.add(new TextField("author", "author1", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 1
+        // 文档1
         doc = new Document();
         doc.add(new TextField("content", "b", Field.Store.YES));
         doc.add(new TextField("author", "author2", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 2
+        // 文档2
         doc = new Document();
         doc.add(new TextField("content", "a c", Field.Store.YES));
         doc.add(new TextField("author", "author3", Field.Store.YES));
-
         indexWriter.addDocument(doc);
-        // 3
+        // 文档3
         doc = new Document();
         doc.add(new TextField("content", "a c e", Field.Store.YES));
         doc.add(new TextField("author", "author4", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 4
+        // 文档4
         doc = new Document();
-        doc.add(new TextField("content", "h", Field.Store.YES));
+        doc.add(new TextField("content", "a", Field.Store.YES));
         doc.add(new TextField("author", "author5", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 5
+        // 文档5
         doc = new Document();
         doc.add(new TextField("content", "c e", Field.Store.YES));
         doc.add(new TextField("author", "author6", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 6
+        // 文档6
         doc = new Document();
         doc.add(new TextField("content", "c a e", Field.Store.YES));
         doc.add(new TextField("author", "author7", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 7
+        // 文档7
         doc = new Document();
         doc.add(new TextField("content", "f", Field.Store.YES));
         doc.add(new TextField("author", "author8", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 8
+        // 文档8
         doc = new Document();
-        doc.add(new TextField("content", "b c d h e c e", Field.Store.YES));
+        doc.add(new TextField("content", "b c d h h e c e", Field.Store.YES));
         doc.add(new TextField("author", "author9", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 9
+        // 文档9
         doc = new Document();
         doc.add(new TextField("content", "a c e a b c", Field.Store.YES));
         doc.add(new TextField("author", "author10", Field.Store.YES));
@@ -92,15 +91,14 @@ public class BooleanQueryTest {
         indexWriter.commit();
         // 索引阶段结束
 
-        //查询阶段
+        // 查询阶段
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(new TermQuery(new Term("content", "h")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("content", "f")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(1);
-
         Query query = builder.build();
 
         // 返回Top5的结果
@@ -112,7 +110,7 @@ public class BooleanQueryTest {
         for (int i = 0; i < scoreDocs.length; i++) {
             ScoreDoc scoreDoc = scoreDocs[i];
             // 输出满足查询条件的 文档号
-            System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+            System.out.println("result"+i+": 文档"+scoreDoc.doc+", "+scoreDoc.score+"");
         }
 
     }
