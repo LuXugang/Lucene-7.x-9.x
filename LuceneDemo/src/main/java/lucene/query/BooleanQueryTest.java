@@ -102,17 +102,16 @@ public class BooleanQueryTest {
         Query query = builder.build();
 
         // 返回Top5的结果
-        int resultTopN = 5;
-
-        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
-
-        System.out.println("Total Result Number: "+scoreDocs.length+"");
-        for (int i = 0; i < scoreDocs.length; i++) {
-            ScoreDoc scoreDoc = scoreDocs[i];
-            // 输出满足查询条件的 文档号
-            System.out.println("result"+i+": 文档"+scoreDoc.doc+", "+scoreDoc.score+"");
-        }
-
+//        int resultTopN = 5;
+//
+//        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
+//
+//        System.out.println("Total Result Number: "+scoreDocs.length+"");
+//        for (int i = 0; i < scoreDocs.length; i++) {
+//            ScoreDoc scoreDoc = scoreDocs[i];
+//            // 输出满足查询条件的 文档号
+//            System.out.println("result"+i+": 文档"+scoreDoc.doc+", "+scoreDoc.score+"");
+//        }
     }
 
     public static void main(String[] args) throws Exception{
