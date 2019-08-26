@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Collector处理查询结果</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/collector______/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script src="resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="data/document.js"></script>
+    <script src="files/collector______/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u197" class="ax_default flow_shape">
+        <div id="u197_div" class=""></div>
+        <div id="u197_text" class="text ">
+          <p><span>开始</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Diamond) -->
+      <div id="u198" class="ax_default flow_shape">
+        <img id="u198_img" class="img " src="images/查询原理流程图/u3.svg"/>
+        <div id="u198_text" class="text ">
+          <p><span>是否还有遍历区间？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u199" class="ax_default flow_shape">
+        <div id="u199_div" class=""></div>
+        <div id="u199_text" class="text ">
+          <p><span>取出一个遍历区间</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u200" class="ax_default flow_shape">
+        <div id="u200_div" class=""></div>
+        <div id="u200_text" class="text ">
+          <p><span>结束</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Diamond) -->
+      <div id="u201" class="ax_default flow_shape">
+        <img id="u201_img" class="img " src="images/查询原理流程图/u3.svg"/>
+        <div id="u201_text" class="text ">
+          <p><span>是否还有未处理的</span></p><p><span>子查询？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Diamond) -->
+      <div id="u202" class="ax_default flow_shape">
+        <img id="u202_img" class="img " src="images/查询原理流程图/u3.svg"/>
+        <div id="u202_text" class="text ">
+          <p><span>子查询中是否还有</span></p><p><span>未处理的文档？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u203" class="ax_default flow_shape">
+        <div id="u203_div" class=""></div>
+        <div id="u203_text" class="text ">
+          <p><span>计算文档打分值</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u204" class="ax_default flow_shape">
+        <div id="u204_div" class=""></div>
+        <div id="u204_text" class="text ">
+          <p><span>更新Bucket数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u205" class="ax_default connector">
+        <img id="u205_seg0" class="img " src="images/collector______/u205_seg0.svg" alt="u205_seg0"/>
+        <img id="u205_seg1" class="img " src="images/collector______/u205_seg1.svg" alt="u205_seg1"/>
+        <div id="u205_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u206" class="ax_default connector">
+        <img id="u206_seg0" class="img " src="images/collector______/u206_seg0.svg" alt="u206_seg0"/>
+        <img id="u206_seg1" class="img " src="images/collector______/u206_seg1.svg" alt="u206_seg1"/>
+        <div id="u206_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u207" class="ax_default connector">
+        <img id="u207_seg0" class="img " src="images/collector______/u207_seg0.svg" alt="u207_seg0"/>
+        <img id="u207_seg1" class="img " src="images/collector______/u207_seg1.svg" alt="u207_seg1"/>
+        <div id="u207_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u208" class="ax_default connector">
+        <img id="u208_seg0" class="img " src="images/collector______/u208_seg0.svg" alt="u208_seg0"/>
+        <img id="u208_seg1" class="img " src="images/collector______/u208_seg1.svg" alt="u208_seg1"/>
+        <div id="u208_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u209" class="ax_default connector">
+        <img id="u209_seg0" class="img " src="images/collector______/u209_seg0.svg" alt="u209_seg0"/>
+        <img id="u209_seg1" class="img " src="images/collector______/u209_seg1.svg" alt="u209_seg1"/>
+        <div id="u209_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u210" class="ax_default connector">
+        <img id="u210_seg0" class="img " src="images/collector______/u210_seg0.svg" alt="u210_seg0"/>
+        <img id="u210_seg1" class="img " src="images/collector______/u210_seg1.svg" alt="u210_seg1"/>
+        <div id="u210_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u211" class="ax_default connector">
+        <img id="u211_seg0" class="img " src="images/collector______/u211_seg0.svg" alt="u211_seg0"/>
+        <img id="u211_seg1" class="img " src="images/collector______/u211_seg1.svg" alt="u211_seg1"/>
+        <img id="u211_seg2" class="img " src="images/collector______/u211_seg2.svg" alt="u211_seg2"/>
+        <div id="u211_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u212" class="ax_default label">
+        <div id="u212_div" class=""></div>
+        <div id="u212_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u213" class="ax_default label">
+        <div id="u213_div" class=""></div>
+        <div id="u213_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u214" class="ax_default label">
+        <div id="u214_div" class=""></div>
+        <div id="u214_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u215" class="ax_default label">
+        <div id="u215_div" class=""></div>
+        <div id="u215_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u216" class="ax_default label">
+        <div id="u216_div" class=""></div>
+        <div id="u216_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u217" class="ax_default connector">
+        <img id="u217_seg0" class="img " src="images/collector______/u217_seg0.svg" alt="u217_seg0"/>
+        <img id="u217_seg1" class="img " src="images/collector______/u217_seg1.svg" alt="u217_seg1"/>
+        <img id="u217_seg2" class="img " src="images/collector______/u217_seg2.svg" alt="u217_seg2"/>
+        <img id="u217_seg3" class="img " src="images/collector______/u217_seg3.svg" alt="u217_seg3"/>
+        <img id="u217_seg4" class="img " src="images/collector______/u217_seg4.svg" alt="u217_seg4"/>
+        <img id="u217_seg5" class="img " src="images/collector______/u217_seg5.svg" alt="u217_seg5"/>
+        <div id="u217_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u218" class="ax_default flow_shape">
+        <div id="u218_div" class=""></div>
+        <div id="u218_text" class="text ">
+          <p><span>处理Bucket数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u219" class="ax_default connector">
+        <img id="u219_seg0" class="img " src="images/collector______/u219_seg0.svg" alt="u219_seg0"/>
+        <img id="u219_seg1" class="img " src="images/collector______/u219_seg1.svg" alt="u219_seg1"/>
+        <img id="u219_seg2" class="img " src="images/collector______/u219_seg2.svg" alt="u219_seg2"/>
+        <div id="u219_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u220" class="ax_default connector">
+        <img id="u220_seg0" class="img " src="images/collector______/u220_seg0.svg" alt="u220_seg0"/>
+        <img id="u220_seg1" class="img " src="images/collector______/u220_seg1.svg" alt="u220_seg1"/>
+        <div id="u220_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u221" class="ax_default connector">
+        <img id="u221_seg0" class="img " src="images/collector______/u221_seg0.svg" alt="u221_seg0"/>
+        <img id="u221_seg1" class="img " src="images/collector______/u221_seg1.svg" alt="u221_seg1"/>
+        <img id="u221_seg2" class="img " src="images/collector______/u221_seg2.svg" alt="u221_seg2"/>
+        <img id="u221_seg3" class="img " src="images/collector______/u221_seg3.svg" alt="u221_seg3"/>
+        <img id="u221_seg4" class="img " src="images/collector______/u221_seg4.svg" alt="u221_seg4"/>
+        <div id="u221_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u222" class="ax_default label">
+        <div id="u222_div" class=""></div>
+        <div id="u222_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+    </div>
+    <script src="resources/scripts/axure/ios.js"></script>
+  </body>
+</html>
