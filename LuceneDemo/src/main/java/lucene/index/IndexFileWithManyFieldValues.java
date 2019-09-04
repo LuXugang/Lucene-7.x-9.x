@@ -5,9 +5,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -29,7 +27,7 @@ public class IndexFileWithManyFieldValues {
 
   {
     try {
-      FileOperation.deleteFile("./data");
+//      FileOperation.deleteFile("./data");
 //      FileOperation.deleteFile("./data1");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
@@ -78,33 +76,23 @@ public class IndexFileWithManyFieldValues {
       doc.add(new IntPoint("pointValue", 3, 4, 5));
       doc.add(new NumericDocValuesField("docValuesField", 8));
       indexWriter.addDocument(doc);
+
       // 文档1
-//      doc = new Document();
-//      doc.add(new StringField("title", "care", Field.Store.YES));
-//      Term term1 = new Term("title", "care");
-//      indexWriter.updateDocument(term1, doc);
-//      // 文档2
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
       doc.add(new StringField("title", "Care", Field.Store.YES));
       doc.add(new NumericDocValuesField("docValuesField", 3));
       indexWriter.addDocument(doc);
-//
+
+      // 文档2
       doc = new Document();
       doc.add(new Field("author", "papa", type));
       doc.add(new StringField("title", "maybe", Field.Store.YES));
+      doc.add(new NumericDocValuesField("docValuesField", 10));
       indexWriter.addDocument(doc);
-//      // 文档3
-//      doc = new Document();
-//      doc.add(new StringField("content", "nothing", Field.Store.YES));
-//      Term term2 = new Term("title", "care");
-//      indexWriter.updateNumericDocValue(term2, "docValuesField", 10);
-      // 文档4
-
-
-      indexWriter.deleteDocuments(new Term("title", "notCare"));
+//      indexWriter.deleteDocuments(new Term("title", "notCare"));
 //
-      indexWriter.deleteDocuments(new TermQuery(new Term("author", "Lily")));
+//      indexWriter.deleteDocuments(new TermQuery(new Term("author", "Lily")));
 
 //      indexWriter.deleteAll();
 
@@ -176,12 +164,26 @@ public class IndexFileWithManyFieldValues {
 //    Thread.sleep(1000000000);
 //    indexWriter.flush();
     indexWriter.commit();
-    DirectoryReader  reader = DirectoryReader.open(directory);
+    DirectoryReader  reader = DirectoryReader.open(indexWriter);
 
     IndexSearcher searcher = new IndexSearcher(reader);
-    Query query = new TermQuery(new Term("author", "Lily"));
-    searcher.search(query, 10);
+    Query query = new MatchAllDocsQuery();
+
+    SortField sortField  = new SortedNumericSortField("docValuesField", SortField.Type.INT);
+
+    Sort sort = new Sort(sortField);
+
+    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
+    for (int i = 0; i < scoreDocs.length; i++) {
+      ScoreDoc scoreDoc = scoreDocs[i];
+      // 输出满足查询条件的 文档号
+      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+    }
     // Per-top-reader state:
+
+//   reader = DirectoryReader.openIfChanged(reader);
+
+    System.out.println("hah");
   }
 
   public static String getSamePrefixRandomValue(String prefix){

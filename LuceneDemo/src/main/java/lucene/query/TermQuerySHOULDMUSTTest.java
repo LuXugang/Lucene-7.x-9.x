@@ -98,16 +98,19 @@ public class TermQuerySHOULDMUSTTest {
     builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.MUST);
     builder.add(new TermQuery(new Term("content", "h")), BooleanClause.Occur.MUST);
     builder.setMinimumNumberShouldMatch(2);
+    Query query = builder.build();
 
-    TotalHitCountCollector collector = new TotalHitCountCollector();
+    int topN = 10;
 
-    searcher.search(builder.build(), collector);
-
-
-    searcher.search(builder.build(), collector);
+    ScoreDoc[] scoreDocs = searcher.search(query, topN).scoreDocs;
 
 
-    System.out.println("hah");
+    System.out.println("Total Result Number: "+scoreDocs.length+"");
+    for (int i = 0; i < scoreDocs.length; i++) {
+      ScoreDoc scoreDoc = scoreDocs[i];
+//            // 输出满足查询条件的 文档号
+      System.out.println("result"+i+": 文档"+scoreDoc.doc+", "+scoreDoc.score+"");
+    }
   }
 
   public static void main(String[] args) throws Exception{

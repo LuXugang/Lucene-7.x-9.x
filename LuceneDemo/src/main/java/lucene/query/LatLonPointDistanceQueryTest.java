@@ -9,6 +9,8 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
@@ -67,9 +69,9 @@ public class LatLonPointDistanceQueryTest {
       b = b > 180 ? b - 1 : b;
       int b1 = random.nextInt(180);
       b = b + b1;
-      System.out.println(a);
-      System.out.println(b);
-      System.out.println("-------");
+//      System.out.println(a);
+//      System.out.println(b);
+//      System.out.println("-------");
       doc.add(new LatLonPoint("content", a , b));
       indexWriter.addDocument(doc);
     }
@@ -79,10 +81,10 @@ public class LatLonPointDistanceQueryTest {
     IndexSearcher s = new IndexSearcher(r);
 
 
+    Query query = LatLonPoint.newDistanceQuery("content", 20, 30, 1000000);
+    TopDocs docs = s.search(query, 100);
 
-    int num;
-    num = s.count(LatLonPoint.newDistanceQuery("content", 20, 30, 100));
-    System.out.println("result number : "+ num +"");
+    System.out.println("result number : "+ docs.totalHits+"");
 
 
     // Per-top-reader state:k
