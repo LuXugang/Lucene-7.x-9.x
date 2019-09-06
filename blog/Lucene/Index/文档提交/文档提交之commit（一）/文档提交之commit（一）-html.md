@@ -54,7 +54,7 @@ public final class SegmentInfos  {
 
 - SegmentCommitInfo描述了一个段内的索引信息（见[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)），在`强制发布生成的段`的流程点生成，同时被保存到SegmentInfos中，SegmentInfos中的信息在后面的流程中会生成[Segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)的索引文件
 
-&emsp;&emsp;当多个线程持有相同的IndexWriter对象引用进行操作时，当前线程执行IndexWriter.commit()时会先检查其他线程或自己本身之前是否生成了pendingCommit对象，如果不存在那么执行`二阶段提交的第一阶段`的操作，否则直接执行`二阶段提交的第二阶段`的操作，即跳过图3中紫色虚线划分的所有流程点，直接执行蓝色虚线中的`更新索引文件的计数引用`流程点。
+&emsp;&emsp;当多个线程持有相同的IndexWriter对象引用进行操作时，当前线程执行IndexWriter.commit()时会先检查其他线程或自己本身之前是否生成了pendingCommit对象，如果不存在那么执行`二阶段提交的第一阶段`的操作，否则直接执行`二阶段提交的第二阶段`的操作，即跳过图3中紫色虚线划分的所有流程点，直接执行蓝色虚线中的`处理旧的Segment_N文件`流程点。
 
 &emsp;&emsp;在Lucene7.5.0版本中，只允许一个pendingCommit存在，否则会抛出异常，异常内容如下：
 

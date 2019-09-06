@@ -27,7 +27,7 @@ public class IndexFileWithManyFieldValues {
 
   {
     try {
-//      FileOperation.deleteFile("./data");
+      FileOperation.deleteFile("./data");
 //      FileOperation.deleteFile("./data1");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
