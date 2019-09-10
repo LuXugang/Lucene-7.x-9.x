@@ -24,6 +24,8 @@ public class IndexFileWithManyFieldValues {
   private Analyzer analyzer = new WhitespaceAnalyzer();
   private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
   private IndexWriter indexWriter;
+  private PersistentSnapshotDeletionPolicy persistentSnapshotDeletionPolicy;
+  private SnapshotDeletionPolicy snapshotDeletionPolicy;
 
   {
     try {
@@ -39,6 +41,10 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
       conf.setUseCompoundFile(false);
+      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
+//      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
+//      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
+//      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
 //      conf.setSoftDeletesField("docValuesField");
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
@@ -63,12 +69,8 @@ public class IndexFileWithManyFieldValues {
 
 
     int count = 0;
-    int n = 0;
-    while (count++ < 1) {
-
-
+    while (count++ < 3) {
       Document doc;
-
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
@@ -76,7 +78,6 @@ public class IndexFileWithManyFieldValues {
       doc.add(new IntPoint("pointValue", 3, 4, 5));
       doc.add(new NumericDocValuesField("docValuesField", 8));
       indexWriter.addDocument(doc);
-
       // 文档1
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
@@ -84,77 +85,8 @@ public class IndexFileWithManyFieldValues {
       doc.add(new NumericDocValuesField("docValuesField", 3));
       indexWriter.addDocument(doc);
 
-      // 文档2
-      doc = new Document();
-      doc.add(new Field("author", "papa", type));
-      doc.add(new StringField("title", "maybe", Field.Store.YES));
-      doc.add(new NumericDocValuesField("docValuesField", 10));
-      indexWriter.addDocument(doc);
-//      indexWriter.deleteDocuments(new Term("title", "notCare"));
-//
-//      indexWriter.deleteDocuments(new TermQuery(new Term("author", "Lily")));
-
-//      indexWriter.deleteAll();
-
-//      doc = new Document();
-//      doc.add(new Field("content", "abc", type));
-//      doc.add(new Field("content", "a", type));
-//      doc.add(new StoredField("content", 3));
-//      doc.add(new Field("author", "efg", type));
-//      indexWriter.addDocument(doc);
-//
-//
-//      doc = new Document();
-//      doc.add(new StringField("content", "abc", Field.Store.YES));
-//      indexWriter.updateDocument(new Term("newField", "newFieldValue"), doc);
-//
-//      indexWriter.deleteDocuments(new TermQuery(new Term("title", "notCare")));
-//
-//      doc = new Document();
-//      doc.add(new Field("content", "abc", type));
-//      doc.add(new Field("content", "a", type));
-//      doc.add(new StoredField("content", 3));
-//      doc.add(new Field("author", "efg", type));
-//      indexWriter.addDocument(doc);
-
-//
-//
-//
-//      List<Document> documents = new ArrayList<>();
-//      doc = new Document();
-//      doc.add(new TextField("content", "random text", Field.Store.YES));
-//      documents.add(doc);
-//
-//      doc = new Document();
-//      doc.add(new TextField("content", "random name", Field.Store.YES));
-//      documents.add(doc);
-//
-//      indexWriter.updateDocuments(new Term("author", "Shakespeare"), documents);
-
-//      indexWriter.updateNumericDocValue(new Term("author", "Shakespeare"), "age", 23);
-//
-//      indexWriter.updateBinaryDocValue(new Term("subject", "Calculus"), "inventor", new BytesRef("Leibniz"));
-
-//      Field[] fields= new Field[2];
-//      fields[0] = new NumericDocValuesField("age", 23);
-//      fields[1] = new BinaryDocValuesField("inventor", new BytesRef("Leibniz"));
-//      indexWriter.updateDocValues(new Term("author", "Shakespeare"), fields);
-
-//      indexWriter.softUpdateDocument(new Term("content", "a"), doc, new NumericDocValuesField(conf.getSoftDeletesField(), 223));
-
-
-      // 文档3
-//      doc = new Document();
-//      doc.add(new Field("content", "d", type));
-//      doc.add(new BinaryDocValuesField("myDocValues", new BytesRef("d")));
-//      indexWriter.addDocument(doc);
-//      indexWriter.flush();
-//      indexWriter.updateDocValues(new Term("content", "d"), new BinaryDocValuesField("文档3", new BytesRef("e")));
-
-//     if(count % 10 == 0){
-//       indexWriter.commit();
-//     }
-
+      indexWriter.commit();
+      persistentSnapshotDeletionPolicy.snapshot();
     }
 //    Map<String, String> userData = new HashMap<>();
 //    userData.put("1", "abc");
@@ -163,25 +95,25 @@ public class IndexFileWithManyFieldValues {
 //    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
 //    Thread.sleep(1000000000);
 //    indexWriter.flush();
-    indexWriter.commit();
-    DirectoryReader  reader = DirectoryReader.open(indexWriter);
 
-    IndexSearcher searcher = new IndexSearcher(reader);
-    Query query = new MatchAllDocsQuery();
-
-    SortField sortField  = new SortedNumericSortField("docValuesField", SortField.Type.INT);
-
-    Sort sort = new Sort(sortField);
-
-    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
-    for (int i = 0; i < scoreDocs.length; i++) {
-      ScoreDoc scoreDoc = scoreDocs[i];
-      // 输出满足查询条件的 文档号
-      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
-    }
-    // Per-top-reader state:
-
-//   reader = DirectoryReader.openIfChanged(reader);
+//    DirectoryReader  reader = DirectoryReader.open(indexWriter);
+//
+//    IndexSearcher searcher = new IndexSearcher(reader);
+//    Query query = new MatchAllDocsQuery();
+//
+//    SortField sortField  = new SortedNumericSortField("docValuesField", SortField.Type.INT);
+//
+//    Sort sort = new Sort(sortField);
+//
+//    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
+//    for (int i = 0; i < scoreDocs.length; i++) {
+//      ScoreDoc scoreDoc = scoreDocs[i];
+//      // 输出满足查询条件的 文档号
+//      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+//    }
+//    // Per-top-reader state:
+//
+////   reader = DirectoryReader.openIfChanged(reader);
 
     System.out.println("hah");
   }
