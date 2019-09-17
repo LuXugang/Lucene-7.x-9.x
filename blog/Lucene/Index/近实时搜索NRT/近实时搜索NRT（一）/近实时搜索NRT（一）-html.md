@@ -25,6 +25,7 @@
 - 方法三：DirectoryReader.open(final IndexWriter indexWriter)
 - 方法四：DirectoryReader.open(final IndexWriter indexWriter, boolean applyAllDeletes, boolean writeAllDeletes)
 
+&emsp;&emsp;**其中通过调用方法三&&方法四的方法实现了NRT功能，而方法一&&方法二则没有,下文将会描述它们之间的差异**。
 
 ### 获取StandardDirectoryReader对象的流程图
 
@@ -139,7 +140,8 @@ private List<SegmentCommitInfo> segments = new ArrayList<>();
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/近实时搜索NRT/近实时搜索NRT（一）/10.png">
 
-&emsp;&emsp;对于方法一&&方法二，严格的来讲，至此我们获得了流程点`获得所有段的信息集合SegmentInfos`之前索引目录中最新的索引数据，实现了NRT的功能。
+&emsp;&emsp;对于方法一&&方法二，严格的来讲，至此我们获得了流程点`获得所有段的信息集合SegmentInfos`之前索引目录中最新的索引数据，由于其他线程可能通过IndexWriter并发的执行更改索引的操作，所以在多线程下，方法一&&跟方法二并不能实现NRT的功能。
+
 
 # 结语
 

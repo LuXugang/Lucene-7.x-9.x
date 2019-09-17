@@ -96,11 +96,11 @@ public class IndexFileWithManyFieldValues {
 //    Thread.sleep(1000000000);
 //    indexWriter.flush();
 
-//    DirectoryReader  reader = DirectoryReader.open(indexWriter);
-    DirectoryReader  reader = DirectoryReader.open(directory);
+    DirectoryReader  reader = DirectoryReader.open(indexWriter);
+//    DirectoryReader  reader = DirectoryReader.open(directory);
 //    DirectoryReader  reader = DirectoryReader.open(indexWriter, true, true);
 
-//    reader = DirectoryReader.openIfChanged(reader);
+    reader = DirectoryReader.openIfChanged(reader);
 //    reader = DirectoryReader.openIfChanged(reader);
 
     DirectoryReader reader1 = new ExitableDirectoryReader(reader, new QueryTimeoutImpl(2000));
