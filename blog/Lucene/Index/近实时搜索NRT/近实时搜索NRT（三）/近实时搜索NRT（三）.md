@@ -91,6 +91,10 @@
 
 &emsp;&emsp;图5中如果根据Directory判断索引发生了变化，那么通过图3的流程获得一个新的StandardDirectoryReader。
 
+&emsp;&emsp;**如何获得新的StandardDirectoryReader**：
+
+- 当Version不一致时，说明oldReader中的SegmentInfos跟内存中的SegmentInfos信息不一致，那么需要获得新的StandardDirectoryReader，即图5中的`找出变更的LeafReader`流程点，由于后面的流程也有该操作，我们留到下一篇文章介绍，这里先挖个坑
+
 ## segment_N文件是否一致？
 
 图7：
@@ -110,6 +114,8 @@
 - 在[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)的`生成新的Segment_N文件`流程中我们说到，该流程会生成一个generation用来设置这次提交生成的segment_N的N值，同时generation值会赋值给lastGeneration
 
 &emsp;&emsp;另外IndexCommit类中有一个变量叫做segmentsFileName，该变量用来保存segment_N的文件名。
+
+&emsp;&emsp;当判断出segment_N的文件名不一致，那么我们需要重新获得StandardDirectoryReader，即图7中的`找出变更的LeafReader`流程点，同样的，详细的获得过程在下一篇文章中展开。
 
 # 结语
 
