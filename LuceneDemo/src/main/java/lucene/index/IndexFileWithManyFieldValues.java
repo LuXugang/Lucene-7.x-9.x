@@ -46,7 +46,7 @@ public class IndexFileWithManyFieldValues {
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
 //      conf.setSoftDeletesField("docValuesField");
-      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
+//      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
