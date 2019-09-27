@@ -70,7 +70,7 @@ public class IndexFileWithManyFieldValues {
 
 
     int count = 0;
-    while (count++ < 2) {
+    while (count++ < 1) {
       Document doc;
       // 文档0
       doc = new Document();
@@ -83,10 +83,18 @@ public class IndexFileWithManyFieldValues {
       doc.add(new StringField("title", "Care", Field.Store.YES));
       indexWriter.addDocument(doc);
 
+      // 文档2
+      doc = new Document();
+      doc.add(new Field("author", "Luxugang", type));
+      doc.add(new StringField("title", "whatEver", Field.Store.YES));
+      indexWriter.addDocument(doc);
+
       indexWriter.deleteDocuments(new Term("author", "Lily"));
 
       indexWriter.commit();
     }
+    indexWriter.deleteDocuments(new Term("author", "Lucy"));
+    indexWriter.flush();
 //      persistentSnapshotDeletionPolicy.snapshot();
 //    Map<String, String> userData = new HashMap<>();
 //    userData.put("1", "abc");

@@ -79,6 +79,10 @@
 
 - SegmentInfos的版本号描述了内存中的SegmentInfos变更状态，内存中的任意一个段发生变化都会增加版本号，当执行了一次commit后，这次commit的对应的SegmentInfos的版本号就被写入到segment_N文件中，如下图所示：
 
+&emsp;&emsp;**段的什么变化会引起版本号Version的变化**：
+
+- 这块内容十分重要，由于openIfChange的方法三&&方法四会也会涉及版本号的内容，故我们留到后面的文章介绍，这里先挖个坑
+
 图6：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/近实时搜索NRT/近实时搜索NRT（三）/6.png">
