@@ -41,6 +41,7 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
       conf.setUseCompoundFile(false);
+      conf.setMergePolicy(NoMergePolicy.INSTANCE);
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
 //      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
@@ -91,10 +92,13 @@ public class IndexFileWithManyFieldValues {
 
       indexWriter.deleteDocuments(new Term("author", "Lily"));
 
-      indexWriter.commit();
     }
-    indexWriter.deleteDocuments(new Term("author", "Lucy"));
+    indexWriter.commit();
+    DirectoryReader  reader = DirectoryReader.open(indexWriter);
+    indexWriter.deleteDocuments(new Term("author", "abc"));
     indexWriter.flush();
+    reader = DirectoryReader.openIfChanged(reader, indexWriter);
+    System.out.println("abc");
 //      persistentSnapshotDeletionPolicy.snapshot();
 //    Map<String, String> userData = new HashMap<>();
 //    userData.put("1", "abc");
@@ -104,7 +108,6 @@ public class IndexFileWithManyFieldValues {
 //    Thread.sleep(1000000000);
 //    indexWriter.flush();
 
-    DirectoryReader  reader = DirectoryReader.open(indexWriter);
 //    DirectoryReader  reader = DirectoryReader.open(directory);
 //    DirectoryReader  reader = DirectoryReader.open(indexWriter, true, true);
 
