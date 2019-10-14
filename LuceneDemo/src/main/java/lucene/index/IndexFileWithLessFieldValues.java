@@ -138,6 +138,7 @@ public class IndexFileWithLessFieldValues {
     builder.setMinimumNumberShouldMatch(2);
 
     DirectoryReader reader = DirectoryReader.open(indexWriter);
+    reader.maxDoc();
     IndexSearcher indexSearcher = new IndexSearcher(reader);
     SortField searchSortField = new SortField("sortByNumber", SortField.Type.LONG);
     Sort searchSort = new Sort(searchSortField);
