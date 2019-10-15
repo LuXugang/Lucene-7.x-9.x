@@ -11,6 +11,8 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -67,12 +69,32 @@ public class PointValuesTest {
       doc.add(new IntPoint("content", a , b));
       doc.add(new IntPoint("title", 10, 55));
       indexWriter.addDocument(doc);
-    }
 
+
+    }
 
     indexWriter.commit();
 
+    DirectoryReader reader = DirectoryReader.open(indexWriter);
 
+    IndexSearcher searcher = new IndexSearcher(reader);
+
+    int [] lowValue = {1, 5};
+    int [] upValue = {4, 7};
+    Query query = IntPoint.newRangeQuery("content", lowValue, upValue);
+
+
+    // 返回Top5的结果
+    int resultTopN = 5;
+
+    ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
+
+    System.out.println("Total Result Number: "+scoreDocs.length+"");
+    for (int i = 0; i < scoreDocs.length; i++) {
+      ScoreDoc scoreDoc = scoreDocs[i];
+      // 输出满足查询条件的 文档号
+      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+    }
 
   }
 
