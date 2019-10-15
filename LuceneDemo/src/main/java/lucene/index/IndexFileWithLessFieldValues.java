@@ -48,7 +48,7 @@ public class IndexFileWithLessFieldValues {
 //    conf.setIndexSort(indexSort);
 
 
-    conf.setUseCompoundFile(false);
+//    conf.setUseCompoundFile(false);
 
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
@@ -136,6 +136,9 @@ public class IndexFileWithLessFieldValues {
 //      indexWriter.addDocument(doc);
     }
     indexWriter.commit();
+          indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
+    indexWriter.commit();
+
 
     // Per-top-reader state:
 
