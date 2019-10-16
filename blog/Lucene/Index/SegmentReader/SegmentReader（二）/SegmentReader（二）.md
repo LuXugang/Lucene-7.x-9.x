@@ -17,7 +17,8 @@
 - 同样地在[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)的文章中我们说到，如果一个段中的索引信息发生更改，那么变更的索引信息会以其他索引文件来描述，即[索引文件之liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)、[索引文件之.dvm、.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/)、[索引文件之fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)，其中DocValues类型的索引发生更新时，会以[索引文件之.dvm、.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/)、[索引文件之fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)来描述变更的索引
 - 所以如果段中没有DocValues类型的索引变化时，那么我们就可以完全复用SegmentCoreReaders中**所有的信息**（见[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)），即可以完全复用下面的信息：
 
-  - StoredFieldsReader：从[索引文件fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)中读取存储域的索引信息
+  - StoredFieldsReader：从[索引文件fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)中读取存储域的域值的索引信息
+  - FieldsProducer：从[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中读取域的索引信息
   - TermVectorsReader：从[索引文件tvx&&tvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/56.html)读取词向量的索引信息
   - PointsReader：从[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中读取域值为数值类型的索引信息
   - NormsProducer：从[索引文件nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)中读取域的打分信息

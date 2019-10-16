@@ -48,7 +48,7 @@ public class IndexFileWithLessFieldValues {
 //    conf.setIndexSort(indexSort);
 
 
-//    conf.setUseCompoundFile(false);
+    conf.setUseCompoundFile(false);
 
     indexWriter = new IndexWriter(directory, conf);
     int count = 0;
@@ -136,8 +136,8 @@ public class IndexFileWithLessFieldValues {
 //      indexWriter.addDocument(doc);
     }
     indexWriter.commit();
-          indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
-    indexWriter.commit();
+//          indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
+//    indexWriter.commit();
 
 
     // Per-top-reader state:
@@ -157,7 +157,7 @@ public class IndexFileWithLessFieldValues {
     Sort searchSort = new Sort(searchSortField);
 
     TopFieldCollector collector = TopFieldCollector.create(searchSort, 2, true, false, false, false);
-    indexSearcher.search(new MatchAllDocsQuery(),  collector);
+    indexSearcher.search(builder.build(),  collector);
 
 //    TopFieldDocs fieldDocs = indexSearcher.search(new MatchAllDocsQuery(), 5, searchSort);
 
