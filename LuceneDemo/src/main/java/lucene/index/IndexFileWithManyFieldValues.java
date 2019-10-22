@@ -41,7 +41,6 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
       conf.setUseCompoundFile(false);
-      conf.setMergePolicy(NoMergePolicy.INSTANCE);
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
 //      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
@@ -61,44 +60,42 @@ public class IndexFileWithManyFieldValues {
 
     FieldType type = new FieldType();
     type.setStored(true);
-//    type.setStoreTermVectors(true);
-//    type.setStoreTermVectorPositions(true);
-//    type.setStoreTermVectorPayloads(true);
-//    type.setStoreTermVectorOffsets(true);
+    type.setStoreTermVectors(true);
+    type.setStoreTermVectorPositions(true);
+    type.setStoreTermVectorPayloads(true);
+    type.setStoreTermVectorOffsets(true);
     type.setTokenized(true);
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
 
 
     int count = 0;
-    while (count++ < 1) {
-      Document doc;
+    Document doc;
+    while (count++ < 99999999) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
       doc.add(new Field("title", "notCare", type));
+      doc.add(new NumericDocValuesField("sortByNumber", -1));
       indexWriter.addDocument(doc);
       // 文档1
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
       doc.add(new StringField("title", "Care", Field.Store.YES));
+      doc.add(new NumericDocValuesField("sortByNumber", 2));
       indexWriter.addDocument(doc);
 
       // 文档2
       doc = new Document();
       doc.add(new Field("author", "Luxugang", type));
       doc.add(new StringField("title", "whatEver", Field.Store.YES));
+      doc.add(new NumericDocValuesField("sortByNumber", 0));
       indexWriter.addDocument(doc);
 
-      indexWriter.deleteDocuments(new Term("author", "Lily"));
-
+      indexWriter.commit();
     }
-    indexWriter.commit();
+
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
-    indexWriter.deleteDocuments(new Term("author", "abc"));
-    indexWriter.flush();
-    reader = DirectoryReader.openIfChanged(reader, indexWriter);
-    System.out.println("abc");
 //      persistentSnapshotDeletionPolicy.snapshot();
 //    Map<String, String> userData = new HashMap<>();
 //    userData.put("1", "abc");
@@ -112,7 +109,6 @@ public class IndexFileWithManyFieldValues {
 //    DirectoryReader  reader = DirectoryReader.open(indexWriter, true, true);
 
 //    reader = DirectoryReader.openIfChanged(reader);
-      reader = DirectoryReader.openIfChanged(reader, indexWriter);
 //    reader = DirectoryReader.openIfChanged(reader);
 
     DirectoryReader reader1 = new ExitableDirectoryReader(reader, new QueryTimeoutImpl(2000));
