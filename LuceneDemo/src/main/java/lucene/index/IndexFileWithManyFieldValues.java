@@ -46,6 +46,7 @@ public class IndexFileWithManyFieldValues {
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
+//      conf.setMergePolicy(NoMergePolicy.INSTANCE);
 //      conf.setSoftDeletesField("docValuesField");
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       indexWriter = new IndexWriter(directory, conf);
@@ -72,7 +73,7 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 15) {
+    while (count++ < 40) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
