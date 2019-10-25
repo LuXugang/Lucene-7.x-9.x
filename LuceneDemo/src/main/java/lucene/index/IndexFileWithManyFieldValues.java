@@ -45,6 +45,7 @@ public class IndexFileWithManyFieldValues {
 //      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
+//      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
 //      conf.setSoftDeletesField("docValuesField");
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       indexWriter = new IndexWriter(directory, conf);
@@ -71,7 +72,7 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 99999999) {
+    while (count++ < 15) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
@@ -94,6 +95,8 @@ public class IndexFileWithManyFieldValues {
 
       indexWriter.commit();
     }
+    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "sortByNumber", 3);
+
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
 //      persistentSnapshotDeletionPolicy.snapshot();
