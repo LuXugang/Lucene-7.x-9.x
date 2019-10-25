@@ -73,7 +73,7 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 40) {
+    while (count++ < 1) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
@@ -94,8 +94,11 @@ public class IndexFileWithManyFieldValues {
       doc.add(new NumericDocValuesField("sortByNumber", 0));
       indexWriter.addDocument(doc);
 
+      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
+
       indexWriter.commit();
     }
+    indexWriter.commit();
     indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "sortByNumber", 3);
 
 
