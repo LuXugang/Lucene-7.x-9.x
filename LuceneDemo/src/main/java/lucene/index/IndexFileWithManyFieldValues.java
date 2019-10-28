@@ -12,6 +12,7 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * @author Lu Xugang
@@ -40,13 +41,18 @@ public class IndexFileWithManyFieldValues {
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
-      conf.setUseCompoundFile(false);
+      conf.setUseCompoundFile(true);
+      conf.setSoftDeletesField("title");
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
 //      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
 //      conf.setMergePolicy(NoMergePolicy.INSTANCE);
+      Supplier<Query> docsOfLast24Hours = () -> LongPoint.newRangeQuery("creation_date", 23, 48);
+//      conf.setMergePolicy(new LogDocMergePolicy());
+//      conf.setMergePolicy(new SoftDeletesRetentionMergePolicy("title", docsOfLast24Hours,
+//              new LogDocMergePolicy()));
 //      conf.setSoftDeletesField("docValuesField");
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       indexWriter = new IndexWriter(directory, conf);
@@ -73,7 +79,7 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 1) {
+    while (count++ < 200) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
