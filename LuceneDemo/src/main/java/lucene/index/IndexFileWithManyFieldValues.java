@@ -8,6 +8,8 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.InfoStream;
+import org.apache.lucene.util.fst.NoOutputs;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -55,6 +57,8 @@ public class IndexFileWithManyFieldValues {
 //              new LogDocMergePolicy()));
 //      conf.setSoftDeletesField("docValuesField");
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
+      InfoStream infoStream = InfoStream.NO_OUTPUT;
+      conf.setMergedSegmentWarmer(new SimpleMergedSegmentWarmer(infoStream));
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
@@ -100,7 +104,7 @@ public class IndexFileWithManyFieldValues {
       doc.add(new NumericDocValuesField("sortByNumber", 0));
       indexWriter.addDocument(doc);
 
-      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
+//      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
 
       indexWriter.commit();
     }
