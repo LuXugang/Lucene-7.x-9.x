@@ -35,6 +35,7 @@
 &emsp;&emsp;我们首先介绍下SegmentCoreReaders包含了哪些主要信息：
 
 - StoredFieldsReader：从[索引文件fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)中读取存储域的索引信息
+- FieldsProducer：从[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中读取域的索引信息
 - TermVectorsReader：从[索引文件tvx&&tvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/56.html)读取词向量的索引信息
 - PointsReader：从[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中读取域值为数值类型的索引信息
 - NormsProducer：从[索引文件nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)中读取域的打分信息

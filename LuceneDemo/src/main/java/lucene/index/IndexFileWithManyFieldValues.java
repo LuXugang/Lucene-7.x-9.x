@@ -32,17 +32,19 @@ public class IndexFileWithManyFieldValues {
 
   {
     try {
-      FileOperation.deleteFile("./data");
-//      FileOperation.deleteFile("./data1");
+//      FileOperation.deleteFile("./data");
+      FileOperation.deleteFile("./data1");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
 //      Set<String> primaryExtensions = new HashSet<>();
 //      primaryExtensions.add("fdx");
 //      primaryExtensions.add("fdt");
 //      primaryExtensions.add("nvd");
+//      primaryExtensions.add("nvd");
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
-      directory = FSDirectory.open(Paths.get("./data"));
+      directory = FSDirectory.open(Paths.get("./data1"));
+//      directory = FSDirectory.open(Paths.get("./data1"));
       conf.setUseCompoundFile(true);
       conf.setSoftDeletesField("title");
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
@@ -59,6 +61,9 @@ public class IndexFileWithManyFieldValues {
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       InfoStream infoStream = InfoStream.NO_OUTPUT;
       conf.setMergedSegmentWarmer(new SimpleMergedSegmentWarmer(infoStream));
+      SortField indexSortField = new SortField("sortByNumber", SortField.Type.LONG);
+      Sort indexSort = new Sort(indexSortField);;
+    conf.setIndexSort(indexSort);
       indexWriter = new IndexWriter(directory, conf);
 //      directory = new NIOFSDirectory(Paths.get("./data"));
     } catch (IOException e) {
@@ -81,7 +86,7 @@ public class IndexFileWithManyFieldValues {
 
 
 
-    int count = 0;
+    int count = 30000;
     Document doc;
     while (count++ < 200) {
       // 文档0
@@ -109,7 +114,13 @@ public class IndexFileWithManyFieldValues {
       indexWriter.commit();
     }
     indexWriter.commit();
-    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "sortByNumber", 3);
+//    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "sortByNumber", 3);
+    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data")));
+    CodecReader[] readers = new CodecReader[oldReader.leaves().size()];
+    for (int i = 0; i < readers.length; i++) {
+      readers[i] = (CodecReader)oldReader.leaves().get(i).reader();
+    }
+    indexWriter.addIndexes(readers);
 
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);

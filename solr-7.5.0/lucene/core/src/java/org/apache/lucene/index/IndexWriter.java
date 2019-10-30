@@ -3601,7 +3601,7 @@ public class IndexWriter implements Closeable, TwoPhaseCommit, Accountable,
       synchronized (fullFlushLock) {
         boolean flushSuccess = false;
         try {
-          long seqNo = docWriter.flushAllThreads();
+          long seqNo = docWriter.addIndexesflushAllThreads();
           if (seqNo < 0) {
             seqNo = -seqNo;
             anyChanges = true;
