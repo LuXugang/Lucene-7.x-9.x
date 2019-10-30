@@ -61,7 +61,7 @@ public class IndexFileWithManyFieldValues {
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       InfoStream infoStream = InfoStream.NO_OUTPUT;
       conf.setMergedSegmentWarmer(new SimpleMergedSegmentWarmer(infoStream));
-      SortField indexSortField = new SortField("sortByNumber", SortField.Type.LONG);
+      SortField indexSortField = new SortField("age", SortField.Type.LONG);
       Sort indexSort = new Sort(indexSortField);;
     conf.setIndexSort(indexSort);
       indexWriter = new IndexWriter(directory, conf);
@@ -93,20 +93,20 @@ public class IndexFileWithManyFieldValues {
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
       doc.add(new Field("title", "notCare", type));
-      doc.add(new NumericDocValuesField("sortByNumber", -1));
+      doc.add(new NumericDocValuesField("age", -1));
       indexWriter.addDocument(doc);
       // 文档1
       doc = new Document();
       doc.add(new Field("author", "Lily", type));
       doc.add(new StringField("title", "Care", Field.Store.YES));
-      doc.add(new NumericDocValuesField("sortByNumber", 2));
+      doc.add(new NumericDocValuesField("age", 2));
       indexWriter.addDocument(doc);
 
       // 文档2
       doc = new Document();
       doc.add(new Field("author", "Luxugang", type));
       doc.add(new StringField("title", "whatEver", Field.Store.YES));
-      doc.add(new NumericDocValuesField("sortByNumber", 0));
+      doc.add(new NumericDocValuesField("age", 0));
       indexWriter.addDocument(doc);
 
 //      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
@@ -114,7 +114,7 @@ public class IndexFileWithManyFieldValues {
       indexWriter.commit();
     }
     indexWriter.commit();
-//    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "sortByNumber", 3);
+//    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "age", 3);
     DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data")));
     CodecReader[] readers = new CodecReader[oldReader.leaves().size()];
     for (int i = 0; i < readers.length; i++) {
