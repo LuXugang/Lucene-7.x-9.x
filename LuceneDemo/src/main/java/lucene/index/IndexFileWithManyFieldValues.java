@@ -32,8 +32,8 @@ public class IndexFileWithManyFieldValues {
 
   {
     try {
-//      FileOperation.deleteFile("./data");
-      FileOperation.deleteFile("./data1");
+//      FileOperation.deleteFile("./data2");
+      FileOperation.deleteFile("./data");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
 //      Set<String> primaryExtensions = new HashSet<>();
@@ -43,7 +43,7 @@ public class IndexFileWithManyFieldValues {
 //      primaryExtensions.add("nvd");
 //      primaryExtensions.add("nvm");
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
-      directory = FSDirectory.open(Paths.get("./data1"));
+      directory = FSDirectory.open(Paths.get("./data"));
 //      directory = FSDirectory.open(Paths.get("./data1"));
       conf.setUseCompoundFile(true);
       conf.setSoftDeletesField("title");
@@ -93,7 +93,7 @@ public class IndexFileWithManyFieldValues {
       doc = new Document();
       doc.add(new Field("author", "Lucy", type));
       doc.add(new Field("title", "notCare", type));
-      doc.add(new NumericDocValuesField("age", -1));
+      doc.add(new NumericDocValuesField("age", -2));
       indexWriter.addDocument(doc);
       // 文档1
       doc = new Document();
@@ -115,7 +115,7 @@ public class IndexFileWithManyFieldValues {
     }
     indexWriter.commit();
 //    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "age", 3);
-    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data")));
+    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data2")));
     CodecReader[] readers = new CodecReader[oldReader.leaves().size()];
     for (int i = 0; i < readers.length; i++) {
       readers[i] = (CodecReader)oldReader.leaves().get(i).reader();
