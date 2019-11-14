@@ -2,6 +2,7 @@ package lucene.index;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
@@ -24,7 +25,7 @@ public class IndexFileWithManyFieldValues {
   private Directory directory ;
   private Directory directory2;
   private Directory directory3;
-  private Analyzer analyzer = new WhitespaceAnalyzer();
+  private Analyzer analyzer = new CJKAnalyzer();
   private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
   private IndexWriter indexWriter;
   private PersistentSnapshotDeletionPolicy persistentSnapshotDeletionPolicy;
@@ -33,7 +34,7 @@ public class IndexFileWithManyFieldValues {
   {
     try {
 //      FileOperation.deleteFile("./data2");
-      FileOperation.deleteFile("./data");
+//      FileOperation.deleteFile("./data");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
 //      Set<String> primaryExtensions = new HashSet<>();
@@ -45,6 +46,7 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
 //      directory = FSDirectory.open(Paths.get("./data1"));
+        conf.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
       conf.setUseCompoundFile(true);
       conf.setSoftDeletesField("title");
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
@@ -86,12 +88,12 @@ public class IndexFileWithManyFieldValues {
 
 
 
-    int count = 30000;
+    int count = 0;
     Document doc;
-    while (count++ < 200) {
+    while (count++ < 1) {
       // 文档0
       doc = new Document();
-      doc.add(new Field("author", "Lucy", type));
+      doc.add(new Field("author", "国'人", type));
       doc.add(new Field("title", "notCare", type));
       doc.add(new NumericDocValuesField("age", -2));
       indexWriter.addDocument(doc);
@@ -115,12 +117,12 @@ public class IndexFileWithManyFieldValues {
     }
     indexWriter.commit();
 //    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "age", 3);
-    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data2")));
-    CodecReader[] readers = new CodecReader[oldReader.leaves().size()];
-    for (int i = 0; i < readers.length; i++) {
-      readers[i] = (CodecReader)oldReader.leaves().get(i).reader();
-    }
-    indexWriter.addIndexes(readers);
+//    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data2")));
+//    CodecReader[] readers = new CodecReader[oldReader.leaves().size()];
+//    for (int i = 0; i < readers.length; i++) {
+//      readers[i] = (CodecReader)oldReader.leaves().get(i).reader();
+//    }
+//    indexWriter.addIndexes(readers);
 
 
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
@@ -139,21 +141,21 @@ public class IndexFileWithManyFieldValues {
 //    reader = DirectoryReader.openIfChanged(reader);
 //    reader = DirectoryReader.openIfChanged(reader);
 
-    DirectoryReader reader1 = new ExitableDirectoryReader(reader, new QueryTimeoutImpl(2000));
-
-    IndexSearcher searcher = new IndexSearcher(reader1);
-    Query query = new MatchAllDocsQuery();
-
-    SortField sortField  = new SortedNumericSortField("docValuesField", SortField.Type.INT);
-
-    Sort sort = new Sort(sortField);
-
-    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
-    for (int i = 0; i < scoreDocs.length; i++) {
-      ScoreDoc scoreDoc = scoreDocs[i];
-      // 输出满足查询条件的 文档号
-      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
-    }
+//    DirectoryReader reader1 = new ExitableDirectoryReader(reader, new QueryTimeoutImpl(2000));
+//
+//    IndexSearcher searcher = new IndexSearcher(reader1);
+//    Query query = new MatchAllDocsQuery();
+//
+//    SortField sortField  = new SortedNumericSortField("docValuesField", SortField.Type.INT);
+//
+//    Sort sort = new Sort(sortField);
+//
+//    ScoreDoc[] scoreDocs = searcher.search(query, 10, sort).scoreDocs;
+//    for (int i = 0; i < scoreDocs.length; i++) {
+//      ScoreDoc scoreDoc = scoreDocs[i];
+//      // 输出满足查询条件的 文档号
+//      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+//    }
     // Per-top-reader state:
 //
 ////   reader = DirectoryReader.openIfChanged(reader);

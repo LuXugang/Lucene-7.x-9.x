@@ -91,6 +91,9 @@ public class FunctionScoreQueryTest {
         Query query1 = FunctionScoreQuery.boostByValue(new TermQuery(new Term("content", "a")), DoubleValuesSource.constant(2));
         Query query2 = FunctionScoreQuery.boostByValue(new TermQuery(new Term("content", "b")), DoubleValuesSource.constant(3));
         Query query3 = FunctionScoreQuery.boostByValue(new TermQuery(new Term("content", "c")), DoubleValuesSource.constant(4));
+//        Query query1 = new TermQuery(new Term("content", "a"));
+//        Query query2 = new TermQuery(new Term("content", "b"));
+//        Query query3 = new TermQuery(new Term("content", "c"));
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(query1, BooleanClause.Occur.SHOULD);
         builder.add(query2, BooleanClause.Occur.SHOULD);
@@ -99,6 +102,9 @@ public class FunctionScoreQueryTest {
         TotalHitCountCollector collector = new TotalHitCountCollector();
 
         ScoreDoc[] docs = searcher.search(builder.build(), 20).scoreDocs;
+        for (int i = 0; i < docs.length; i++) {
+            System.out.println("docId: "+docs[i].doc+", score: "+docs[i].score+"");
+        }
 
         System.out.println("hah");
     }
