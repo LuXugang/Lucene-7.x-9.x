@@ -1,7 +1,7 @@
 # [segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
-&emsp;&emsp;当IndexWriter执行commit()操作后，会生成一个segments_N文件，该文件描述了当前索引目录中所有有效的段信息文件(active segment info)，即之前文章介绍的[segmentInfo](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)文件。
+&emsp;&emsp;当IndexWriter执行commit()操作后，会生成一个segments_N文件，该文件描述了当前索引目录中所有有效的段信息文件(active segment info)，即之前文章介绍的[segmentInfo](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)文件，仅仅通过[flush()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)生成的段成为无效的段信息文件。
 
-&emsp;&emsp;索引目录中可能存在多个Segments_N文件，每个Segment_N文件代表某次commit()时的索引状态，其中N值最大的Segments_N文件代表最新的一次提交，它包含当前索引目录中所有的索引信息。
+&emsp;&emsp;索引目录中可能存在多个Segments_N文件，每个Segment_N文件代表某次[commit()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)时的索引状态，其中N值最大的Segments_N文件代表最新的一次提交，它包含当前索引目录中所有的索引信息。
 
 &emsp;&emsp;图1中最新的一次提交生成了Segments_5文件。
 
@@ -36,8 +36,14 @@
 - LATEST.minor：5
 - LATEST.bugfix：0
 
+## IndexCreatedVersionMajor
+
+&emsp;&emsp;IndexCreatedVersionMajor描述的是创建该segment_N文件的Lucene的major值，在读取阶段，该segment_N文件可能被更高版本的Lucene读取，用来检查兼容性。
+
 ## Version
-&emsp;&emsp;Version描述的是创建该segment_N文件的Lucene的major值，在读取阶段，该segment_N文件可能被更高版本的Lucene读取，用来检查兼容性。
+&emsp;&emsp;Version描述的是segmentInfos对象发生更改的次数。
+
+&emsp;&emsp;segmentInfos对象的概念见文章[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)中流程点`获得所有段的信息集合SegmentInfos`的介绍。
 
 ## NameCounter
 &emsp;&emsp;NameCounter用来给新的[segmentInfo](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)文件提供名字的前缀值，例如下图中 _8 即为前缀值。
@@ -47,7 +53,7 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/segments_N/5.png">
 
 ## SegCount
-&emsp;&emsp;该字段描述了当前索引目录中的有效的段信息文件(active segment info)，即[.si文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)的个数。
+&emsp;&emsp;该字段描述了当前索引目录中的有效的段信息文件(active segment info)。
 
 ## MinSegmentLuceneVersion
 图6：
@@ -56,7 +62,7 @@
 
 &emsp;&emsp;索引目录中的.si文件的版本可能各不相同，MinSegmentLuceneVersion记录版本最小的，不详细展开，同图4。
 
-## SegmentInfo
+## SegmentCommitInfo
 图7：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/segments_N/7.png">
@@ -64,7 +70,9 @@
 &emsp;&emsp;该字段描述了一个segmentInfo文件(.si文件)的信息。
 
 ### SegName
-&emsp;&emsp;该字段描述了segmentInfo文件及对应的其他索引文件的名字前缀，图8中，下面所有的文件属于同一个segment。
+&emsp;&emsp;该字段描述了segmentInfo文件及对应的其他索引文件的名字前缀，图8中，下面所有的文件属于同一个segment，segName的值为"_1"
+
+&emsp;&emsp;在读取segment_N文件阶段，通过SegName找到[.si索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)，结合SegmentCommitInfo就可以获得一个段的完整的信息
 
 图8：
 

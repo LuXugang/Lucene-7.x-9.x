@@ -1,4 +1,4 @@
-## 多个MUST的Query的文档号合并
+## [多个MUST的Query的文档号合并](https://www.amazingkoala.com.cn/Lucene/Search/)
 &emsp;&emsp;这种Query组合的文档号合并的代码是在ConjunctionDISI类中实现。本文通过一个例子来介绍文档号合并逻辑，这篇文章中对于每个关键字如何获得包含它的文档号，不作详细描述，大家可以去看我添加了详细注释的ConjunctionDISI类，相信能一目了然。GitHub地址是：https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/search/ConjunctionDISI.java。
 
 ## 例子

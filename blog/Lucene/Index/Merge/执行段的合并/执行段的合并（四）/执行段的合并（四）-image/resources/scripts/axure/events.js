@@ -316,7 +316,7 @@ $axure.internal(function ($ax) {
 
         eventNesting += 1;
 
-        if(!_getCanClick() && (eventDescription == 'OnClick' || eventDescription == 'OnPageClick')) return;
+        if (!synthetic && !_getCanClick() && (eventDescription == 'OnClick' || eventDescription == 'OnPageClick')) return;
         // If you are supposed to suppress, do that right away.
         if(suppressedEventStatus[eventDescription]) {
             return;
@@ -1319,9 +1319,11 @@ $axure.internal(function ($ax) {
                 }
 
                 $(document).off("mouseup", clearMouseDownIxStyle);
-                $("#" + _event.mouseDownObjectId).off("dragend", clearMouseDownIxStyle);
 
-                _event.mouseDownObjectId = '';
+                if(_event.mouseDownObjectId) {
+                    $("#" + _event.mouseDownObjectId).off("dragend", clearMouseDownIxStyle);
+                    _event.mouseDownObjectId = '';
+                }
                 if(!$ax.style.ObjHasMouseDown(elementId)) return;
 
                 $ax.style.SetWidgetMouseDown(elementId, false, e.checkMouseOver);
@@ -1832,7 +1834,7 @@ $axure.internal(function ($ax) {
             if(_callFilterCheck(callFilter, $ax.constants.PAGE_TYPE)) {
                 //if scrolling, set direction, later master will know
                 if(eventName === "onScroll") {
-                    var currentScrollTop = $(window).scrollTop();
+                    var currentScrollTop = ((SAFARI && IOS) || SHARE_APP) ? $('#ios-safari-html').scrollTop() : $(window).scrollTop();
                     _event.windowScrollingUp = currentScrollTop < lastScrollTop;
                     _event.windowScrollingDown = currentScrollTop > lastScrollTop;
                 }

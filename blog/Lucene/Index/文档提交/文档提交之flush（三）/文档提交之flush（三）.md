@@ -57,7 +57,7 @@
 
 &emsp;&emsp;DocMap是类Sorter的内部类，而sortMap则是在源码中Sorter.DocMap类的一个对象名。
 
-&emsp;&emsp;当我们在生成IndexWriter对象时，可以通过[IndexWriterConfig.setIndexSort(Sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)的方法来定义一个排序规则，在生成索引文件的过程中，使得一个段内的所有索引文件中的文档根据该规则进行排序，当然并不是真正的排序，而是生成一个映射关系sortMap，sortMap描述了文档之间的顺序。至于为什么要对文档排序，sortMap如何实现映射，并不是本篇文章关心的，在后面的文章中会介绍。
+&emsp;&emsp;当我们在生成IndexWriter对象时，可以通过[IndexWriterConfig.setIndexSort(Sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)的方法来定义一个排序规则，在生成索引文件的过程中，使得一个段内的所有索引文件中的文档根据该规则进行排序，当然并不是真正的排序，而是生成一个映射关系sortMap（见[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中的预备知识），sortMap描述了文档之间的顺序。至于为什么要对文档排序，sortMap如何实现映射，并不是本篇文章关心的，在后面的文章中会介绍。
 
 ### 找出部分删除文档的文档号
 

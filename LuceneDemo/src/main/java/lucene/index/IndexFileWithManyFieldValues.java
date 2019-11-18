@@ -46,7 +46,6 @@ public class IndexFileWithManyFieldValues {
 //      directory = new FileSwitchDirectory(primaryExtensions, directory3, directory2, true);
       directory = FSDirectory.open(Paths.get("./data"));
 //      directory = FSDirectory.open(Paths.get("./data1"));
-        conf.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
       conf.setUseCompoundFile(true);
       conf.setSoftDeletesField("title");
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);

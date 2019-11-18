@@ -5,14 +5,14 @@
 
 图1：
 
-<img src="si-image/1.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/si/1.png">
 
 ## SegVersion
 &emsp;&emsp;SegVersion描述了该segment的版本信息。
 
 图2：
 
-<img src="si-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/si/2.png">
 
 ### Created.major、Created.minor、Created.bugfix
 &emsp;&emsp;Created描述的是segment创建版本。major、minor、bugfix三者组成了一个版本号，比如本文介绍的就是Lucene7.5.0版本，所以major = 7、minor = 5、bugfix = 0。
@@ -33,13 +33,13 @@
 
 图3：
 
-<img src="si-image/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/si/3.png">
 
 &emsp;&emsp;使用组合文件：
 
 图4：
 
-<img src="si-image/4.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/si/4.png">
 
 ## Diagnostics
 &emsp;&emsp;该字段描述了以下信息：
@@ -57,11 +57,11 @@
 &emsp;&emsp;该字段描述了记录存储域的索引文件，即[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)使用的索引模式，索引模式有两种: BEST_SPEED 或 BEST_COMPRESSION，Attributes记录其索引模式的名称，两者的区别在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html) 已经介绍，不赘述。
 
 ## IndexSort
-&emsp;&emsp;该字段用来对segment内的文档进行排序，该值在IndexWriterConfig对象中设置排序规则，可以提供多个Sort对象。该字段会影响文档信息写入索引文件的信息，顺便提一下的是，如果设置了IndexSort后，在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)就只会生成一个临时文件的.fdx、.fdx、.tvd、.tvx文件。
+&emsp;&emsp;该字段用来对segment内的文档进行排序（用法见[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中的**预备知识**及[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)中的**sortMap**），该值在IndexWriterConfig对象中设置排序规则，可以提供多个Sort对象。该字段会影响文档信息写入索引文件的信息，顺便提一下的是，如果设置了IndexSort后，在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)就只会生成一个临时文件的.fdx、.fdx、.tvd、.tvx文件。
 
 图5：
 
-<img src="si-image/5.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/si/5.png">
 
 ### NumSortFields
 &emsp;&emsp;该字段描述了排序规则的个数。
@@ -114,6 +114,6 @@
 
 图6：
 
-<img src="si-image/6.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/si/6.png">
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/si.zip)Markdown文件

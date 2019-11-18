@@ -98,7 +98,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Collector/Collector（三）/6.png">
 
-[点击]()查看大图
+[点击](http://www.amazingkoala.com.cn/uploads/lucene/Search/Collector/Collector（三）/simplefieldcollector.html)查看大图
 
 #### 预备知识
 

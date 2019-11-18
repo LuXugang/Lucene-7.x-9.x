@@ -74,6 +74,7 @@ input[type=text]::-ms-clear {
     background-color: #d8d8d8;
     opacity: 0; 
     flex: 1;
+    overflow: hidden;
 }
 
 #clippingBounds {

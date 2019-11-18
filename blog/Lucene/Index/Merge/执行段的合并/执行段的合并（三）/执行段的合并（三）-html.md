@@ -30,6 +30,7 @@
 
 - MergeReader：即上一个流程中生成的SegmentReader的集合MergeReader，它包含了待合并的段的信息
 - SegmentInfo：即在`初始化一个新段`的流程中生成的SegmentInfo对象，在后面的流程中，合并后的索引信息将会被写入到该对象中
+- MergeState：该信息将会在下一篇文章中介绍，这里我们只需要知道它生成的时机
 
 &emsp;&emsp;在后面的流程中，将通过MergeReader中包含的索引信息，将合并后的索引信息写入到SegmentInfo对象中。另外如果使用了软删除的机制，那么在上一个流程点执行结束后，我们就获得了被标记为软删除的文档的数量softDeleteCount，此时需要将softDeleteCount写入到SegmentCommitInfo对象（见[近实时搜索NRT（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0925/96.html)中关于SegmentCommitInfo对象的介绍）中。
 

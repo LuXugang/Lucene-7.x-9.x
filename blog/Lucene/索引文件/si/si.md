@@ -57,7 +57,7 @@
 &emsp;&emsp;该字段描述了记录存储域的索引文件，即[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)使用的索引模式，索引模式有两种: BEST_SPEED 或 BEST_COMPRESSION，Attributes记录其索引模式的名称，两者的区别在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html) 已经介绍，不赘述。
 
 ## IndexSort
-&emsp;&emsp;该字段用来对segment内的文档进行排序，该值在IndexWriterConfig对象中设置排序规则，可以提供多个Sort对象。该字段会影响文档信息写入索引文件的信息，顺便提一下的是，如果设置了IndexSort后，在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)就只会生成一个临时文件的.fdx、.fdx、.tvd、.tvx文件。
+&emsp;&emsp;该字段用来对segment内的文档进行排序（用法见[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中的**预备知识**及[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)中的**sortMap**），该值在IndexWriterConfig对象中设置排序规则，可以提供多个Sort对象。该字段会影响文档信息写入索引文件的信息，顺便提一下的是，如果设置了IndexSort后，在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)就只会生成一个临时文件的.fdx、.fdx、.tvd、.tvx文件。
 
 图5：
 

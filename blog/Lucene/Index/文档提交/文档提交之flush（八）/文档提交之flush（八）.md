@@ -78,7 +78,7 @@
 
 &emsp;&emsp;在[文档提交之flush（七）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/80.html)中我们了解到全局FrozenBufferedUpdates中的删除信息会作用到segmentInfos中的每一个SegmentCommitInfo中，同时段内FrozenBufferedUpdates中的删除信息会作用到本段的SegmentCommitInfo，即当作用（apply）了删除信息后，每一个段中的删除信息**可能**会发生变化。如果一个段中有新的被标记为删除的文档产生，那么被删除的文档会被记录到[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)索引文件中，如果该段已经存在.liv索引文件，那么先生成一个新的.liv索引文件，然后删除旧的.liv索引文件（通过索引文件计数引用来判断是否能删除该索引文件，见[文档提交之flush（七）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/80.html)）。
 
-&emsp;&emsp;软删除也会使得对应的文档被标记为被删除的，故同时需要更新DocValues域，这部分在后面介绍软删除的文章中会展开介绍。
+&emsp;&emsp;如果存在更改DocValues域的操作，那么需要更新DocValues域，这部分在后面介绍软删除的文章中会展开介绍。
 
 #### 处理需要被丢弃的段
 

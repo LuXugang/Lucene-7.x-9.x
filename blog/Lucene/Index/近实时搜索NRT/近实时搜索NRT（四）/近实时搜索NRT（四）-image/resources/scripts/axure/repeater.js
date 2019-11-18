@@ -1454,7 +1454,7 @@ $axure.internal(function($ax) {
         for (var i = scrollable.length - 1; i >= 0; i--) {
             var panelId = scrollable[i];
             var stateId = $ax.repeater.applySuffixToElementId(panelId, '_state0');
-            _updateMobileScroll(panelId, stateId);
+            _updateMobileScroll(panelId, stateId, true);
         }
     };
     
