@@ -22,13 +22,13 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 图1：
 
-<img src="构造IndexWriter对象（三）-image/1.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/1.png">
 
 ## 获取索引目录的索引文件锁
 
 图2：
 
-<img src="构造IndexWriter对象（三）-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/2.png">
 
 &emsp;&emsp;该流程为Lucene使用索引文件锁对索引文件所在的目录进行加锁，使得同一时间总是只有一个IndexWriter对象可以更改索引文件，即保证单进程内(single in-process)多个不同IndexWriter对象互斥更改（多线程持有相同引用的IndexWriter对象视为一个IndexWriter不会受制于LockFactory，而是受制于对象锁（synchronized(IndexWriter)）、多进程内(multi-processes)多个对象互斥更改。
 
@@ -38,7 +38,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 图3：
 
-<img src="构造IndexWriter对象（三）-image/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/3.png">
 
 &emsp;&emsp;该流程中我们需要对Directory通过[LockValidatingDirectoryWrapper](https://www.amazingkoala.com.cn/Lucene/Store/2019/0615/67.html)对象进行再次封装， 使得在对索引目录中的文件进行任意形式的具有"破坏性"（destructive）的文件系统操作（filesystem operation）前尽可能（best-effort）确保索引文件锁是有效的（valid）。
 
@@ -55,7 +55,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 图4：
 
-<img src="构造IndexWriter对象（三）-image/4.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/4.png">
 
 &emsp;&emsp;如果IndexWriter的配置信息IndexWriterConfig设置了IndexCommit配置，那么我们需要获得描述IndexCommit中包含的信息的对象，即StandardDirectoryReader，生成StandardDirectoryReader的目的在后面的流程中会展开介绍，这里只要知道它的生成时机即可。
 
@@ -65,7 +65,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 图5：
 
-<img src="构造IndexWriter对象（三）-image/5.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/5.png">
 
 &emsp;&emsp;从图5中可以看出，尽管Lucene提供了三种索引目录的打开模式，但实际上只有CREATE跟APPEND两种打开模式的逻辑，三种模式的介绍可以看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)，这里不赘述。
 
@@ -77,13 +77,13 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 图6：
 
-<img src="构造IndexWriter对象（三）-image/6.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/6.png">
 
 #### 配置检查1
 
 图7：
 
-<img src="构造IndexWriter对象（三）-image/7.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/7.png">
 
 &emsp;&emsp;该流程会检查用户是否正确设置了IndexCommit跟OpenMode两个配置，由于代码比较简单，故直接给出：
 
@@ -108,7 +108,7 @@ if (config.getIndexCommit() != null) {
 
 图8：
 
-<img src="构造IndexWriter对象（三）-image/8.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/8.png">
 
 &emsp;&emsp;该流程只是描述了生成SegmentInfos对象的时机点，没其他多余的内容。
 
@@ -120,7 +120,7 @@ if (config.getIndexCommit() != null) {
 
 图9：
 
-<img src="构造IndexWriter对象（三）-image/9.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/9.png">
 
 &emsp;&emsp;如果索引目录中已经存在旧的索引，那么indexExists的值为true，那么我们先需要获得旧的索引中的最后一次提交commit中的SegmentInfos中的三个信息，即version、counter、generation：
 
@@ -129,7 +129,7 @@ if (config.getIndexCommit() != null) {
 
 图10：
 
-<img src="构造IndexWriter对象（三）-image/10.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/10.png">
 
 - generation：用来描述执行提交操作后生成的Segment_N文件的N值，图10中，generation的值为2
 
@@ -137,7 +137,7 @@ if (config.getIndexCommit() != null) {
 
 图11：
 
-<img src="构造IndexWriter对象（三）-image/11.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/11.png">
 
 &emsp;&emsp;图11中，generation的值通过索引文件Segment_N的文件名来获得。
 
@@ -151,7 +151,7 @@ if (config.getIndexCommit() != null) {
 
 图12：
 
-<img src="构造IndexWriter对象（三）-image/12.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/12.png">
 
 &emsp;&emsp;该流程为回滚的初始化，初始化一个叫做rollbackSegments的链表，该链表的定义如下：
 
@@ -165,7 +165,7 @@ private List<SegmentCommitInfo> rollbackSegments;
 
 图13：
 
-<img src="构造IndexWriter对象（三）-image/13.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/13.png">
 
 &emsp;&emsp;由于SegmentInfos被同步了version、counter、generation三个信息，说明SegmentInfos发生了变化，那么需要通过更新SegmentInfos的version来描述这次的变化。
 
