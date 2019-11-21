@@ -79,65 +79,25 @@ public class IndexFileWithLessFieldValues {
 
       // 文档3
       doc = new Document();
-      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+      doc.add(new TextField("author", "aabb ", Field.Store.YES));
       doc.add(new TextField("content", "b c e", Field.Store.YES));
       doc.add(new NumericDocValuesField("sortByNumber", 1));
       indexWriter.addDocument(doc);
 
       // 文档4
       doc = new Document();
-      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
+      doc.add(new TextField("author", "aab", Field.Store.YES));
       doc.add(new TextField("content", "a c e f g d", Field.Store.YES));
       indexWriter.addDocument(doc);
 
-//      indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
+      indexWriter.deleteDocuments(new Term("author", "aab"));
+      indexWriter.updateNumericDocValue(new Term("author", "aabb"), "sortByNumber", 3);
 
-//      // 文档0
-//      Document doc = new Document();
-//      doc.add(new TextField("author", "aab b aab aabbcc ", Field.Store.YES));
-//      doc.add(new TextField("content", "a b", Field.Store.YES));
-//      indexWriter.addDocument(doc);
-//
-//      // 文档1
-//      doc = new Document();
-//      doc.add(new TextField("author", "cd a", Field.Store.YES));
-//      doc.add(new TextField("content", "a b c h", Field.Store.YES));
-//      doc.add(new TextField("title", "d a", Field.Store.YES));
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("a"))); // MIN
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("h"))); // MIDDLE_MAX
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("f"))); // MIDDLE_MIN
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("y"))); // MAX
-//      indexWriter.addDocument(doc);
-//
-//      // 文档2
-//      doc = new Document();
-//      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
-//      doc.add(new TextField("content", "a c b e", Field.Store.YES));
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("c"))); // MIN
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("i"))); // MIDDLE_MAX
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("e"))); // MIDDLE_MIN
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("z"))); // MAX
-//      indexWriter.addDocument(doc);
-//
-//      // 文档3
-//      doc = new Document();
-//      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
-//      doc.add(new TextField("content", "b c e", Field.Store.YES));
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("b"))); // MIN
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("j"))); // MIDDLE_MAX
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("d"))); // MIDDLE_MIN
-//      doc.add(new SortedSetDocValuesField("sortByString", new BytesRef("x"))); // MAX
-//      indexWriter.addDocument(doc);
-//
-//      // 文档4
-//      doc = new Document();
-//      doc.add(new TextField("author", "aab aab aabb ", Field.Store.YES));
-//      doc.add(new TextField("content", "b c e d f w e", Field.Store.YES));
-//      indexWriter.addDocument(doc);
+      indexWriter.flush();
     }
     indexWriter.commit();
 //          indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
-//    indexWriter.commit();
+    indexWriter.commit();
 
 
     // Per-top-reader state:

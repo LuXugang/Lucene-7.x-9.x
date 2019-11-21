@@ -27,7 +27,7 @@ public class IndexDeletePolicyTest {
         try {
             FileOperation.deleteFile("./data");
             directory = FSDirectory.open(Paths.get("./data"));
-            conf.setUseCompoundFile(false);
+//            conf.setUseCompoundFile(true);
             persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
             snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
             conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
@@ -50,9 +50,10 @@ public class IndexDeletePolicyTest {
         type.setTokenized(true);
         type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
 
+        IndexCommit indexCommit = null;
         int count = 0;
+        Document doc;
         while (count++ < 3) {
-            Document doc;
             // 文档0
             doc = new Document();
             doc.add(new Field("author", "Lucy", type));
@@ -68,10 +69,29 @@ public class IndexDeletePolicyTest {
             indexWriter.addDocument(doc);
 
             indexWriter.commit();
-            if(count != 2){
-                persistentSnapshotDeletionPolicy.snapshot();
+            if(count == 2){
+                indexCommit = persistentSnapshotDeletionPolicy.snapshot();
+                System.out.println("abc");
             }
         }
+
+
+        doc = new Document();
+        doc.add(new Field("author", "Lucy", type));
+        doc.add(new Field("title", "notCare", type));
+        doc.add(new IntPoint("pointValue", 3, 4, 5));
+        doc.add(new NumericDocValuesField("docValuesField", 8));
+        indexWriter.addDocument(doc);
+        indexWriter.commit();
+        indexWriter.close();
+
+        IndexWriterConfig newConf = new IndexWriterConfig(analyzer);
+        newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+        newConf.setIndexCommit(indexCommit);
+        IndexWriter newIndexWriter = new IndexWriter(directory, newConf);
+        System.out.println("abc");
+
+
     }
     public static void main(String[] args) throws Exception{
         IndexDeletePolicyTest test = new IndexDeletePolicyTest();

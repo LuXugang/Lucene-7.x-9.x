@@ -34,7 +34,7 @@ public class IndexFileWithManyFieldValues {
   {
     try {
 //      FileOperation.deleteFile("./data2");
-//      FileOperation.deleteFile("./data");
+      FileOperation.deleteFile("./data");
 //      directory3 = FSDirectory.open(Paths.get("./data01"));
 //      directory2 = FSDirectory.open(Paths.get("./data02"));
 //      Set<String> primaryExtensions = new HashSet<>();
@@ -48,7 +48,7 @@ public class IndexFileWithManyFieldValues {
 //      directory = FSDirectory.open(Paths.get("./data1"));
       conf.setUseCompoundFile(true);
 //      conf.setSoftDeletesField("title");
-      conf.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
+      conf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 //      persistentSnapshotDeletionPolicy = new PersistentSnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy(), directory);
 //      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
@@ -113,21 +113,53 @@ public class IndexFileWithManyFieldValues {
 
 //      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
 
-      indexWriter.commit();
+      indexWriter.flush();
     }
     indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
+    IndexCommit indexCommit = reader.getIndexCommit();
+
+    count = 0;
+    while (count++ < 1) {
+      // 文档0
+      doc = new Document();
+      doc.add(new Field("author", "国'人", type));
+      doc.add(new Field("title", "notCare", type));
+      doc.add(new NumericDocValuesField("age", -2));
+      indexWriter.addDocument(doc);
+      // 文档1
+      doc = new Document();
+      doc.add(new Field("author", "Lily", type));
+      doc.add(new StringField("title", "Care", Field.Store.YES));
+      doc.add(new NumericDocValuesField("age", 2));
+      indexWriter.addDocument(doc);
+
+      // 文档2
+      doc = new Document();
+      doc.add(new Field("author", "Luxugang", type));
+      doc.add(new StringField("title", "whatEver", Field.Store.YES));
+      doc.add(new NumericDocValuesField("age", 0));
+      indexWriter.addDocument(doc);
+
+//      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
+
+      indexWriter.flush();
+    }
+    indexWriter.commit();
+
+
     indexWriter.close();
-    indexWriter = null;
     IndexWriterConfig newConf = new IndexWriterConfig(analyzer);
-    newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    indexWriter = new IndexWriter(directory, newConf);
+    newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+    newConf.setIndexCommit(indexCommit);
+    IndexWriter indexWriter1 = new IndexWriter(directory, newConf);
     doc = new Document();
     doc.add(new Field("author", "Luxugang", type));
     doc.add(new StringField("title", "whatEver", Field.Store.YES));
     doc.add(new NumericDocValuesField("age", 0));
-    indexWriter.addDocument(doc);
-    indexWriter.commit();
+    indexWriter1.addDocument(doc);
+    indexWriter1.commit();
+
 
 //    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "age", 3);
 //    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data2")));
