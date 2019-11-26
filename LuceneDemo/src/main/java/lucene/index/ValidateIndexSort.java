@@ -81,22 +81,17 @@ public class ValidateIndexSort {
         oldIndexWriter.commit();
         oldIndexWriter.close();
 
-        // 生成一个新的IndexWriter对象，并且设置IndexCommit配置
         IndexWriterConfig newConf = new IndexWriterConfig(analyzer);
         newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-        // IndexCommit中保留的是segment_1文件对应的索引信息，但此时索引目录没有该文件了
         SortField indexSortField = new SortField("sortByNumber", SortField.Type.LONG);
         Sort indexSort = new Sort(indexSortField);;
         newConf.setIndexSort(indexSort);
-
-        // 使用相同的索引目录directory
         IndexWriter newIndexWriter = new IndexWriter(directory, newConf);
         newIndexWriter.addIndexes(directory1);
         newIndexWriter.commit();
 
         DirectoryReader reader = DirectoryReader.open(newIndexWriter);
-        System.out.println("doc number: "+reader.maxDoc()+"");
-        System.out.println("抛出异常");
+        System.out.println("Doc number: "+reader.maxDoc()+"");
 
     }
 
