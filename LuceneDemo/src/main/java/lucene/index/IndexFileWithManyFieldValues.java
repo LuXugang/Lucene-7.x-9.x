@@ -90,7 +90,7 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 1) {
+    while (count++ < 100000000) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "国'人", type));
@@ -111,10 +111,11 @@ public class IndexFileWithManyFieldValues {
       doc.add(new NumericDocValuesField("age", 0));
       indexWriter.addDocument(doc);
 
-//      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
 
       indexWriter.flush();
     }
+    indexWriter.deleteDocuments(new Term("author", "Luxugang"));
+    indexWriter.flush();
     indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexCommit indexCommit = reader.getIndexCommit();
