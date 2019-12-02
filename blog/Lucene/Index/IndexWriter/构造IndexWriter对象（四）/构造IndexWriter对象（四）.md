@@ -112,7 +112,7 @@
 
 **为什么要执行这个检查**：
 
-&emsp;&emsp;我们首先根据下面两张图来介绍下SegmentInfos对象跟[索引文件segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)、[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)以及其他[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)的关系：
+&emsp;&emsp;我们首先根据下面两张图来介绍下SegmentInfos对象跟[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)、[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)以及其他[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)的关系：
 
 图14：
 

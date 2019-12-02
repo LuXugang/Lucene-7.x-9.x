@@ -53,7 +53,7 @@ public class IndexFileWithManyFieldValues {
 //      snapshotDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
-//      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
+      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
 //      conf.setMergePolicy(NoMergePolicy.INSTANCE);
       Supplier<Query> docsOfLast24Hours = () -> LongPoint.newRangeQuery("creation_date", 23, 48);
 //      conf.setMergePolicy(new LogDocMergePolicy());
@@ -90,7 +90,7 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 100000000) {
+    while (count++ < 4) {
       // 文档0
       doc = new Document();
       doc.add(new Field("author", "国'人", type));
@@ -112,98 +112,10 @@ public class IndexFileWithManyFieldValues {
       indexWriter.addDocument(doc);
 
 
-      indexWriter.flush();
+      indexWriter.commit();
     }
-    indexWriter.deleteDocuments(new Term("author", "Luxugang"));
-    indexWriter.flush();
-    indexWriter.commit();
     DirectoryReader  reader = DirectoryReader.open(indexWriter);
     IndexCommit indexCommit = reader.getIndexCommit();
-
-    count = 0;
-    while (count++ < 1) {
-      // 文档0
-      doc = new Document();
-      doc.add(new Field("author", "国'人", type));
-      doc.add(new Field("title", "notCare", type));
-      doc.add(new NumericDocValuesField("age", -2));
-      indexWriter.addDocument(doc);
-      // 文档1
-      doc = new Document();
-      doc.add(new Field("author", "Lily", type));
-      doc.add(new StringField("title", "Care", Field.Store.YES));
-      doc.add(new NumericDocValuesField("age", 2));
-      indexWriter.addDocument(doc);
-
-      // 文档2
-      doc = new Document();
-      doc.add(new Field("author", "Luxugang", type));
-      doc.add(new StringField("title", "whatEver", Field.Store.YES));
-      doc.add(new NumericDocValuesField("age", 0));
-      indexWriter.addDocument(doc);
-
-//      indexWriter.deleteDocuments(new Term("author", "Luxugang"));
-
-      indexWriter.flush();
-    }
-    indexWriter.commit();
-
-
-    indexWriter.close();
-    IndexWriterConfig newConf = new IndexWriterConfig(analyzer);
-    newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-    newConf.setIndexCommit(indexCommit);
-    IndexWriter indexWriter1 = new IndexWriter(directory, newConf);
-    doc = new Document();
-    doc.add(new Field("author", "Luxugang", type));
-    doc.add(new StringField("title", "whatEver", Field.Store.YES));
-    doc.add(new NumericDocValuesField("age", 0));
-    indexWriter1.addDocument(doc);
-    indexWriter1.commit();
-
-
-//    indexWriter.updateNumericDocValue(new Term("author", "Luxugang"), "age", 3);
-//    DirectoryReader oldReader = DirectoryReader.open(FSDirectory.open(Paths.get("./data2")));
-//    CodecReader[] readers = new CodecReader[oldReader.leaves().size()];
-//    for (int i = 0; i < readers.length; i++) {
-//      readers[i] = (CodecReader)oldReader.leaves().get(i).reader();
-//    }
-//    indexWriter.addIndexes(readers);
-
-
-//      persistentSnapshotDeletionPolicy.snapshot();
-//    Map<String, String> userData = new HashMap<>();
-//    userData.put("1", "abc");
-//    userData.put("2", "efd");
-//    indexWriter.setLiveCommitData(userData.entrySet());
-//    System.out.println(""+Thread.currentThread().getName()+" start to sleep");
-//    Thread.sleep(1000000000);
-//    indexWriter.flush();
-
-//    DirectoryReader  reader = DirectoryReader.open(directory);
-//    DirectoryReader  reader = DirectoryReader.open(indexWriter, true, true);
-
-//    reader = DirectoryReader.openIfChanged(reader);
-//    reader = DirectoryReader.openIfChanged(reader);
-
-//    DirectoryReader reader1 = new ExitableDirectoryReader(reader, new QueryTimeoutImpl(2000));
-//
-    IndexSearcher searcher = new IndexSearcher(reader);
-    Query query = new MatchAllDocsQuery();
-//
-//    SortField sortField  = new SortedNumericSortField("docValuesField", SortField.Type.INT);
-//
-//    Sort sort = new Sort(sortField);
-//
-    ScoreDoc[] scoreDocs = searcher.search(query, 10).scoreDocs;
-    for (int i = 0; i < scoreDocs.length; i++) {
-      ScoreDoc scoreDoc = scoreDocs[i];
-      // 输出满足查询条件的 文档号
-      System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
-    }
-    // Per-top-reader state:
-//
-////   reader = DirectoryReader.openIfChanged(reader);
 
     System.out.println("hah");
   }

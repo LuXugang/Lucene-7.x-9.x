@@ -114,21 +114,21 @@ Holds shared SegmentReader instances
 
 &emsp;&emsp;另外还要说下的是，在ReaderPool的构造函数中，会将图1中流程点`获取IndexCommit对应的StandardDirectoryReader`获得的StandardDirectoryReader中的SegmentReader缓存到ReaderPool中。
 
-### 生成对象IndexFileDeleter
+## 生成对象IndexFileDeleter
 
 图8：
 
 <img src="构造IndexWriter对象（六）-image/8.png">
 
-&emsp;&emsp;IndexFileDeleter用来追踪SegmentInfos是否还"活着（live）"，在文章[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/109.html)中我们介绍了SegmentInfos对象跟索引文件Segment_N的关系，简单的概括就是SegmentInfos对象是索引文件segments_N和索引文件.si在内存中的表示。
+&emsp;&emsp;IndexFileDeleter用来追踪SegmentInfos是否还"活着（live）"，在文章[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/109.html)中我们介绍了SegmentInfos对象跟索引文件segments_N的关系，简单的概括就是SegmentInfos对象是索引文件segments_N和索引文件.si在内存中的表示。
 
-&emsp;&emsp;当执行索引删除策略时，例如默认的索引删除策略[KeepOnlyLastCommitDeletionPolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)，新的提交生成后（即生成新的Segment_N文件）需要删除上一次提交，即需要删除上一次提交对应的所有索引信息，而用来描述所有索引信息的正是SegmentInfos，删除SegmentInfos的真正目的是为了删除对应在索引目录中的索引文件，但这些索引文件如果正在被其他SegmentInfos引用，那么就不能被删除，IndexFileDeleter真正的工作就是判断索引目录中的索引文件是否允许被删除。
+&emsp;&emsp;当执行索引删除策略时，例如默认的索引删除策略[KeepOnlyLastCommitDeletionPolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)，新的提交生成后（即生成新的segments_N文件）需要删除上一次提交，即需要删除上一次提交对应的所有索引信息，而用来描述所有索引信息的正是SegmentInfos，删除SegmentInfos的真正目的是为了删除对应在索引目录中的索引文件，但这些索引文件如果正在被其他SegmentInfos引用，那么就不能被删除，IndexFileDeleter真正的工作就是判断索引目录中的索引文件是否允许被删除。
 
 **IndexFileDeleter如何判断索引目录中的索引文件是否允许被删除**
 
 &emsp;&emsp;使用引用计数的方式。
 
-#### IndexFileDeleter的构造函数
+### IndexFileDeleter的构造函数
 
 &emsp;&emsp;基于篇幅，将在下一篇文章中介绍IndexFileDeleter的构造函数
 

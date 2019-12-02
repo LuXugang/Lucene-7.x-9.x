@@ -24,11 +24,11 @@
 
 <img src="构造IndexWriter对象（五）-image/3.png">
 
-&emsp;&emsp;由于StandardDirectoryReader为空，那么就从索引目录中初始化一个新SegmentInfos对象（见[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)），即通过找到索引目录中的segment_N文件读取索引信息。
+&emsp;&emsp;由于StandardDirectoryReader为空，那么就从索引目录中初始化一个新SegmentInfos对象（见[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)），即通过找到索引目录中的segments_N文件读取索引信息。
 
-&emsp;&emsp;**当索引目录中有多个segment_N文件时该如何选择**：
+&emsp;&emsp;**当索引目录中有多个segments_N文件时该如何选择**：
 
-- Lucene设定为读取最新的一次提交，即选取segment_N的N值最大的那个，因为N越大意味着更新的提交（commit()操作）
+- Lucene设定为读取最新的一次提交，即选取segments_N的N值最大的那个，因为N越大意味着更新的提交（commit()操作）
 
 #### IndexCommit是否为空？
 
@@ -99,7 +99,7 @@ if (commit.getDirectory() != directoryOrig) {
 
 **为什么检查IndexSort合法性的准备数据是SegmentInfos对象**：
 
-&emsp;&emsp;SegmentInfos对象是索引文件segment_N跟.si文件在内存中的描述，如下图所示：
+&emsp;&emsp;SegmentInfos对象是索引文件segments_N跟.si文件在内存中的描述，如下图所示：
 
 图11：
 
@@ -135,7 +135,7 @@ if (segmentIndexSort == null && info.info.getVersion().onOrAfter(Version.LUCENE_
 
 **如何读取没有排序规则的段，并且生成这些段的Lucene版本号大于等于6.5.0的旧索引**：
 
-- 如果旧索引的版本号是Lucene7以上，那么通过[IndexWriter.addIndexes(Directory... dirs)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriter.java)方法读取旧索引，该方法必须要求旧索引跟当前读取索引的Lucene主版本（即图11中索引文件segment_N的IndexCreatedVersionMajor字段的值）是一致的。下面的这个demo演示了如何添加上述旧索引：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/index/ValidateIndexSort.java 。
+- 如果旧索引的版本号是Lucene7以上，那么通过[IndexWriter.addIndexes(Directory... dirs)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriter.java)方法读取旧索引，该方法必须要求旧索引跟当前读取索引的Lucene主版本（即图11中索引文件segments_N的IndexCreatedVersionMajor字段的值）是一致的。下面的这个demo演示了如何添加上述旧索引：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/index/ValidateIndexSort.java 。
 - 如果旧索引的版本号是Lucene7以下并且是Lucene6以上，可以通过DirectoryReader.open(Directory directory)的方式读取
 - 如果旧索引的版本号是Lucene6以下，那么无法读取
 

@@ -114,7 +114,7 @@ if (config.getIndexCommit() != null) {
 
 &emsp;&emsp;**SegmentInfos是什么：**
 
-- SegmentInfos对象是[索引文件segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)以及[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)在内存中的描述，可以看文章[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)中关于流程点`获得所有段的信息集合SegmentInfos`的介绍，这里不赘述
+- SegmentInfos对象是[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)以及[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)在内存中的描述，可以看文章[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)中关于流程点`获得所有段的信息集合SegmentInfos`的介绍，这里不赘述
 
 #### 同步SegmentInfos的部分信息
 
@@ -131,15 +131,15 @@ if (config.getIndexCommit() != null) {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/10.png">
 
-- generation：用来描述执行提交操作后生成的Segment_N文件的N值，图10中，generation的值为2
+- generation：用来描述执行提交操作后生成的segments_N文件的N值，图10中，generation的值为2
 
-&emsp;&emsp;上述三个信息在[索引文件segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)中的位置如下所示：
+&emsp;&emsp;上述三个信息在[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)中的位置如下所示：
 
 图11：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/11.png">
 
-&emsp;&emsp;图11中，generation的值通过索引文件Segment_N的文件名来获得。
+&emsp;&emsp;图11中，generation的值通过索引文件segments_N的文件名来获得。
 
 &emsp;&emsp;接着将version、counter、generation同步到刚刚初始化的新的SegmentInfos对象中。
 
