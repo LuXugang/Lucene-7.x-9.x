@@ -2,7 +2,7 @@
 
 &emsp;&emsp;文章中的Lucene版本为7.5.0，欢迎同学们交流指正。
 
-#### 索引文件
+# 索引文件
 
 ##### 1. DocValues
 
@@ -36,7 +36,7 @@
 
 ##### 13. [索引文件之nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)
 
-#### Index
+# Index
 
 ##### 1. 构造IndexWriter对象
 
@@ -101,7 +101,7 @@
 - [SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)
 - [SegmentReader（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1015/100.html)
 
-#### Search
+# Search
 
 ##### 1. 查询原理
 
@@ -136,7 +136,7 @@
 - [Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)
 - [Directory（下）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0615/67.html)
 
-#### Util
+# Util
 
 ##### 1. [RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/98.html)
 
@@ -160,7 +160,7 @@
 
 ##### 4. [去重编码(dedupAndEncode)](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0130/29.html)
 
-#### Other
+# Other
 
 ##### 1. 倒排表的数据结构：
 
