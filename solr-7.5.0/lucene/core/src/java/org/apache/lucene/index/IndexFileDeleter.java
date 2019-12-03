@@ -203,6 +203,9 @@ final class IndexFileDeleter implements Closeable {
 
     if (isReaderInit) {
       // Incoming SegmentInfos may have NRT changes not yet visible in the latest commit, so we have to protect its files from deletion too:
+      // 通过NRT更改了索引之后，并且用更改后的索引内容作为IndexCommit来构造IndexWriter，但是这次的更改对于最后的一次commit()是不可见的
+      // 这些变更的索引信息对应的索引文件无法在上文中通过segments_N文件来增加计数引用，那么在后面的流程中会被删除，为了防止删除，通过调用checkPoint()方法即可
+      // 这种场景的可以查看这个demo：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/index/CheckPointInIndexFileDeleter.java
       checkpoint(segmentInfos, false);
     }
 

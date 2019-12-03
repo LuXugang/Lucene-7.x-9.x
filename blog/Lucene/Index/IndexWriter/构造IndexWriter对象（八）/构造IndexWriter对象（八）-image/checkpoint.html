@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>checkPoint</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/checkpoint/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script src="resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="data/document.js"></script>
+    <script src="files/checkpoint/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u181" class="ax_default flow_shape">
+        <div id="u181_div" class=""></div>
+        <div id="u181_text" class="text ">
+          <p><span>开始</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u182" class="ax_default flow_shape">
+        <div id="u182_div" class=""></div>
+        <div id="u182_text" class="text ">
+          <p><span>增加SegmentInfos对应的索引文件的计数引用</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Diamond) -->
+      <div id="u183" class="ax_default flow_shape">
+        <img id="u183_img" class="img " src="images/nrt_change/u1.svg"/>
+        <div id="u183_text" class="text ">
+          <p><span>isCommit是否</span></p><p><span>为true？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u184" class="ax_default flow_shape">
+        <div id="u184_div" class=""></div>
+        <div id="u184_text" class="text ">
+          <p><span>根据新的SegmentInfos</span></p><p><span>获取CommitPoint</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u185" class="ax_default flow_shape">
+        <div id="u185_div" class=""></div>
+        <div id="u185_text" class="text ">
+          <p><span>添加CommitPoint到CommitPoint集合commits中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u186" class="ax_default flow_shape">
+        <div id="u186_div" class=""></div>
+        <div id="u186_text" class="text ">
+          <p><span>执行索引删除策略</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u187" class="ax_default flow_shape">
+        <div id="u187_div" class=""></div>
+        <div id="u187_text" class="text ">
+          <p><span>尝试删除lastFiles中的索引文件</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u188" class="ax_default flow_shape">
+        <div id="u188_div" class=""></div>
+        <div id="u188_text" class="text ">
+          <p><span>将这次SegmentInfo对应的索引文件添加到lastFiles中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u189" class="ax_default flow_shape">
+        <div id="u189_div" class=""></div>
+        <div id="u189_text" class="text ">
+          <p><span>清空lastFiles中的索引文件</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u190" class="ax_default connector">
+        <img id="u190_seg0" class="img " src="images/checkpoint/u190_seg0.svg" alt="u190_seg0"/>
+        <img id="u190_seg1" class="img " src="images/checkpoint/u190_seg1.svg" alt="u190_seg1"/>
+        <div id="u190_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u191" class="ax_default connector">
+        <img id="u191_seg0" class="img " src="images/checkpoint/u191_seg0.svg" alt="u191_seg0"/>
+        <img id="u191_seg1" class="img " src="images/checkpoint/u191_seg1.svg" alt="u191_seg1"/>
+        <div id="u191_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u192" class="ax_default connector">
+        <img id="u192_seg0" class="img " src="images/checkpoint/u192_seg0.svg" alt="u192_seg0"/>
+        <img id="u192_seg1" class="img " src="images/checkpoint/u192_seg1.svg" alt="u192_seg1"/>
+        <div id="u192_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u193" class="ax_default connector">
+        <img id="u193_seg0" class="img " src="images/checkpoint/u193_seg0.svg" alt="u193_seg0"/>
+        <img id="u193_seg1" class="img " src="images/checkpoint/u193_seg1.svg" alt="u193_seg1"/>
+        <div id="u193_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u194" class="ax_default connector">
+        <img id="u194_seg0" class="img " src="images/checkpoint/u194_seg0.svg" alt="u194_seg0"/>
+        <img id="u194_seg1" class="img " src="images/checkpoint/u194_seg1.svg" alt="u194_seg1"/>
+        <div id="u194_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u195" class="ax_default connector">
+        <img id="u195_seg0" class="img " src="images/checkpoint/u195_seg0.svg" alt="u195_seg0"/>
+        <img id="u195_seg1" class="img " src="images/checkpoint/u195_seg1.svg" alt="u195_seg1"/>
+        <div id="u195_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u196" class="ax_default connector">
+        <img id="u196_seg0" class="img " src="images/checkpoint/u196_seg0.svg" alt="u196_seg0"/>
+        <img id="u196_seg1" class="img " src="images/checkpoint/u196_seg1.svg" alt="u196_seg1"/>
+        <div id="u196_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u197" class="ax_default flow_shape">
+        <div id="u197_div" class=""></div>
+        <div id="u197_text" class="text ">
+          <p><span>结束</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u198" class="ax_default connector">
+        <img id="u198_seg0" class="img " src="images/checkpoint/u198_seg0.svg" alt="u198_seg0"/>
+        <img id="u198_seg1" class="img " src="images/checkpoint/u198_seg1.svg" alt="u198_seg1"/>
+        <img id="u198_seg2" class="img " src="images/checkpoint/u198_seg2.svg" alt="u198_seg2"/>
+        <img id="u198_seg3" class="img " src="images/checkpoint/u198_seg3.svg" alt="u198_seg3"/>
+        <div id="u198_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u199" class="ax_default connector">
+        <img id="u199_seg0" class="img " src="images/checkpoint/u199_seg0.svg" alt="u199_seg0"/>
+        <img id="u199_seg1" class="img " src="images/checkpoint/u199_seg1.svg" alt="u199_seg1"/>
+        <div id="u199_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u200" class="ax_default label">
+        <div id="u200_div" class=""></div>
+        <div id="u200_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u201" class="ax_default label">
+        <div id="u201_div" class=""></div>
+        <div id="u201_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Parallelogram) -->
+      <div id="u202" class="ax_default flow_shape">
+        <img id="u202_img" class="img " src="images/nrt_change/u17.svg"/>
+        <div id="u202_text" class="text ">
+          <p><span>SegmentInfos</span></p><p><span>&amp;&amp;</span></p><p><span>boolean</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u203" class="ax_default connector">
+        <img id="u203_seg0" class="img " src="images/checkpoint/u203_seg0.svg" alt="u203_seg0"/>
+        <img id="u203_seg1" class="img " src="images/checkpoint/u203_seg1.svg" alt="u203_seg1"/>
+        <div id="u203_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u204" class="ax_default connector">
+        <img id="u204_seg0" class="img " src="images/checkpoint/u204_seg0.svg" alt="u204_seg0"/>
+        <img id="u204_seg1" class="img " src="images/checkpoint/u204_seg1.svg" alt="u204_seg1"/>
+        <div id="u204_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script src="resources/scripts/axure/ios.js"></script>
+  </body>
+</html>

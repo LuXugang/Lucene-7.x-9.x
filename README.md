@@ -47,6 +47,7 @@
 - [构造IndexWriter对象（五）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1126/110.html)
 - [构造IndexWriter对象（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1127/111.html)
 - [构造IndexWriter对象（七）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1202/112.html)
+- [构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)
 
 ##### 2. 执行段的合并
 
@@ -150,7 +151,7 @@
 
 ##### 6. [IntBlockPool](https://www.amazingkoala.com.cn/Lucene/gongjulei/2018/1209/24.html)
 
-#### 压缩存储
+# 压缩存储
 
 ##### 1. [LZ4算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)
 
