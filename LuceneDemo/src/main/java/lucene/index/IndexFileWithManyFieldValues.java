@@ -54,6 +54,7 @@ public class IndexFileWithManyFieldValues {
 //      conf.setIndexDeletionPolicy(persistentSnapshotDeletionPolicy);
 //      conf.setIndexDeletionPolicy(snapshotDeletionPolicy);
       conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
+      conf.setMergePolicy(NoMergePolicy.INSTANCE);
 //      conf.setMergePolicy(NoMergePolicy.INSTANCE);
       Supplier<Query> docsOfLast24Hours = () -> LongPoint.newRangeQuery("creation_date", 23, 48);
 //      conf.setMergePolicy(new LogDocMergePolicy());
@@ -63,6 +64,7 @@ public class IndexFileWithManyFieldValues {
 //      conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
       InfoStream infoStream = InfoStream.NO_OUTPUT;
       conf.setMergedSegmentWarmer(new SimpleMergedSegmentWarmer(infoStream));
+      conf.setCommitOnClose(false);
       SortField indexSortField = new SortField("age", SortField.Type.LONG);
       Sort indexSort = new Sort(indexSortField);;
 //    conf.setIndexSort(indexSort);
@@ -90,34 +92,57 @@ public class IndexFileWithManyFieldValues {
 
     int count = 0;
     Document doc;
-    while (count++ < 4) {
-      // 文档0
-      doc = new Document();
-      doc.add(new Field("author", "国'人", type));
-      doc.add(new Field("title", "notCare", type));
-      doc.add(new NumericDocValuesField("age", -2));
-      indexWriter.addDocument(doc);
-      // 文档1
-      doc = new Document();
-      doc.add(new Field("author", "Lily", type));
-      doc.add(new StringField("title", "Care", Field.Store.YES));
-      doc.add(new NumericDocValuesField("age", 2));
-      indexWriter.addDocument(doc);
+    // 文档0
+    doc = new Document();
+    doc.add(new StringField("author", "Lily", Field.Store.YES));
+    doc.add(new StringField("title", "care", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", -2));
+    indexWriter.addDocument(doc);
 
-      // 文档2
-      doc = new Document();
-      doc.add(new Field("author", "Luxugang", type));
-      doc.add(new StringField("title", "whatEver", Field.Store.YES));
-      doc.add(new NumericDocValuesField("age", 0));
-      indexWriter.addDocument(doc);
+    // 文档1
+    doc = new Document();
+    doc.add(new Field("author", "Lily", type));
+    doc.add(new StringField("title", "notCare", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 2));
+    indexWriter.addDocument(doc);
 
+    doc = new Document();
+    doc.add(new Field("author", "Lily", type));
+    doc.add(new StringField("title", "totalnotCare", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 2));
+    indexWriter.addDocument(doc);
+    // 文档2
+    doc = new Document();
+    doc.add(new StringField("author", "Luxugang", Field.Store.YES));
+    doc.add(new StringField("title", "whatEver", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 0));
+    indexWriter.addDocument(doc);
+    indexWriter.commit();
 
-      indexWriter.commit();
-    }
-    DirectoryReader  reader = DirectoryReader.open(indexWriter);
+    DirectoryReader reader = DirectoryReader.open(indexWriter);
+
+    doc = new Document();
+    doc.add(new StringField("author", "Jay", Field.Store.YES));
+    doc.add(new StringField("title", "careFi", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 0));
+    indexWriter.addDocument(doc);
+    indexWriter.deleteDocuments(new Term("author", "Lily"));
+
+    reader = DirectoryReader.openIfChanged(reader, indexWriter);
     IndexCommit indexCommit = reader.getIndexCommit();
 
-    System.out.println("hah");
+
+    IndexWriterConfig newConf = new IndexWriterConfig(analyzer);
+    newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+    // IndexCommit中保留的是segment_1文件对应的索引信息，但此时索引目录没有该文件了
+    newConf.setIndexCommit(indexCommit);
+    indexWriter.close();
+
+    // 使用相同的索引目录directory
+    IndexWriter newIndexWriter = new IndexWriter(directory, newConf);
+
+    System.out.printf("abc");
+
   }
 
   public static String getSamePrefixRandomValue(String prefix){
