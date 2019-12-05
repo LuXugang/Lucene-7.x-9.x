@@ -85,16 +85,16 @@
 &emsp;&emsp;该字段描述了segmentInfo文件编码值，例如"Lucene70"。
 
 ### DelGen
-&emsp;&emsp;该字段描述了属于同一个segment的[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)文件的generation number，该值在后面介绍文档的添加、删除、更新时会给出详细含义。
+&emsp;&emsp;该字段描述了属于同一个segment的[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)文件的迭代编号（generation number），它用来命名下一次生成的索引文件.liv，该字段的详细介绍见[构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)。
 
 ### DeletionCount
 &emsp;&emsp;该字段描述了segmentInfo文件中被删除文档的个数。
 
 ### FieldInfosGen
-&emsp;&emsp;该字段描述了属于同一个segment的[.fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)文件的generation number，当域的信息每发生一次变化，FieldInfosGen的值就会+1，比如说调用了IndexWriter.updateDocValues(..)的方法
+&emsp;&emsp;该字段描述了属于同一个segment的[.fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)文件的迭代编号（generation number），它用来命名下一次生成的索引文件.fnm，该字段的详细介绍见[构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)。
 
 ### DocValuesGen
-&emsp;&emsp;该字段描述了属于同一个segment的[.dvm、.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/33.html)文件的generation number， 当有调用IndexWriter.updateDocValues(..)该值就会+1，该值在后面介绍DocValues域的更新时会给出详细含义。
+&emsp;&emsp;该字段描述了属于同一个segment的[.dvm、.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/33.html)文件的迭代编号（generation number）， 它用来命名下一次生成的索引文件.dvd、.dvm，该字段的详细介绍见[构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)。
 
 ### SoftDelCount
 &emsp;&emsp;该字段记录软删除的文档个数，软删除的概念后面介绍文档的添加、删除、更新时会给出详细含义。

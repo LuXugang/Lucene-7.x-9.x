@@ -53,6 +53,7 @@ public class CheckPointInIndexFileDeleter {
         doc.add(new StringField("title", "care", Field.Store.YES));
         doc.add(new NumericDocValuesField("age", -2));
         oldIndexWriter.addDocument(doc);
+        oldIndexWriter.commit();
         // 文档1
         doc = new Document();
         doc.add(new StringField("author", "Luxugang", Field.Store.YES));

@@ -1,6 +1,6 @@
 # 文章导航
 
-&emsp;&emsp;文章中的Lucene版本为7.5.0，欢迎同学们交流指正。
+&emsp;&emsp;文章中的Lucene版本为7.5.0，欢迎同学们交流指正，blog目录中的文章如果与https://www.amazingkoala.com.cn不同，以网页的内容为准。
 
 # 索引文件
 
@@ -48,6 +48,7 @@
 - [构造IndexWriter对象（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1127/111.html)
 - [构造IndexWriter对象（七）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1202/112.html)
 - [构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)
+- [构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)
 
 ##### 2. 执行段的合并
 
