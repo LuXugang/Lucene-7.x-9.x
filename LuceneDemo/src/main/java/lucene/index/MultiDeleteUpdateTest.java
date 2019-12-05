@@ -13,9 +13,9 @@ import java.nio.file.Paths;
 
 /**
  * @author Lu Xugang
- * @date 2019/12/4 8:53 下午
+ * @date 2019/12/5 10:07 上午
  */
-public class InflateGenerationTest {
+public class MultiDeleteUpdateTest {
     private Directory directory ;
     private Analyzer analyzer = new WhitespaceAnalyzer();
     private IndexWriterConfig oldConf = new IndexWriterConfig(analyzer);
@@ -66,20 +66,22 @@ public class InflateGenerationTest {
         // 生成segments_1
         indexWriter.commit();
 
-        // 第一次更新以_0为前缀的段的DocValues的信息
-        indexWriter.updateNumericDocValue(new Term("author", "Lily"), "age", 2);
+        // 第一次删除以_0为前缀的段的中的满足删除条件的文档
+        indexWriter.deleteDocuments(new Term("author", "Lily"));
+        indexWriter.updateNumericDocValue(new Term("author", "Jay"), "age", 8);
         // 生成segments_2
         indexWriter.commit();
 
-        // 第二次更新以_0为前缀的段的DocValues的信息
-        indexWriter.updateNumericDocValue(new Term("author", "Lily"), "age", 3);
+        // 第二次删除以_0为前缀的段的中的满足删除条件的文档
+        indexWriter.deleteDocuments(new Term("author", "Luxugang"));
+        indexWriter.updateNumericDocValue(new Term("author", "Jay"), "age", 10);
         // 生成segments_3
         indexWriter.commit();
 
         System.out.println("hah");
     }
     public static void main(String[] args) throws Exception {
-        InflateGenerationTest inflateGenerationTest = new InflateGenerationTest();
-        inflateGenerationTest.doIndex();
+        MultiDeleteUpdateTest multiDeleteUpdateTest = new MultiDeleteUpdateTest();
+        multiDeleteUpdateTest.doIndex();
     }
 }

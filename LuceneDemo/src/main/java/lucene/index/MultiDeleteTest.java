@@ -73,7 +73,7 @@ public class MultiDeleteTest {
 
         // 第二次删除以_0为前缀的段的中的满足删除条件的文档
         indexWriter.deleteDocuments(new Term("author", "Luxugang"));
-        // 生成segments_2
+        // 生成segments_3
         indexWriter.commit();
 
         System.out.println("hah");
