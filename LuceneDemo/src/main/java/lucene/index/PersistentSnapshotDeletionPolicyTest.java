@@ -74,9 +74,6 @@ public class PersistentSnapshotDeletionPolicyTest {
         newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         newConf.setIndexCommit(indexCommit);
         IndexWriter newIndexWriter = new IndexWriter(directory, newConf);
-        System.out.println("abc");
-
-
     }
     public static void main(String[] args) throws Exception{
         PersistentSnapshotDeletionPolicyTest test = new PersistentSnapshotDeletionPolicyTest();
