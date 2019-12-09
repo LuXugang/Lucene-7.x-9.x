@@ -49,6 +49,9 @@
 - [构造IndexWriter对象（七）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1202/112.html)
 - [构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)
 - [构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)
+- [构造IndexWriter对象（十）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1210/116.html)
+
+
 
 ##### 2. 执行段的合并
 

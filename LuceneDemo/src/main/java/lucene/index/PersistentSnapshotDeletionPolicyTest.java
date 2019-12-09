@@ -62,6 +62,7 @@ public class PersistentSnapshotDeletionPolicyTest {
         oldIndexWriter.commit();
         IndexCommit indexCommit = persistentSnapshotDeletionPolicy.snapshot();
 
+        // 文档2
         doc = new Document();
         doc.add(new Field("author", "Jay", type));
         doc.add(new IntPoint("pointValue", 3, 4, 5));
