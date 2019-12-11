@@ -101,13 +101,13 @@ public class IndexFileWithManyFieldValues {
 
     // 文档1
     doc = new Document();
-    doc.add(new Field("author", "Lily", type));
+    doc.add(new StringField("author", "Lucy", Field.Store.YES));
     doc.add(new StringField("title", "notCare", Field.Store.YES));
     doc.add(new NumericDocValuesField("age", 2));
     indexWriter.addDocument(doc);
 
     doc = new Document();
-    doc.add(new Field("author", "Lily", type));
+    doc.add(new Field("author", "Jay", type));
     doc.add(new StringField("title", "totalnotCare", Field.Store.YES));
     doc.add(new NumericDocValuesField("age", 2));
     indexWriter.addDocument(doc);
@@ -119,27 +119,39 @@ public class IndexFileWithManyFieldValues {
     indexWriter.addDocument(doc);
     indexWriter.commit();
 
-    DirectoryReader reader = DirectoryReader.open(indexWriter);
-
     doc = new Document();
-    doc.add(new StringField("author", "Jay", Field.Store.YES));
-    doc.add(new StringField("title", "careFi", Field.Store.YES));
+    doc.add(new StringField("author", "Luxugang", Field.Store.YES));
+    doc.add(new StringField("title", "whatEver", Field.Store.YES));
     doc.add(new NumericDocValuesField("age", 0));
     indexWriter.addDocument(doc);
-    indexWriter.deleteDocuments(new Term("author", "Lily"));
+    doc = new Document();
+    doc.add(new StringField("author", "Luxugang", Field.Store.YES));
+    doc.add(new StringField("title", "whatEver", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 0));
+    indexWriter.addDocument(doc);
+    indexWriter.commit();
 
-    reader = DirectoryReader.openIfChanged(reader, indexWriter);
-    IndexCommit indexCommit = reader.getIndexCommit();
+    doc = new Document();
+    doc.add(new StringField("author", "Luxugang", Field.Store.YES));
+    doc.add(new StringField("title", "whatEver", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 0));
+    indexWriter.addDocument(doc);
+    doc = new Document();
+    doc.add(new StringField("author", "Luxugang", Field.Store.YES));
+    doc.add(new StringField("title", "whatEver", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 0));
+    indexWriter.addDocument(doc);
+    doc = new Document();
+    doc.add(new StringField("author", "Luxugang", Field.Store.YES));
+    doc.add(new StringField("title", "whatEver", Field.Store.YES));
+    doc.add(new NumericDocValuesField("age", 0));
+    indexWriter.addDocument(doc);
+    indexWriter.commit();
 
+    DirectoryReader reader = DirectoryReader.open(indexWriter);
 
-    IndexWriterConfig newConf = new IndexWriterConfig(analyzer);
-    newConf.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-    // IndexCommit中保留的是segment_1文件对应的索引信息，但此时索引目录没有该文件了
-    newConf.setIndexCommit(indexCommit);
-    indexWriter.close();
-
-    // 使用相同的索引目录directory
-    IndexWriter newIndexWriter = new IndexWriter(directory, newConf);
+    Query query = new MatchAllDocsQuery();
+    IndexSearcher searcher = new IndexSearcher(reader);
 
     System.out.printf("abc");
 
