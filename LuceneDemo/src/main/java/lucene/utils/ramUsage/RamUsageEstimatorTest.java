@@ -2,11 +2,16 @@ package lucene.utils.ramUsage;
 
 import org.apache.lucene.util.RamUsageEstimator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Lu Xugang
  * @date 2019/12/10 4:46 下午
  */
 public class RamUsageEstimatorTest {
+
+    RamUsageEstimator[] array;
 
     private static int aa = 0;
     private static int bb = 0;
@@ -26,9 +31,12 @@ public class RamUsageEstimatorTest {
 
     public static void main(String[] args) throws Throwable{
         RamUsageEstimatorTest ramUsageEstimator = new RamUsageEstimatorTest(1, 2, 3, new Object1());
-        RamUsageEstimator.shallowSizeOf(ramUsageEstimator);
-
-        int sum = ramUsageEstimator.a + ramUsageEstimator.b + ramUsageEstimator.c;
+        long size = RamUsageEstimator.shallowSizeOf(ramUsageEstimator);
+        List<RamUsageEstimatorTest> list = new ArrayList<>();
+        int[] node = {3,4};
+        RamUsageEstimatorTest[] array = {ramUsageEstimator, ramUsageEstimator};
+        System.out.println("shallow size calculated by Lucene is "+size+"");
+        RamUsageEstimator.shallowSizeOf(args);
         Thread.sleep(300000000);
     }
 }

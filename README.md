@@ -155,6 +155,8 @@
 
 ##### 6. [IntBlockPool](https://www.amazingkoala.com.cn/Lucene/gongjulei/2018/1209/24.html)
 
+##### 7. [RamUsageEstimator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1212/117.html)
+
 # 压缩存储
 
 ##### 1. [LZ4算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)
