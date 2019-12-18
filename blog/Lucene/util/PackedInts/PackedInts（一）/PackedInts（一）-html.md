@@ -252,8 +252,8 @@
 
 - <font color=Blue>蓝色曲线Packed</font>：Packed64
 - <font color=Red>红色曲线Single</font>：Packed64SingleBlock\*
-- <font color=Gold>黄色曲线Single</font>：Packed8ThreeBlocks、Packed16ThreeBlocks
-- <font color=Green>黄色曲线Single</font>：Direct\*
+- <font color=Gold>黄色曲线Three</font>：Packed8ThreeBlocks、Packed16ThreeBlocks
+- <font color=Green>黄色曲线Direct</font>：Direct\*
 
 &emsp;&emsp;我们先观察下Direct\*与Packed64的读取速度，这两种压缩实现无论在哪一台都表现出两个极端，即Packed64读取最慢，而Direct\*读取最快，而从表4我们可以看出，Packed64使用连续的bit位存储数据，待存储的数据如果没有突兀的数据，那么相对于Direct\*能有很高的压缩率，例如存储连续递增的文档号，并且只存储文档差值，那么只需要1个bit位就能表示一个文档号。
 

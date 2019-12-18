@@ -252,8 +252,8 @@
 
 - <font color=Blue>蓝色曲线Packed</font>：Packed64
 - <font color=Red>红色曲线Single</font>：Packed64SingleBlock\*
-- <font color=Gold>黄色曲线Single</font>：Packed8ThreeBlocks、Packed16ThreeBlocks
-- <font color=Green>黄色曲线Single</font>：Direct\*
+- <font color=Gold>黄色曲线Three</font>：Packed8ThreeBlocks、Packed16ThreeBlocks
+- <font color=Green>黄色曲线Direct</font>：Direct\*
 
 &emsp;&emsp;我们先观察下Direct\*与Packed64的读取速度，这两种压缩实现无论在哪一台都表现出两个极端，即Packed64读取最慢，而Direct\*读取最快，而从表4我们可以看出，Packed64使用连续的bit位存储数据，待存储的数据如果没有突兀的数据，那么相对于Direct\*能有很高的压缩率，例如存储连续递增的文档号，并且只存储文档差值，那么只需要1个bit位就能表示一个文档号。
 
@@ -269,14 +269,14 @@
 
 &emsp;&emsp;从表4中可以发现，只有bitsPerValue为1，2，3，4，5，6，7，8，9，10，12，16，21，32实现了Packed64SingleBlock\*压缩，我们通过一个block可存放的数值个数来介绍原因：
 
-- 1个数值：只有bitsPerValue为64才能使得额外空间开销最小，每个数值的空间开销为（64-64\*1）/（1）= 0，它其实就是Direct64
-- 2个数值：只有bitsPerValue为32才能使得额外空间开销最小，每个数值的空间开销为（64-32\*2）/（2）= 0
-- 3个数值，只有bitsPerValue为21才能使得额外空间开销最小，每个数值的空间开销为（64-21\*3）/（3）= 0.33
-- 4个数值，只有bitsPerValue为16才能使得额外空间开销最小，每个数值的空间开销为（64-16\*4）/（4）= 0
-- 5个数值，只有bitsPerValue为12才能使得额外空间开销最小，每个数值的空间开销为（64-12\*5）/（5）= 0.8
-- 6个数值，只有bitsPerValue为10才能使得额外空间开销最小，每个数值的空间开销为（64-10\*6）/（6）= 0.66
-- 7个数值，只有bitsPerValue为9才能使得额外空间开销最小，每个数值的空间开销为（64-9\*7）/（7）= 0.14
-- 8个数值，只有bitsPerValue为8才能使得额外空间开销最小，每个数值的空间开销为（64-8\*8）/（8）= 0
+- 1个数值：bitsPerValue为64才能使得额外空间开销最小，每个数值的空间开销为（64-64\*1）/（1）= 0，它其实就是Direct64
+- 2个数值：bitsPerValue为32才能使得额外空间开销最小，每个数值的空间开销为（64-32\*2）/（2）= 0
+- 3个数值，bitsPerValue为21才能使得额外空间开销最小，每个数值的空间开销为（64-21\*3）/（3）= 0.33
+- 4个数值，bitsPerValue为16才能使得额外空间开销最小，每个数值的空间开销为（64-16\*4）/（4）= 0
+- 5个数值，bitsPerValue为12才能使得额外空间开销最小，每个数值的空间开销为（64-12\*5）/（5）= 0.8
+- 6个数值，bitsPerValue为10才能使得额外空间开销最小，每个数值的空间开销为（64-10\*6）/（6）= 0.66
+- 7个数值，bitsPerValue为9才能使得额外空间开销最小，每个数值的空间开销为（64-9\*7）/（7）= 0.14
+- 8个数值，bitsPerValue为8才能使得额外空间开销最小，每个数值的空间开销为（64-8\*8）/（8）= 0
 -                                   。。。 。。。
 
 &emsp;&emsp;可以看出那些实现了Packed64SingleBlock\*压缩的bitsPerValue都是基于空间开销下的最优解。
