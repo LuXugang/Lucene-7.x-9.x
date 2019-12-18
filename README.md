@@ -157,9 +157,6 @@
 
 ##### 7. [RamUsageEstimator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1212/117.html)
 
-##### 8. PackedInts
-
-- [PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1217/118.html)
 
 # 压缩存储
 
@@ -171,6 +168,9 @@
 
 ##### 4. [去重编码(dedupAndEncode)](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0130/29.html)
 
+##### 5. PackedInts
+
+- [PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)
 
 # Other
 
