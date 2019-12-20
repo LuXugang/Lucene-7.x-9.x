@@ -14,7 +14,14 @@
 
 ## encode 源码解析
 
-&emsp;&emsp;https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/packed/BulkOperationPacked.java 中给出了详细的注释，根据不同的bitsPerValue(最大值需要的bit位个数)，BulkOperationPacked有几十个子类，但是编码操作都是调用了父类BulkOperationPacked的encode方法，仅仅是部分BulkOperationPacked子类的decode方法不同。在下面的代码中，挑选了其中一种encode方法(一共有四种，下文介绍的是将 long[]数组编码至byte[]数组中)，出于仅仅对encode逻辑的介绍，所以简化了部分代码，比如iterations，byteValueCount变量。这些变量不影响对encode过程的理解。下面的代码大家可以直接运行测试。
+&emsp;&emsp;https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/packed/BulkOperationPacked.java 中给出了详细的注释，根据不同的bitsPerValue(最大值需要的bit位个数)，BulkOperationPacked有几十个子类，但是编码操作都是调用了父类BulkOperationPacked的encode方法，仅仅是部分BulkOperationPacked子类的decode方法不同一共有四种encode方法：
+
+- long[]数组编码至byte[]数组
+- int[]数组编码至byte[]数组
+- long[]数组编码至long[]数组
+- int[]数组编码至long[]数组
+
+&emsp;&emsp;在下面的代码中，挑选了其中一种encode方法，即将 long[]数组编码至byte[]数组，出于仅仅对encode逻辑的介绍，所以简化了部分代码，比如iterations，byteValueCount变量。这些变量不影响对encode过程的理解。下面的代码大家可以直接运行测试。
 
 ```java
 public class Encode {
