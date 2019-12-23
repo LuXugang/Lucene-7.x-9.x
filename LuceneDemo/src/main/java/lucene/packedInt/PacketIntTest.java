@@ -13,10 +13,11 @@ public class PacketIntTest {
     public static void main(String[] args) {
         Random random = new Random();
         PackedLongValues.Builder builder = PackedLongValues.packedBuilder(PackedInts.COMPACT);
-        int[] values1 = {1, 2, 4, 8, 12, 16, 20, 24, 28, 32, 40, 48, 56, 64};
+        long[] values = {69, 25, 261, 23};
         int count = 0;
-        while (count++ < 1000000){
-            builder.add(random.nextInt(1 << 13));
+        builder.add(1<< 9);
+        while (count++ < 4){
+            builder.add(random.nextInt(1 << 9));
         }
         builder.build();
     }

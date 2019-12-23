@@ -173,6 +173,8 @@
 - [PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)
 - [PackedInts（二）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1218/119.html)
 
+##### 6. [DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1223/120.html)
+
 # Other
 
 ##### 1. 倒排表的数据结构：

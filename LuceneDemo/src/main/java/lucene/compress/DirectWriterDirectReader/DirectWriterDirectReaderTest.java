@@ -24,7 +24,7 @@ public class DirectWriterDirectReaderTest {
         dir = FSDirectory.open(Paths.get("/Users/luxugang/project/github/Lucene-7.5.0/LuceneDemo/data"));
         this.numberOfValues = numberOfValues;
         this.maxValue = maxValue;
-        this.bitsPerValue = DirectWriter.bitsRequired(1L << 23);
+        this.bitsPerValue = DirectWriter.bitsRequired(1L << 8);
     }
 
 
@@ -34,7 +34,7 @@ public class DirectWriterDirectReaderTest {
         DirectWriter writer = DirectWriter.getInstance(output, numberOfValues, bitsPerValue);
         System.out.print("input: ");
         for (int i = 0; i < numberOfValues; i++) {
-            long randomValue = (1L << 27) - i;
+            long randomValue = (1L << 8) + i;
             System.out.print(""+randomValue+" ");
             writer.add(randomValue);
         }
@@ -54,7 +54,7 @@ public class DirectWriterDirectReaderTest {
         System.out.println(" ");
     }
     public static void main(String[] args) throws Exception{
-        DirectWriterDirectReaderTest test = new DirectWriterDirectReaderTest(100, 10);
+        DirectWriterDirectReaderTest test = new DirectWriterDirectReaderTest(4, 10);
         test.doWriter();
         test.doReader();
     }
