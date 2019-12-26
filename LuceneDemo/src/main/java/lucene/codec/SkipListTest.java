@@ -56,14 +56,17 @@ public class SkipListTest {
         while (count++ < 7999) {
             doc = new Document();
             doc.add(new Field("content", "a e c", type));
+            doc.add(new Field("author", "e", type));
             indexWriter.addDocument(doc);
             // 1
             doc = new Document();
             doc.add(new Field("content", "e", type));
+            doc.add(new Field("buthor", "a d c", type));
             indexWriter.addDocument(doc);
             // 2
             doc = new Document();
             doc.add(new Field("content", "c", type));
+            doc.add(new Field("author", "a a d c", type));
             indexWriter.addDocument(doc);
             // 3
             doc = new Document();
@@ -101,8 +104,7 @@ public class SkipListTest {
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "d")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("content", "d")), BooleanClause.Occur.MUST);
         builder.setMinimumNumberShouldMatch(2);
         Query query = builder.build();
 

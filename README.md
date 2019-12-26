@@ -106,6 +106,10 @@
 - [SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)
 - [SegmentReader（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1015/100.html)
 
+##### 10. 索引文件的生成
+
+- [索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)
+
 # Search
 
 ##### 1. 查询原理
