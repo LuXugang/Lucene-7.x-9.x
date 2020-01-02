@@ -55,7 +55,7 @@
 
 **为什么要按照term的字典序处理**：
 
-- 在后面介绍生成[索引文件.tim、tip]((https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html))时，需要存储term的值，而相邻有序的term更有可能具有相同的前缀值，那么通过前缀存储（见[索引文件之tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)）就可以节省存储空间。
+- 在后面介绍生成[索引文件.tim、tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)时，需要存储term的值，而相邻有序的term更有可能具有相同的前缀值，那么通过前缀存储（见[索引文件之tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)）就可以节省存储空间。
 
 &emsp;&emsp;在处理一个term前，我们先要`执行处理前的初始化的工作`，工作内容为获取上一个term后处理结束后的信息，包括以下信息：
 
@@ -113,7 +113,7 @@
 - 为什么要生成PackedBlock
 - 为什么选择128作为生成PackedBlock的阈值
 
-###### 生成跳表skipList
+###### 写入到跳表skipList中
 
 图13：
 
