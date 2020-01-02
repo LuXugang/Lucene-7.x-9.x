@@ -53,49 +53,51 @@ public class SkipListTest {
         // 0
 
         int count = 0;
-        while (count++ < 7999) {
+        while (count++ < 79990) {
+            // 文档0
             doc = new Document();
-            doc.add(new Field("content", "a e c", type));
+            doc.add(new Field("content", "e c", type));
             doc.add(new Field("author", "e", type));
             indexWriter.addDocument(doc);
-            // 1
+            // 文档1
             doc = new Document();
             doc.add(new Field("content", "e", type));
-            doc.add(new Field("buthor", "a d c", type));
+            doc.add(new Field("buthor", "d c", type));
             indexWriter.addDocument(doc);
-            // 2
+            // 文档2
             doc = new Document();
             doc.add(new Field("content", "c", type));
-            doc.add(new Field("author", "a a d c", type));
+            doc.add(new Field("author", "d c", type));
             indexWriter.addDocument(doc);
-            // 3
+            // 文档3
             doc = new Document();
-            doc.add(new Field("content", "a c e", type));
+            doc.add(new Field("content", "e", type));
             indexWriter.addDocument(doc);
-            // 4
+            // 文档4
             doc = new Document();
             doc.add(new Field("content", "h", type));
             indexWriter.addDocument(doc);
-            // 5
+            // 文档5
             doc = new Document();
             doc.add(new Field("content", "b h", type));
             indexWriter.addDocument(doc);
-            // 6
+            // 文档6
             doc = new Document();
-            doc.add(new Field("content", "c a", type));
+            doc.add(new Field("content", "c", type));
             indexWriter.addDocument(doc);
-            // 7
+            // 文档7
             doc = new Document();
-            doc.add(new Field("content", "a e h", type));
+            doc.add(new Field("content", " e h", type));
             indexWriter.addDocument(doc);
-            // 8
+            // 文档8
             doc = new Document();
             doc.add(new Field("content", "b c d e h e", type));
             indexWriter.addDocument(doc);
-            // 9
-            doc = new Document();
-            doc.add(new Field("content", "a e a b ", type));
-            indexWriter.addDocument(doc);
+            if(count % 128 == 0){
+                doc = new Document();
+                doc.add(new Field("content", "a e a b ", type));
+                indexWriter.addDocument(doc);
+            }
         }
         indexWriter.commit();
 
@@ -104,7 +106,7 @@ public class SkipListTest {
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "d")), BooleanClause.Occur.MUST);
+        builder.add(new TermQuery(new Term("content", "d")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(2);
         Query query = builder.build();
 

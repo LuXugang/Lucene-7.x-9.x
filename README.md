@@ -108,8 +108,8 @@
 
 ##### 10. 索引文件的生成
 
-- [索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)
-- [索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)
+- [索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)
+- [索引文件的生成（二）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)
 
 # Search
 
