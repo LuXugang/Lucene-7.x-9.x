@@ -53,7 +53,7 @@ PackedFreqBlock存放了term分别在128文档中的词频，利用PackedInts压
 term在当前文档中的词频。
 ```
 
-&emsp;&emsp;在介绍SkipData前先介绍下跳表（SkipList）的概念，注意的是下图只是跳表的概述，并不是Lucene中的实现，在后面的文章中，会介绍跳表的生成与读取：
+&emsp;&emsp;在介绍SkipData前先介绍下跳表（SkipList）的概念，**注意的是下图只是跳表的概述，并不是Lucene中的实现**：
 
 图3：
 
@@ -61,11 +61,7 @@ term在当前文档中的词频。
 
 &emsp;&emsp;在每一层中，每3个数据块就会在上一层中添加一个索引，实现了对数级别的时间复杂度。
 
-&emsp;&emsp;比如我们要找文档号为33的值。那么查找的过程如下图。
-
-图4：
-
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/doc/4.png">
+&emsp;&emsp;关于跳表的详细介绍可以看文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)。
 
 ### SkipData
 
