@@ -102,21 +102,6 @@ public class SortedDocValuesTest {
   }
 
 
-
-
-  public static String getSamePrefixRandomValue(String prefix){
-    String str="abcdefghijklmnopqrstuvwxyz";
-    Random random=new Random();
-    StringBuffer sb=new StringBuffer();
-    int length = getLength();
-    for(int i=0;i<length;i++){
-      int number=random.nextInt(25);
-      sb.append(prefix);
-      sb.append(str.charAt(number));
-    }
-    return sb.toString();
-  }
-
   public static int getLength(){
     Random random = new Random();
     int length = random.nextInt(5);

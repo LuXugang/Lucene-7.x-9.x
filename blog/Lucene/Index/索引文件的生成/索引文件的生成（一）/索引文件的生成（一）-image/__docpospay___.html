@@ -1,0 +1,634 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>生成docpospay流程图</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/__docpospay___/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script src="resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="data/document.js"></script>
+    <script src="files/__docpospay___/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u98" class="ax_default flow_shape">
+        <img id="u98_img" class="img " src="images/__docpospay___/u98.svg"/>
+        <div id="u98_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u99" class="ax_default flow_shape">
+        <img id="u99_img" class="img " src="images/__docpospay___/u99.svg"/>
+        <div id="u99_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u100" class="ax_default flow_shape">
+        <div id="u100_div" class=""></div>
+        <div id="u100_text" class="text ">
+          <p><span>开始</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u101" class="ax_default flow_shape">
+        <div id="u101_div" class=""></div>
+        <div id="u101_text" class="text ">
+          <p><span>执行处理前的初始化的工作</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u102" class="ax_default flow_shape">
+        <img id="u102_img" class="img " src="images/__docpospay___/u102.svg"/>
+        <div id="u102_text" class="text ">
+          <p><span>是否还有文档</span></p><p><span>包含当前term？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u103" class="ax_default flow_shape">
+        <div id="u103_div" class=""></div>
+        <div id="u103_text" class="text ">
+          <p><span>执行处理后的收尾的工作</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u104" class="ax_default flow_shape">
+        <div id="u104_div" class=""></div>
+        <div id="u104_text" class="text ">
+          <p><span>记录当前文档号到docSeen</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u105" class="ax_default flow_shape">
+        <div id="u105_div" class=""></div>
+        <div id="u105_text" class="text ">
+          <p><span>统计包含当前term的文档数量docFreq</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u106" class="ax_default flow_shape">
+        <img id="u106_img" class="img " src="images/__docpospay___/u102.svg"/>
+        <div id="u106_text" class="text ">
+          <p><span>是否生成了</span></p><p><span>PackedBlock?</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u107" class="ax_default flow_shape">
+        <div id="u107_div" class=""></div>
+        <div id="u107_text" class="text ">
+          <p><span>写入到跳表skipList中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Parallelogram) -->
+      <div id="u108" class="ax_default flow_shape">
+        <img id="u108_img" class="img " src="images/__docpospay___/u108.svg"/>
+        <div id="u108_text" class="text ">
+          <p><span>term</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u109" class="ax_default flow_shape">
+        <div id="u109_div" class=""></div>
+        <div id="u109_text" class="text ">
+          <p><span>结束</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u110" class="ax_default flow_shape">
+        <div id="u110_div" class=""></div>
+        <div id="u110_text" class="text ">
+          <p><span>记录当前文档号docId到docDeltaBuffer</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u111" class="ax_default flow_shape">
+        <div id="u111_div" class=""></div>
+        <div id="u111_text" class="text ">
+          <p><span>记录在当前文档中的freq到freqBuffer</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u112" class="ax_default flow_shape">
+        <img id="u112_img" class="img " src="images/__docpospay___/u102.svg"/>
+        <div id="u112_text" class="text ">
+          <p><span>是否需要</span></p><p><span>生成Block？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u113" class="ax_default flow_shape">
+        <div id="u113_div" class=""></div>
+        <div id="u113_text" class="text ">
+          <p><span>生成</span></p><p><span>PackedBlock</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u114" class="ax_default flow_shape">
+        <div id="u114_div" class=""></div>
+        <div id="u114_text" class="text ">
+          <p><span>生成</span></p><p><span>PackedFreqBlock</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u115" class="ax_default flow_shape">
+        <div id="u115_div" class=""></div>
+        <div id="u115_text" class="text ">
+          <p><span>记录位置信息position到posDeltaBuffer</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u116" class="ax_default flow_shape">
+        <div id="u116_div" class=""></div>
+        <div id="u116_text" class="text ">
+          <p><span>记录payload长度到payloadLengthBuffer</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u117" class="ax_default flow_shape">
+        <div id="u117_div" class=""></div>
+        <div id="u117_text" class="text ">
+          <p><span>记录payload值到payloadBytes</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u118" class="ax_default flow_shape">
+        <div id="u118_div" class=""></div>
+        <div id="u118_text" class="text ">
+          <p><span>记录偏移信息offset的起始位置到</span></p><p><span>offsetStartDeltaBuffer</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u119" class="ax_default flow_shape">
+        <div id="u119_div" class=""></div>
+        <div id="u119_text" class="text ">
+          <p><span>记录偏移信息offset的长度到</span></p><p><span>offsetLengthBuffer</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u120" class="ax_default flow_shape">
+        <img id="u120_img" class="img " src="images/__docpospay___/u102.svg"/>
+        <div id="u120_text" class="text ">
+          <p><span>是否需要</span></p><p><span>生成Block？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u121" class="ax_default flow_shape">
+        <div id="u121_div" class=""></div>
+        <div id="u121_text" class="text ">
+          <p><span>生成</span></p><p><span>PackedPosBlock</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u122" class="ax_default flow_shape">
+        <div id="u122_div" class=""></div>
+        <div id="u122_text" class="text ">
+          <p><span>生成</span></p><p><span>PackedPayBlock</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u123" class="ax_default flow_shape">
+        <div id="u123_div" class=""></div>
+        <div id="u123_text" class="text ">
+          <p><span>生成</span></p><p><span>PackedOffsetBlock</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u124" class="ax_default flow_shape">
+        <div id="u124_div" class=""></div>
+        <div id="u124_text" class="text ">
+          <p><span>处理完一篇文档后的工作</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u125" class="ax_default connector">
+        <img id="u125_seg0" class="img " src="images/__docpospay___/u125_seg0.svg" alt="u125_seg0"/>
+        <img id="u125_seg1" class="img " src="images/__docpospay___/u125_seg1.svg" alt="u125_seg1"/>
+        <div id="u125_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u126" class="ax_default connector">
+        <img id="u126_seg0" class="img " src="images/__docpospay___/u126_seg0.svg" alt="u126_seg0"/>
+        <img id="u126_seg1" class="img " src="images/__docpospay___/u126_seg1.svg" alt="u126_seg1"/>
+        <div id="u126_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u127" class="ax_default connector">
+        <img id="u127_seg0" class="img " src="images/__docpospay___/u127_seg0.svg" alt="u127_seg0"/>
+        <img id="u127_seg1" class="img " src="images/__docpospay___/u127_seg1.svg" alt="u127_seg1"/>
+        <div id="u127_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u128" class="ax_default connector">
+        <img id="u128_seg0" class="img " src="images/__docpospay___/u128_seg0.svg" alt="u128_seg0"/>
+        <img id="u128_seg1" class="img " src="images/__docpospay___/u128_seg1.svg" alt="u128_seg1"/>
+        <div id="u128_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u129" class="ax_default connector">
+        <img id="u129_seg0" class="img " src="images/__docpospay___/u129_seg0.svg" alt="u129_seg0"/>
+        <img id="u129_seg1" class="img " src="images/__docpospay___/u129_seg1.svg" alt="u129_seg1"/>
+        <div id="u129_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u130" class="ax_default connector">
+        <img id="u130_seg0" class="img " src="images/__docpospay___/u130_seg0.svg" alt="u130_seg0"/>
+        <img id="u130_seg1" class="img " src="images/__docpospay___/u130_seg1.svg" alt="u130_seg1"/>
+        <div id="u130_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u131" class="ax_default connector">
+        <img id="u131_seg0" class="img " src="images/__docpospay___/u131_seg0.svg" alt="u131_seg0"/>
+        <img id="u131_seg1" class="img " src="images/__docpospay___/u131_seg1.svg" alt="u131_seg1"/>
+        <div id="u131_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u132" class="ax_default connector">
+        <img id="u132_seg0" class="img " src="images/__docpospay___/u132_seg0.svg" alt="u132_seg0"/>
+        <img id="u132_seg1" class="img " src="images/__docpospay___/u132_seg1.svg" alt="u132_seg1"/>
+        <div id="u132_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u133" class="ax_default connector">
+        <img id="u133_seg0" class="img " src="images/__docpospay___/u133_seg0.svg" alt="u133_seg0"/>
+        <img id="u133_seg1" class="img " src="images/__docpospay___/u133_seg1.svg" alt="u133_seg1"/>
+        <div id="u133_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u134" class="ax_default connector">
+        <img id="u134_seg0" class="img " src="images/__docpospay___/u134_seg0.svg" alt="u134_seg0"/>
+        <img id="u134_seg1" class="img " src="images/__docpospay___/u134_seg1.svg" alt="u134_seg1"/>
+        <img id="u134_seg2" class="img " src="images/__docpospay___/u134_seg2.svg" alt="u134_seg2"/>
+        <div id="u134_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u135" class="ax_default connector">
+        <img id="u135_seg0" class="img " src="images/__docpospay___/u135_seg0.svg" alt="u135_seg0"/>
+        <img id="u135_seg1" class="img " src="images/__docpospay___/u135_seg1.svg" alt="u135_seg1"/>
+        <div id="u135_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u136" class="ax_default connector">
+        <img id="u136_seg0" class="img " src="images/__docpospay___/u136_seg0.svg" alt="u136_seg0"/>
+        <img id="u136_seg1" class="img " src="images/__docpospay___/u136_seg1.svg" alt="u136_seg1"/>
+        <img id="u136_seg2" class="img " src="images/__docpospay___/u136_seg2.svg" alt="u136_seg2"/>
+        <img id="u136_seg3" class="img " src="images/__docpospay___/u136_seg3.svg" alt="u136_seg3"/>
+        <img id="u136_seg4" class="img " src="images/__docpospay___/u136_seg4.svg" alt="u136_seg4"/>
+        <div id="u136_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u137" class="ax_default connector">
+        <img id="u137_seg0" class="img " src="images/__docpospay___/u137_seg0.svg" alt="u137_seg0"/>
+        <img id="u137_seg1" class="img " src="images/__docpospay___/u137_seg1.svg" alt="u137_seg1"/>
+        <div id="u137_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u138" class="ax_default connector">
+        <img id="u138_seg0" class="img " src="images/__docpospay___/u138_seg0.svg" alt="u138_seg0"/>
+        <img id="u138_seg1" class="img " src="images/__docpospay___/u138_seg1.svg" alt="u138_seg1"/>
+        <img id="u138_seg2" class="img " src="images/__docpospay___/u138_seg2.svg" alt="u138_seg2"/>
+        <img id="u138_seg3" class="img " src="images/__docpospay___/u138_seg3.svg" alt="u138_seg3"/>
+        <img id="u138_seg4" class="img " src="images/__docpospay___/u138_seg4.svg" alt="u138_seg4"/>
+        <div id="u138_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u139" class="ax_default connector">
+        <img id="u139_seg0" class="img " src="images/__docpospay___/u139_seg0.svg" alt="u139_seg0"/>
+        <img id="u139_seg1" class="img " src="images/__docpospay___/u139_seg1.svg" alt="u139_seg1"/>
+        <div id="u139_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u140" class="ax_default connector">
+        <img id="u140_seg0" class="img " src="images/__docpospay___/u140_seg0.svg" alt="u140_seg0"/>
+        <img id="u140_seg1" class="img " src="images/__docpospay___/u140_seg1.svg" alt="u140_seg1"/>
+        <img id="u140_seg2" class="img " src="images/__docpospay___/u140_seg2.svg" alt="u140_seg2"/>
+        <img id="u140_seg3" class="img " src="images/__docpospay___/u140_seg3.svg" alt="u140_seg3"/>
+        <div id="u140_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u141" class="ax_default connector">
+        <img id="u141_seg0" class="img " src="images/__docpospay___/u141_seg0.svg" alt="u141_seg0"/>
+        <img id="u141_seg1" class="img " src="images/__docpospay___/u141_seg1.svg" alt="u141_seg1"/>
+        <div id="u141_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u142" class="ax_default connector">
+        <img id="u142_seg0" class="img " src="images/__docpospay___/u142_seg0.svg" alt="u142_seg0"/>
+        <img id="u142_seg1" class="img " src="images/__docpospay___/u142_seg1.svg" alt="u142_seg1"/>
+        <div id="u142_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u143" class="ax_default connector">
+        <img id="u143_seg0" class="img " src="images/__docpospay___/u143_seg0.svg" alt="u143_seg0"/>
+        <img id="u143_seg1" class="img " src="images/__docpospay___/u143_seg1.svg" alt="u143_seg1"/>
+        <div id="u143_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u144" class="ax_default connector">
+        <img id="u144_seg0" class="img " src="images/__docpospay___/u144_seg0.svg" alt="u144_seg0"/>
+        <img id="u144_seg1" class="img " src="images/__docpospay___/u144_seg1.svg" alt="u144_seg1"/>
+        <img id="u144_seg2" class="img " src="images/__docpospay___/u144_seg2.svg" alt="u144_seg2"/>
+        <img id="u144_seg3" class="img " src="images/__docpospay___/u144_seg3.svg" alt="u144_seg3"/>
+        <div id="u144_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u145" class="ax_default connector">
+        <img id="u145_seg0" class="img " src="images/__docpospay___/u145_seg0.svg" alt="u145_seg0"/>
+        <img id="u145_seg1" class="img " src="images/__docpospay___/u145_seg1.svg" alt="u145_seg1"/>
+        <div id="u145_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u146" class="ax_default connector">
+        <img id="u146_seg0" class="img " src="images/__docpospay___/u146_seg0.svg" alt="u146_seg0"/>
+        <img id="u146_seg1" class="img " src="images/__docpospay___/u146_seg1.svg" alt="u146_seg1"/>
+        <div id="u146_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u147" class="ax_default connector">
+        <img id="u147_seg0" class="img " src="images/__docpospay___/u147_seg0.svg" alt="u147_seg0"/>
+        <img id="u147_seg1" class="img " src="images/__docpospay___/u147_seg1.svg" alt="u147_seg1"/>
+        <img id="u147_seg2" class="img " src="images/__docpospay___/u147_seg2.svg" alt="u147_seg2"/>
+        <img id="u147_seg3" class="img " src="images/__docpospay___/u147_seg3.svg" alt="u147_seg3"/>
+        <img id="u147_seg4" class="img " src="images/__docpospay___/u147_seg4.svg" alt="u147_seg4"/>
+        <div id="u147_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u148" class="ax_default connector">
+        <img id="u148_seg0" class="img " src="images/__docpospay___/u148_seg0.svg" alt="u148_seg0"/>
+        <img id="u148_seg1" class="img " src="images/__docpospay___/u148_seg1.svg" alt="u148_seg1"/>
+        <div id="u148_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u149" class="ax_default connector">
+        <img id="u149_seg0" class="img " src="images/__docpospay___/u149_seg0.svg" alt="u149_seg0"/>
+        <img id="u149_seg1" class="img " src="images/__docpospay___/u149_seg1.svg" alt="u149_seg1"/>
+        <div id="u149_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u150" class="ax_default connector">
+        <img id="u150_seg0" class="img " src="images/__docpospay___/u150_seg0.svg" alt="u150_seg0"/>
+        <img id="u150_seg1" class="img " src="images/__docpospay___/u150_seg1.svg" alt="u150_seg1"/>
+        <div id="u150_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u151" class="ax_default connector">
+        <img id="u151_seg0" class="img " src="images/__docpospay___/u151_seg0.svg" alt="u151_seg0"/>
+        <img id="u151_seg1" class="img " src="images/__docpospay___/u151_seg1.svg" alt="u151_seg1"/>
+        <img id="u151_seg2" class="img " src="images/__docpospay___/u151_seg2.svg" alt="u151_seg2"/>
+        <img id="u151_seg3" class="img " src="images/__docpospay___/u151_seg3.svg" alt="u151_seg3"/>
+        <div id="u151_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u152" class="ax_default connector">
+        <img id="u152_seg0" class="img " src="images/__docpospay___/u152_seg0.svg" alt="u152_seg0"/>
+        <img id="u152_seg1" class="img " src="images/__docpospay___/u152_seg1.svg" alt="u152_seg1"/>
+        <div id="u152_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u153" class="ax_default label">
+        <div id="u153_div" class=""></div>
+        <div id="u153_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u154" class="ax_default label">
+        <div id="u154_div" class=""></div>
+        <div id="u154_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u155" class="ax_default label">
+        <div id="u155_div" class=""></div>
+        <div id="u155_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u156" class="ax_default label">
+        <div id="u156_div" class=""></div>
+        <div id="u156_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u157" class="ax_default label">
+        <div id="u157_div" class=""></div>
+        <div id="u157_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u158" class="ax_default label">
+        <div id="u158_div" class=""></div>
+        <div id="u158_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u159" class="ax_default label">
+        <div id="u159_div" class=""></div>
+        <div id="u159_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u160" class="ax_default label">
+        <div id="u160_div" class=""></div>
+        <div id="u160_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u161" class="ax_default label">
+        <div id="u161_div" class=""></div>
+        <div id="u161_text" class="text ">
+          <p><span>处理position、payload、offset</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u162" class="ax_default label">
+        <div id="u162_div" class=""></div>
+        <div id="u162_text" class="text ">
+          <p><span>处理docId、frequency</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u163" class="ax_default flow_shape">
+        <div id="u163_div" class=""></div>
+        <div id="u163_text" class="text ">
+          <p><span>记录term在所有文档中的词频totalTermFreq</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u164" class="ax_default connector">
+        <img id="u164_seg0" class="img " src="images/__docpospay___/u164_seg0.svg" alt="u164_seg0"/>
+        <img id="u164_seg1" class="img " src="images/__docpospay___/u164_seg1.svg" alt="u164_seg1"/>
+        <div id="u164_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script src="resources/scripts/axure/ios.js"></script>
+  </body>
+</html>

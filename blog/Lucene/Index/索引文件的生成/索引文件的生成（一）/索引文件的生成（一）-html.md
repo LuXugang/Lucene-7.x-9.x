@@ -68,7 +68,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（一）/7.png">
 
-&emsp;&emsp;图7中，如果**当前开始处理第二个term**，那么此时docStartFP（docStart File Pointer缩写）、posStartFP、payStartFP如上所示。
+&emsp;&emsp;图7中，如果**当前开始处理第二个term**，那么此时docStartFP（docStart File Pointer缩写）、posStartFP、payStartFP如上所示，这几个信息将会被写入到索引文件.tim、.tip中，本文中我们只需要知道生成的时机点，这些信息的作用将在后面的文章中介绍。
 
 ###### 是否还有文档包含当前term？
 
@@ -92,9 +92,9 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（一）/10.png">
 
-&emsp;&emsp;这里说的所有文档指的是包含当前term的文档，一篇文档中可能包含多个当前term，那么每处理一篇包含当前term的文档，term在这篇文档中出现的次数增量到totalTermFreq，totalTermFreq中存储了term在所有文档中出现的次数
+&emsp;&emsp;这里说的所有文档指的是包含当前term的文档，一篇文档中可能包含多个当前term，那么每处理一篇包含当前term的文档，term在这篇文档中出现的次数增量到totalTermFreq，totalTermFreq中存储了term在所有文档中出现的次数，同样增量统计docFreq，它描述了包含当前term的文档数量。
 
-&emsp;&emsp;该值将会被存储到[索引文件.tim、tip]((https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html))中，在搜索阶段，totalTermFreq该值用来参与打分计算（见系列文章[查询原理](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)）。
+&emsp;&emsp;totalTermFreq、docFreq将会被存储到[索引文件.tim、tip]((https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html))中，在搜索阶段，totalTermFreq、docFreq该值用来参与打分计算（见系列文章[查询原理](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)）。
 
 ###### 是否生成了PackedBlock?
 

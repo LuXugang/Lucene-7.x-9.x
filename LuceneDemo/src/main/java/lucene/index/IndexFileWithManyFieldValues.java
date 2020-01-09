@@ -3,19 +3,17 @@ package lucene.index;
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.InfoStream;
-import org.apache.lucene.util.fst.NoOutputs;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Random;
 import java.util.function.Supplier;
+
 
 /**
  * @author Lu Xugang
@@ -157,62 +155,6 @@ public class IndexFileWithManyFieldValues {
 
   }
 
-  public static String getSamePrefixRandomValue(String prefix){
-    String str="abcdefghijklmnopqrstuvwxyz";
-    Random random=new Random();
-    StringBuffer sb=new StringBuffer();
-    int length = getLength();
-    for(int i=0;i<length;i++){
-      int number=random.nextInt(25);
-      sb.append(prefix);
-      sb.append(str.charAt(number));
-    }
-    return sb.toString();
-  }
-
-  public static String getRandomValue(){
-    String str="abcdefghijklmnopqrstuvwxyz";
-    Random random=new Random();
-    StringBuffer sb=new StringBuffer();
-    int length = getLength();
-    for(int i=0;i<length;i++){
-      int number=random.nextInt(25);
-      sb.append(str.charAt(number));
-    }
-    return sb.toString();
-  }
-
-  public static int getLength(){
-    Random random = new Random();
-    int length = random.nextInt(5);
-    if (length < 3){
-      length = length + 3;
-    }
-    return length;
-//    return 200000;
-  }
-
-  public static String getMultiSamePrefixValue(String prefix, int wordNum){
-    int valueCount = 0;
-    StringBuilder stringBuilder = new StringBuilder();
-    while (valueCount++ < wordNum){
-      stringBuilder.append(getSamePrefixRandomValue(prefix));
-      stringBuilder.append(" ");
-    }
-    stringBuilder.append("end");
-    return stringBuilder.toString();
-  }
-
-  public static String getMultiValue(){
-    int valueCount = 0;
-    StringBuilder stringBuilder = new StringBuilder();
-    while (valueCount++ < 99){
-      stringBuilder.append(getRandomValue());
-      stringBuilder.append(" ");
-    }
-    stringBuilder.append("end");
-    return stringBuilder.toString();
-  }
 
   public static class MyThread implements Runnable{
     IndexFileWithManyFieldValues test;
