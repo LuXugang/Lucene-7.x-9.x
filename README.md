@@ -112,6 +112,7 @@
 - [索引文件的生成（二）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)
 - [索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)
 - [索引文件的生成（四）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/124.html)
+- [索引文件的生成（五）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)
 
 # Search
 

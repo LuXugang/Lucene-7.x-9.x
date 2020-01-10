@@ -52,12 +52,16 @@ public class BlockTreeTermsWriterTest {
         // 0
 
          String fieldValues1 = getMultiSamePrefixValue("ab", 100, 4);
+        String fieldValues22= getMultiSamePrefixValue("abg", 28, 4);
         String sortedFieldValues = getSortedValues(fieldValues1);
-         String []fieldValuesArray = sortedFieldValues.split(",");
-//        String [] fieldValuesArray = {"abbabm", "abeabsabv", "abg", "abgabpabk", "abgabuabn", "abh", "abi", "abiabg",
-//                "abiabyabj", "abj", "abjabkaba", "ablabpabr", "ablabqabu", "abm", "abmabd", "abnabeabd", "abo",
-//                "aboa", "abob", "aboabqaba", "abpabfabi", "abrabt", "abs", "absabrabi", "abtaboabx", "abuabp",
-//                "abvabdabn", "abvabw", "abw", "abwabtabf", "end"};
+//         String []fieldValuesArray = sortedFieldValues.split(",");
+//        String []fieldValuesArray = {"abc", "abd", "abe", "abea", "abeb", "abee"};
+        String [] fieldValuesArray = {"aa","ab", "abeabsabv",
+                "abg", "abga", "abgaabgr", "abgc", "abgc", "abgdabgg", "abgdabgj", "abgfabgj", "abgg", "abggabgjabgi", "abghabgiabga", "abgjabgmabge", "abgkabgbabge", "abgkabgqabgt", "abgkabgvabgi", "abgnabgqabgx", "abgnabgrabgi", "abgoabge", "abgoabgtabgf", "abgp", "abgpabgkabgm", "abgpabgnabgb", "abgrabgyabgw", "bgs", "abgsabgeabgu", "abguabga", "abgvabgjabgo", "abgy", "abgyabgaabgk",
+                "abh", "abi", "abiabg",
+                "abiabyabj", "abj", "abjabkaba", "ablabpabr", "ablabqabu", "abm", "abmabd", "abnabeabd", "abo",
+                "aboa", "abob", "aboabqaba", "abpabfabi", "abrabt", "abs", "absabrabi", "abtaboabx", "abuabp",
+                "abvabdabn", "abvabw", "abw", "abwabtabf", "end"};
         StringBuilder builder = new StringBuilder();
         for (String s : fieldValuesArray) {
            builder.append(s);
