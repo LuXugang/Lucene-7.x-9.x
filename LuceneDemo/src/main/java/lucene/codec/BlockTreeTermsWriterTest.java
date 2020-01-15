@@ -57,7 +57,7 @@ public class BlockTreeTermsWriterTest {
 //         String []fieldValuesArray = sortedFieldValues.split(",");
 //        String []fieldValuesArray = {"abc", "abd", "abe", "abea", "abeb", "abee"};
         String [] fieldValuesArray = {"aa","ab", "abeabsabv",
-                "abg", "abga", "abgaabgr", "abgc", "abgc", "abgdabgg", "abgdabgj", "abgfabgj", "abgg", "abggabgjabgi", "abghabgiabga", "abgjabgmabge", "abgkabgbabge", "abgkabgqabgt", "abgkabgvabgi", "abgnabgqabgx", "abgnabgrabgi", "abgoabge", "abgoabgtabgf", "abgp", "abgpabgkabgm", "abgpabgnabgb", "abgrabgyabgw", "bgs", "abgsabgeabgu", "abguabga", "abgvabgjabgo", "abgy", "abgyabgaabgk",
+                "abg", "abga", "abgaabgr", "abgc", "abgc", "abgdabgg", "abgdabgj", "abgfabgj", "abgg", "abggabgjabgi", "abghabgiabga", "abgjabgmabge", "abgkabgbabge", "abgkabgqabgt", "abgkabgvabgi", "abgnabgqabgx", "abgnabgrabgi", "abgoabge", "abgoabgtabgf", "abgp", "abgpabgkabgm", "abgpabgnabgb", "abgrabgyabgw", "abgsabgeabgu", "abguabga", "abgvabgjabgo", "abgy", "abgyabgaabgk",
                 "abh", "abi", "abiabg",
                 "abiabyabj", "abj", "abjabkaba", "ablabpabr", "ablabqabu", "abm", "abmabd", "abnabeabd", "abo",
                 "aboa", "abob", "aboabqaba", "abpabfabi", "abrabt", "abs", "absabrabi", "abtaboabx", "abuabp",
