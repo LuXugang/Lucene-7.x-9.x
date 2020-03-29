@@ -1,6 +1,6 @@
 # 文章导航
 
-&emsp;&emsp;文章中的Lucene版本为7.5.0，欢迎同学们交流指正，blog目录中的文章如果与https://www.amazingkoala.com.cn 不同，以网页的内容为准。
+&emsp;&emsp;文章中的Lucene版本为7.5.0，欢迎同学们交流指正，blog目录中的文章如果与https://www.amazingkoala.com.cn 不同，以网页的内容为准，另外最新的文章可能会依据最新的Lucene版本，版本号会在文章的标题说明。
 
 # 索引文件
 
