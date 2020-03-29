@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="870bb74a-fcbb-4580-819a-c8f763ed454a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LuceneDemo8.4.0.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/FileOperation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/LockStree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/NativeFSLockFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/lucene/DcoValues/NumericDocValuesTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/lucene/DcoValues/PointValuesTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/lucene/DcoValues/SortedNumericDocValuesTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +29,13 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -40,18 +50,61 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1ZCN4xyUSAJV4iKkExw4lrQzoua" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunManager" selected="Application.PointValuesTest">
+    <configuration name="NumericDocValuesTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="io.lucene.DcoValues.NumericDocValuesTest" />
+      <module name="LuceneDemo8.4.0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.lucene.DcoValues.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PointValuesTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="io.lucene.DcoValues.PointValuesTest" />
+      <module name="LuceneDemo8.4.0" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.lucene.DcoValues.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PointValuesTest" />
+        <item itemvalue="Application.NumericDocValuesTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -76,10 +129,107 @@
       <option name="presentableId" value="Default" />
       <updated>1584338928516</updated>
       <workItem from="1584338930209" duration="23000" />
+      <workItem from="1584339194987" duration="616000" />
+      <workItem from="1584594348006" duration="8345000" />
+      <workItem from="1585446009398" duration="16065000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="554" y="106" width="686" height="706" key="#xdebugger.evaluate" timestamp="1585491343674">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="554" y="106" width="686" height="706" key="#xdebugger.evaluate/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491343674" />
+    <state x="554" y="106" width="1084" height="944" key="#xdebugger.evaluate/0.0.1680.1050@0.0.1680.1050" timestamp="1585489257305" />
+    <state width="694" height="764" key="DebuggerActiveHint" timestamp="1585488848774">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="459" height="466" key="DebuggerActiveHint/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1584595442798" />
+    <state width="694" height="764" key="DebuggerActiveHint/0.0.1680.1050@0.0.1680.1050" timestamp="1585488848774" />
+    <state width="1638" height="113" key="GridCell.Tab.0.bottom" timestamp="1585491330202">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.0.bottom/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330202" />
+    <state width="1638" height="202" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1585488979827" />
+    <state width="1638" height="113" key="GridCell.Tab.0.center" timestamp="1585491330199">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.0.center/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330199" />
+    <state width="1638" height="202" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1585488979826" />
+    <state width="1638" height="113" key="GridCell.Tab.0.left" timestamp="1585491330198">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.0.left/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330198" />
+    <state width="1638" height="202" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1585488979825" />
+    <state width="1638" height="113" key="GridCell.Tab.0.right" timestamp="1585491330201">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.0.right/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330201" />
+    <state width="1638" height="202" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1585488979827" />
+    <state width="1638" height="113" key="GridCell.Tab.1.bottom" timestamp="1585491330658">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.1.bottom/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330658" />
+    <state width="1638" height="202" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1585488980295" />
+    <state width="1638" height="113" key="GridCell.Tab.1.center" timestamp="1585491330656">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.1.center/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330656" />
+    <state width="1638" height="202" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1585488980294" />
+    <state width="1638" height="113" key="GridCell.Tab.1.left" timestamp="1585491330655">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.1.left/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330655" />
+    <state width="1638" height="202" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1585488980293" />
+    <state width="1638" height="113" key="GridCell.Tab.1.right" timestamp="1585491330657">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="113" key="GridCell.Tab.1.right/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585491330657" />
+    <state width="1638" height="202" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1585488980295" />
+    <state x="570" y="275" width="540" height="524" key="StructurePopup" timestamp="1585460985429">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="570" y="275" width="540" height="524" key="StructurePopup/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1584595337469" />
+    <state x="570" y="275" width="540" height="524" key="StructurePopup/0.0.1680.1050@0.0.1680.1050" timestamp="1585460985429" />
+    <state x="570" y="275" width="540" height="524" key="StructurePopup/0.23.1680.959@0.23.1680.959" timestamp="1585460799850" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1585488975001">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1584598131222" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1585488975001" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/apache/lucene/lucene-core/8.4.0/lucene-core-8.4.0-sources.jar!/org/apache/lucene/index/NumericDocValuesWriter.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/apache/lucene/lucene-core/8.4.0/lucene-core-8.4.0-sources.jar!/org/apache/lucene/index/DocsWithFieldSet.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/io/lucene/DcoValues/PointValuesTest.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/apache/lucene/lucene-core/8.4.0/lucene-core-8.4.0-sources.jar!/org/apache/lucene/index/PointValuesWriter.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/apache/lucene/lucene-core/8.4.0/lucene-core-8.4.0-sources.jar!/org/apache/lucene/index/PointValuesWriter.java</url>
+          <line>159</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
