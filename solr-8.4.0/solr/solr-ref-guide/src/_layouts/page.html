@@ -1,0 +1,42 @@
+---
+layout: default
+---
+{% comment %}NOTE: page_id is also definied in default.html{% endcomment %}
+{% assign page_id = page.url | split: '/' | last | remove: '.html' %}
+<header class="header">
+   <h1 class="title-main">{{ page.title }}</h1>
+</header>
+
+    {% unless page.toc == false %}
+    {% include toc.html %}
+    {% endunless %}
+
+<section class="content">
+   {{content}}
+</section>
+
+<!-- Adds tags, if any -->
+    <div class="tags">
+        {% if page.tags != null %}
+        <b>Tags: </b>
+        {% assign projectTags = site.data.tags.allowed-tags %}
+        {% for tag in page.tags %}
+        {% if projectTags contains tag %}
+        <a href="{{ "tag-" | append: tag | append: ".html" }}" class="btn btn-default navbar-btn cursorNorm" role="button">{{page.tagName}}{{tag}}</a>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+<!-- Adds nav links on each page -->
+    {% assign scrollnav = site.data.scrollnav[page_id] %}
+    {% if scrollnav %}
+    <nav class="scrollnav row">
+      {% if scrollnav.prev %}
+      <a class="btn btn-primary prev" href="{{ scrollnav.prev.url }}">{{ scrollnav.prev.title }}</a>
+      {% endif %}
+      {% if scrollnav.next %}
+      <a class="btn btn-primary next" href="{{ scrollnav.next.url }}">{{ scrollnav.next.title }}</a>
+      {% endif %}
+   </nav>
+    {% endif %}
