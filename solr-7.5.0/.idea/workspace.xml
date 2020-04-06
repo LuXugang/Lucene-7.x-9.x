@@ -2,13 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="211945b1-10ca-4220-bbb9-740b39663c75" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/codec/BlockTreeTermsWriterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LuceneDemo/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/docValues/BinaryDocValuesFieldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/docValues/BinaryDocValuesFieldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/docValues/SortedDocValuesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/docValues/SortedDocValuesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/docValues/SortedSetDocValuesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/docValues/SortedSetDocValuesTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo/src/main/java/lucene/index/IndexFileWithManyFieldValues.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/src/main/java/io/lucene/DcoValues/PointValuesOneDimensionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.dii" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.dii" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.dim" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.dim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.fdt" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.fdt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.fdx" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.fdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.fnm" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.fnm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.si" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/_0.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/segments_1" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/data/segments_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LuceneDemo8.4.0/src/main/java/io/lucene/DcoValues/PointValuesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../LuceneDemo8.4.0/src/main/java/io/lucene/DcoValues/PointValuesTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../blog/Lucene/Index/索引文件的生成/索引文件的生成（八）/128.html" beforeDir="false" afterPath="$PROJECT_DIR$/../blog/Lucene/Index/索引文件的生成/索引文件的生成（八）/128.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../blog/Lucene/Index/索引文件的生成/索引文件的生成（八）/索引文件的生成（八）-html.md" beforeDir="false" afterPath="$PROJECT_DIR$/../blog/Lucene/Index/索引文件的生成/索引文件的生成（八）/索引文件的生成（八）-html.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../blog/Lucene/Index/索引文件的生成/索引文件的生成（八）/索引文件的生成（八）.md" beforeDir="false" afterPath="$PROJECT_DIR$/../blog/Lucene/Index/索引文件的生成/索引文件的生成（八）/索引文件的生成（八）.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/bkd/BKDWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/bkd/BKDWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +67,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -259,6 +268,8 @@
       <workItem from="1576749411462" duration="597000" />
       <workItem from="1578388228903" duration="71000" />
       <workItem from="1578388344995" duration="3136000" />
+      <workItem from="1585897517946" duration="7834000" />
+      <workItem from="1586151199124" duration="2094000" />
     </task>
     <servers />
   </component>
@@ -288,27 +299,24 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="689" y="421" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1575366395132">
+    <state x="452" y="226" key="NewModule_or_Project.wizard" timestamp="1585897733577">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="689" y="421" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1575366395132" />
-    <state x="528" y="260" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1576496062732">
+    <state x="452" y="226" key="NewModule_or_Project.wizard/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1585897733577" />
+    <state x="570" y="275" width="540" height="524" key="StructurePopup" timestamp="1586151210008">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="528" y="260" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/-139.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1576496062732" />
-    <state x="570" y="275" width="540" height="524" key="StructurePopup" timestamp="1578388286960">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
+    <state x="570" y="275" width="540" height="524" key="StructurePopup/-88.-1057.1920.1057/0.23.1680.955@0.23.1680.955" timestamp="1585985548810" />
+    <state x="570" y="275" width="540" height="524" key="StructurePopup/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1586151210008" />
     <state x="570" y="275" width="540" height="524" key="StructurePopup/0.0.1680.1050@0.0.1680.1050" timestamp="1578388286960" />
     <state x="441" y="247" width="1040" height="718" key="find.popup" timestamp="1578393182181">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="378" y="212" width="891" height="615" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1576723530449" />
     <state x="441" y="247" width="1040" height="718" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1578393182181" />
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1578399441653">
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1586176678344">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/-139.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1576161843598" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/-88.-1080.1920.1080/0.0.1680.1050@0.0.1680.1050" timestamp="1586176678344" />
     <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1578399441653" />
   </component>
   <component name="XDebuggerManager">
@@ -338,6 +346,11 @@
           <url>file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/index/ConcurrentMergeScheduler.java</url>
           <line>197</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/lucene/core/src/java/org/apache/lucene/util/bkd/BKDWriter.java</url>
+          <line>451</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

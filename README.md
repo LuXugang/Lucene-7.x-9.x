@@ -116,6 +116,7 @@
 - [索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)
 - [索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/127.html)
 - [索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)
+- [索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)
 
 
 # Search

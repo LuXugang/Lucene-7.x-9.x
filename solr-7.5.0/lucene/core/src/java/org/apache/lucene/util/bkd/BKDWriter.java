@@ -470,7 +470,7 @@ public class BKDWriter implements Closeable {
     // compute the min/max for this slice
     Arrays.fill(minPackedValue, (byte) 0xff);
     Arrays.fill(maxPackedValue, (byte) 0);
-    //pintValues中的每一个维度值跟minPackedValue跟maxPackedValue中的对应维度进行比较
+    //pointValues中的每一个维度值跟minPackedValue跟maxPackedValue中的对应维度进行比较
     // 比如说有两个pointValues的值，(3,10,1)、(2，1，3)那么minPackedValue为（2,1,1），maxPackedValue中为(3，10，3)
     for (int i = 0; i < Math.toIntExact(pointCount); ++i) {
       values.getValue(i, scratchBytesRef1);
