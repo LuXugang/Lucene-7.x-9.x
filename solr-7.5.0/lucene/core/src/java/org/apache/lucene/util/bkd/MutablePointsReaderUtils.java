@@ -135,7 +135,7 @@ public final class MutablePointsReaderUtils {
                                BytesRef scratch1, BytesRef scratch2) {
     // 每一个pointValue中的偏移位置，从这个位置作比较，来计算属于哪一边的子树
     final int offset = splitDim * bytesPerDim + commonPrefixLen;
-    // 只要比较前缀不相同的部分
+    // 只要比较除了前缀外不相同的部分
     final int cmpBytes = bytesPerDim - commonPrefixLen;
     // 计算出存储maxDoc的值需要用到的最少bit位
     final int bitsPerDocId = PackedInts.bitsRequired(maxDoc - 1);

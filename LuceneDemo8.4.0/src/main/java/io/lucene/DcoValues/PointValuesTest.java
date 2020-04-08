@@ -46,12 +46,12 @@ public class PointValuesTest {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("content", 3, 5, 12));
+        doc.add(new IntPoint("content", 3, 5, 12)); // numPoints = 0
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-        doc.add(new IntPoint("content", 1, 5,23));
-        doc.add(new IntPoint("content", 3, 6,12));
+        doc.add(new IntPoint("content", 1, 5,23));  // numPoints = 1
+        doc.add(new IntPoint("content", 3, 6,12));  // numPoints = 2
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
