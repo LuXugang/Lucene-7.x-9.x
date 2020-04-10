@@ -118,6 +118,7 @@
 - [索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)
 - [索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)
 - [索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)
+- [索引文件的生成（十一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0410/131.html)
 
 
 # Search
