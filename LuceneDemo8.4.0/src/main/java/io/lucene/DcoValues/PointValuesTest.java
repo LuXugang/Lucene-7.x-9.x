@@ -46,7 +46,7 @@ public class PointValuesTest {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("content", 3, 5, 12)); // numPoints = 0
+        doc.add(new IntPoint("content", 3, 5, 268)); // numPoints = 0
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
@@ -55,7 +55,7 @@ public class PointValuesTest {
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
-        while (count++ < 2048){
+        while (count++ < 2044){
             doc = new Document();
             a = random.nextInt(100);
             a = a == 0 ? a + 1 : a;
