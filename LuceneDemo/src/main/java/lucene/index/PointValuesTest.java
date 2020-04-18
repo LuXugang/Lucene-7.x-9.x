@@ -66,6 +66,9 @@ public class PointValuesTest {
       b = b == 0 ? b + 1 : b;
       doc.add(new IntPoint("content", a , b));
       indexWriter.addDocument(doc);
+      if(count == 1024){
+        indexWriter.commit();
+      }
 
 
     }

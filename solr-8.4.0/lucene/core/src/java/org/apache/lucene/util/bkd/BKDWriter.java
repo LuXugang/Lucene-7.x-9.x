@@ -1073,6 +1073,7 @@ public class BKDWriter implements Closeable {
         int numRunLens = 0;
         for (int i = 0; i < count; ) {
           // do run-length compression on the byte at compressedByteOffset
+          // runLen描述了SortedDim维度的相同前缀的下一个字节也相同的点数据个数, 还是为了减少存储空间
           int runLen = runLen(packedValues, i, Math.min(i + 0xff, count), compressedByteOffset);
           assert runLen <= 0xff;
           numRunLens++;
@@ -1190,12 +1191,17 @@ public class BKDWriter implements Closeable {
   }
 
   private static int runLen(IntFunction<BytesRef> packedValues, int start, int end, int byteOffset) {
+    // 取出点数据
     BytesRef first = packedValues.apply(start);
+    // 取出相同前缀的下一个字节
     byte b = first.bytes[first.offset + byteOffset];
+    // 依次取出每一个点数据，直到某个点数据的相同前缀的下一个字节域first不同就退出
     for (int i = start + 1; i < end; ++i) {
+      // 叶子结点中下一个点数据
       BytesRef ref = packedValues.apply(i);
       byte b2 = ref.bytes[ref.offset + byteOffset];
       assert Byte.toUnsignedInt(b2) >= Byte.toUnsignedInt(b);
+      // 当前点数据跟first的相同前缀的下一个字节不相同 那么退出
       if (b != b2) {
         return i - start;
       }
