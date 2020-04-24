@@ -48,7 +48,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十二）/5.png">
 
-&emsp;&emsp;假设叶子节点中有3个点数据，我们以维度编号2为例，图4中，点数据<font color=Blue>蓝色</font>部分的字节是相同的，即点数据在这个维度的维度值的最长公共前缀的长度为2（2个字节），即在commonPrefixLengths数组中，下标值为2的数组元素的值为3，其他维度同理，故commonPrefixLengths数组如下所示：
+&emsp;&emsp;假设叶子节点中有3个点数据，我们以维度编号2为例，图4中，点数据<font color=Blue>蓝色</font>部分的字节是相同的，即点数据在这个维度的维度值的最长公共前缀的长度为2（2个字节），即在commonPrefixLengths数组中，下标值为2的数组元素的值为2，其他维度同理，故commonPrefixLengths数组如下所示：
 
 图6：
 
