@@ -46,13 +46,13 @@ public class PointValuesTest {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("content", 20, 5, 780)); // numPoints = 0
+        doc.add(new IntPoint("book", 20, 5, 780));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-        doc.add(new IntPoint("content", 3, 6,12));  // numPoints = 1
-        doc.add(new IntPoint("content", 3, 6,12));  // numPoints = 2
-        doc.add(new IntPoint("content", 3, 6,12));  // numPoints = 2
+
+        doc.add(new IntPoint("title", 3, 6,12));
+        doc.add(new IntPoint("book", 3, 7,12));
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
@@ -64,7 +64,7 @@ public class PointValuesTest {
             b = b == 0 ? b + 1 : b;
             c = random.nextInt(20);
             c = c == 0 ? c + 1 : c;
-            doc.add(new IntPoint("content", a , b, c));
+            doc.add(new IntPoint("title", a , b, c));
             indexWriter.addDocument(doc);
 
 
