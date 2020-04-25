@@ -326,7 +326,7 @@ int code = (firstDiffByteDelta * (1+bytesPerDim) + prefix) * numDims + splitDim
 
 ## IndexFP
 
-&emsp;&emsp;当前域的非叶节点的信息在.dim文件中的偏移位置。
+&emsp;&emsp;当前域的非叶节点的信息在.dim文件中的偏移位置（图1中的`BKD`）。
 
 # 结语
 &emsp;&emsp;无

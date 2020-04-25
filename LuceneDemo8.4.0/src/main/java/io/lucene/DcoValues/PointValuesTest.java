@@ -46,13 +46,13 @@ public class PointValuesTest {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("book", 20, 5, 780));
+        doc.add(new IntPoint("book", 20, 1, 781));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
 
-        doc.add(new IntPoint("title", 3, 6,12));
-        doc.add(new IntPoint("book", 3, 7,12));
+        doc.add(new IntPoint("title", 3, 1,12));
+        doc.add(new IntPoint("book", 3, 1,12));
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
@@ -64,7 +64,7 @@ public class PointValuesTest {
             b = b == 0 ? b + 1 : b;
             c = random.nextInt(20);
             c = c == 0 ? c + 1 : c;
-            doc.add(new IntPoint("title", a , b, c));
+            doc.add(new IntPoint("book", a , b, c));
             indexWriter.addDocument(doc);
 
 
@@ -76,9 +76,9 @@ public class PointValuesTest {
 
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        int [] lowValue = {1, 5};
-        int [] upValue = {4, 7};
-        Query query = IntPoint.newRangeQuery("content", lowValue, upValue);
+        int [] lowValue = {3, 1, 12};
+        int [] upValue = {20, 1, 780};
+        Query query = IntPoint.newRangeQuery("book", lowValue, upValue);
 
 
         // 返回Top5的结果
