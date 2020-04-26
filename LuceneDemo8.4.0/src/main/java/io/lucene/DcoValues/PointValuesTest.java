@@ -46,13 +46,13 @@ public class PointValuesTest {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("book", 20, 1, 781));
+        doc.add(new IntPoint("book", 1, 1));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
 
-        doc.add(new IntPoint("title", 3, 1,12));
-        doc.add(new IntPoint("book", 3, 1,12));
+        doc.add(new IntPoint("title", 100, 100));
+        doc.add(new IntPoint("book", 100, 100));
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
@@ -62,9 +62,10 @@ public class PointValuesTest {
             a = a == 0 ? a + 1 : a;
             b = random.nextInt(100);
             b = b == 0 ? b + 1 : b;
-            c = random.nextInt(20);
+            c = random.nextInt(80);
             c = c == 0 ? c + 1 : c;
-            doc.add(new IntPoint("book", a , b, c));
+//            doc.add(new IntPoint("book", a , b, c));
+            doc.add(new IntPoint("book", a, c));
             indexWriter.addDocument(doc);
 
 
@@ -76,8 +77,10 @@ public class PointValuesTest {
 
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        int [] lowValue = {3, 1, 12};
-        int [] upValue = {20, 1, 780};
+//        int [] lowValue = {1, 1};
+//        int [] upValue = {100, 100};
+        int [] lowValue = {5, 3};
+        int [] upValue = {89, 300};
         Query query = IntPoint.newRangeQuery("book", lowValue, upValue);
 
 

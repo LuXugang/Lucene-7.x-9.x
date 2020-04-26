@@ -90,12 +90,11 @@ public class IndexFileWithLessFieldValues {
       doc.add(new TextField("content", "a c e f g d", Field.Store.YES));
       indexWriter.addDocument(doc);
 
-      indexWriter.deleteDocuments(new Term("author", "aab"));
-      indexWriter.updateNumericDocValue(new Term("author", "aabb"), "sortByNumber", 3);
+      doc = new Document();
+      doc.add(new TextField("title", "aab", Field.Store.YES));
+      indexWriter.updateDocument(new Term("123", "luxugang"), doc);
 
-      indexWriter.flush();
     }
-    indexWriter.commit();
 //          indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
     indexWriter.commit();
 
@@ -103,23 +102,13 @@ public class IndexFileWithLessFieldValues {
     // Per-top-reader state:
 
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    builder.add(new TermQuery(new Term("content", "a")), BooleanClause.Occur.SHOULD);
-    builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
-    builder.add(new TermQuery(new Term("content", "c")), BooleanClause.Occur.SHOULD);
-    builder.add(new TermQuery(new Term("content", "h")), BooleanClause.Occur.SHOULD);
-    builder.add(new TermQuery(new Term("content", "e")), BooleanClause.Occur.SHOULD);
-    builder.setMinimumNumberShouldMatch(2);
-
     DirectoryReader reader = DirectoryReader.open(indexWriter);
-    reader.maxDoc();
     IndexSearcher indexSearcher = new IndexSearcher(reader);
-    SortField searchSortField = new SortField("sortByNumber", SortField.Type.LONG);
-    Sort searchSort = new Sort(searchSortField);
+    builder = new BooleanQuery.Builder();
+    builder.add(new TermQuery(new Term("title", "aab")), BooleanClause.Occur.SHOULD);
 
-    TopFieldCollector collector = TopFieldCollector.create(searchSort, 2, true, false, false, false);
-    indexSearcher.search(builder.build(),  collector);
 
-//    TopFieldDocs fieldDocs = indexSearcher.search(new MatchAllDocsQuery(), 5, searchSort);
+   ScoreDoc doc[]  =  indexSearcher.search(builder.build() , 10).scoreDocs;
 
     System.out.printf("ha");
 
