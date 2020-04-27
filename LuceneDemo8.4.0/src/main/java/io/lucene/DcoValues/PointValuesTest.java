@@ -4,7 +4,9 @@ import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -50,18 +52,21 @@ public class PointValuesTest {
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-
         doc.add(new IntPoint("title", 100, 100));
         doc.add(new IntPoint("book", 100, 100));
         indexWriter.addDocument(doc);
+//        // 文档2
+//        doc = new Document();
+//        doc.add(new TextField("abc", "edd", Field.Store.YES ));
+//        indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
         while (count++ < 4096){
             doc = new Document();
             a = random.nextInt(100);
             a = a == 0 ? a + 1 : a;
-            b = random.nextInt(100);
-            b = b == 0 ? b + 1 : b;
+//            b = random.nextInt(100);
+//            b = b == 0 ? b + 1 : b;
             c = random.nextInt(80);
             c = c == 0 ? c + 1 : c;
 //            doc.add(new IntPoint("book", a , b, c));
@@ -71,16 +76,16 @@ public class PointValuesTest {
 
         }
 
+
         indexWriter.commit();
 
         DirectoryReader reader = DirectoryReader.open(indexWriter);
-
         IndexSearcher searcher = new IndexSearcher(reader);
 
 //        int [] lowValue = {1, 1};
 //        int [] upValue = {100, 100};
-        int [] lowValue = {5, 3};
-        int [] upValue = {89, 300};
+        int [] lowValue = {-1, -1};
+        int [] upValue = {99, 99};
         Query query = IntPoint.newRangeQuery("book", lowValue, upValue);
 
 

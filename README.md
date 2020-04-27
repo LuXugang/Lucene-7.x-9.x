@@ -151,13 +151,17 @@
 
 ##### 7. [BooleanQuery](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/25.html)
 
-#### Store
+##### 8. Store
 
-##### 1. [索引文件锁LockFactory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/62.html)
-##### 2. Directory
+- [索引文件锁LockFactory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/62.html)
+##### 9. Directory
 
 - [Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)
 - [Directory（下）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0615/67.html)
+
+##### 10. 索引文件的读取
+
+- [索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)
 
 # Util
 
