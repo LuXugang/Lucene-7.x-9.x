@@ -162,6 +162,7 @@
 ##### 10. 索引文件的读取
 
 - [索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)
+- [索引文件的读取（二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0428/136.html)
 
 # Util
 
