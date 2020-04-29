@@ -140,4 +140,4 @@ upperValue：{9, 12}
 
 &emsp;&emsp;无。
 
-[点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/索引文件的读取（一）/索引文件的读取（一）.zip)下载附件
+[点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/索引文件的读取（一）/索引文件的读取（一）.zip)下载

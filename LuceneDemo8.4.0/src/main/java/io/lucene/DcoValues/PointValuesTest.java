@@ -85,7 +85,7 @@ public class PointValuesTest {
 //        int [] lowValue = {1, 1};
 //        int [] upValue = {100, 100};
         int [] lowValue = {-1, -1};
-        int [] upValue = {99, 99};
+        int [] upValue = {200, 200};
         Query query = IntPoint.newRangeQuery("book", lowValue, upValue);
 
 
