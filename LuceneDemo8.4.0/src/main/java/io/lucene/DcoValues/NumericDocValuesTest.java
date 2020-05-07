@@ -41,57 +41,39 @@ public class NumericDocValuesTest {
         while (count++ < 1) {
             // 文档0
             Document doc = new Document();
-            doc.add(new NumericDocValuesField("age", 88L));
-            doc.add(new NumericDocValuesField("level", 10L));
+            doc.add(new NumericDocValuesField("age", 88));
+            doc.add(new NumericDocValuesField("level", 10));
+            doc.add(new TextField("abc", "document0", Field.Store.YES));
             indexWriter.addDocument(doc);
-
             // 文档1
             doc = new Document();
             doc.add(new NumericDocValuesField("age", 92));
+            doc.add(new TextField("abc", "document1", Field.Store.YES));
             indexWriter.addDocument(doc);
-
             // 文档2
             doc = new Document();
-            doc.add(new NumericDocValuesField("age", 4L));
+            doc.add(new NumericDocValuesField("age", 4));
+            doc.add(new NumericDocValuesField("level", 3));
             doc.add(new TextField("abc", "document2", Field.Store.YES));
             indexWriter.addDocument(doc);
-
-            // 文档3
-            doc = new Document();
-            doc.add(new NumericDocValuesField("age", 24L));
-            doc.add(new TextField("abc", "document3", Field.Store.YES));
-            indexWriter.addDocument(doc);
-
-            // 文档4
-            doc = new Document();
-            doc.add(new NumericDocValuesField("age", 20L));
-            indexWriter.addDocument(doc);
-
-            // 文档5
-            doc = new Document();
-            doc.add(new NumericDocValuesField("age", 32L));
-            indexWriter.addDocument(doc);
-
-            // 文档6
-            doc = new Document();
-            doc.add(new NumericDocValuesField("age", 42L));
-            indexWriter.addDocument(doc);
-
-            // 文档7
-            doc = new Document();
-            doc.add(new StringField("abcd", "good", Field.Store.YES));
-            indexWriter.addDocument(doc);
-
             indexWriter.commit();
         }
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
 
-        Sort sort = new Sort(new SortField("age", SortField.Type.INT));
-        TopDocs docs = searcher.search(new MatchAllDocsQuery(), 1000 , sort);
+        Sort sortByAge = new Sort(new SortField("age", SortField.Type.INT, true));
+        Sort sortByLevel = new Sort(new SortField("level", SortField.Type.INT, true));
+        TopDocs docs1 = searcher.search(new MatchAllDocsQuery(), 1000 , sortByAge);
+        TopDocs docs2 = searcher.search(new MatchAllDocsQuery(), 1000 , sortByLevel);
 
-        for (ScoreDoc scoreDoc: docs.scoreDocs){
+        System.out.println("sort by age");
+        for (ScoreDoc scoreDoc: docs1.scoreDocs){
+            System.out.println("docId: 文档"+ scoreDoc.doc+"");
+        }
+
+        System.out.println("sort by level");
+        for (ScoreDoc scoreDoc: docs2.scoreDocs){
             System.out.println("docId: 文档"+ scoreDoc.doc+"");
         }
 

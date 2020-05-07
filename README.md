@@ -122,6 +122,7 @@
 - [索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)
 - [索引文件的生成（十三）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0418/133.html)
 - [索引文件的生成（十四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0424/134.html)
+- [索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)
 
 
 # Search

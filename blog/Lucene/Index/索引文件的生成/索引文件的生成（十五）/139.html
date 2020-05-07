@@ -1,0 +1,509 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>索引文件的生成（十五）-html</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+   padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-mac'><h1><a name="索引文件的生成十五）httpswwwamazingkoalacomcnluceneindexlucene-840）" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/Index/'><span>索引文件的生成（十五）</span></a><span>（Lucene 8.4.0）</span></h1><p>&emsp;&emsp;<span>在前面的文章中，我们介绍了在Lucene7.5.0中</span><a href='https://www.amazingkoala.com.cn/Lucene/DocValues/'><span>索引文件.dvd&amp;&amp;.dvm</span></a><span>的数据结构，从本篇文章开始介绍其生成索引文件.dvd&amp;&amp;.dvm的内容，注意的是，由于是基于Lucene8.4.0来描述其生成过程，故如果出现跟Lucene7.5.0中不一致的地方会另外指出，索引文件.dvd&amp;&amp;.dvm中的包含了下面几种类型：</span></p><ul><li><span>BinaryDocValues</span></li><li><span>NumericDocValues</span></li><li><span>SortedDocValues</span></li><li><span>SortedNumericDocValues</span></li><li><span>SortedSetDocValues</span></li></ul><p>&emsp;&emsp;<span>本篇文章从</span><a href='https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html'><span>NumericDocValues</span></a><span>开始介绍，建议先阅读下文章</span><a href='https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html'><span>NumericDocValues</span></a><span>，简单的了解NumericDocValues类型的DocValues的数据结构。</span></p><p>&emsp;&emsp;<span>在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html'><span>索引文件的生成（一）之doc&amp;&amp;pay&amp;&amp;pos</span></a><span>中，简单的介绍了生成</span><a href='https://www.amazingkoala.com.cn/Lucene/DocValues/'><span>索引文件.dvd&amp;&amp;.dvm</span></a><span>的时机点，为了能更好的理解其生成过程，会首先介绍下在生成索引文件之前，Lucene是如何收集每篇文档的NumericDocValues信息。</span></p><h2><a name="收集文档的numericdocvalues信息" class="md-header-anchor"></a><span>收集文档的NumericDocValues信息</span></h2><p>&emsp;&emsp;<span>在源码中，通过</span><a href='https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/NumericDocValuesWriter.java'><span>NumericDocValuesWriter</span></a><span>对象来实现文档的NumericDocValues信息的收集，并且具有相同域名的NumericDocValues信息使用同一个NumericDocValuesWriter对象来收集，例如下图中添加三篇文档：</span></p><p><span>图1：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/1.png"></p><p>&emsp;&emsp;<span>在使用NumericDocValuesField来生成NumericDocValues信息时要注意，在一篇文档中，仅能添加一条相同域名的NumericDocValuesField，但是能添加多条不同域名的NumericDocValuesField，如图1中，在文档0中添加了域名分别为&quot;age&quot;、&quot;level&quot;的NumericDocValuesField，如果我们在一篇文档中添加两个或以上相同域名的NumericDocValuesField，那么会抛出以下的异常：</span></p><p><span>图2：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/2.png"></p><p><span>图3：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/3.png"></p><p>&emsp;&emsp;<span>图3中抛出的异常对应的代码实际就是上文提到的</span><a href='https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/NumericDocValuesWriter.java'><span>NumericDocValuesWriter</span></a><span>类中的：</span></p><p><span>图4：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/4.png"></p><p>&emsp;&emsp;<span>上文中说到相同域名的NumericDocValuesField对应的NumericDocValues信息使用同一个NumericDocValuesWriter收集，在收集的过程中，如果一篇文档中包含了两个或以上相同域名的NumericDocValuesField，如图4所示，docID &lt;= lastDocId的条件就会成立，即抛出图3中的异常。</span></p><p>&emsp;&emsp;<span>在收集NumericDocValues信息的过程中，我们仅仅关心下面两个信息：</span></p><ul><li><span>docId：即包含NumericDocValues信息的文档号</span></li><li><span>域值：即NumericDocValuesField的域值，例如图1的文档0中，域名为&quot;age&quot;的NumericDocValuesField的域值为88</span></li></ul><h3><a name="docid" class="md-header-anchor"></a><span>docId</span></h3><p>&emsp;&emsp;<span>在源码中，使用</span><a href='https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java'><span>DocsWithFieldSet</span></a><span>对象收集文档号docId，使得在</span><strong><span>某个特殊条件</span></strong><span>（见下文流程点</span><code>是否使用了FixedBitSet？</code><span>的介绍）下，</span><strong><span>在索引阶段能更少的占用内存，在读取阶段有更好的读写性能</span></strong><span>。</span></p><p>&emsp;&emsp;<span>我们通过介绍DocsWithFieldSet存储文档号的的流程来解释上述的内容：</span></p><p><span>图5：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/5.png"></p><p>&emsp;&emsp;<span>在介绍图5的流程之前，我们先介绍下图中几个变量：</span></p><ul><li><span>lastDocId：该值描述的是DocsWithFieldSet上一次处理的文档号</span></li><li><span>cost：该值的初始值为0，它其中一个作用是描述DocsWithFieldSet已经处理的文档数量，其他的作用在下文中会介绍</span></li><li><span>FixedBitSet：用于存储文档号，见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html'><span>工具类之FixedBitSet</span></a><span>的介绍</span></li></ul><h4><a name="文档号" class="md-header-anchor"></a><span>文档号</span></h4><p><span>图6：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/6.png"></p><p>&emsp;&emsp;<span>图5的流程描述了DocsWithFieldSet存储一个文档号的过程，所以流程图的准备数据为一个文档号。</span></p><h4><a name="文档号是否不大于已收集的文档号" class="md-header-anchor"></a><span>文档号是否不大于已收集的文档号？</span></h4><p><span>图7：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/7.png"></p><p>&emsp;&emsp;<span>通过比较当前处理的文档号docId跟lastDocId的值来判断</span><code>文档号是否不大于已收集的文档号</code><span>，如果判断为否，那么直接抛出异常：</span></p><p><span>图8：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/8.png"></p><p>&emsp;&emsp;<span>当前流程点判断的目的是想说明DocsWithFieldSet只处理从小到大有序的文档号集合。</span></p><h4><a name="fixedbitset" class="md-header-anchor"></a><span>FixedBitSet</span></h4><p><span>图9：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十五）/9.png"></p><p>&emsp;&emsp;<span>介绍图9的流程点之前，我们先说下DocsWithFieldSet存储文档号的两种方式：</span></p><ul><li><span>FixedBitSet：见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html'><span>工具类之FixedBitSet</span></a></li><li><span>cost：这里的cost即上文中提到的cost，它一方面描述了DocsWithFieldSet已经处理的文档数量，同时在</span><strong><span>某个特殊条件</span></strong><span>下，它也能用来描述DocsWithFieldSet存储的文档号集合（见下文介绍）</span></li></ul><p><strong><span>某个特殊条件是什么？</span></strong></p><p>&emsp;&emsp;<span>该特殊条件指的是DocsWithFieldSet处理的文档号集合中的文档号是从0开始有序递增的，这意味着段（段内的文档号是从0开始有序递增的）中每一篇文档中都包含某个域名的NumericDocValues信息。</span></p><p>&emsp;&emsp;<span>例如图1中，如果添加了三篇文档后生成了一个段，那么对于域名为&quot;age&quot;的NumericDocValues信息就满足上述的特殊条件，而对于域名为&quot;level&quot;的NumericDocValues信息，由于文档1中没有添加这个域，那么就不满足。</span></p><p><strong><span>满足或者不满足特殊条件有什么不同</span></strong></p><p>&emsp;&emsp;<span>如果满足特殊条件，意味着我们不需要存储每个文档号，只需要知道cost的值就行了，cost的默认值为0，每处理一个文档号，cost的值就执行+1操作，那么在读取文档号阶段我们就可以根据cost获得文档号集合区间，即[0, cost]。</span></p><p>&emsp;&emsp;<span>如果不满足特殊条件，那么只能通过FixedBitSet来存储每一个文档号。</span></p><p>&emsp;&emsp;<span>可见如果满足了特殊条件，在索引阶段，我们就不需要额外使用FixedBitSet对象来存储文档号，即上文中提到的</span><strong><span>在索引阶段能更少的占用内存</span></strong><span>；同时在读取阶段，我们只要顺序遍历0~cost的值就可以获取文档号，而不需要通过FixedBitSet来读取文档号（见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html'><span>工具类之FixedBitSet</span></a><span>），即上文中提到的</span><strong><span>在读取阶段有更好的读写性能</span></strong><span>。</span></p><p>&emsp;&emsp;<span>回到当前流程点的介绍，如果流程点</span><code>是否使用了FixedBitSet？</code><span>为否，说明之前处理的文档号集合是从0开始有序递增的，如果为是，那么只能通过FixedBitSet存储文档号，即执行流程点</span><code>使用FixedBitSet存储文档号</code><span>，接着在流程点</span><code>是否新建FixedBitSet？</code><span>的判断中，通过比较当前处理的文档号docId跟cost值来进行判断：</span></p><ul><li><span>docId 等于cost：说明目前仍然处于满足特殊条件的情况，即流程点</span><code>是否新建FixedBitSet？</code><span>的判断为假，那么直接更新lastDocId的值更新为dociId，用于处理下一个文档号时，判断图7的流程点</span><code>文档号是否不大于已收集的文档号</code><span>，接着更新cost的值，即cost++的操作，在这个操作之后，通过上文中的介绍可以知道，目前DocsWithFieldSet已经处理（存储）的文档号集合为[0, cost]</span></li><li><span>docId 不等于cost（docId与cost的差值大于1）：说明从当前处理的文档号开始就不满足特殊条件了，即流程点</span><code>是否新建FixedBitSet？</code><span>的判断为真（是），那么此时需要执行流程点</span><code>使用新建的FixedBitSet存储文档号</code><span>，同时将之前处理的文档号（通过cost的值获得）以及当前文档号存储到新建的FixedBitSet对象中。当然还得继续更新lastDocId，因为在处理下一个文档号时，lastDocId要用于判断图7的流程点</span><code>文档号是否不大于已收集的文档号</code><span>；cost的值依然执行cost++的操作，因为cost的功能不仅仅是用来判断在</span><strong><span>特殊条件</span></strong><span>下，用来描述存储的文档号集合，它还要用来描述DocsWithFieldSet处理的文档号数量（见上文cost的介绍）</span></li></ul><h3><a name="域值" class="md-header-anchor"></a><span>域值</span></h3><p>&emsp;&emsp;<span>域值即NumericDocValuesField的域值，例如图1的文档0中，域名为&quot;age&quot;的域值为88，我们需要收集88这个域值。</span></p><p>&emsp;&emsp;<span>源码中使用了PackedLongValues来实现压缩存储，关于PackedLongValues的内容请参看文章</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html'><span>PackedInts（一）</span></a><span>，本文不赘述，在后面的文章中，会再次介绍PackedLongValues的内容。</span></p><h2><a name="结语" class="md-header-anchor"></a><span>结语</span></h2><p>&emsp;&emsp;<span> 无</span></p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/Index/索引文件的生成/索引文件的生成（十五）/索引文件的生成（十五）.zip'><span>点击</span></a><span>下载附件</span></p></div>
+</body>
+</html>
