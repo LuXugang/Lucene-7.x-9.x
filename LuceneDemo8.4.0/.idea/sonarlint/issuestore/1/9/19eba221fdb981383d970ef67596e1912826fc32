@@ -1,15 +1,17 @@
 
-U	java:S106N"9Replace this use of System.out or System.err by a logger.(û·°¹8¡›æíž.
+:
+java:S2119'"Save and re-use this "Random".(¼ÝÅf8ÅÛöºŸ.
 u
-java:S1450""ZRemove the "indexWriter" field and declare it as a local variable in the relevant methods.(ÚˆÕ‰üÿÿÿÿ
-N	java:S106I"9Replace this use of System.out or System.err by a logger.(û·°¹
-t
-java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒóÒ–ýÿÿÿÿ
-[	java:S112$"FDefine and throw a dedicated exception instead of using a generic one.(Ü´áü
+java:S1450!"ZRemove the "indexWriter" field and declare it as a local variable in the relevant methods.(ÚˆÕ‰üÿÿÿÿ
 h
-java:S1192-"FDefine a constant instead of duplicating this literal "level" 4 times.(È¸ýØþÿÿÿÿ8Éêíž.
+java:S1192,"FDefine a constant instead of duplicating this literal "level" 3 times.(È¸ýØþÿÿÿÿ8Éêíž.
+x
+java:S1128"[Remove this unused import 'org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder'.(é‹‰×8¶í¤öž.
 >
-java:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
-T	java:S106G"9Replace this use of System.out or System.err by a logger.(°šÅc8‚¬èíž.
-Z	java:S106L"9Replace this use of System.out or System.err by a logger.(Ú’˜÷øÿÿÿÿ8ß„éíž.
+java:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒóÒ–ýÿÿÿÿ
+t
+java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+Z	java:S106E"9Replace this use of System.out or System.err by a logger.(Ú’˜÷øÿÿÿÿ8ß„éíž.
+U	java:S106G"9Replace this use of System.out or System.err by a logger.(û·°¹8¡›æíž.
+[	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(Ü´áü

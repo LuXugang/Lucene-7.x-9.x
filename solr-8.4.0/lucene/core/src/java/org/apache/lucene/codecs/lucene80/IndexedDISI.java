@@ -133,14 +133,18 @@ final class IndexedDISI extends DocIdSetIterator {
   // One rank-entry for every {@code 2^denseRankPower} bits, with each rank-entry using 2 bytes.
   // Represented as a byte[] for fast flushing and mirroring of the retrieval representation.
   private static byte[] createRank(FixedBitSet buffer, byte denseRankPower) {
+    // 一个rank-entry中包含了longsPerRank个long，例如denseRankPower为9，意味着每2^9篇文档号就设置一个rank，2^9篇文档号需要512个bit位来描述
+    // 根据下面的公式, longPerRank的值为 1 << (9 - 6) = 8，即需要8个long类型（8 * 64 = 512）来描述2^9篇文档号
     final int longsPerRank = 1 << (denseRankPower-6);
     final int rankMark = longsPerRank-1;
     final int rankIndexShift = denseRankPower-7; // 6 for the long (2^6) + 1 for 2 bytes/entry
+    // 由于一个rank-entry中最多包含2^16篇文档号，所以只要用2个字节就能表示，故使用字节数组
     final byte[] rank = new byte[DENSE_BLOCK_LONGS >> rankIndexShift];
     final long[] bits = buffer.getBits();
     int bitCount = 0;
     for (int word = 0 ; word < DENSE_BLOCK_LONGS ; word++) {
       if ((word & rankMark) == 0) { // Every longsPerRank longs
+        // 由于一个rank-entry中最多包含2^16篇文档号，所以需要两个字节才能描述
         rank[word >> rankIndexShift] = (byte)(bitCount>>8);
         rank[(word >> rankIndexShift)+1] = (byte)(bitCount & 0xFF);
       }
@@ -553,7 +557,11 @@ final class IndexedDISI extends DocIdSetIterator {
 
       @Override
       boolean advanceExactWithinBlock(IndexedDISI disi, int target) throws IOException {
+        // 根据target的值计算在block中的编号，一个block中有2^16篇文档，最多表示65536篇(0 ~ 65535)文档
+        // 如果target的值为65536，那么通过下面的公式target & 0xFFFF就可以计算出在当前block中的文档号为0
         final int targetInBlock = target & 0xFFFF;
+        // 在某个block中， 由N个word集合来描述文档号，word是long类型，其中第一个long类型的最低位的bit描述的是文档号0，最高位的bit描述的是文档号63，即一个word可以存储64篇文档号
+        // 通过右移6，来判断在block中的第几个word中
         final int targetWordIndex = targetInBlock >>> 6;
 
         // If possible, skip ahead using the rank cache

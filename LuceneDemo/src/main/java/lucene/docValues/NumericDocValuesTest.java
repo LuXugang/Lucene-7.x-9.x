@@ -4,8 +4,8 @@ import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.*;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -41,15 +41,15 @@ public class NumericDocValuesTest {
         String groupField2 = "b";
         // 0
         int count = 0;
-        while (count++ < 1) {
+        while (count++ < 80000) {
             Document doc = new Document();
             doc.add(new NumericDocValuesField(groupField1, 88L));
-            doc.add(new NumericDocValuesField(groupField2, 10L));
+            doc.add(new StringField("abcd", "good", Field.Store.YES));
             indexWriter.addDocument(doc);
 
             // 1
             doc = new Document();
-            doc.add(new NumericDocValuesField("age", 92));
+            doc.add(new StringField("abcd", "good", Field.Store.YES));
             indexWriter.addDocument(doc);
 
             // 2
@@ -77,54 +77,32 @@ public class NumericDocValuesTest {
             // 6
             doc = new Document();
             doc.add(new NumericDocValuesField(groupField1, 42L));
+            doc.add(new StringField("abcd", "good", Field.Store.YES));
             indexWriter.addDocument(doc);
-
 
             // 7
             doc = new Document();
             doc.add(new StringField("abcd", "good", Field.Store.YES));
             indexWriter.addDocument(doc);
 
-//            String groupField = "superStart";
-            // 0
-//            doc = new Document();
-//            doc.add(new SortedDocValuesField(groupField, new BytesRef("aa")));
-//            indexWriter.addDocument(doc);
 
-            int num = 0;
-            long number = 100L;
-//            while (num++ < (1 << 14)){
-//                if(num % 2 == 0){
-//                    number = 3;
-//                }else {
-//                    number = 4;
-//                }
-////              number++;
-//                doc = new Document();
-//                doc.add(new NumericDocValuesField(groupField1, number));
-//                indexWriter.addDocument(doc);
-//            }
-
-//            doc = new Document();
-//            doc.add(new NumericDocValuesField(groupField1, 300L));
-//            indexWriter.addDocument(doc);
-////
-//            num = 0;
-//            number = 100;
-//            while (num++ < 200){
-////                if(num % 2 == 0){
-////                    number = 3;
-////                }else {
-////                    number = 4;
-////                }
-//                doc = new Document();
-//                doc.add(new NumericDocValuesField(groupField1, number));
-//                number++;
-//                indexWriter.addDocument(doc);
-//            }
+//
         }
 
         indexWriter.commit();
+        IndexReader reader = DirectoryReader.open(indexWriter);
+        IndexSearcher searcher = new IndexSearcher(reader);
+
+
+        Sort sortByLevel = new Sort(new SortField(groupField1, SortField.Type.INT, true));
+        TopDocs docs2 = searcher.search(new MatchAllDocsQuery(), 1000 , sortByLevel);
+
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+        builder.add(new TermQuery(new Term("abcd", "good")), BooleanClause.Occur.MUST);
+
+        for (ScoreDoc scoreDoc: docs2.scoreDocs){
+            System.out.println("docId: 文档"+ scoreDoc.doc+"");
+        }
     }
 
     public static void main(String[] args) throws Exception{
