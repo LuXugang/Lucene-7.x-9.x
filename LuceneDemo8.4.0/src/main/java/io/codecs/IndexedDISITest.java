@@ -1,11 +1,13 @@
-package io.lucene.DcoValues;
+package io.codecs;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -16,9 +18,9 @@ import java.util.Random;
 
 /**
  * @author Lu Xugang
- * @date 2020/3/19 1:13 下午
+ * @date 2020/5/13 11:23 上午
  */
-public class NumericDocValuesTest {
+public class IndexedDISITest {
     private Directory directory;
     {
         try {
@@ -38,32 +40,30 @@ public class NumericDocValuesTest {
         indexWriter = new IndexWriter(directory, conf);
 
         Random random = new Random();
+        Document doc = new Document();
         int count = 0;
-        while (count++ < 200000) {
-            // 文档0
-            Document doc = new Document();
-            doc.add(new NumericDocValuesField("level", 10));
-            doc.add(new TextField("abc", "document0", Field.Store.YES));
-            indexWriter.addDocument(doc);
-            // 文档1
-            if(count == 4){
-                doc = new Document();
-                doc.add(new NumericDocValuesField("age", 88));
-                doc.add(new TextField("abc", "document1", Field.Store.YES));
-                indexWriter.addDocument(doc);
-            }
-            if(count % 140000 == 0){
-                doc = new Document();
-                doc.add(new NumericDocValuesField("age", 11));
-                doc.add(new TextField("abc", "document1", Field.Store.YES));
-                indexWriter.addDocument(doc);
-
-            }
-            // 文档2
+        while (count < 200000) {
             doc = new Document();
-            doc.add(new NumericDocValuesField("level", random.nextInt(200)));
+            doc.add(new NumericDocValuesField("age", random.nextInt(100)));
             doc.add(new TextField("abc", "document2", Field.Store.YES));
             indexWriter.addDocument(doc);
+            count++;
+
+            if(count == 32 || count == 23 || count == 35){
+                doc = new Document();
+                doc.add(new NumericDocValuesField("level", random.nextInt(100)));
+                doc.add(new TextField("abc", "document1", Field.Store.YES));
+                indexWriter.addDocument(doc);
+                count++;
+            }
+
+            if(count == 131080|| count == 131081){
+                doc = new Document();
+                doc.add(new NumericDocValuesField("level", random.nextInt(100)));
+                doc.add(new TextField("abc", "document1", Field.Store.YES));
+                indexWriter.addDocument(doc);
+                count++;
+            }
         }
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
@@ -72,7 +72,7 @@ public class NumericDocValuesTest {
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(new TermQuery(new Term("abc", "document1")), BooleanClause.Occur.MUST);
-        Sort sortByLevel = new Sort(new SortField("age", SortField.Type.INT, true));
+        Sort sortByLevel = new Sort(new SortField("level", SortField.Type.INT, true));
         TopDocs docs2 = searcher.search(builder.build(), 1000 , sortByLevel);
 
 
@@ -83,7 +83,7 @@ public class NumericDocValuesTest {
     }
 
     public static void main(String[] args) throws Exception{
-        NumericDocValuesTest test = new NumericDocValuesTest();
+        IndexedDISITest test = new IndexedDISITest();
         test.doIndexAndSearch();
     }
 }
