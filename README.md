@@ -185,6 +185,8 @@
 
 ##### 8. [IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)
 
+##### 9. [IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)
+
 
 # 压缩存储
 
