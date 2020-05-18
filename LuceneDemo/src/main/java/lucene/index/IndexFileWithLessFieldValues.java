@@ -60,6 +60,7 @@ public class IndexFileWithLessFieldValues {
       doc.add(new Field("content", "a b", type));
       doc.add(new IntPoint("intPoitn", 3, 4, 6));
       indexWriter.addDocument(doc);
+      indexWriter.flush();
 
       // 文档1
       doc = new Document();
@@ -69,6 +70,7 @@ public class IndexFileWithLessFieldValues {
       doc.add(new NumericDocValuesField("sortByNumber", -1));
       doc.add(new IntPoint("intPoitn", 3, 5, 6));
       indexWriter.addDocument(doc);
+      indexWriter.flush();
 
       // 文档2
       doc = new Document();
@@ -76,6 +78,7 @@ public class IndexFileWithLessFieldValues {
       doc.add(new TextField("content", "a c b e", Field.Store.YES));
       doc.add(new NumericDocValuesField("sortByNumber", 4));
       indexWriter.addDocument(doc);
+      indexWriter.flush();
 
       // 文档3
       doc = new Document();
@@ -83,16 +86,38 @@ public class IndexFileWithLessFieldValues {
       doc.add(new TextField("content", "b c e", Field.Store.YES));
       doc.add(new NumericDocValuesField("sortByNumber", 1));
       indexWriter.addDocument(doc);
+      indexWriter.flush();
 
       // 文档4
       doc = new Document();
       doc.add(new TextField("author", "aab", Field.Store.YES));
       doc.add(new TextField("content", "a c e f g d", Field.Store.YES));
       indexWriter.addDocument(doc);
+      indexWriter.flush();
 
+      // 文档5
       doc = new Document();
       doc.add(new TextField("title", "aab", Field.Store.YES));
       indexWriter.updateDocument(new Term("123", "luxugang"), doc);
+      indexWriter.flush();
+
+      // 文档6
+      doc = new Document();
+      doc.add(new TextField("title", "aab", Field.Store.YES));
+      indexWriter.updateDocument(new Term("123", "luxugang"), doc);
+      indexWriter.flush();
+
+      // 文档7
+      doc = new Document();
+      doc.add(new TextField("title", "aab", Field.Store.YES));
+      indexWriter.updateDocument(new Term("123", "luxugang"), doc);
+      indexWriter.flush();
+
+      // 文档8
+      doc = new Document();
+      doc.add(new TextField("title", "aab", Field.Store.YES));
+      indexWriter.updateDocument(new Term("123", "luxugang"), doc);
+      indexWriter.flush();
 
     }
 //          indexWriter.updateNumericDocValue(new Term("author", "a"), "sortByNumber", 99);
