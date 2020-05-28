@@ -34,7 +34,7 @@ sortedValues[]数组中实现了 数组下标ord 到 数组元素termId的映射
 
 ### DocIdData
 DocIdData中记录包含当前域的文档号。
-如果IndexWriter添加的document中不都包含当前域，那么需要将包含当前域的文档号记录到DocIdData中，并且使用IndexedDISI类来存储文档号，IndexedDISI存储文档号后生成的数据结构单独的作为一篇文章介绍，在这里不赘述。
+如果IndexWriter添加的document中不都包含当前域，那么需要将包含当前域的文档号记录到DocIdData中，并且使用IndexedDISI类来存储文档号，[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)存储文档号后生成的数据结构单独的作为一篇文章介绍，在这里不赘述。
 
 ### Ords
 Ords记录了每一篇文档中SortedDocValuesField的域值对应的ord值。这里的ord值即上文中的预备知识中的ord值。
@@ -76,7 +76,7 @@ BlockIndex中记录了每一个block相对于第一个block的在.dvd文件中�
 图8：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/DocValues/SortedDocValues1/8.png">
 但是满足搜索要求的文档只会将docId传入到Collector类的collect(int doc)方法中，即我们只能知道文档号的信息，无法获得当前文档中SortedDocValuesField的域值来做排序比较。
-这时候我们可以通过文档号docId作为currentValues[]数组下标值，取出数组元素，即termId，然后termId作为ordMap[]数组下标值，取出数组元素，即ord值。根据ord值我们就可以找到当前文档中的 SortedDocValuesField的域值在对应的Block中，然后遍历Block中的16个域值，直到找到我们想要的域值。
+这时候我们可以根据文档号docId从IndexedDISI中找到**段内编号（见文章[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)）**。段内编号作为currentValues[]数组下标值，取出数组元素，即termId，然后termId作为ordMap[]数组下标值，取出数组元素，即ord值。根据ord值我们就可以找到当前文档中的 SortedDocValuesField的域值在对应的Block中，然后遍历Block中的16个域值，直到找到我们想要的域值。
 图9：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/DocValues/SortedDocValues1/9.png">
 
