@@ -1,17 +1,17 @@
 
-b	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(Ü´áü8§¤ˆÛ¥.
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒóÒ–ýÿÿÿÿ8§¤ˆÛ¥.
 E
 java:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8§¤ˆÛ¥.
+U	java:S106S"9Replace this use of System.out or System.err by a logger.(û·°¹8§¤ˆÛ¥.
+Z	java:S106Q"9Replace this use of System.out or System.err by a logger.(Ú’˜÷øÿÿÿÿ8§¤ˆÛ¥.
 |
 java:S1450!"ZRemove the "indexWriter" field and declare it as a local variable in the relevant methods.(ÚˆÕ‰üÿÿÿÿ8§¤ˆÛ¥.
 {
 java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ8§¤ˆÛ¥.
 V
 java:S1854(":Remove this useless assignment to local variable "random".(¼ÝÅf8§¤ˆÛ¥.
-:
-java:S2119("Save and re-use this "Random".(¼ÝÅf8§¤ˆÛ¥.
-Z	java:S106Q"9Replace this use of System.out or System.err by a logger.(Ú’˜÷øÿÿÿÿ8§¤ˆÛ¥.
-U	java:S106S"9Replace this use of System.out or System.err by a logger.(û·°¹8§¤ˆÛ¥.
 G
 java:S1481("+Remove this unused "random" local variable.(¼ÝÅf8§¤ˆÛ¥.
+b	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(Ü´áü8§¤ˆÛ¥.
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒóÒ–ýÿÿÿÿ8§¤ˆÛ¥.
+:
+java:S2119("Save and re-use this "Random".(¼ÝÅf8§¤ˆÛ¥.

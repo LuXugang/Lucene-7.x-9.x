@@ -126,6 +126,7 @@
 - [索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)
 - [索引文件的生成（十七）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0526/143.html)
 - [索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)
+- [索引文件的生成（十九）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0531/145.html)
 
 
 # Search

@@ -36,7 +36,7 @@
 
 #### DocId
 
-&emsp;&emsp;DocId即包含SortedDocValuesField域的文档的文档号，并且使用[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)存储，其存储过程不赘述。
+&emsp;&emsp;DocId即包含SortedDocValuesField域的文档的文档号，并且使用DocsWithFieldSet存储，DocsWithFieldSet存储文档号的过程在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)已经介绍，不赘述。
 
 #### TermId
 
