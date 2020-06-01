@@ -13,3 +13,5 @@ n
 >src/main/java/io/lucene/DcoValues/SortedSetDocValues2Test.java,3/4/34e3640e5e9e88fc5f889c0036c860589fe0efbe
 m
 =src/main/java/io/lucene/DcoValues/SortedSetDocValuesTest.java,e/d/ed0767fd0594ec98d975f5a6d6d2e380f4ccbe0f
+n
+>src/main/java/io/lucene/DcoValues/SortedSetDocValues3Test.java,4/a/4a9757b5e6592cbd3eb4f5cb1cd1fa14eecdf744
