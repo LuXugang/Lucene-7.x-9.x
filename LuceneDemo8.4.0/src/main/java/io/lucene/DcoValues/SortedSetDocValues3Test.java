@@ -35,6 +35,16 @@ public class SortedSetDocValues3Test {
     private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
     private IndexWriter indexWriter;
 
+    public static String getRandomString(int length){
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random=new Random();
+        StringBuffer sb=new StringBuffer();
+        for(int i=0;i<length;i++){
+            int number=random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        return sb.toString();
+    }
     public void doIndexAndSearch() throws Exception {
         conf.setUseCompoundFile(false);
         conf.setMergePolicy(NoMergePolicy.INSTANCE);
@@ -43,10 +53,10 @@ public class SortedSetDocValues3Test {
         Random random = new Random();
         int count = 0;
         Document doc;
-        while (count++ < 1) {
+        while (count++ < 20000) {
             // 文档0
             doc = new Document();
-            doc.add(new SortedDocValuesField("level", new BytesRef("mop")));
+            doc.add(new SortedDocValuesField("level", new BytesRef(getRandomString(random.nextInt(25)))));
             doc.add(new TextField("abc", "document1", Field.Store.YES));
             indexWriter.addDocument(doc);
             // 文档1
@@ -60,6 +70,11 @@ public class SortedSetDocValues3Test {
             doc.add(new TextField("abc", "document1", Field.Store.YES));
             indexWriter.addDocument(doc);
             // 文档3
+            doc = new Document();
+            doc.add(new SortedDocValuesField("level", new BytesRef("month")));
+            doc.add(new TextField("abc", "document1", Field.Store.YES));
+            indexWriter.addDocument(doc);
+
             doc = new Document();
             doc.add(new SortedDocValuesField("level", new BytesRef("month")));
             doc.add(new TextField("abc", "document1", Field.Store.YES));
