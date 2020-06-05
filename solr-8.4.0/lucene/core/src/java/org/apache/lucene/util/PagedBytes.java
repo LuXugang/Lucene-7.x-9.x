@@ -382,12 +382,14 @@ public final class PagedBytes implements Accountable {
       while(true) {
         final int left = offsetEnd - offset;
         final int blockLeft = blockSize - upto;
+        // currentBlock中剩余空间可以无法容纳待写入的数据, 那么待写入的数据将被划分到两个block中
         if (blockLeft < left) {
           System.arraycopy(b, offset, currentBlock, upto, blockLeft);
           addBlock(currentBlock);
           currentBlock = new byte[blockSize];
           upto = 0;
           offset += blockLeft;
+          // currentBlock中剩余空间可以容纳待写入的数据
         } else {
           // Last block
           System.arraycopy(b, offset, currentBlock, upto, left);

@@ -1,16 +1,18 @@
 
-@
-java:S1481("+Remove this unused "random" local variable.(¼ÝÅf
-u
-java:S1450!"ZRemove the "indexWriter" field and declare it as a local variable in the relevant methods.(ÚˆÕ‰üÿÿÿÿ
-S	java:S106\"9Replace this use of System.out or System.err by a logger.(Ú’˜÷øÿÿÿÿ
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒóÒ–ýÿÿÿÿ
 t
 java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+O
+java:S1854(":Remove this useless assignment to local variable "random".(¼ÝÅf
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ƒóÒ–ýÿÿÿÿ
+N	java:S106^"9Replace this use of System.out or System.err by a logger.(û·°¹
 3
 java:S2119("Save and re-use this "Random".(¼ÝÅf
-[	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(Ü´áü
-X	java:S125S"<This block of commented-out lines of code should be removed.(‹¿Ü˜8‰Ð€ß¥.
-N	java:S106^"9Replace this use of System.out or System.err by a logger.(û·°¹
 >
 java:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+S	java:S106\"9Replace this use of System.out or System.err by a logger.(Ú’˜÷øÿÿÿÿ
+@
+java:S1481("+Remove this unused "random" local variable.(¼ÝÅf
+[	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(Ü´áü
+u
+java:S1450!"ZRemove the "indexWriter" field and declare it as a local variable in the relevant methods.(ÚˆÕ‰üÿÿÿÿ
+X	java:S125S"<This block of commented-out lines of code should be removed.(‹¿Ü˜8‰Ð€ß¥.
