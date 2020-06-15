@@ -36,39 +36,41 @@ public class SoftDeletesTest2 {
     IndexWriterConfig indexWriterConfig;
     public void doIndexAndSearch() throws Exception {
         indexWriterConfig = new IndexWriterConfig(new WhitespaceAnalyzer());
-        indexWriterConfig.setUseCompoundFile(false);
         String softDeletesField  = "softDeleteField";
         indexWriterConfig.setSoftDeletesField(softDeletesField);
+        indexWriterConfig.setUseCompoundFile(false);
         indexWriterConfig.setMergePolicy(NoMergePolicy.INSTANCE);
         indexWriter = new IndexWriter(directory, indexWriterConfig);
         Document doc;
         // 文档0
         doc = new Document();
         doc.add(new StringField("abc", "document1", Field.Store.YES));
+        doc.add(new NumericDocValuesField(softDeletesField, 4));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
         doc.add(new StringField("abc", "document3", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 生成一个段
-        indexWriter.commit();
         // 文档2
         doc = new Document();
         doc.add(new StringField("abc", "document2", Field.Store.YES));
         indexWriter.addDocument(doc);
+        // 生成一个段
+        indexWriter.commit();
         // 文档3
+        doc = new Document();
+        doc.add(new StringField("abc", "document2", Field.Store.YES));
+        indexWriter.addDocument(doc);
+        // 文档4
         Document newDoc = new Document();
         newDoc.add(new StringField("abc", "document3", Field.Store.YES));
         indexWriter.softUpdateDocument(new Term("abc", "document3"), newDoc, new NumericDocValuesField(softDeletesField, 3));
         // 生成一个段
         indexWriter.commit();
         DirectoryReader readerBeforeMerge = DirectoryReader.open(indexWriter);
-        indexWriter.forceMerge(1);
-        indexWriter.commit();
-        DirectoryReader readerAfterMerge = DirectoryReader.open(indexWriter);
-        ScoreDoc[] scoreDocs = (new IndexSearcher(readerAfterMerge)).search(new MatchAllDocsQuery(), 100).scoreDocs;
+        ScoreDoc[] scoreDocs = (new IndexSearcher(readerBeforeMerge)).search(new MatchAllDocsQuery(), 100).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
-            System.out.println("docId: 文档" + scoreDoc.doc + ", FieldValue of Field abc: " + readerAfterMerge.document(scoreDoc.doc).get("abc") + "");
+            System.out.println("docId: 文档" + scoreDoc.doc + ", FieldValue of Field abc: " + readerBeforeMerge.document(scoreDoc.doc).get("abc") + "");
         }
     }
 

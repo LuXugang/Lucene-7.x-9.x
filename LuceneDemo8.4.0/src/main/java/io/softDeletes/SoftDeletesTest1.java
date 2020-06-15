@@ -36,8 +36,8 @@ public class SoftDeletesTest1 {
     IndexWriterConfig indexWriterConfig;
     public void doIndexAndSearch() throws Exception {
         indexWriterConfig = new IndexWriterConfig(new WhitespaceAnalyzer());
-        indexWriterConfig.setUseCompoundFile(false);
         String softDeletesField  = "softDeleteField";
+
         indexWriterConfig.setSoftDeletesField(softDeletesField);
         indexWriterConfig.setMergePolicy(NoMergePolicy.INSTANCE);
         indexWriter = new IndexWriter(directory, indexWriterConfig);
