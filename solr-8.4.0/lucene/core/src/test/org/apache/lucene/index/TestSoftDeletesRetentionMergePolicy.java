@@ -261,7 +261,7 @@ public class TestSoftDeletesRetentionMergePolicy extends LuceneTestCase {
   public void testSoftDeleteWithRetention() throws IOException, InterruptedException {
     AtomicInteger seqIds = new AtomicInteger(0);
     Directory dir = newDirectory();
-    IndexWriterConfig indexWriterConfig = newIndexWriterConfig();
+    IndexWriterConfig indexWriterConfig = newIndexWrofterConfig();
     indexWriterConfig.setMergePolicy(new SoftDeletesRetentionMergePolicy("soft_delete",
         () -> IntPoint.newRangeQuery("seq_id", seqIds.intValue() - 50, Integer.MAX_VALUE),
         indexWriterConfig.getMergePolicy()));
