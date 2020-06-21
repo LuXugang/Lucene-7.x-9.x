@@ -15,3 +15,9 @@ m
 =src/main/java/io/lucene/DcoValues/SortedSetDocValuesTest.java,e/d/ed0767fd0594ec98d975f5a6d6d2e380f4ccbe0f
 n
 >src/main/java/io/lucene/DcoValues/SortedSetDocValues3Test.java,4/a/4a9757b5e6592cbd3eb4f5cb1cd1fa14eecdf744
+b
+2src/main/java/io/softDeletes/SoftDeletesTest2.java,4/0/401abd117500ee7c4db72d38499655603d7f5218
+b
+2src/main/java/io/softDeletes/HistoryRetention.java,0/d/0da1e1091789a20619f5f218c899290c478e3b46
+b
+2src/main/java/io/softDeletes/SoftDeletesTest1.java,b/3/b3bf50759e13699dd3c381e4b1c8cca2810c80f4
