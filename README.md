@@ -134,6 +134,7 @@
 
 - [软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)
 - [软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)
+- [软删除softDeletes（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/150.html)
 
 
 # Search

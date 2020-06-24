@@ -137,7 +137,7 @@ DeleteSlice(Node<?> currentTail) {
 - Map<String,LinkedHashMap<Term,NumericDocValuesUpdate>> numericUpdates：暂不作介绍
 - Map<String,LinkedHashMap<Term,BinaryDocValuesUpdate>> binaryUpdate：暂不作介绍
 
-&emsp;&emsp;numericUpdates、binaryUpdate会在介绍 `软删除`的文章中展开，这里暂不作介绍（如果这里展开介绍，软删除的文章就没东西可写了😝）。
+&emsp;&emsp;numericUpdates、binaryUpdate的介绍 见文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)。
 
 &emsp;&emsp;在deleteTerms中，该Map的key为Term，表示包含该Term的文档都会被删除，value为一个哨兵值，描述了该删除操作的作用范围，即只能作用于文档号小于哨兵值的文档，这里需要补充一个概念：
 
