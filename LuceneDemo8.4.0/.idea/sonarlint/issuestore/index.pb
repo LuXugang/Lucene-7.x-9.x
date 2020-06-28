@@ -21,3 +21,7 @@ b
 2src/main/java/io/softDeletes/HistoryRetention.java,0/d/0da1e1091789a20619f5f218c899290c478e3b46
 b
 2src/main/java/io/softDeletes/SoftDeletesTest1.java,b/3/b3bf50759e13699dd3c381e4b1c8cca2810c80f4
+b
+2src/main/java/io/softDeletes/SoftDeletesTest4.java,1/9/19b8d16c757f31e10a10aaa3d7fd047d4e1b815b
+b
+2src/main/java/io/softDeletes/SoftDeletesTest6.java,f/6/f6b8235aee6634057c294a3db56b39ff1292af2a

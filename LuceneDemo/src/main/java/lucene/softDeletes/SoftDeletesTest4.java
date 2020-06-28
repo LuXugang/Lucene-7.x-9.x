@@ -62,7 +62,7 @@ public class SoftDeletesTest4 {
         // 第三次软删除
         newDoc = new Document();
         newDoc.add(new StringField("abc", "document5", Field.Store.YES));
-        indexWriter.softUpdateDocument(new Term("abc", "document5"), newDoc, new NumericDocValuesField("softDeleteField", 2));
+        indexWriter.softUpdateDocument(new Term("abc", "document6"), newDoc, new NumericDocValuesField("softDeleteField", 2));
         indexWriter.commit();
         DirectoryReader readerBeforeMerge = DirectoryReader.open(indexWriter);
         ScoreDoc[] scoreDocs = (new IndexSearcher(readerBeforeMerge)).search(new MatchAllDocsQuery(), 100).scoreDocs;
