@@ -9,6 +9,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Random;
 import java.util.function.Supplier;
 
 
@@ -39,53 +40,37 @@ public class SoftDeletesTest9 {
         String softDeleteField = "softDeleteField";
         indexWriterConfig.setSoftDeletesField(softDeleteField);
         indexWriterConfig.setUseCompoundFile(false);
-        Supplier<Query> querySupplier = () ->new TermQuery(new Term("sex","male"));
-        indexWriterConfig.setMergePolicy(new SoftDeletesRetentionMergePolicy(indexWriterConfig.getSoftDeletesField(), querySupplier,new TieredMergePolicy()));
+        boolean useSoftMergePolice = new Random().nextBoolean();
+        if(useSoftMergePolice){
+            System.out.println("softMergePolice enable");
+            Supplier<Query> querySupplier = MatchAllDocsQuery::new;
+            indexWriterConfig.setMergePolicy(new SoftDeletesRetentionMergePolicy(indexWriterConfig.getSoftDeletesField(), querySupplier,new TieredMergePolicy()));
+        }else {
+            System.out.println("softMergePolice disable");
+            indexWriterConfig.setMergePolicy(NoMergePolicy.INSTANCE);
+        }
         indexWriter = new IndexWriter(directory, indexWriterConfig);
         Document doc;
-        // 第一个段：文档0
+        // 文档0
         doc = new Document();
         doc.add(new StringField("author", "D0", Field.Store.YES));
         doc.add(new StringField("sex", "female", Field.Store.YES));
-        doc.add(new NumericDocValuesField("docValuesFiled", 2));
         indexWriter.addDocument(doc);
-        // 第一个段：文档1
-        doc = new Document();
-        doc.add(new StringField("author", "D0", Field.Store.YES));
-        doc.add(new StringField("sex", "male", Field.Store.YES));
-        doc.add(new NumericDocValuesField("docValuesFiled", 3));
-        indexWriter.addDocument(doc);
-        // 第一个段：文档2
-        doc = new Document();
-        doc.add(new StringField("author", "D1", Field.Store.YES));
-        doc.add(new StringField("sex", "male", Field.Store.YES));
-        doc.add(new NumericDocValuesField(softDeleteField, 3));
-        indexWriter.addDocument(doc);
-        // 第一个段：文档3
-        doc = new Document();
-        doc.add(new StringField("author", "D2", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 第一个段：文档4
+        // 文档1
         Document newDoc = new Document();
         newDoc.add(new StringField("author", "D4", Field.Store.YES));
         indexWriter.softUpdateDocument(new Term("author", "D0"), newDoc, new NumericDocValuesField(softDeleteField, 3));
+        indexWriter.deleteDocuments(new Term("author", "D4"));
         indexWriter.commit();
-        // 第二个段：文档0
-        doc = new Document();
-        doc.add(new StringField("author", "D7", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        indexWriter.commit();
-        indexWriter.forceMerge(1);
         DirectoryReader reader = DirectoryReader.open(indexWriter);
-        assert reader.numDocs() == 3;
-        assert reader.maxDoc() == 5;
-        assert reader.document(0).get("author").equals("D0");
-        assert reader.document(0).get("sex").equals("male");
-
-        assert reader.document(1).get("author").equals("D1");
-        assert reader.document(2).get("author").equals("D2");
-        assert reader.document(3).get("author").equals("D4");
-        assert reader.document(4).get("author").equals("D7");
+        if(useSoftMergePolice){
+            assert reader.numDocs() == 0;
+            assert reader.maxDoc() == 2;
+        }else {
+            assert reader.numDocs() == 0;
+            assert reader.maxDoc() == 0;
+        }
+        System.out.println("DONE");
     }
 
     public static void main(String[] args) throws Exception{
