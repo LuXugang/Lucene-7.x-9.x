@@ -56,31 +56,33 @@ public class SortedDocValuesTest4Test {
         // 文档2
         doc = new Document();
         doc.add(new SortedDocValuesField("level", new BytesRef("d")));
-        doc.add(new TextField("abc", "document1", Field.Store.YES));
+        doc.add(new TextField("abc", "document2", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档3
         doc = new Document();
         doc.add(new SortedDocValuesField("level", new BytesRef("b")));
-        doc.add(new TextField("abc", "document1", Field.Store.YES));
+        doc.add(new TextField("abc", "document3", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档4
         doc = new Document();
         doc.add(new SortedDocValuesField("level", new BytesRef("c")));
-        doc.add(new TextField("abc", "document1", Field.Store.YES));
+        doc.add(new TextField("abc", "document4", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档5
         doc = new Document();
-        doc.add(new TextField("abc", "document1", Field.Store.YES));
+        doc.add(new TextField("abc", "document5", Field.Store.YES));
         indexWriter.addDocument(doc);
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
         Query query = SortedDocValuesField.newSlowRangeQuery("level", new BytesRef("b"), new BytesRef("c"), true, true);
-        TopDocs docs = searcher.search(query, 10);
-        System.out.println("sort by level");
-        for (ScoreDoc scoreDoc: docs.scoreDocs){
-            System.out.println("docId: 文档"+ scoreDoc.doc+"");
-        }
+        ScoreDoc[] scoreDocs = searcher.search(query, 10).scoreDocs;
+        assert scoreDocs.length == 2;
+        assert reader.document(3).get("abc").equals("document3");
+        assert scoreDocs[0].doc == 3;
+        assert reader.document(scoreDocs[0].doc).get("abc").equals("document3");
+        assert scoreDocs[1].doc == 4;
+        assert reader.document(scoreDocs[1].doc).get("abc").equals("document4");
     }
 
     public static void main(String[] args) throws Exception{

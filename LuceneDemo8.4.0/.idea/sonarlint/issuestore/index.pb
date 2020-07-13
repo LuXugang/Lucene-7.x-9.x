@@ -25,3 +25,5 @@ b
 2src/main/java/io/softDeletes/SoftDeletesTest4.java,1/9/19b8d16c757f31e10a10aaa3d7fd047d4e1b815b
 b
 2src/main/java/io/softDeletes/SoftDeletesTest6.java,f/6/f6b8235aee6634057c294a3db56b39ff1292af2a
+b
+2src/main/java/io/softDeletes/SoftDeletesTest7.java,5/d/5d323b006d6555a28a976d0dec36e02175c642d0

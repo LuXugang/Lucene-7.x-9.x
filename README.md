@@ -181,6 +181,7 @@
 - [索引文件的读取（二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0428/136.html)
 - [索引文件的读取（三）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0430/137.html)
 - [索引文件的读取（四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0506/138.html)
+- [索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)
 
 # Util
 
