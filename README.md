@@ -182,6 +182,7 @@
 - [索引文件的读取（三）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0430/137.html)
 - [索引文件的读取（四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0506/138.html)
 - [索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)
+- [索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
 
 # Util
 
@@ -227,3 +228,5 @@
 
 - [TermVector倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0428/55.html)
 - [存储域倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)
+
+##### 2. [SortedDocValues VS BinaryDocValues](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
