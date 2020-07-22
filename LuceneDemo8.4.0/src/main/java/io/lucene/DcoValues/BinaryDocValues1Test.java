@@ -36,7 +36,6 @@ public class BinaryDocValues1Test {
         conf.setUseCompoundFile(false);
         conf.setMergePolicy(NoMergePolicy.INSTANCE);
         indexWriter = new IndexWriter(directory, conf);
-
         Document doc;
         // 文档0
         doc = new Document();
