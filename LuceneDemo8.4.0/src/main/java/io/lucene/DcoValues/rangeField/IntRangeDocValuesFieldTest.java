@@ -1,24 +1,28 @@
-package io.lucene.DcoValues;
+package io.lucene.DcoValues.rangeField;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.*;
-import org.apache.lucene.search.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.IntRangeDocValuesField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.NoMergePolicy;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Random;
 
 /**
  * @author Lu Xugang
- * @date 2020/7/15 10:02 上午
+ * @date 2020/7/23 12:17 上午
  */
-public class BinaryDocValues1Test {
+public class IntRangeDocValuesFieldTest {
     private Directory directory;
     {
         try {
@@ -49,20 +53,16 @@ public class BinaryDocValues1Test {
         int[] max2 = {4, 6};
         doc.add(new IntRangeDocValuesField("level", min2, max2));
         indexWriter.addDocument(doc);
-        final int[] lowRange = {0, 4};
-        final int[] highRange = {2, 8};
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
+        final int[] lowRange = {0, 4};
+        final int[] highRange = {2, 8};
         Query query = IntRangeDocValuesField.newSlowIntersectsQuery("level", lowRange, highRange);
-        TopDocs docs2 = searcher.search(query, 1000 );
-
-        for (ScoreDoc scoreDoc: docs2.scoreDocs){
-            System.out.println("docId: 文档"+ scoreDoc.doc+"");
-        }
+        TopDocs docs2 = searcher.search(query, 1000);
     }
 
     public static void main(String[] args) throws Exception{
-        BinaryDocValues1Test test = new BinaryDocValues1Test();
+        IntRangeDocValuesFieldTest test = new IntRangeDocValuesFieldTest();
         test.doIndexAndSearch();
     }
 }
