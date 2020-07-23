@@ -1,0 +1,523 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>RangeField（一）-html</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+   padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-mac'><h1><a name="rangefield一）httpswwwamazingkoalacomcnlucenesearchlucene-840）" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/Search/'><span>RangeField（一）</span></a><span>（Lucene 8.4.0）</span></h1><p>&emsp;&emsp;<span>本文将介绍Lucene中提供的范围域（RangeField），以及基于该域实现的范围查询。</span></p><h2><a name="范围域rangefield）" class="md-header-anchor"></a><span>范围域（RangeField）</span></h2><p>&emsp;&emsp;<span>RangeField使得一个域有了空间的概念，并且最多支持到四维（4 dimensions）：</span></p><ul><li><span>1 dimensions：该维度的域描述了一条直线上的一段长度，如果有如下的定义：</span></li></ul><p><span>图1：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/1.png"></p><p>&emsp;&emsp;<span>用图形来描述这个域的话如下所示：</span></p><p><span>图2：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/2.png"></p><ul><li><span>2 dimensions：该维度的域描述了平面上的一个矩形，如果有如下的定义：</span></li></ul><p><span>图3：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/3.png"></p><p>&emsp;&emsp;<span>用图形来描述这个域的话如下所示：</span></p><p><span>图4：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/4.png"></p><ul><li><span>3 dimensions：该维度的域描述了空间中的一个立方体</span></li><li><span>4 dimensions：该维度的域描述了四次元立方体（tesseract）</span></li></ul><p>&emsp;&emsp;<span>为了便于描述，我们将以2 dimensions为例，继续下文的介绍。</span></p><h2><a name="binaryrangedocvaluesfield" class="md-header-anchor"></a><span>BinaryRangeDocValuesField</span></h2><p>&emsp;&emsp;<span>在Lucene 8.2.0版本中，新增了</span><a href='https://issues.apache.org/jira/browse/LUCENE-8362'><span>BinaryRangeDocValuesField</span></a><span>，使得能根据范围域实现范围查找，在之前的版本中，已经提供了一些跟范围域的相关操作，即IntRange、DoubleRange、FloatRange类中相关的方法，在后面的文章中，将会介绍这几个类，并且将介绍它们与BinaryRangeDocValuesField在存储，查询上的差异。</span></p><h3><a name="实现类" class="md-header-anchor"></a><span>实现类</span></h3><p><span>图5：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/5.png"></p><p>&emsp;&emsp;<span>图5中BinaryRangeDocValuesField继承了BinaryDocValuesField，同时有四个实现类，故可以了解到，通过BinaryRangeDocValuesField存储的范围域的信息最终使用DocValues存储，即索引信息存储在索引文件.dvd&amp;&amp;.dvm中。</span></p><h3><a name="域值编码encode）" class="md-header-anchor"></a><span>域值编码（encode）</span></h3><p>&emsp;&emsp;<span>以图3为例，域名为&quot;level&quot;，域值为两个int类型数组min1、max1，Lucene中所有数值类型的域值都会被重新编码为一个字节数组，并且该字节数组可以用于排序，同时字节数组之间的排序关系跟对应数值之间的排序关系是一致的，编码的过程在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html'><span>索引文件的生成（八）之dim&amp;&amp;dii</span></a><span>中已经介绍过了，不赘述。</span></p><p>&emsp;&emsp;<span>域值在转化为字节数组后，其写入到索引文件的过程跟使用BinaryDocValues是一致的，写入跟读取BinaryDocValues的过程分别见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/147.html'><span>索引文件的生成（二十一）之dvm&amp;&amp;dvd</span></a><span>跟</span><a href='https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html'><span>索引文件的读取（六）之dvd&amp;&amp;dvm</span></a><span>的介绍。</span></p><h3><a name="范围查询" class="md-header-anchor"></a><span>范围查询</span></h3><p>&emsp;&emsp;<span>以图3中的IntRangeDocValuesField为例，通过调用IntRangeDocValuesField类中的newSlowIntersectsQuery方法生成一个Query，我们看下源码中该方法的注释：</span></p><p><span>图6：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/6.png"></p><p>&emsp;&emsp;<span>图6的注释大意为：使用DocValues找到所有与查询条件（查询条件也是一个范围域）相交（intersect）的范围域，在下文的图16中我们会介绍如何相交的判定方式。</span></p><p>&emsp;&emsp;<span>最后使用IndexSearcher.search()方法实现范围查询，其核心的流程图如下所示：</span></p><p><span>图7：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/7.png"></p><h4><a name="两阶段遍历twophaseiterator）" class="md-header-anchor"></a><span>两阶段遍历（TwoPhaseIterator）</span></h4><p>&emsp;&emsp;<span>在介绍图6的流程图之前，先介绍下Lucene中的两阶段遍历TwoPhaseIterator，我们先看下源码中关于两阶段遍历的注释：</span></p><p><span>图8：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/8.png"></p><p>&emsp;&emsp;<span>图7的注释大意为：先通过DocIdSetIterator对象获取一个文档号集合，该集合中不一定都满足查询条件，即所谓的approximation，通过nextDoc()或者advance()方法遍历该文档号集合（第一阶段），将每一个文档通过matches()方法（第二阶段），在该方法中能真正的确定文档号是否满足查询条件。</span></p><p>&emsp;&emsp;<span>图6的流程中正是使用了两阶段遍历的方式，</span><strong><span>其中流程点</span><code>文档集合</code><span>即通过DocIdSetIterator对象获得，流程点</span><code>是否还有未处理的文档号？</code><span>中为两阶段遍历的第一个阶段，接着在流程点</span><code>是否满足查询条件？</code><span>通过matches()方法判断是否满足查询条件进行所谓的两阶段遍历的第二个阶段</span></strong><span>。</span></p><p>&emsp;&emsp;<span>当前版本中，无论是哪种类型的查询，都是通过遍历DocIdSetIterator对象中的文档号来获取满足查询条件的文档号，但是当DocIdSetIterator对象中的文档集合只是所谓的approximation，那么就需要使用两阶段遍历来处理了。</span></p><p>&emsp;&emsp;<span>如果我们有以下的查询条件：</span></p><p><span>图9：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/9.png"></p><p>&emsp;&emsp;<span>图9中查询条件为两个TermQuery的组合，在系列文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html'><span>索引文件的生成（一）</span></a><span>中我们知道，通过域名&quot;author&quot;跟域值能直接在索引文件中准确的定位到满足条件的文档号，那么上图中的这种查询就能获得一个DocIdSetIterator对象，并且它包含的文档号不是所谓的approximation，故就不要两阶段遍历的处理方式了。</span></p><h4><a name="两阶段遍历的第一个阶段" class="md-header-anchor"></a><span>两阶段遍历的第一个阶段</span></h4><p><span>图10：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/10.png"></p><p>&emsp;&emsp;<span>由于BinaryRangeDocValuesField使用DocValues存储，故跟其他DocValues一样，以图3为例，包含域名为&quot;level&quot;的所有BinaryRangeDocValuesField的文档号存储在索引文件.dvd的DocIdData字段，如下所示：</span></p><p><span>图11：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/11.png"></p><p>&emsp;&emsp;<span>DocIdData字段在内存中用IndexedDISI来描述，而</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html'><span>IndexedDISI</span></a><span>是继承DocIdSetIterator的子类，如下所示，故流程点</span><code>文档集合</code><span>中的文档集合即上文中我们提到的DocIdSetIterator对象中的文档集合，随后开始每一个文档号，执行两阶段遍历的第一个阶段。</span></p><p><span>图12：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/12.png"></p><p>&emsp;&emsp;<span>另外读取图10的DocIdData字段的过程可以阅读文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html'><span>引文件的读取（五）之dvd&amp;&amp;dvm</span></a><span>，而如何从IndexedDISI获取文档号可以阅读文章</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html'><span>IndexedDISI（一）</span></a><span>、</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html'><span>IndexedDISI（二）</span></a><span>。</span></p><h4><a name="根据文档号取出域值" class="md-header-anchor"></a><span>根据文档号取出域值</span></h4><p><span>图13：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/13.png"></p><p>&emsp;&emsp;<span>从IndexedDISI中获取了一个文档号之后，我们需要根据这个文档号找到对应的域值，以图3为例，即域名&quot;level&quot;对应的域值，在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html'><span>索引文件的读取（六）之dvd&amp;&amp;dvm</span></a><span>中我们详细的介绍了如何根据文档号从图10的索引文件中找到对应的域值，这里不赘述。</span></p><h4><a name="两阶段遍历的第二个阶段" class="md-header-anchor"></a><span>两阶段遍历的第二个阶段</span></h4><p><span>图14：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/14.png"></p><p>&emsp;&emsp;<span>我们通过一个例子来说明流程点</span><code>是否满足查询条件</code><span>的判断过程，该例子的完整demo见 </span><a href='https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo8.4.0/src/main/java/io/lucene/DcoValues/rangeField/IntRangeDocValuesFieldTest.java' target='_blank' class='url'>https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo8.4.0/src/main/java/io/lucene/DcoValues/rangeField/IntRangeDocValuesFieldTest.java</a><span> ：</span></p><p><span>图15：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/15.png"></p><p>&emsp;&emsp;<span>图形化图14中的范围域以及查询条件后如下所示：</span></p><p><span>图16：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/16.png"></p><p>&emsp;&emsp;<span>在上文中我们说到，图15中第77行的newSlowIntersectsQuery方法会找到所有与查询条件（查询条件也是一个范围域）相交（intersect）的范围域，图15中第75、76行定义了查询条件的范围域，即图16中根据lowQueryRange跟highQueryRange围成的一个</span><font color=green><span>绿色</span></font><span>的框，另外图16中</span><font color=red><span>红框</span></font><span>、</span><font color=blue><span>蓝框</span></font><span>、</span><font color=yellow><span>黄框</span></font><span>、</span><font color=skyblue><span>天蓝色</span></font><span>分别对应图15中的四篇文章中的范围域，显而易见，</span><font color=red><span>红框</span></font><span>、</span><font color=blue><span>蓝框</span></font><span>、</span><font color=yellow><span>黄框</span></font><span>跟</span><font color=green><span>绿框</span></font><span>的是相交的，意味着文档0、文档1、文档2满足查询条件。</span></p><p>&emsp;&emsp;<span>图16中，第三个RangeField跟查询条件也是相交的，相交部分为一个点。</span></p><p>&emsp;&emsp;<span>上文中通过图形很容易看出是否相交，接着我们介绍在代码中是如何判断相交的，判断是否相交的代码在matches()方法中实现，即两阶段遍历的第二个阶段。</span></p><p>&emsp;&emsp;<span>由于判断相交的代码比较简单，故我们直接贴出来：</span></p><p><span>图17：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/17.png"></p><p>&emsp;&emsp;<span>可以看出，判断方式为逐个比较每个维度，当</span><strong><span>所有维度</span></strong><span>都满足</span><strong><span>某个条件</span></strong><span>，那么就认为是相交的，对于图15的例子，有两个维度，即图16中X、Y轴，这里的</span><strong><span>某个条件</span></strong><span>描述是两个子条件的组合，并且它们需要同时满足：</span></p><ul><li><span>子条件1：某个维度下，查询条件在该维度下的最大值必须</span><strong><span>大约等于</span></strong><span>范围域在该维度下的最小值</span></li><li><span>子条件2：某个维度下，查询条件在该维度下的最小值必须</span><strong><span>小于等于</span></strong><span>范围域在该维度下的最大值</span></li></ul><p>&emsp;&emsp;<span>在同时满足上述两个子条件后，那么范围域必定是跟查询条件相交的，我们以图16中的第三个RangeField为例，在X轴的维度上，查询条件在这个维度上的最大值为8，范围域在这个维度的最小值为8，满足大于等于的关系，在Y轴的维度上，查询条件在这个维度上的最小值为0，范围域在这个维度上的最大值为10，满足小于等于的关系，故第三个RangeField跟查询提交是相交的，即图15中包含第三个RangeField的文档2满足查询条件。</span></p><p>&emsp;&emsp;<span>在流程点</span><code>是否满足查询条件？</code><span>完成两阶段遍历的第二个阶段，最后文档号将被Collector收集。</span></p><p>&emsp;&emsp;<span>基于上文中判断相交的逻辑，使得在定义一个RangeField的min跟max数组时会有一定的限制，该要求就是在每一个维度上，min数组在这个维度上的值必须</span><strong><span>小于</span></strong><span>max数组在这个维度上的值，否则在索引阶段会抛出下面的异常：</span></p><p><span>图18：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/18.png"></p><h2><a name="结语" class="md-header-anchor"></a><span>结语</span></h2><p>&emsp;&emsp;<span>在下一篇文章中，我们将介绍IntRange、DoubleRange、FloatRange类中跟范围域相关的内容。</span></p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/Search/RangeField/RangeField（一）.zip'><span>点击</span></a><span>下载附件</span></p><p>&nbsp;</p></div>
+</body>
+</html>

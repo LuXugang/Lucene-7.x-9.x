@@ -184,6 +184,10 @@
 - [索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)
 - [索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
 
+##### 11. 范围域（rangeField）
+
+[RangeField（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
+
 # Util
 
 ##### 1. [RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/98.html)
@@ -230,3 +234,7 @@
 - [存储域倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)
 
 ##### 2. [SortedDocValues VS BinaryDocValues](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
+
+##### 3. [两阶段遍历（TwoPhaseIterator）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
+
+##### 4. [查找表（lookup table）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)
