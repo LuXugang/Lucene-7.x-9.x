@@ -35,64 +35,49 @@ public class TermRangeQueryTest {
         }
     }
 
-    private Analyzer analyzer = new WhitespaceAnalyzer();
-    private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
+    private final Analyzer analyzer = new WhitespaceAnalyzer();
+    private final IndexWriterConfig conf = new IndexWriterConfig(analyzer);
     private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
-//
         Document doc ;
-
-        int count = 0;
-        // 0
+        // 文档0
         doc = new Document();
         doc.add(new TextField("content", "a", Field.Store.YES));
-        doc.add(new TextField("name", "Cris", Field.Store.YES));
+        doc.add(new TextField("name", "Chris", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 1
+        // 文档1
         doc = new Document();
         doc.add(new TextField("content", "bcd", Field.Store.YES));
         doc.add(new TextField("name", "Andy", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 2
+        // 文档2
         doc = new Document();
         doc.add(new TextField("content", "ga", Field.Store.YES));
         doc.add(new TextField("name", "Jack", Field.Store.YES));
         indexWriter.addDocument(doc);
-
-        // 3
-        doc = new Document();
-        doc.add(new TextField("content", "gb", Field.Store.YES));
-        doc.add(new TextField("name", "Jack", Field.Store.YES));
-        indexWriter.addDocument(doc);
-
-        // 4
+        // 文档3
         doc = new Document();
         doc.add(new TextField("content", "gc", Field.Store.YES));
-        doc.add(new TextField("name", "Pony", Field.Store.YES));
+        doc.add(new TextField("name", "Tom", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 5
+        // 文档4
         doc = new Document();
         doc.add(new TextField("content", "gch", Field.Store.YES));
-        doc.add(new TextField("name", "Jolin", Field.Store.YES));
+        doc.add(new TextField("name", "Pony", Field.Store.YES));
         indexWriter.addDocument(doc);
-        // 6
+        // 文档5
         doc = new Document();
         doc.add(new TextField("content", "gchb", Field.Store.YES));
-        doc.add(new TextField("name", "Jay", Field.Store.YES));
+        doc.add(new TextField("name", "Jolin", Field.Store.YES));
         indexWriter.addDocument(doc);
         indexWriter.commit();
-
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-
-        Query query = new TermRangeQuery("content", new BytesRef("ga"), new BytesRef("gch"), true, true);
+        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gch"), true, true);
         ScoreDoc[] scoreDocs = searcher.search(query, 1000).scoreDocs;
-        for (ScoreDoc scoreDoc : scoreDocs) {
-            System.out.println(scoreDoc.doc );
-        }
     }
 
     public static void main(String[] args) throws Exception{

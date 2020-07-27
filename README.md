@@ -194,7 +194,11 @@
 
 ##### 2. [Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)
 
-##### 3. [Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)
+##### 3. Automaton
+
+- [Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)
+
+- [Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)
 
 ##### 4. [FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)
 
