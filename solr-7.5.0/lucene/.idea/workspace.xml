@@ -2,24 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3810aa12-faf9-4d57-8cbb-ce6d5c49bd4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.nvd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.nvm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0_Lucene84_0.doc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0_Lucene84_0.pos" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0_Lucene84_0.tim" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0_Lucene84_0.tip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/segments_1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/src/main/java/io/lucene/DcoValues/rangeField/IntRangeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../LuceneDemo/src/main/java/lucene/index/IndexFileWithLessFieldValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo/src/main/java/lucene/index/IndexFileWithLessFieldValues.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.fdt" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.fdt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.fdx" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.fdx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.fnm" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.fnm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.si" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0.si" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0_Lucene80_0.dvd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/data/_0_Lucene80_0.dvm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../LuceneDemo8.4.0/src/main/java/io/search/TermRangeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../LuceneDemo8.4.0/src/main/java/io/search/TermRangeQueryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../blog/Lucene/Search/RangeField/RangeField（一）/RangeField（一）-image/16.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../blog/Lucene/Search/RangeField/RangeField（一）/RangeField（一）-image/16.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +57,9 @@
       <workItem from="1575366267247" duration="86000" />
       <workItem from="1595578083147" duration="81000" />
       <workItem from="1595816379934" duration="123000" />
+      <workItem from="1595904544322" duration="29000" />
+      <workItem from="1595904944934" duration="1822000" />
+      <workItem from="1596095803753" duration="1331000" />
     </task>
     <servers />
   </component>
@@ -90,17 +79,17 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1010" y="-970" width="540" height="524" key="StructurePopup" timestamp="1595816444221">
+    <state x="1010" y="-970" width="549" height="524" key="StructurePopup" timestamp="1595904962079">
       <screen x="0" y="-1440" width="2560" height="1440" />
     </state>
-    <state x="1010" y="-970" width="540" height="524" key="StructurePopup/0.0.1440.900/0.-1440.2560.1440@0.-1440.2560.1440" timestamp="1595816444221" />
+    <state x="1010" y="-970" width="549" height="524" key="StructurePopup/0.0.1440.900/0.-1440.2560.1440@0.-1440.2560.1440" timestamp="1595904962079" />
     <state x="945" y="-374" key="run.anything.popup" timestamp="1595816408936">
       <screen x="0" y="-1440" width="2560" height="1440" />
     </state>
     <state x="945" y="-374" key="run.anything.popup/0.0.1440.900/0.-1440.2560.1440@0.-1440.2560.1440" timestamp="1595816408936" />
-    <state x="945" y="-1109" width="670" height="676" key="search.everywhere.popup" timestamp="1595816439749">
+    <state x="945" y="-1109" width="670" height="676" key="search.everywhere.popup" timestamp="1595904561062">
       <screen x="0" y="-1440" width="2560" height="1440" />
     </state>
-    <state x="945" y="-1109" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/0.-1440.2560.1440@0.-1440.2560.1440" timestamp="1595816439749" />
+    <state x="945" y="-1109" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/0.-1440.2560.1440@0.-1440.2560.1440" timestamp="1595904561062" />
   </component>
 </project>
