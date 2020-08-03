@@ -1,9 +1,14 @@
 package io.util;
 
+import org.apache.lucene.store.OutputStreamDataOutput;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.BytesRefBuilder;
 import org.apache.lucene.util.IntsRefBuilder;
 import org.apache.lucene.util.fst.*;
+
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 /**
  * @author Lu Xugang
