@@ -183,6 +183,7 @@
 - [索引文件的读取（四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0506/138.html)
 - [索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)
 - [索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
+- [索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)
 
 ##### 11. 范围域（rangeField）
 
@@ -242,3 +243,11 @@
 ##### 3. [两阶段遍历（TwoPhaseIterator）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
 
 ##### 4. [查找表（lookup table）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)
+
+##### 5. [off-heap/on-heap](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)
+
+##### 6. TermRangeQuery
+
+- [TermRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)
+- [TermRangeQuery（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)
+

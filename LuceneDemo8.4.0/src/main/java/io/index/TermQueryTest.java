@@ -1,20 +1,13 @@
 package io.index;
 
 import io.FileOperation;
-import io.search.TermRangeQueryTest;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermRangeQuery;
+import org.apache.lucene.index.*;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -25,9 +18,9 @@ import java.util.Random;
 
 /**
  * @author Lu Xugang
- * @date 2020/8/3 11:20 上午
+ * @date 2020/8/4 10:31 上午
  */
-public class MultiTermTest {
+public class TermQueryTest {
 
     private Directory directory;
 
@@ -49,25 +42,28 @@ public class MultiTermTest {
         indexWriter = new IndexWriter(directory, conf);
         int count = 0;
         Document doc ;
-        while (count++ < 100000){
+        while (count++ < 100){
             doc = new Document();
-            doc.add(new TextField("content",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
+            doc.add(new TextField("content", getRandomString(new Random().nextInt(5)), Field.Store.YES));
             indexWriter.addDocument(doc);
         }
+        doc = new Document();
+        doc.add(new TextField("content", "Lily", Field.Store.YES));
+        indexWriter.addDocument(doc);
 
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gch"), true, true);
+        Query query = new TermQuery(new Term("content", "Lily"));
         ScoreDoc[] scoreDocs = searcher.search(query, 1000).scoreDocs;
     }
 
     public static String getRandomString(int length){
-        String str="abcdefghijklmnopqrstuvwxyz";
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random=new Random();
         StringBuffer sb=new StringBuffer();
         for(int i=0;i<length;i++){
-            int number=random.nextInt(26);
+            int number=random.nextInt(62);
             sb.append(str.charAt(number));
         }
         return sb.toString();
@@ -75,7 +71,7 @@ public class MultiTermTest {
 
 
     public static void main(String[] args) throws Exception{
-        MultiTermTest test = new MultiTermTest();
+        TermQueryTest test = new TermQueryTest();
         test.doSearch();
     }
 }
