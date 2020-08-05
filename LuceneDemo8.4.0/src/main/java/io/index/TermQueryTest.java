@@ -40,16 +40,20 @@ public class TermQueryTest {
     public void doSearch() throws Exception {
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
-        int count = 0;
+
         Document doc ;
-        while (count++ < 100){
-            doc = new Document();
-            doc.add(new TextField("content", getRandomString(new Random().nextInt(5)), Field.Store.YES));
-            indexWriter.addDocument(doc);
-        }
+        // 文档0
+        doc = new Document();
+        doc.add(new TextField("content", "Jack", Field.Store.YES));
+        doc.add(new TextField("content", "Lucy", Field.Store.YES));
+        doc.add(new TextField("content", "Lucy1", Field.Store.YES));
+        doc.add(new TextField("content", "Lucy2", Field.Store.YES));
+        indexWriter.addDocument(doc);
+        // 文档1
         doc = new Document();
         doc.add(new TextField("content", "Lily", Field.Store.YES));
         indexWriter.addDocument(doc);
+
 
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
