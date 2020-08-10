@@ -58,7 +58,7 @@ public class MultiTermTest {
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gch"), true, true);
+        Query query = new TermRangeQuery("content", new BytesRef("a"), new BytesRef("z"), true, true);
         ScoreDoc[] scoreDocs = searcher.search(query, 1000).scoreDocs;
     }
 

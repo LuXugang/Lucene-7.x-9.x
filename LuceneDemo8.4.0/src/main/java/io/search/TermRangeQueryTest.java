@@ -17,6 +17,7 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author Lu Xugang
