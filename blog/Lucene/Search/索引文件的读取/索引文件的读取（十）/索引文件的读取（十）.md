@@ -68,7 +68,7 @@
 threshold = maxDoc >>> 7
 ```
 
-&emsp;&emsp;上述公式中，maxDoc指的是包含某个域的文档的总数，该值可以通过图3中的FieldSummary字段中用<font color=Blue>蓝框</font>标注的DocCount字段获取。另外上述公式的设计原则在源码中也给出了注释：
+&emsp;&emsp;上述公式中，maxDoc指的是**当前段中的文档总数**（记住这个maxDoc，下一篇文章中将会介绍**为什么要根据是否达到阈值使用不同的处理方式**，这个变量是其中的原因之一），另外上述公式的设计原则在源码中也给出了注释：
 
 ```text
 For ridiculously small sets, we'll just use a sorted int[], maxDoc >>> 7 is a good value if you want to save memory, lower values such as maxDoc >>> 11 should provide faster building but at the expense of using a full bitset even for quite sparse data
@@ -83,8 +83,8 @@ For ridiculously small sets, we'll just use a sorted int[], maxDoc >>> 7 is a go
 
 &emsp;&emsp;这个问题可以分解为两个小问题：
 
-- 问题一：为什么达到阈值后不使用TermRangeQuery的方式做文档号的收集
-- 问题二：为什么未达到阈值使用TermRangeQuery的方式做文档号的收集
+- 问题一：为什么达到阈值后不使用BooleanQuery的方式做文档号的收集
+- 问题二：为什么未达到阈值使用BooleanQuery的方式做文档号的收集
 
 &emsp;&emsp;基于篇幅原因，下一篇文章我们在作出解释。
 

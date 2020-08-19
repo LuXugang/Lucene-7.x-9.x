@@ -53,6 +53,12 @@ public class MultiTermTest {
             doc = new Document();
             doc.add(new TextField("content",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
             indexWriter.addDocument(doc);
+            doc = new Document();
+            doc.add(new TextField("author",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
+            indexWriter.addDocument(doc);
+            doc = new Document();
+            doc.add(new TextField("author",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
+            indexWriter.addDocument(doc);
         }
 
         indexWriter.commit();

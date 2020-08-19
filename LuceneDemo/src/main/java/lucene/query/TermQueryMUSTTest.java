@@ -98,4 +98,9 @@ public class TermQueryMUSTTest {
       System.out.println("name is "+ document.get("abc")+"");
     }
   }
+
+  public static void main(String[] args) throws Exception{
+    TermQueryMUSTTest termQueryMUSTTest = new TermQueryMUSTTest();
+    termQueryMUSTTest.doSearch();
+  }
 }

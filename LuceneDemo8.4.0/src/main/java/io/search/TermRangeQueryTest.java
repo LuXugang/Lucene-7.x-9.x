@@ -50,7 +50,7 @@ public class TermRangeQueryTest {
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-        doc.add(new TextField("content", "bcd", Field.Store.YES));
+        doc.add(new TextField("content", "bcd gc", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档2
         doc = new Document();
@@ -58,11 +58,11 @@ public class TermRangeQueryTest {
         indexWriter.addDocument(doc);
         // 文档3
         doc = new Document();
-        doc.add(new TextField("content", "gc", Field.Store.YES));
+        doc.add(new TextField("content", "gch gc bcd", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档4
         doc = new Document();
-        doc.add(new TextField("content", "gch", Field.Store.YES));
+        doc.add(new TextField("content", "gch bcd ga ", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档5
         doc = new Document();
