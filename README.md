@@ -202,8 +202,8 @@
 ##### 3. Automaton
 
 - [Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)
-
 - [Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)
+- [Automaton（三）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0821/163.html)
 
 ##### 4. [FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)
 
