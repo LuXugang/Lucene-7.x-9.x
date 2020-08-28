@@ -108,7 +108,7 @@ static class Bucket {
 - $k_1$、b：BM25模型的两个调节因子，这两个值都是经验参数，默认值为$k_1$ = 1.2、b = 0.75。$k_1$值用来控制非线性的词频标准化（non-linear term frequency normalization）对打分的影响，b值用来控制文档长度对打分的影响
 - norm：该值描述的是文档长度对打分的影响，满足同一种查询的多篇文档， 会因为norm值的不同而影响打分值
   - cache数组：在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)文章中，我们简单的提了一下cache生成的时机是在`生成Weight`的流程中，下面详细介绍该数组。
-    - cache数组的数组下标normValue描述的是文档长度值，这是一个标准化后的值（下文会介绍），在Lucene中，用域值的个数来描述文档长度，例如图3中的子查询1，它查询的条件是域名为"content"，域值为"h"的文档，那么对于文档0，文档长度值为域名为"content"，term为"h"在文档0中的个数，即2；cache数组的数组元素即norm值
+    - cache数组的数组下标[normValue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0828/164.html)描述的是文档长度值，这是一个标准化后的值（下文会介绍），在Lucene中，用域值的个数来描述文档长度，例如图3中的子查询1，它查询的条件是域名为"content"，域值为"h"的文档，那么对于文档0，文档长度值为域名为"content"，term为"h"在文档0中的个数，即2；cache数组的数组元素即norm值
     - 上文说到域值的个数来描述文档长度，但是他们两个的值不总是相等，域值的个数通过标准化（normalization）后来描述文档长度，标准化的过程是将文档的长度控制在[0，255]的区间中，跟归一化的目的是类似的，为了平衡小文档相跟大文档的对打分公式的影响，标准化的计算方式不在本文中介绍，感兴趣的可以看https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java中的 intToByte4(int)方法，该方法的返回值与0XFF执行与操作后就得到标准化后的文档长度值
     - 根据标准化后的文档长度值（取值范围为[0，255]）就可以计算出norm中dl的值，dl为文档长度值对应的打分值，同样两者之间的计算方法不在本文中介绍，感兴趣可以看https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java中的byte4ToInt(byte)方法，图11给出了文档长度值跟dl之间的映射关系
 

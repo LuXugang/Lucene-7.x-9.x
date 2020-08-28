@@ -4,6 +4,14 @@
  *
  *
  */
+const START_URL_NAME = 'start.html';
+const PAGE_ID_NAME = 'id';
+const PAGE_URL_NAME = 'p';
+const SITEMAP_COLLAPSE_VAR_NAME = 'c';
+const SITEMAP_COLLAPSE_VALUE = "1";
+const SITEMAP_CLOSE_VALUE = "2";
+const GLOBAL_VAR_NAME = '&ZQZ=s&';
+const GLOBAL_VAR_CHECKSUM = 'CSUM';
 
  (function() {
      // define the root namespace object
@@ -115,6 +123,60 @@
          }
          return returnVal;
      };
+     
+     $axure.utils.isInPlayer = function() { return window.name == 'mainFrame'; }
+     // This will return true if prototype is opened from version of app after update with code that sets this value 
+     // (won't be able to distinguish between browser and outdated app)
+     $axure.utils.isShareApp = function () { return /ShareApp/.test(navigator.userAgent); }
+
+     $axure.utils.setHashStringVar = function(currentHash, varName, varVal) {
+         var varWithEqual = varName + '=';
+         var poundVarWithEqual = varVal === '' ? '' : '#' + varName + '=' + varVal;
+         var ampVarWithEqual = varVal === '' ? '' : '&' + varName + '=' + varVal;
+         var hashToSet = '';
+
+         var pageIndex = currentHash.indexOf('#' + varWithEqual);
+         if (pageIndex == -1) pageIndex = currentHash.indexOf('&' + varWithEqual);
+         if (pageIndex != -1) {
+             var newHash = currentHash.substring(0, pageIndex);
+
+             newHash = newHash == '' ? poundVarWithEqual : newHash + ampVarWithEqual;
+
+             var ampIndex = currentHash.indexOf('&', pageIndex + 1);
+             if (ampIndex != -1) {
+                 newHash = newHash == '' ? '#' + currentHash.substring(ampIndex + 1) : newHash + currentHash.substring(ampIndex);
+             }
+             hashToSet = newHash;
+         } else if (currentHash.indexOf('#') != -1) {
+             hashToSet = currentHash + ampVarWithEqual;
+         } else {
+             hashToSet = poundVarWithEqual;
+         }
+
+         if (hashToSet != '' || varVal == '') {
+             return hashToSet;
+         }
+
+         return null;
+     }
+
+     $axure.utils.parseGlobalVars = function(query, setAction) {
+         let vars = query.split("&");
+         let csum = false;
+         for(let i = 0; i < vars.length; i++) {
+             let pair = vars[i].split("=");
+             let varName = pair[0];
+             let varValue = pair[1];
+             if(varName) {
+                 if(varName == GLOBAL_VAR_CHECKSUM) csum = true;
+                 else setAction(varName, decodeURIComponent(varValue), true);
+             }
+         }
+
+         if(!csum && query.length > 250) {
+             window.alert('Axure Warning: The variable values were too long to pass to this page.\n\nIf you are using IE, using Chrome or Firefox will support more data.');
+         }
+     }
 
      var matrixBase = {
          mul: function(val) {

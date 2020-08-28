@@ -7,14 +7,9 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermRangeQuery;
+import org.apache.lucene.index.*;
+import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -49,23 +44,31 @@ public class MultiTermTest {
         indexWriter = new IndexWriter(directory, conf);
         int count = 0;
         Document doc ;
-        while (count++ < 100000){
+        while (count++ < 10000){
             doc = new Document();
-            doc.add(new TextField("content",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
+            doc.add(new TextField("author",  "lily lily baby andy lily", Field.Store.YES));
+            doc.add(new TextField("content",  "lily lily baby ", Field.Store.YES));
             indexWriter.addDocument(doc);
             doc = new Document();
-            doc.add(new TextField("author",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
+            doc.add(new TextField("author", "lucy", Field.Store.YES));
+            doc.add(new TextField("content",  "lily", Field.Store.YES));
             indexWriter.addDocument(doc);
             doc = new Document();
-            doc.add(new TextField("author",  getRandomString(new Random().nextInt(3)), Field.Store.YES));
+            doc.add(new TextField("author", getRandomString(5), Field.Store.YES));
+            doc.add(new TextField("content",  "luxugang", Field.Store.YES));
             indexWriter.addDocument(doc);
         }
-
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        Query query = new TermRangeQuery("content", new BytesRef("a"), new BytesRef("z"), true, true);
-        ScoreDoc[] scoreDocs = searcher.search(query, 1000).scoreDocs;
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+        builder.add(new TermQuery(new Term("author", "lily")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("author", "lucy")), BooleanClause.Occur.SHOULD);
+        builder.setMinimumNumberShouldMatch(1);
+        ScoreDoc[] scoreDocs = searcher.search(builder.build(), 1000).scoreDocs;
+
+        System.out.println("abc");
+
     }
 
     public static String getRandomString(int length){
