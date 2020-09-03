@@ -32,7 +32,8 @@
 
 &emsp;&emsp;**为什么要执行标准化的操作**
 
-&emsp;&emsp;由numTerms的计算方式可以看出，如果直接采用numTerms，会造成突兀的域值数量对打分公式产生显著的影响，故需要通过SmallFloat.intToByte4方法平缓该影响，该方法的返回值为byte类型，类似归一化操作，该方法将文档长度标准化到[0, 255]的取值区间，即computerNorm的返回值的取值范围为[0, 255]。
+&emsp;&emsp;由numTerms的计算方式可以看出，如果直接采用numTerms，会造成突兀的域值数量对打分公式产生显著的影响，故需要通过SmallFloat.intToByte4方法平缓该影响，该方法的返回值为byte类型，类似归一化操作，该方法将文档长度标准化到[1, 255]的取值区间，即computerNorm的返回值的取值范围为[1, 255]，注意的是，normValue == 1时候为一个特殊值，它描述了当前域不考虑文档的长度，代码中，可以通过FieldType.setOmitNorms(true)方法设置。
+
 
 ## 收集文档的normValue值
 
