@@ -189,6 +189,7 @@
 - [索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/160.html)
 - [索引文件的读取（十）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0812/161.html)
 - [索引文件的读取（十一）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0819/162.html)
+- [索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
 
 ##### 11. 范围域（rangeField）
 
