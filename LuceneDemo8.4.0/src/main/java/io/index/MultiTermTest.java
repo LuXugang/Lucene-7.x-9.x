@@ -46,7 +46,11 @@ public class MultiTermTest {
         Document doc ;
         while (count++ < 10000){
             doc = new Document();
-            doc.add(new TextField("author",  "ably lily baby andy ably", Field.Store.YES));
+            doc.add(new TextField("author",  "ably lily baby andy lucy ably", Field.Store.YES));
+            indexWriter.addDocument(doc);
+
+            doc = new Document();
+            doc.add(new TextField("author",  "lily and tom", Field.Store.YES));
             indexWriter.addDocument(doc);
         }
         indexWriter.commit();

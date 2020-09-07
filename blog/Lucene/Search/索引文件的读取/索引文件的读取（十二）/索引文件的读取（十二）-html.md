@@ -33,7 +33,7 @@
 
 #### Impact
 
-&emsp;&emsp;Impact字段的数据结构有两种，如果[normValue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0828/164.html)的值为0，那么就不将该值写入到索引文件中，freq字段同样使用了[组合存储](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)，在读取阶段，根据freq对应的二进制值的最低bit来判断是否存储了normValue。freq跟normValue的介绍见下文。
+&emsp;&emsp;Impact字段的数据结构有两种，由于使用差值存储，即图2中normValue实际存储的值为跟上一个normValue的差值，故当[normValue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0828/164.html)的值可能为0，那么就不将该值写入到索引文件中，freq字段同样使用了[组合存储](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)，在读取阶段，根据freq对应的二进制值的最低bit来判断是否存储了normValue。freq跟normValue的介绍见下文。
 
 **为什么存储freq跟normValue**
 
