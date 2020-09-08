@@ -60,7 +60,7 @@ public class MultiTermTest {
         builder.add(new TermQuery(new Term("author", "lily")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("author", "lucy")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(1);
-        ScoreDoc[] scoreDocs = searcher.search(builder.build(), 1000).scoreDocs;
+        ScoreDoc[] scoreDocs = searcher.search(builder.build(), 10).scoreDocs;
 
         System.out.println("abc");
 
