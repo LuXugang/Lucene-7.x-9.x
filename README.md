@@ -190,6 +190,7 @@
 - [索引文件的读取（十）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0812/161.html)
 - [索引文件的读取（十一）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0819/162.html)
 - [索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
+- [索引文件的读取（十三）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0911/166.html)
 
 ##### 11. 范围域（rangeField）
 
@@ -266,3 +267,4 @@
 ##### 7. TermsEnum
 
 - [TermsEnum（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/160.html)
+- [PostingsEnum（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0911/166.html)
