@@ -194,7 +194,11 @@
 
 ##### 11. 范围域（rangeField）
 
-[RangeField（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
+- [RangeField（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
+
+##### 12. block-max-WAND
+
+- [block-max-WAND（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0916/167.html)
 
 # Util
 

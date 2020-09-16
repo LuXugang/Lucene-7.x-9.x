@@ -1,18 +1,15 @@
-package io.index;
+package lucene.index;
 
 import io.FileOperation;
-import io.search.TermRangeQueryTest;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -20,9 +17,9 @@ import java.util.Random;
 
 /**
  * @author Lu Xugang
- * @date 2020/8/3 11:20 上午
+ * @date 2020/9/14 1:41 下午
  */
-public class MultiTermTest {
+public class DisjunctionSumScorerTest {
 
     private Directory directory;
 
@@ -60,7 +57,7 @@ public class MultiTermTest {
         builder.add(new TermQuery(new Term("author", "lily")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("author", "lucy")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(1);
-        ScoreDoc[] scoreDocs = searcher.search(builder.build(), 10).scoreDocs;
+        searcher.search(builder.build(), 100);
 
         System.out.println("abc");
 
@@ -79,7 +76,7 @@ public class MultiTermTest {
 
 
     public static void main(String[] args) throws Exception{
-        MultiTermTest test = new MultiTermTest();
+        DisjunctionSumScorerTest test = new DisjunctionSumScorerTest();
         test.doSearch();
     }
 }
