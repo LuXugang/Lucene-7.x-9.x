@@ -1,20 +1,15 @@
 package io.util;
 
-import org.apache.lucene.store.OutputStreamDataOutput;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.BytesRefBuilder;
 import org.apache.lucene.util.IntsRefBuilder;
 import org.apache.lucene.util.fst.*;
 
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-
 /**
  * @author Lu Xugang
- * @date 2020/7/10 11:02 上午
+ * @date 2020/9/24 6:23 下午
  */
-public class FSTTest {
+public class FSTTest2 {
     public static void main(String[] args) throws Exception{
         String[] inputValues = {"mop", "moth", "pop", "star", "stop", "top"};
         long[] outputValues = {100, 91, 72, 83, 54, 55};
@@ -35,13 +30,7 @@ public class FSTTest {
             System.out.print(b + " ");
         }
         System.out.println("");
-        IntsRefFSTEnum<Long> intsRefFSTEnum = new IntsRefFSTEnum<>(fst);
-        BytesRefBuilder builder1 = new BytesRefBuilder();
-        while (intsRefFSTEnum.next() != null){
-            IntsRefFSTEnum.InputOutput<Long> inputOutput = intsRefFSTEnum.current();
-            BytesRef bytesRef = Util.toBytesRef(inputOutput.input, builder1);
-            System.out.println(bytesRef.utf8ToString() + ":" + inputOutput.output);
-
-        }
+        Long value = Util.get(fst, new BytesRef("stop"));
+        System.out.println(value);
     }
 }

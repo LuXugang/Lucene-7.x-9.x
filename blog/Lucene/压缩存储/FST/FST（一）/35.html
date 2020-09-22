@@ -1,0 +1,622 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>FST的副本</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
+@media print { 
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="fst一）httpswwwamazingkoalacomcnluceneyasuocunchulucene-840" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/'><span>FST（一）</span></a><span>Lucene 8.4.0</span></h1><p>&emsp;&emsp;<span>FST（Finite State Transducer）算法的概念在这篇博客中并不涉及，网上有太多的资料啦，写的都非常的不错。这里推荐这位网友的介绍：</span><a href='https://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/' target='_blank' class='url'>https://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/</a><span> 。如果链接失效了，可以看附件中的副本。本文中，我们基于一个例子来介绍在Lucene中如何构建FST。感谢网友</span><strong><span>关新全</span></strong><span>的分享，基于他的分享使得我在看源码的时候事半功倍，在此基础上，增加一些更加贴近源码的内容。同样的，关新全同学分享的文章在附件中。</span></p><h2><a name="准备工作" class="md-header-anchor"></a><span>准备工作</span></h2><p>&emsp;&emsp;<span>为了便于理解，先介绍几个概念。</span></p><h4><a name="current-数组" class="md-header-anchor"></a><span>current</span><span>[</span><span> ]数组</span></h4><p>&emsp;&emsp;<span>构建FST后生成的信息都最终保存到字节数组current</span><span>[</span><span> ]数组中，即生成FST的最终结果就是该数组。</span></p><h4><a name="node节点）arc弧边）" class="md-header-anchor"></a><span>Node（节点）、Arc（弧、边）</span></h4><p>&emsp;&emsp;<span>在下文的介绍中使用节点跟弧（边），即有向无环图的概念来描述生成的过程，Node之间使用</span><strong><span>一个</span></strong><span>Arc连接，一个Node跟</span><strong><span>一个或多个</span></strong><span>Node连接。</span></p><p>&emsp;&emsp;<span>Node还具有两种</span><strong><span>状态</span></strong><span>：UnCompiledNode和CompiledNode。在源码中，使用两个对象来描述这两种状态，如下所示：</span></p><p><span>图0：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/0.png"></p><p>&emsp;&emsp;<span>当开始处理某个输入值时，会将它的信息生成Node跟Arc，此时Node的状态为UnCompiledNode，当Node以及它的出度对应的Arc（出边）的信息写入到current</span><span>[</span><span> ]之后，Node的状态转变为CompiledNode。 例如图1中当开始处理的输入值为mop时，会生成4个状态为UnCompiledNode的Node以及3个Arc，其中Node1的出边为arc1，以此类推。我们给出源码中UnCompiledNode类的定义来理解Node跟Arc的关系：</span></p><p><span>图0-1：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/0-1.png"></p><p><span>图0-2：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/0-2.png"></p><p>&emsp;&emsp;<span>图0-2描述的是Arc在源码中的定义，由图0-1可知，一个状态为UnCompiledNode的Node使用Arc</span><span>&lt;</span><span>T&gt;数组来描述它的出度的值，可以见该值是大于等于0的，即一个状态为UnCompiledNode的Node中可以包含多个Arc。</span></p><p>&emsp;&emsp;<span>图0-1跟图0-2中的其他变量的概念在下文中我们会根据需要一一介绍。</span></p><p><span>图1：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/1.png"></p><h5><a name="labeltarget" class="md-header-anchor"></a><span>label、target</span></h5><p>&emsp;&emsp;<span>基于图1我们先介绍下图0-2中Arc类的两个成员域：label和target，假设有一个输入值 “mop”，会使用三个Arc</span><span>&lt;</span><span>T&gt;对象来分别描述“m”，“o”，“p”的三个字符的信息，并且这三个对象分别是三个状态为UnCompiledNode的Node的出边。描述“m”的Arc</span><span>&lt;</span><span>T&gt;对象arc1，它是Node1的出边，对象arc1中的label的值是 109，即“m”的ASCII值；对象arc1的target的值即Node2，这里暂时不讨论isFinal、nextFinalOutput的含义，后面会涉及。</span><strong><span>另外如果Node没有任何的出度，那么它是一个终止节点</span></strong><span>。</span></p><h5><a name="output" class="md-header-anchor"></a><span>output</span></h5><p>&emsp;&emsp;<span>output值是某个输入的附加值（payload），比如有输入值”mop”，它的附加值是100，但是对于分别封装了&quot;m&quot;，“o”，“p”的三个arc，附加值100应该存放哪个arc的output字段呢？下面通过一个例子来说明：</span></p><pre spellcheck="false" class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" lang="text"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="text"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 35px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 27px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -27px; width: 27px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -27px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">例子：输入为 “mop”、“mt”，附加值分别是100、91。</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="height: 22px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 26px;"></div></div></div></div></pre><h6><a name="处理mop-100" class="md-header-anchor"></a><span>处理“mop”， 100</span></h6><p><span>图2：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/2.png"></p><p>&emsp;&emsp;<span>只处理输入&quot;mop&quot;时，附加值是放在“m”的arc中。</span></p><h6><a name="处理mt-91" class="md-header-anchor"></a><span>处理“mt”， 91</span></h6><p><span>图3：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/3.png"></p><p>&emsp;&emsp;<span>上图中我们能发现，如果后面的输入跟前一个输入有相同的前缀，那么相同前缀对应的每一个arc的output都有可能被更新，在这个例子中，&quot;mop&quot;的附加值100被拆分为91跟9，因为“mt”的附加值是91，取两者的较小值来更新封装了“m”的arc中的output值。</span>
+<span>另外上图中封装了“p”的arc怎么没有了，多出了一个值2 ？这里我们暂时不用关心，下文会解释。</span></p><h4><a name="current-数组-n34" class="md-header-anchor"></a><span>current</span><span>[</span><span> ]数组</span></h4><p>&emsp;&emsp;<span>上文中我们提到，构建FST后的信息都最终保存到字节数组current</span><span>[</span><span> ]数组中，该信息实际上是转为CompiledNode状态后的Node的</span><strong><span>新的出边信息</span></strong><span>的集合，为了便于介绍，我们称</span><strong><span>新的出边信息</span></strong><span>为</span><strong><span>四元组信息</span></strong><span>，它包含index、output、label、flag四个信息，其中index跟output可能为空。</span><strong><span>以下对四元组信息的介绍不必马上理解，特别是flag的概念。在下文中结合构建过程再回过头来看比较合适，这点很重要</span></strong><span>：</span></p><h5><a name="index" class="md-header-anchor"></a><span>index</span></h5><p>&emsp;&emsp;<span>当前arc描述的字符不是输入值的最后一个字符时，会存储一个index值来指向下一个字符的四元组信息中的flag值在current[]数组中的下标值。</span></p><h5><a name="output-n38" class="md-header-anchor"></a><span>output</span></h5><p>&emsp;&emsp;<span>该值同图0-2中Arc类中的的output字段的值，如果output为0，那么就不用存储，在查询阶段，会对一个输入值的所有arc的output值进行整合，合成一个完整的output。例如图2中，我们查询一个&quot;mop&quot;时，会将&quot;m&quot;、&quot;o&quot;、&quot;p&quot;携带的output值进行整合，最终输出100。</span></p><h5><a name="label" class="md-header-anchor"></a><span>label</span></h5><p>&emsp;&emsp;<span>label值即我们的输入值中的一个字符，例如图1中的“mop”，对应三个label值，其中的一个label值就是109，即“m”的ASCII值。</span></p><h5><a name="flag" class="md-header-anchor"></a><span>flag</span></h5><p>&emsp;&emsp;<span>由于构建FST后，所有的信息都存在current</span><span>[</span><span> ]数组中，这过程实际是一个编码过程，在构建阶段，需要生成flag，使得在读取阶段，能根据flag的值进行解码，在Lucene 8.4.0中， flag有以下的值，不过本篇文章并没有全部列出，在后续的几篇文章中再给出：</span></p><figure><table><thead><tr><th style='text-align:center;' ><span>Flag</span></th><th style='text-align:center;' ><span>Value</span></th><th style='text-align:center;' ><span>Description</span></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>BIT_FINAL_ARC</span></td><td style='text-align:center;' ><span>1</span></td><td style='text-align:center;' ><span>arc指向一个终止节点，例如图1中的arc3</span></td></tr><tr><td style='text-align:center;' ><span>BIT_LAST_ARC</span></td><td style='text-align:center;' ><span>2</span></td><td style='text-align:center;' ><span>arc是Node节点中的最后一个Arc，上文中我们说到一个UnCompiledNode状态的Node可以包含多个arc</span></td></tr><tr><td style='text-align:center;' ><span>BIT_TARGET_NEXT</span></td><td style='text-align:center;' ><span>4</span></td><td style='text-align:center;' ><span>上一个由状态UnCompiledNode转为CompiledNode状态的Node是当前arc的target节点, 它实际是用来描述当前的arc中的label不是输入值的最后一个字符，例如&quot;mop&quot;中，“m”、&quot;o&quot;就不是输入值mop的最后一个字符</span></td></tr><tr><td style='text-align:center;' ><span>BIT_STOP_NODE</span></td><td style='text-align:center;' ><span>8</span></td><td style='text-align:center;' ><span>arc的target是一个终止节点，例如图2中，描述&quot;p&quot;的arc，它的target就是一个终止节点（终止节点的概念上文中已介绍）</span></td></tr><tr><td style='text-align:center;' ><span>BIT_ARC_HAS_OUTPUT</span></td><td style='text-align:center;' ><span>16</span></td><td style='text-align:center;' ><span>arc有output值(output不为0)，例如图2中，描述&quot;m&quot;的arc就具有output值，而描述&quot;o&quot;、&quot;p&quot;的arc就没有output值</span></td></tr></tbody></table></figure><h4><a name="nodehasht类" class="md-header-anchor"></a><span>NodeHash</span><span>&lt;</span><span>T&gt;类</span></h4><p>&emsp;&emsp;<span>NodeHash</span><span>&lt;</span><span>T&gt;类用来对Node计算hash值，使得能实现FST的特性之一，即后缀存储，在下文中你将会知道，每个具有唯一性的Node，它包含所有的arc对应的四元组信息只需要存储一遍。</span></p><p>&emsp;&emsp;<span>每当对Node执行UnCompiledNode向CompiledNode的转化时，会计算Node的hash值。</span></p><h4><a name="uncompilednodet--frontier" class="md-header-anchor"></a><span>UnCompiledNode</span><span>&lt;</span><span>T&gt;</span><span>[</span><span> ] frontier</span></h4><p>&emsp;&emsp;<span>frontier为存放状态为UnCompiledNode的Node的数组，例如图1中，frontier中就存放了Node1，Node2，Node3、终止节点四个状态为UnCompiledNode的Node。</span></p><h3><a name="lastfrozennode" class="md-header-anchor"></a><span>lastFrozenNode</span></h3><p>&emsp;&emsp;<span>lastFrozenNode为long类型变量，当一个Node的状态由UnCompiledNode转为CompiledNode之后，它包含的</span><strong><span>所有的arc</span></strong><span>对应的四元组信息会被写入到current</span><span>[</span><span> ]中，lastFrozenNode会被置为</span><strong><span>第一个</span></strong><span>arc的四元素信息中的flag值在current</span><span>[</span><span> ]中的下标值。另外由于终止节点没有arc信息，即没有四元组信息写入到current</span><span>[</span><span> ]中，那么终止节点在执行状态变化后，会返回一个固定值 -1。</span></p><h2><a name="算法基本步骤" class="md-header-anchor"></a><span>算法基本步骤</span></h2><p>&emsp;&emsp;<span>构建FST的过程分为三个步骤：</span></p><ul><li><p><span>步骤一：处理上一个输入与当前输入不相同Node节点，将Node节点中的所有arc的四元组信息写入到current[]数组中</span></p><ul><li><span>该过程即上文中提到的，Node由UnCompiledNode状态转变为CompiledNode状态的过程</span></li></ul></li><li><p><span>步骤二：将当前输入写入到frontier[]数组中</span></p><ul><li><span>该过程即上文中提到的，当开始处理某个输入值时，会将它的信息生成Node跟Arc，并且这些Node的状态为UnCompiledNode</span></li></ul></li><li><p><span>步骤三：处理上一个输入与当前输入相同的前缀值，调整output值。</span></p><ul><li><span>该过程为图3中的字符&quot;m&quot;携带的output值由原先的100调整为91</span></li></ul></li></ul><h2><a name="例子" class="md-header-anchor"></a><span>例子</span></h2><p>&emsp;&emsp;<span>下面通过一个例子来介绍FST的构建过程，输入跟附加值如下：</span></p><pre spellcheck="false" class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" lang="java"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="java"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 35px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 27px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>2</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -27px; width: 27px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -27px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">String</span>[] <span class="cm-variable">inputValues</span> <span class="cm-operator">=</span> {<span class="cm-string">"mop"</span>, <span class="cm-string">"moth"</span>, <span class="cm-string">"pop"</span>, <span class="cm-string">"star"</span>, <span class="cm-string">"stop"</span>, <span class="cm-string">"top"</span>};</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -27px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable-3">long</span>[] <span class="cm-variable">outputValues</span> <span class="cm-operator">=</span> {<span class="cm-number">100</span>, <span class="cm-number">91</span>, <span class="cm-number">72</span>, <span class="cm-number">83</span>, <span class="cm-number">54</span>, <span class="cm-number">55</span>};</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 44px;"></div><div class="CodeMirror-gutters" style="height: 44px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 26px;"></div></div></div></div></pre><p>&emsp;&emsp;<span>注意的是输入顺序必须是有序的，这样才能获得一个最小FST，例子中的输入已经默认有序的。</span></p><h3><a name="输入mop" class="md-header-anchor"></a><span>输入mop</span></h3><p>&emsp;&emsp;<span>这是第一个输入，所以没有写入current[]数组的操作。将&quot;mop&quot;以及附加值100生成Node跟Arc即可，即步骤二。</span></p><p><span>图4：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/4.png"></p><h3><a name="输入moth" class="md-header-anchor"></a><span>输入moth</span></h3><p>&emsp;&emsp;<span>输入moth后的执行步骤如下：</span></p><ul><li><span>步骤一：我们要处理上一个输入“mop”跟当前输入&quot;moth&quot;不相同的Node，可以看出不相同的Node是图4中Node3后面的终止节点，所以要将这个节点的所有arc对应的四元组信息写入到current[]数组中，并获得四元组信息中的flag值在在current[]中的下标值，即该终止节点的状态由UnCompiledNode转为CompiledNode，由于终止节点没有出度，即不包含arc，所以返回值是固定值 -1，最后更新lastFrozenNode为 -1。</span></li><li><span>步骤二：将当前输入写入到frontier[]数组中，由于&quot;m&quot;、&quot;o&quot;对应的Node已经存在，故只需要写入&quot;t&quot;、&quot;h&quot;对应的Node跟Arc信息即可，如图5所示。</span></li><li><span>步骤三：更新Node1中&quot;m&quot;的附加值，由100变成91。并且&quot;p&quot;的附加值由0变为9。</span></li></ul><p><span>图5：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/5.png"></p><h3><a name="输入pop" class="md-header-anchor"></a><span>输入pop</span></h3><p>&emsp;&emsp;<span>输入pop后，与上一个值&quot;moth&quot;没有相同的节点，所以我们要将图5中的Node2、Node3、Node4、终止节点的所有arc信息写入到current[]数组中，即执行步骤一，</span><strong><span>注意的是Node1中的所有arc只有在所有输入处理结束后才会处理</span></strong><span>。</span></p><p>&emsp;&emsp;<span>处理的顺序为：</span><strong><span>节点间按照从后往前，节点内的arc按照写入到该节点的顺序</span></strong><span>，在当前情况下，根据图5，处理的arc顺序应该是： 终止节点 --&gt; Node4（h） --&gt; Node3（p --&gt; t） --&gt; Node2(o)，我们一一介绍：</span></p><h4><a name="处理终止节点" class="md-header-anchor"></a><span>处理终止节点</span></h4><p>&emsp;&emsp;<span>终止节点返回值为固定值-1，并更新</span><strong><span>lastFrozenNode为 -1</span></strong><span>，current[]数组不变。</span></p><p><span>图6：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/6.png"></p><h4><a name="处理node4-h）" class="md-header-anchor"></a><span>处理Node4 （h）</span></h4><p>&emsp;&emsp;<span>Node4中只有“h”对应的arc，根据flag的定义，该arc满足以下几个flag：</span></p><ul><li><span>BIT_LAST_ARC：它是Node4中的最后一个arc</span></li><li><span>BIT_TARGET_NEXT：arc的target节点的值跟lastFrozenNode一致都为-1</span></li><li><span>BIT_FINAL_ARC：arc指向一个终止节点（BIT_FINAL_ARC）</span></li><li><span>BIT_STOP_NODE：arc的target是一个终止节点（BIT_STOP_NODE）</span></li></ul><p>&emsp;&emsp;<span>所以flag的值为  BIT_LAST_ARC（2）+ BIT_TARGET_NEXT（4） + BIT_FINAL_ARC（1） +  BIT_STOP_NODE（8） = 15，然后将flag跟“h”的ASCII值，即四元组信息的flag跟label值，写入到current[]数组中，最后更新lastFrozenNode的值为2，该值为flag在current[]数组中的下标值。</span></p><p><span>图7：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/7.png"></p><h4><a name="处理node3p---t）" class="md-header-anchor"></a><span>处理Node3（p -&gt; t）</span></h4><p>&emsp;&emsp;<span>根据上文的内容，我们知道Node3包含了两个arc，并且&quot;p&quot;对应的arc先于&quot;t&quot;对应的arc添加到frontier[ ]数组中，根据上文中提到的节点内的处理顺序，我们先处理&quot;p&quot;对应的arc。</span></p><h5><a name="处理-p" class="md-header-anchor"></a><span>处理 “p”</span></h5><p>&emsp;&emsp;<span>&quot;p&quot;对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_FINAL_ARC：arc指向一个终止节点，该终止节点的状态已经为CompiledNode，但它仍然是一个终止节点</span></li><li><span>BIT_STOP_NODE：arc的target是一个终止节点</span></li><li><span>BIT_ARC_HAS_OUTPUT：arc有output值，该值为9</span></li></ul><p>&emsp;&emsp;<span>所以flag的值为 BIT_FINAL_ARC（1）+ BIT_STOP_NODE（8）+ BIT_ARC_HAS_OUTPUT（16） = 25。</span><strong><span>由于Node3中还有未处理的arc，所以暂时不能更新lastFronzenNode的值。</span></strong></p><h5><a name="处理t" class="md-header-anchor"></a><span>处理“t”</span></h5><p>&emsp;&emsp;<span>&quot;t&quot;对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_LAST_ARC：它是Node3中的最后一个arc</span></li><li><span>BIT_TARGET_NEXT：arc的target节点的值为Node4，而最新的lastFronzenNode的值是Node4对应生成的，故满足BIT_TARGET_NEXT</span></li></ul><p>&emsp;&emsp;<span>所以flag的值为 BIT_LAST_ARC（2）+ BIT_TARGET_NEXT（4） = 6。由于Node3中所有的arc处理结束，那么更新lastFronzenNode的值为7，7是Node3的第一个arc的四元组信息的flag值在current[]数组中的下标，如图8所示。</span></p><p>&emsp;&emsp;<strong><span>这里有个注意点就是，当按照 p -&gt; t的顺序处理结束后，会对刚才存储的数据执行逆置操作。所以“t”跟“p”对应的arc的数据在current[]数组中的位置如下图所示，这么做的目的是为了在读取阶段能正确的解码：</span></strong></p><p><span>图8：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/8.png"></p><h4><a name="处理node2o）" class="md-header-anchor"></a><span>处理Node2（o）</span></h4><p>&emsp;&emsp;<span>&quot;o&quot;对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_LAST_ARC：arc是Node2节点中的最后一个arc</span></li><li><span>BIT_TARGET_NEXT：arc的target节点为Node3，而最新的lastFronzenNode的值是Node3对应生成的，故满足</span></li></ul><p>&emsp;&emsp;<span>所以flag的值为 BIT_LAST_ARC(2) + BIT_TARGET_NEXT(4) = 6。更新lastFronzenNode的值为9， 9是Node2的第一个arc的四元组信息的flag值在current[]数组中的下标，如图9所示。</span></p><p>&emsp;&emsp;<span>最后，由于&quot;m&quot;对应的arc的target是Node2，Node2在处理结束后，即状态由UnCompiledNode转为CompiledNode之后，&quot;m&quot;对应的arc的target会被更新为9，9是Node2的第一个arc的四元组信息的flag值在current[]数组中的下标。</span></p><p>&emsp;&emsp;<strong><span>为什么要将&quot;m&quot;对应的arc的target会被更新为9</span></strong></p><p>&emsp;&emsp;<span>为了在读取阶段能正确的解码，不过具体的原因将会在下一篇文章中才会展开。</span></p><p><span>图9：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/9.png"></p><p>&emsp;&emsp;<span>步骤一执行结束后，接着执行步骤二，即把&quot;pop&quot;以及附加值72生成Node跟Arc即可，添加到frontier</span><span>[</span><span> ]数组中，如下图：</span></p><p><span>图10：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/10.png"></p><h3><a name="输入star" class="md-header-anchor"></a><span>输入star</span></h3><p>&emsp;&emsp;<span>输入star后，与上一个输入值&quot;pop&quot;没有相同的节点，所以我们要将Node2、Node3、终止节点的所有arc信息写入到current[]数组中。同样的，</span><strong><span>Node1中的所有arc只有在所有输入处理结束后才会处理</span></strong><span>。</span></p><p>&emsp;&emsp;<span>处理的顺序为：节点间按照从后往前，节点内的arc按照写入到该节点时候的顺序，在当前情况下，处理的arc顺序应该是： 终止节点 --&gt; Node3（p）--&gt;Node2（o）</span></p><h4><a name="处理终止节点-n177" class="md-header-anchor"></a><span>处理终止节点</span></h4><p>&emsp;&emsp;<span>终止节点返回值为固定值-1，并更新lastFrozenNode为 -1，current[]数组不变</span></p><p><span>图9：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/9.png"></p><h4><a name="处理node3p）" class="md-header-anchor"></a><span>处理Node3（p）</span></h4><p>&emsp;&emsp;<span>&quot;p&quot;对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_LAST_ARC：arc是Node3节点中的最后一个arc</span></li><li><span>BIT_FINAL_ARC：arc指向一个终止节点</span></li><li><span>BIT_TARGET_NEXT：arc的target节点为终止节点，上一个lastFrozenNode的值为终止节点对应的值，故相同</span></li><li><span>BIT_STOP_NODE：arc的target是一个终止节点</span></li></ul><p>&emsp;&emsp;<span>所以flag的值为 BIT_FINAL_ARC(1) + BIT_LAST_ARC(2) + BIT_TARGET_NEXT(4) + BIT_STOP_NODE(8) = 15。更新lastFronzenNode的值为11， 11是Node3的第一个arc的flag在current[]数组中的下标，如图11所示。</span></p><p><span>图11：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/11.png"></p><h4><a name="处理node2-o）" class="md-header-anchor"></a><span>处理Node2 （o）</span></h4><p>&emsp;&emsp;<span>这个过程就不赘述，跟上面的逻辑没区别。</span></p><p><span>图12：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/12.png"></p><p>&emsp;&emsp;<span>步骤一执行结束后，接着执行步骤二，即把&quot;star&quot;以及附加值83生成Node跟Arc即可，添加到frontier</span><span>[</span><span> ]数组中，如下图：</span></p><p><span>图13：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/13.png"></p><h3><a name="输入stop" class="md-header-anchor"></a><span>输入stop</span></h3><p>&emsp;&emsp;<span>这个过程就不赘述了，跟上面的逻辑没区别。</span></p><p><span>图14：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/14.png"></p><h3><a name="输入top" class="md-header-anchor"></a><span>输入top</span></h3><p>&emsp;&emsp;<span>输入top后，与上一个值&quot;stop&quot;没有相同的节点，所以我们要将图14中的Node2、Node3、Node4、终止节点的所有arc信息写入到current[]数组中，同样的，</span><strong><span>Node1中的所有arc只有在所有输入处理结束后才会处理</span></strong><span>。</span></p><p>&emsp;&emsp;<span>处理的顺序为：节点间按照从后往前，节点内的arc按照写入到该节点时候的顺序，在当前情况下，处理的arc顺序应该是： 终止节点--&gt;Node4（p） --&gt; Node3（a --&gt; o） --&gt;Node2（t）。</span></p><h4><a name="处理终止节点-n209" class="md-header-anchor"></a><span>处理终止节点</span></h4><p>&emsp;&emsp;<span>终止节点返回值为固定值-1，并更新lastFrozenNode为 -1，current[]数组不变。</span></p><h4><a name="处理node4-p）" class="md-header-anchor"></a><span>处理Node4 （p）</span></h4><p>&emsp;&emsp;<span>处理“p”对应的arc时，根据NodeHash，之前存储“pop”的第二个“p”对应的arc所属的Node的Hash值相同，那么Node4中的所有arc对应的四元组信息就不用重复存储到current</span><span>[</span><span> ]数组中，该四元组信息中的flag在current</span><span>[</span><span> ]数组中的下标值为11（见图14），所以current[]没有改变。</span></p><h4><a name="处理node3-a---o）" class="md-header-anchor"></a><span>处理Node3 （a -&gt; o）</span></h4><h5><a name="处理a" class="md-header-anchor"></a><span>处理“a”</span></h5><p>&emsp;&emsp;<span>&quot;a&quot;对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_ARC_HAS_OUTPUT：arc有output值(29) </span></li></ul><p>&emsp;&emsp;<span>所以flag的值是BIT_ARC_HAS_OUTPUT(16) = 16，另外&quot;o&quot;的target的值是大于0的，说明“a”不是输入值（star）的最后一个字符，target的值描述下一个字符的信息在current[]数组中的读取位置，该值为15，故写入到current</span><span>[</span><span> ]数组的四元组信息为label（&quot;a&quot;）、flag（29）、index（15）。这里的下一个字符其实就是&quot;t&quot;，而&quot;t&quot;的对应的四元组信息中的flag在current</span><span>[</span><span> ]数组中的下标值就是15。</span></p><h5><a name="处理o" class="md-header-anchor"></a><span>处理“o”</span></h5><p>&emsp;&emsp;<span>“o”对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_LAST_ARC：arc为Node3节点中的最后一个arc</span></li></ul><p>&emsp;&emsp;<span>所以flag的值是2，另外&quot;o&quot;的target的值是大于0的，说明“o”不是输入值（stop或者top）的最后一个字符，这个值描述下一个字符（&quot;p&quot;）信息在current[ ]数组中的读取位置，该值为11，也就是Node4对应的四元组信息中flag在current</span><span>[</span><span> ]中的下标值。</span></p><h4><a name="处理node2-t）" class="md-header-anchor"></a><span>处理Node2 （t）</span></h4><p>&emsp;&emsp;<span>&quot;t&quot;对应的arc，满足以下几个flag：</span></p><ul><li><span>BIT_LAST_ARC：它满足 Node2节点中的最后一个arc</span></li><li><span>BIT_TARGET_NEXT：arc的target节点的值跟lastFrozenNode是相同的</span></li></ul><p>&emsp;&emsp;<span>所以flag的值为 BIT_LAST_ARC(2) + BIT_TARGET_NEXT(4) = 6。最后更新lastFrozenNode的值为24。24是Node2的第一个arc的flag在current[]数组中的下标。</span></p><p><span>图15：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/15.png"></p><p>&emsp;&emsp;<span>步骤一执行结束后，接着执行步骤二，即把&quot;top&quot;以及附加值55生成Node跟Arc即可，添加到frontier</span><span>[</span><span> ]数组中，如下图：</span></p><p>&nbsp;</p><p><span>图16：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/16.png"></p><h3><a name="处理top" class="md-header-anchor"></a><span>处理top</span></h3><p>&emsp;&emsp;<span>“top”是最后的输入，所以在将“top”写入到frontier[]数组后，直接处理，处理过程不赘述，跟上面的逻辑没什么区别, 由于“top”跟“pop”有2个相同的后缀值，所以处理完“top”后，current[]数组没有变化。</span></p><p><span>图17：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/17.png"></p><h3><a name="最后处理node1节点" class="md-header-anchor"></a><span>最后处理Node1节点</span></h3><p>&emsp;&emsp;<span>不赘述，跟前面的逻辑是差不多的。</span></p><p><span>图18：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST/18.png"></p><h2><a name="结语" class="md-header-anchor"></a><span>结语</span></h2><p>&emsp;&emsp;<span>本篇博客介绍了FST的构建过程，并且只介绍了current</span><span>[</span><span> ]数组中的四元组信息的生成方式，相信看完之后，同学们还存在一的疑惑，但是在下一篇文章介绍了读取current</span><span>[</span><span> ]解码内容后，即读取过程，相信定能豁然开朗。</span></p><p>&emsp;&emsp;<span>另外该例子的demo见：</span><a href='https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo8.4.0/src/main/java/io/util/FSTTest.java' target='_blank' class='url'>https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo8.4.0/src/main/java/io/util/FSTTest.java</a><span>。</span></p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/utils/FST/FST.zip'><span>点击</span></a><span>下载附件</span></p></div>
+</body>
+</html>
