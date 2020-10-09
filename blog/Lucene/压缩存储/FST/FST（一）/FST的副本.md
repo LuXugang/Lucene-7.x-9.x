@@ -86,7 +86,7 @@
 
 |        Flag        | Value |                         Description                          |
 | :----------------: | :---: | :----------------------------------------------------------: |
-|   BIT_FINAL_ARC    |   1   |             arc指向一个终止节点，例如图1中的arc3             |
+|   BIT_FINAL_ARC    |   1   |            arc对应的label是某个term的最后一个字符            |
 |    BIT_LAST_ARC    |   2   | arc是Node节点中的最后一个Arc，上文中我们说到一个UnCompiledNode状态的Node可以包含多个arc |
 |  BIT_TARGET_NEXT   |   4   | 上一个由状态UnCompiledNode转为CompiledNode状态的Node是当前arc的target节点, 它实际是用来描述当前的arc中的label不是输入值的最后一个字符，例如"mop"中，“m”、"o"就不是输入值mop的最后一个字符 |
 |   BIT_STOP_NODE    |   8   | arc的target是一个终止节点，例如图2中，描述"p"的arc，它的target就是一个终止节点（终止节点的概念上文中已介绍） |
@@ -170,7 +170,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 - BIT_LAST_ARC：它是Node4中的最后一个arc
 - BIT_TARGET_NEXT：arc的target节点的值跟lastFrozenNode一致都为-1
-- BIT_FINAL_ARC：arc指向一个终止节点（BIT_FINAL_ARC）
+- BIT_FINAL_ARC："h"为"moth"的最后一个字符
 - BIT_STOP_NODE：arc的target是一个终止节点（BIT_STOP_NODE）
 
 &emsp;&emsp;所以flag的值为  BIT_LAST_ARC（2）+ BIT_TARGET_NEXT（4） + BIT_FINAL_ARC（1） +  BIT_STOP_NODE（8） = 15，然后将flag跟“h”的ASCII值，即四元组信息的flag跟label值，写入到current[]数组中，最后更新lastFrozenNode的值为2，该值为flag在current[]数组中的下标值。
@@ -188,7 +188,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 &emsp;&emsp;"p"对应的arc，满足以下几个flag：
 
-- BIT_FINAL_ARC：arc指向一个终止节点，该终止节点的状态已经为CompiledNode，但它仍然是一个终止节点
+- BIT_FINAL_ARC："p"是"mop"的最后一个字符
 - BIT_STOP_NODE：arc的target是一个终止节点
 - BIT_ARC_HAS_OUTPUT：arc有output值，该值为9
 
@@ -256,7 +256,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 &emsp;&emsp;"p"对应的arc，满足以下几个flag：
 
 - BIT_LAST_ARC：arc是Node3节点中的最后一个arc
-- BIT_FINAL_ARC：arc指向一个终止节点
+- BIT_FINAL_ARC："p"是"pop"的最后一个字符
 - BIT_TARGET_NEXT：arc的target节点为终止节点，上一个lastFrozenNode的值为终止节点对应的值，故相同
 - BIT_STOP_NODE：arc的target是一个终止节点
 
