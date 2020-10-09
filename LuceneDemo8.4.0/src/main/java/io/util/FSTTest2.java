@@ -30,7 +30,7 @@ public class FSTTest2 {
             System.out.print(b + " ");
         }
         System.out.println("");
-        Long value = Util.get(fst, new BytesRef("stop"));
+        Long value = Util.get(fst, new BytesRef("stit"));
         System.out.println(value);
     }
 }

@@ -229,7 +229,11 @@
 
 ##### 1. [LZ4算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)
 
-##### 2. [FST算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)
+##### 2. FST
+
+- [FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)
+
+- [FST（二）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2020/1009/168.html)
 
 ##### 3. [BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)
 

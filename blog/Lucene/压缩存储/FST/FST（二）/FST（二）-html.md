@@ -9,13 +9,13 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 图1：
 
-<img src="FST（二）-image/1.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST（二）/1.png">
 
 &emsp;&emsp;如果用节点跟边的关系来描述图1中的FST信息见下图：
 
 图2：
 
-<img src="FST（二）-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST（二）/2.png">
 
 &emsp;&emsp;由图1可以看出FST的两个特性，相同前缀存储和相同后缀存储:
 
@@ -56,7 +56,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 图3：
 
-<img src="FST（二）-image/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST（二）/3.png">
 
 ### 顺序读取
 
@@ -68,7 +68,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 图4：
 
-<img src="FST（二）-image/4.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST（二）/4.png">
 
 &emsp;&emsp;图4流程中，结合表二中flag的介绍可以知道，由于不包含BIT_STOP_NODE，说明当前字符不是某个term的最后一个字符；由于不包含BIT_TARGET_NEXT，说明在current[ ]数组中，离当前字符"m"的最近的一个四元组信息（下标值区间为[ 31, 34]）对应的字符不是当前字符"m"的下一个字符，那么此时需要在数组中读取四元组信息中的index，使得能找到下一个字符的起始读取位置，即下标值为7对应的数组元素，它是下一个字符的四元组信息中的flag。
 
@@ -78,7 +78,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 图5：
 
-<img src="FST（二）-image/5.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST（二）/5.png">
 
 &emsp;&emsp;由于包含BIT_TARGET_NEXT，说明在current[ ]数组中，离当前字符"o"的最近的一个四元组信息（下标区间为[3, 4]）对应的字符是当前字符"o"的在某一个term（即"moth"）中的下一个字符，**但是**由于包含BIT_FINAL_ARC，说明当前字符"o"同时是某个term（即"mo"）的最后一个字符，那么我们可以知道存在"mo"以及以"mo"为前缀的term，另外由于包含了BIT_LAST_ARC，意味着不存在其他不以"mo"为前缀的term。
 
@@ -90,7 +90,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 图6：
 
-<img src="FST（二）-image/6.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/FST（二）/6.png">
 
 &emsp;&emsp;由于包含了BIT_STOP_NODE，说明没有下一个字符，此时就获得了完整的term，即"moth"’。
 
