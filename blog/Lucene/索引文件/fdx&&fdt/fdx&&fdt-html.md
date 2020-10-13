@@ -8,7 +8,7 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/1.png">
 ### ChunkSize
 
-&emsp;&emsp;ChunkSize用来描述压缩存储域值信息的方式，后面会详细介绍。
+&emsp;&emsp;ChunkSize作为一个参数，用来判断是否要生成一个Chunk，以及用来描述压缩存储域值信息的方式，后面会详细介绍。
 
 ### PackedIntsVersion
 
@@ -20,11 +20,14 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/2.png">
 
-&emsp;&emsp;生成一个chunk的条件是 文档个数达到128 或者 所有文档的域值信息的总长度 达到ChunkSize。
+&emsp;&emsp;在处理每一篇文档的过程中，如果满足以下任意一个条件，那么就将已处理的文档的域值信息生成一个chunk：
+
+- 已处理的文档数量达到128
+- 已处理的所有域值的总长度达到ChunkSize。
 
 #### DocBase
 
-&emsp;&emsp;当前chunk中第一个文档的文档号，因为根据这个文档号来差值存储，在读取的阶段需要根据该值恢复其他文档号。
+&emsp;&emsp;当前chunk中第一个文档的文档号（该文档号为段内文档号），因为根据这个文档号来差值存储，在读取的阶段需要根据该值恢复其他文档号。
 #### ChunkDocs
 
 图3：
@@ -42,7 +45,7 @@
 &emsp;&emsp;如果待处理的域值信息的长度超过2倍的chunkSize（默认值 16384），那么需要分块压缩，下文会具体介绍。
 #### DocFieldCounts
 
-&emsp;&emsp;根据chunk中包含的文档个数numBufferedDocs、每篇文档包含的存储域的个数numStoredFields分为不同的情况。
+&emsp;&emsp;根据chunk中包含的文档个数numBufferedDocs、每篇文档包含的存储域的数量numStoredFields分为不同的情况。
 
 ##### numBufferedDocs的个数为1
 
@@ -92,9 +95,9 @@
 图10：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/10.png">
-&emsp;&emsp;CompressedDocs中使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法将域值信息压缩存储。域值信息包含如下内容：
 
-- Doc的个数为chunk中包含的文档个数
+&emsp;&emsp;CompressedDocs中使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法将域值信息压缩存储。域值信息包含如下内容，字段Doc的数量对应为一个chunk中包含的文档数量：
+
 - 域的编号
 - 域值的类型：String、BinaryValue、Int、Float、Long、Double
 - 域值的编号跟域值的类型组合存储为FieldNumAndType
@@ -170,9 +173,13 @@
 
 &emsp;&emsp;逻辑跟DocBaseDeltas一样，不赘述。
 
+### ChunkCount
+
+chunk的个数。
+
 ### DirtyChunkCount
 
-&emsp;&emsp;chunk的个数。
+在索引阶段，如果还有一些文档未被写入到索引文件中，那么在flush阶段会强制写入，并用该字段记录。
 
 ## .fdx整体数据结构
 
