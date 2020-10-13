@@ -36,6 +36,8 @@
 
 ##### 13. [索引文件之nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)
 
+##### 14. [索引文件之fdx&&fdt&&fdm-8.6.0](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)
+
 # Index
 
 ##### 1. 构造IndexWriter对象
