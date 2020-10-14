@@ -2,9 +2,7 @@ package io.index;
 
 import io.FileOperation;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
@@ -50,23 +48,21 @@ public class StoredFieldTest {
         Document doc ;
 
         int count = 0;
-        while (count++ < 2000){
-
-            // 0
-            doc = new Document();
-            doc.add(new Field("content", "the book boo boo boo book", type));
-            doc.add(new Field("title", "book", type));
-            indexWriter.addDocument(doc);
-            // 1
-            doc = new Document();
-            doc.add(new Field("content", "the fake news is news", type));
-            doc.add(new Field("title", "news", type));
-            indexWriter.addDocument(doc);
-            // 2
-            doc = new Document();
-            doc.add(new Field("content", "the name is name", type));
-            indexWriter.addDocument(doc);
-        }
+        // 文档0
+        doc = new Document();
+        doc.add(new Field("content", "abc", type));
+        doc.add(new Field("content", "cd", type));
+        doc.add(new StringField("attachment", "cd", Field.Store.NO));
+        doc.add(new StoredField("author", 3));
+        indexWriter.addDocument(doc);
+        // 文档1
+        doc = new Document();
+        doc.add(new Field("content", "abc", type));
+        indexWriter.addDocument(doc);
+        // 2
+        doc = new Document();
+        doc.add(new Field("content", "the name is name", type));
+        indexWriter.addDocument(doc);
         indexWriter.commit();
 
 
@@ -74,9 +70,8 @@ public class StoredFieldTest {
         IndexSearcher searcher = new IndexSearcher(reader);
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(new TermQuery(new Term("content", "news")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "b")), BooleanClause.Occur.SHOULD);
-        builder.add(new TermQuery(new Term("content", "the")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("content", "abc")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("content", "cd")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("content", "name")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(2);
 
