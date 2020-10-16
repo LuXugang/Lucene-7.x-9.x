@@ -37,7 +37,7 @@
 - 已处理的文档数量达到128
 -  已处理的所有域值的总长度达到ChunkSize。
 
-#### DocBase
+#### NumDoc
 
 &emsp;&emsp;当前chunk中第一个文档的文档号（该文档号为段内文档号），因为根据这个文档号来差值存储，在读取的阶段需要根据该值恢复其他文档号。
 
@@ -140,9 +140,9 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/13.png">
 
-&emsp;&emsp;在索引文件.fdx中，每处理1024（blockShitf参数，下文会介绍）个图3中的chunk，就将chunk中的信息就生成一个DocBaseBlock和StartPointBlock，多个DocBaseBlock和多个StartPointBlock分别组成DocBases字段以及StartPoints字段，注意的是最后一个DocBaseBlock和StartPoints中的chunk的信息数量可能不足1024个。
+&emsp;&emsp;在索引文件.fdx中，每处理1024（blockShitf参数，下文会介绍）个图3中的chunk，就将chunk中的信息就生成一个NumDocsBlock和StartPointBlock，多个NumDocsBlock和多个StartPointBlock分别组成NumDocs字段以及StartPoints字段，注意的是最后一个NumDocsBlock和StartPoints中的chunk的信息数量可能不足1024个。
 
-### DocBaseBlock
+### NumDocsBlock
 
 &emsp;&emsp;该字段中的数据使用了[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)进行压缩。
 
@@ -150,9 +150,9 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/14.png">
 
-#### DocBase
+#### NumDoc
 
-&emsp;&emsp;DocBase为每个chunk中第一个文档的文档号（段内文档号）。
+&emsp;&emsp;NumDoc为一个chunk中的文档数量。
 
 ### StartPointBlock
 
@@ -186,25 +186,25 @@
 
 ### BlockShift
 
-&emsp;&emsp;该字段用来描述在索引文件.fdx中，当处理2 << BlockShitf个chunk后就生成一个DocBaseblock或StartPointBlock，默认是10。
+&emsp;&emsp;该字段用来描述在索引文件.fdx中，当处理2 << BlockShitf个chunk后就生成一个NumDocsBlock或StartPointBlock，默认是10。
 
 ### TotalChunks
 
 &emsp;&emsp;该字段描述了图2中Chunk的数量。
 
-### DocBasesIndex
+### NumDocsIndex
 
-&emsp;&emsp;该字段描述了图16中DocBases字段的信息在索引文件.fdx的起始读取位置
+&emsp;&emsp;该字段描述了图16中NumDocs字段的信息在索引文件.fdx的起始读取位置
 
-### DocBasesMeta
+### NumDocsMeta
 
-&emsp;&emsp;该字段由多个DocVaseMeta组成，其数量最多是1024（2 << BlockShitf），由于图14中的DocBaseBlock中的信息在存储过程中执行了先编码后压缩的操作（后面的文章中会展开介绍），DocBaseMeta中存储了一些参数，使得在读取阶段能读取到DocBase的原始值。
+&emsp;&emsp;该字段由多个NumDocMeta组成，其数量最多是1024（2 << BlockShitf），由于图14中的NumDocsBlock中的信息在存储过程中执行了先编码后压缩的操作（后面的文章中会展开介绍），NumDocMeta中存储了一些参数，使得在读取阶段能读取到NumDoc的原始值。
 
 图18：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/18.png">
 
-&emsp;&emsp;图18中Min、AvgInc、Length、BitRequired字段的值作为参数，将会在读取阶段用于解码图14中的DocBaseBlock中的信息，本文中不展开对这些参数的介绍。
+&emsp;&emsp;图18中Min、AvgInc、Length、BitRequired字段的值作为参数，将会在读取阶段用于解码图14中的NumDocsBlock中的信息，本文中不展开对这些参数的介绍。
 
 ### StartPointsMeta
 

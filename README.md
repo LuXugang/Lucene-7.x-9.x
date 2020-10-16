@@ -133,6 +133,7 @@
 - [索引文件的生成（二十一）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/147.html)
 - [索引文件的生成（二十二）之nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/Index/2020/0828/164.html)
 - [索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html)
+- [索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)
 
 ##### 11. 软删除softDeletes
 
