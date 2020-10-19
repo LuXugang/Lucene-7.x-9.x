@@ -103,7 +103,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/10.png">
 
-[点击]()查看大图
+[点击](https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/flush.html)查看大图
 
 &emsp;&emsp;注意的是图10中除了图1中的流程，其他的流程都是基于Lucene 7.5.0，与Lucene 8.6.0可能会有些差异，但是生成索引文件fdx&&fdt&&fdm在flush阶段的时机点是相同的。
 

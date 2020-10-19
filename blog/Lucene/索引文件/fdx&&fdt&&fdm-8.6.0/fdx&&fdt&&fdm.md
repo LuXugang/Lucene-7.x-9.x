@@ -182,7 +182,7 @@
 
 ### NumDocs
 
-&emsp;&emsp;该字段描述了包含存储域的文档数量。
+&emsp;&emsp;该字段描述了包含文档数量（无论文档是否包含存储域）。
 
 ### BlockShift
 
@@ -190,7 +190,7 @@
 
 ### TotalChunks
 
-&emsp;&emsp;该字段描述了图2中Chunk的数量。
+&emsp;&emsp;该字段描述了图2中Chunk的数量，执行+1操作后写入到索引文件
 
 ### NumDocsIndex
 
@@ -215,6 +215,14 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/19.png">
 
 &emsp;&emsp;图18中Min、AvgInc、Length、BitRequired字段的值作为参数，将会在读取阶段用于解码图15中的StartPointBlock中的信息，本文中不展开对这些参数的介绍。
+
+### SPEndPointer
+
+&emsp;&emsp;该字段描述的是图16中StartPoints字段对应的数据块的在索引文件.fdx中的结束位置。
+
+### maxPointer
+
+&emsp;&emsp;该字段描述的是图2中的最后一个chunk字段对应的数据块在索引文件.fdt中的结束位置。
 
 ### .fdm整体数据结构
 
