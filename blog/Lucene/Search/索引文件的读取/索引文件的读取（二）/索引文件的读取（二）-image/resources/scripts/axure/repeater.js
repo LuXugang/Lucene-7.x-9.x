@@ -1433,7 +1433,7 @@ $axure.internal(function($ax) {
             var headerHeight = obj.headerHeight ? obj.headerHeight : 0;
             var footerHeight = obj.footerHeight ? obj.footerHeight : 0;
 
-            $ax.adaptive.addNiceScroll(stateQuery, { touchbehavior: true, bouncescroll: false, grabcursorenabled: false, railmargin: { top: headerHeight, bottom: footerHeight }, scrollbarid: stateId + "-sb" });
+            $ax.adaptive.addNiceScroll(stateQuery, { emulatetouch: true, bouncescroll: false, grabcursorenabled: false, railmargin: { top: headerHeight, bottom: footerHeight }, scrollbarid: stateId + "-sb" });
             stateQuery.find('.nicescroll-rails').css('margin-top', headerHeight + 'px');
         } else {
             $ax.adaptive.addNiceScroll(stateQuery, { emulatetouch: true, horizrailenabled: obj.scrollbars != 'verticalAsNeeded' }, blockResetScroll);
@@ -2159,10 +2159,29 @@ $axure.internal(function($ax) {
             }
         }
 
+        var scrollParentObj = parent ? $('#' + parent) : undefined;
+        var parentScrollLeft = parent ? scrollParentObj.scrollLeft() : 0;
+        var parentScrollTop = parent ? scrollParentObj.scrollTop() : 0;
+
         // Note: If parent is body, some of these aren't widgets
         if(parent && $jobj(parent + '_content').length > 0) parent = parent + '_content';
         if(parent && $jobj(parent + '_container').length > 0) parent = parent + '_container';
-        _compressChildrenHelper(id, $(parent ? '#' + parent : '#base').children(), vert, threshold, delta, clamp, easing, duration);
+
+        var windowObj = $(window);
+        var scrollLeft = windowObj.scrollLeft();
+        var scrollTop = windowObj.scrollTop();
+        var parentObj = $(parent ? '#' + parent : '#base');
+        // hide parent to prevent layout thrashing 
+        parentObj.hide();
+
+        _compressChildrenHelper(id, parentObj.children(), vert, threshold, delta, clamp, easing, duration);
+
+        parentObj.show();
+        // restore scroll if hide/show parent caused it to change
+        if(0 != parentScrollLeft) scrollParentObj.scrollLeft(parentScrollLeft);
+        if(0 != parentScrollTop) scrollParentObj.scrollTop(parentScrollTop);
+        if(windowObj.scrollLeft() != scrollLeft) windowObj.scrollLeft(scrollLeft);
+        if(windowObj.scrollTop() != scrollTop) windowObj.scrollTop(scrollTop);
 
         if(layer) $ax.visibility.popContainer(layer, false);
 
@@ -2177,6 +2196,27 @@ $axure.internal(function($ax) {
         // If repeater is fit to content, then don't worry about it, it'll be handled elsewhere
         if(!obj.repeaterPropMap.fitToContent) $ax.repeater.pushItems(repeaterId, itemId, delta, vert);
     };
+
+    var _layerMayNeedCompress = function (layerId, vert, threshold, clamp, parentLayer) {
+        var boundingRect = $ax('#' + layerId).offsetBoundingRect();
+        var marker, layerClamp;
+
+        marker = (vert ? boundingRect.top : boundingRect.left) + (vert ? boundingRect.height : boundingRect.width);
+        layerClamp = clamp.prop == 'left' ? [boundingRect.left] : [boundingRect.top];
+        layerClamp[1] = layerClamp[0] + (clamp.offset == 'width' ? boundingRect.width : boundingRect.height);
+
+        if (parentLayer) {
+            var axParent = $ax('#' + parentLayer);
+            marker -= Number(axParent[vert ? 'top' : 'left'](true));
+            layerClamp[0] -= Number(axParent[clamp.prop](true));
+        }
+
+        if (isNaN(marker) || isNaN(layerClamp[0]) || isNaN(layerClamp[1]) ||
+            marker < threshold || layerClamp[1] <= clamp.start || layerClamp[0] >= clamp.end) {
+            return false;
+        }
+        return true;
+    }
 
     var _compressChildrenHelper = function (id, children, vert, threshold, delta, clamp, easing, duration, parentLayer) {
         var toMove = [];
@@ -2199,6 +2239,12 @@ $axure.internal(function($ax) {
             }
 
             if ($ax.getTypeFromElementId(childId) == $ax.constants.LAYER_TYPE) {
+                // containerizing children can cause layout thrashing, if no children will possibly need to be moved based on layer position/size then don't do it
+                if (!_layerMayNeedCompress(childId, vert, threshold, clamp, parentLayer)) {
+                    allMove = false;
+                    continue;
+                }
+
                 $ax.visibility.pushContainer(childId, false);
                 var addSelf;
                 var container = $ax.visibility.applyWidgetContainer(childId, true, true);

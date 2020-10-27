@@ -38,6 +38,8 @@
 
 ##### 14. [索引文件之fdx&&fdt&&fdm-8.6.0](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)
 
+##### 15. [索引文件之kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)
+
 # Index
 
 ##### 1. 构造IndexWriter对象
@@ -265,8 +267,8 @@
 
 ##### 5. off-heap/on-heap
 - [off-heap/on-heap（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)
-
 - [off-heap/on-heap（二）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0805/159.html)
+- [off-heap/on-heap（三）](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)
 
 ##### 6. TermRangeQuery
 

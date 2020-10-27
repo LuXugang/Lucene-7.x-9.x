@@ -206,7 +206,8 @@ $axure.internal(function ($ax) {
         if(_canClick) _startScroll = [$(window).scrollLeft(), $(window).scrollTop()];
     };
 
-    var _getCanClick = function() {
+    var _getCanClick = function () {
+        if(_startScroll.length == 0) return _canClick;
         var endScroll = [$(window).scrollLeft(), $(window).scrollTop()];
         return _canClick && _startScroll[0] == endScroll[0] && _startScroll[1] == endScroll[1];
     };
@@ -710,6 +711,7 @@ $axure.internal(function ($ax) {
 
     // TODO: It may be a good idea to split this into multiple functions, or at least pull out more similar functions into private methods
     var _initializeObjectEvents = function(query, refreshType) {
+        var skipSelectedIds = new Set();
         query.each(function (dObj, elementId) {
             if (dObj == null) return;       // TODO: Update expo items that pass here to potentially remove this logic
             var $element = $jobj(elementId);
@@ -760,7 +762,13 @@ $axure.internal(function ($ax) {
                     if (dObj.disabled) $axElement.enabled(false);
 
                     // Initialize selected elements
-                    if(dObj.selected) $axElement.selected(true);
+                    // only set one member of selection group selected since subsequent calls
+                    // will unselect the previous one anyway
+                    if(dObj.selected && !skipSelectedIds.has(elementId)) {
+                        var group = $('#' + elementId).attr('selectiongroup');
+                        if(group) for(var item of $("[selectiongroup='" + group + "']")) skipSelectedIds.add(item.id);
+                        $axElement.selected(true);
+                    }
                 }
             } else if(refreshType == $ax.repeater.refreshType.preEval) {
                 // Otherwise everything should be set up correctly by pre-eval, want to set up selected disabled dictionaries (and disabled status)
@@ -1722,28 +1730,6 @@ $axure.internal(function ($ax) {
     $ax.event.HasClick = function (diagramObject) {
         var map = diagramObject.interactionMap;
         return map && map.onClick;
-    };
-
-    var _tryFireCheckedChanged = $ax.event.TryFireCheckChanged = function(elementId, value) {
-        var isRadio = $ax.public.fn.IsRadioButton($obj(elementId).type);
-        if(isRadio) {
-            if(!value) {
-                $ax.updateRadioButtonSelected($jobj($ax.INPUT(elementId)).attr('name'), undefined);
-            } else {
-                var last = $ax.updateRadioButtonSelected($jobj($ax.INPUT(elementId)).attr('name'), elementId);
-
-                // If no change, this should not fire
-                if(last == elementId) return;
-
-                // Initially selecting one, last may be undefined
-                if(last) {
-                    //here last is the previouse selected elementid
-                    $ax.event.raiseSelectedEvents(last, false);
-                }
-            }
-        }
-
-        $ax.event.raiseSelectedEvents(elementId, value);
     };
 
     //onload everything now, not only dp and master

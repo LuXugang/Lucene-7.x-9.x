@@ -18,6 +18,7 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-common</artifactId>
+<!--            <version>7.5.0</version>-->
             <version>7.5.0</version>
         </dependency>
 
@@ -26,9 +27,9 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
 <!--            <version>7.5.0</version>-->
-            <version>7.7.1</version>
+<!--            <version>7.7.1</version>-->
 <!--            <version>8.0.0</version>-->
-<!--            <version>8.4.0</version>-->
+            <version>7.5.0</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.apache.lucene</groupId>-->
@@ -77,11 +78,13 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-backward-codecs</artifactId>
+<!--            <version>7.5.0</version>-->
             <version>7.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-codecs</artifactId>
+<!--            <version>7.5.0</version>-->
             <version>7.5.0</version>
         </dependency>
 <!--        <dependency>-->

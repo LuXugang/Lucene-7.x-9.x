@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4" />
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-grouping:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-join:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-facet:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: com.carrotsearch:hppc:0.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-backward-codecs:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-codecs:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-misc:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:8.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:8.4.0" level="project" />
+  </component>
+</module>

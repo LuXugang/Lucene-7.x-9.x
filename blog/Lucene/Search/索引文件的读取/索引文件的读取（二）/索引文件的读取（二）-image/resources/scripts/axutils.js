@@ -4,12 +4,14 @@
  *
  *
  */
-var START_URL_NAME = 'start.html';
-var PAGE_ID_NAME = 'id';
-var PAGE_URL_NAME = 'p';
-var SITEMAP_COLLAPSE_VAR_NAME = 'c';
-var SITEMAP_COLLAPSE_VALUE = "1";
-var SITEMAP_CLOSE_VALUE = "2";
+const START_URL_NAME = 'start.html';
+const PAGE_ID_NAME = 'id';
+const PAGE_URL_NAME = 'p';
+const SITEMAP_COLLAPSE_VAR_NAME = 'c';
+const SITEMAP_COLLAPSE_VALUE = "1";
+const SITEMAP_CLOSE_VALUE = "2";
+const GLOBAL_VAR_NAME = '&ZQZ=s&';
+const GLOBAL_VAR_CHECKSUM = 'CSUM';
 
  (function() {
      // define the root namespace object
@@ -156,6 +158,24 @@ var SITEMAP_CLOSE_VALUE = "2";
          }
 
          return null;
+     }
+
+     $axure.utils.parseGlobalVars = function(query, setAction) {
+         let vars = query.split("&");
+         let csum = false;
+         for(let i = 0; i < vars.length; i++) {
+             let pair = vars[i].split("=");
+             let varName = pair[0];
+             let varValue = pair[1];
+             if(varName) {
+                 if(varName == GLOBAL_VAR_CHECKSUM) csum = true;
+                 else setAction(varName, decodeURIComponent(varValue), true);
+             }
+         }
+
+         if(!csum && query.length > 250) {
+             window.alert('Axure Warning: The variable values were too long to pass to this page.\n\nIf you are using IE, using Chrome or Firefox will support more data.');
+         }
      }
 
      var matrixBase = {

@@ -232,7 +232,6 @@
                     var otherId = this.id;
                     if(otherId == id) return;
                     if ($ax.visibility.isScriptIdLimbo($ax.repeater.getScriptIdFromElementId(otherId))) return;
-
                     $ax.style.SetWidgetSelected(otherId, false, alwaysApply);
                 });
             }
@@ -243,8 +242,16 @@
             if ($ax.public.fn.IsDynamicPanel(obj.type) || $ax.public.fn.IsLayer(obj.type)) {
                 if(!value) $jobj(id).removeClass('selected');
                 var children = $axure('#' + id).getChildren()[0].children;
+                var skipIds = new Set();
                 for(var i = 0; i < children.length; i++) {
                     var childId = children[i];
+                    // only set one member of selection group in children selected since subsequent calls
+                    // will unselect the previous one anyway
+                    if(value) {
+                        if(skipIds.has(childId)) continue;
+                        var group = $('#' + childId).attr('selectiongroup');
+                        if(group) for (var item of $("[selectiongroup='" + group + "']")) skipIds.add(item.id);
+                    }
                     // Special case for trees
                     var childObj = $jobj(childId);
                     if(childObj.hasClass('treeroot')) {
@@ -371,6 +378,9 @@
     var HINT = 'hint';
     var FOCUSED = 'focused';
     var SELECTED_FOCUSED = 'selectedFocused';
+    const SELECTED_DISABLED = 'selectedDisabled';
+    $ax.constants.SELECTED_DISABLED = SELECTED_DISABLED;
+    var ALL_STATES = [MOUSE_OVER, MOUSE_DOWN, SELECTED, FOCUSED, SELECTED_FOCUSED, DISABLED];
 
     var _generateState = _style.generateState = function(id) {
         return $ax.placeholderManager.isActive(id) ? HINT : _style.IsWidgetDisabled(id) ? DISABLED : _generateSelectedState(id, _style.IsWidgetSelected(id));
@@ -515,13 +525,23 @@
         var style = _computeAllOverrides(id, undefined, event, $ax.adaptive.currentViewId);
         if(!$.isEmptyObject(style) && textId) _applyTextStyle(textId, style);
 
-        _updateStateClasses(id, event);
-        _updateStateClasses($ax.repeater.applySuffixToElementId(id, '_div'), event);
-        _updateStateClasses($ax.repeater.applySuffixToElementId(id, '_input'), event);
+        _updateStateClasses(
+            [
+                id,
+                $ax.repeater.applySuffixToElementId(id, '_div'),
+                $ax.repeater.applySuffixToElementId(id, '_input')
+            ], event, true
+        );
+    };
+    
+    let _updateStateClasses = function(ids, event, addMouseOverOnMouseDown) {
+        for(let i = 0; i < ids.length; i++) {
+            _updateStateClassesHelper(ids[i], event, addMouseOverOnMouseDown);
+        }
     };
 
-    var _updateStateClasses = function(id, event) {
-        var jobj = $jobj(id);
+    let _updateStateClassesHelper = function(id, event, addMouseOverOnMouseDown) {
+        let jobj = $jobj(id);
 
         //if(jobj[0] && jobj[0].hasAttribute('widgetwidth')) {
         //    for (var x = 0; x < jobj[0].children.length; x++) {
@@ -531,11 +551,22 @@
         //        _updateStateClasses(childId, event) ;
         //    }
         //} else {
-            for (var i = 0; i < ALL_STATES.length; i++) jobj.removeClass(ALL_STATES[i]);
-            if (event == 'mouseDown') jobj.addClass('mouseOver');
-            if(event != 'normal') jobj.addClass(event);
+
+        if(event == DISABLED || event == SELECTED) {
+            let diagramObject = $ax.getObjectFromElementId(id);
+            if(diagramObject && $ax.public.fn.IsSelectionButton(diagramObject.type)) {
+                var addSelected = event == DISABLED && jobj.hasClass(SELECTED);
+                var addDisabled = event == SELECTED && jobj.hasClass(DISABLED);
+            }
+        }
+        for (let i = 0; i < ALL_STATES.length; i++) jobj.removeClass(ALL_STATES[i]);
+        
+        if(addMouseOverOnMouseDown && event == MOUSE_DOWN) jobj.addClass(MOUSE_OVER);
+        if(addSelected) jobj.addClass(SELECTED);
+        if(addDisabled) jobj.addClass(DISABLED);
+        if(event != NORMAL) jobj.addClass(event);
         //}
-    }
+    };
 
     /* -------------------
 
@@ -754,7 +785,6 @@
     //    _idToAlignProps[textId] = _getPadding(textId);
     //};
 
-    var ALL_STATES = ['mouseOver', 'mouseDown', 'selected', 'focused', 'selectedFocused', 'disabled'];
     var _applyImage = $ax.style.applyImage = function (id, imgUrl, state) {
             var object = $obj(id);
             if (object.generateCompound) {
@@ -762,30 +792,26 @@
                     var componentId = object.compoundChildren[i];
                     var childId = $ax.public.fn.getComponentId(id, componentId);
                     var childImgQuery = $jobj(childId + '_img');
-                    var childQuery = $jobj(childId);
                     childImgQuery.attr('src', imgUrl[componentId]);
-                    for (var j = 0; j < ALL_STATES.length; j++) {
-                        childImgQuery.removeClass(ALL_STATES[j]);
-                        childQuery.removeClass(ALL_STATES[j]);
-                    }
-                    if (state != 'normal') {
-                        childImgQuery.addClass(state);
-                        childQuery.addClass(state);
-                    }
+
+                    _updateStateClasses(
+                        [
+                            childId + '_img',
+                            childId
+                        ], state, false
+                    );
                 }
             } else {
                 var imgQuery = $jobj($ax.GetImageIdFromShape(id));
-                var idQuery = $jobj(id);
                 //it is hard to tell if setting the image or the class first causing less flashing when adding shadows.
                 imgQuery.attr('src', imgUrl);
-                for (var i = 0; i < ALL_STATES.length; i++) {
-                    idQuery.removeClass(ALL_STATES[i]);
-                    imgQuery.removeClass(ALL_STATES[i]);
-                }
-                if (state != 'normal') {
-                    idQuery.addClass(state);
-                    imgQuery.addClass(state);
-                }
+
+                _updateStateClasses(
+                    [
+                        id,
+                        $ax.GetImageIdFromShape(id)
+                    ], state, false
+                );
                 if (imgQuery.parents('a.basiclink').length > 0) imgQuery.css('border', 'none');
             }
 

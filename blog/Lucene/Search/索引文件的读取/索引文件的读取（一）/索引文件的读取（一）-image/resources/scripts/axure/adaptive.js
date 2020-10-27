@@ -344,19 +344,35 @@
 
         if(!images) return undefined;
 
-        var scriptId = $ax.repeater.getScriptIdFromElementId(id);
+        let scriptId = $ax.repeater.getScriptIdFromElementId(id);
+        
+        if(state == 'disabled' && $ax.style.IsWidgetSelected(id) || state == 'selected' && $ax.style.IsWidgetDisabled(id)) {
+            let diagramObject = $ax.getObjectFromElementId(id);
+            if(diagramObject && $ax.public.fn.IsSelectionButton(diagramObject.type)) {
+                var selectedDisabled = $ax.constants.SELECTED_DISABLED;
+            }
+        }
+
         // first check all the images for this state
-        for(var i = viewIdChain.length - 1; i >= 0; i--) {
-            var viewId = viewIdChain[i];
-            var img = images[scriptId + "~" + state + "~" + viewId];
-            if(!img) img = images[state + "~" + viewId];
-            if(img) return img;
+        for(let i = viewIdChain.length - 1; i >= 0; i--) {
+            let viewId = viewIdChain[i];
+            if(selectedDisabled) {
+                let img = findImage(images, scriptId, selectedDisabled, viewId)
+                if(img) return img;
+            } else {
+                let img = findImage(images, scriptId, state, viewId);
+                if (img) return img;
+            }
         }
         // check for the default state style
-        var defaultStateImage = images[scriptId + "~" + state + "~"];
-        if(!defaultStateImage) defaultStateImage = images[state + "~"];
-        if(defaultStateImage) return defaultStateImage;
-
+        if(selectedDisabled) {
+            let defaultStateImage = findImage(images, scriptId, selectedDisabled)
+            if(defaultStateImage) return defaultStateImage;
+        } else {
+            let defaultStateImage = findImage(images, scriptId, state);
+            if (defaultStateImage) return defaultStateImage;
+        }
+        
         if(doNotProgress) return undefined;
 
         state = $ax.style.progessState(state);
@@ -365,6 +381,16 @@
         // SHOULD NOT REACH HERE! NORMAL SHOULD ALWAYS CATCH AT THE DEFAULT!
         return images['normal~']; // this is the default
     };
+    
+    let findImage = function(images, scriptId, state, viewId) {
+        if(!images) return undefined;
+
+        if(!viewId) viewId = "";
+        let withScript = scriptId + "~" + state + "~" + viewId;
+        let img = images[withScript];
+        if(!img) img = images[state + "~" + viewId];
+        return img;
+    }
 
     var _matchImageCompound = function(diagramObject, id, viewIdChain, state) {
         var images = [];
@@ -472,13 +498,12 @@
 
             if (data.scale != 0) {
                 var adjustScrollScale = false;
-                if ($('html').getNiceScroll().length == 0 && !MOBILE_DEVICE && !SAFARI) {
+                if ($('html').getNiceScroll().length == 0 && !MOBILE_DEVICE) {
                     //adding nicescroll so width is correct when getting scale
                     _addNiceScroll($('html'), { emulatetouch: false, horizrailenabled: false });
                     adjustScrollScale = true;
                 }
-                if (!MOBILE_DEVICE && SAFARI) _removeNiceScroll($('html'));
-
+                
                 $('html').css('overflow-x', 'hidden');
 
                 var bodyWidth = $body.width();
@@ -578,15 +603,60 @@
     $ax.adaptive.isDeviceMode = function () {
         return _isDeviceMode;
     }
+
+    var _isHtmlQuery = function ($container) { return $container.length > 0 && $container[0] == $('html')[0]; }
     
     var _removeNiceScroll = $ax.adaptive.removeNiceScroll = function ($container, blockResetScroll) {
         if (!blockResetScroll) {
             $container.scrollLeft(0);
             $container.scrollTop(0);
         }
-        $container.getNiceScroll().remove();
+        var nS = $container.getNiceScroll();
+        var emulateTouch = nS.length > 0 && nS[0].opt.emulateTouch;
+        nS.remove();
         //clean up nicescroll css
         if (IE) $container.css({ '-ms-overflow-y': '', 'overflow-y': '', '-ms-overflow-style': '', '-ms-touch-action': '' });
+        if (!emulateTouch) return; 
+        if (_isHtmlQuery($container)) {
+            $('#scrollContainer').remove();
+            $('#base').off('mouseleave.ax');
+        } else {
+            $container.off('mouseleave.ax');
+        }
+    }
+
+    var _addNiceScrollExitDetector = function ($container) {
+        if (_isHtmlQuery($container)) {
+
+            // add a fixed div the size of the frame that will not move as we scroll like html,body,#base,children
+            // so we are able to detect when the mouse leaves that frame area if there is no existing DOM element
+            var $scrollContainer = $("<div id='scrollContainer'></div>");
+            var $body = $('body');
+            $scrollContainer.css({
+                'position': 'fixed',
+                'width': $body.width(),
+                'height': $body.height()
+            });
+
+            // we want #base div to handle the event so that it bubbles up from the scrollContainer div which
+            // handles the bounds of the frame in case there was no previously exisiting child to bubble up the
+            // event or if the user has clicked on an existing child node to start the emulated touch scroll
+            var $base = $('#base');
+            $base.on('mouseleave.ax', function (e) {
+                var nS = $container.getNiceScroll();
+                for (var i = 0; i < nS.length; ++i)
+                    nS[i].ontouchend(e);
+            });
+            // need to prepend so it is first child in DOM and doesn't block mouse events to other children which
+            // would make them unable to scroll
+            $base.prepend($scrollContainer);
+        } else {
+            $container.on('mouseleave.ax', function (e) {
+                var nS = $container.getNiceScroll();
+                for (var i = 0; i < nS.length; ++i)
+                    nS[i].ontouchend(e);
+            });
+        }
     }
 
     var _addNiceScroll = $ax.adaptive.addNiceScroll = function ($container, options, blockResetScroll) {
@@ -595,6 +665,8 @@
             $container.scrollTop(0);
         }
         $container.niceScroll(options);
+        // RP-581 add handling to stop scroll on mouse leave if enable cursor-drag scrolling like touch devices in desktop computer
+        if (options.emulatetouch) _addNiceScrollExitDetector($container);
         //clean up nicescroll css so child scroll containers show scrollbars in IE
         if (IE) $container.css({ '-ms-overflow-y': '', '-ms-overflow-style': '' });
         if(IOS) $container.css({ 'overflow-y': ''});

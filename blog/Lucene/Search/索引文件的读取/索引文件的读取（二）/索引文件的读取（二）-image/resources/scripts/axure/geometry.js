@@ -90,13 +90,6 @@ $axure.internal(function($ax) {
         for(var i = 0; i < regionList.length; i++) {
             var region = regionMap[regionList[i]];
             var points = region.points;
-            if(!region.checked) {
-                if(!_checkInside(points, $ax.mouseLocation)) {
-                    region.callback({ outside: true });
-                    continue;
-                }
-                region.checked = true;
-            }
             for(var j = 0; j < points.length; j++) {
                 var startSegment = points[j];
                 var endSegment = points[(j + 1) % points.length];
