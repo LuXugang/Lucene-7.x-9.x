@@ -152,7 +152,7 @@
 
 #### NumDoc
 
-&emsp;&emsp;NumDoc为一个chunk中的文档数量。
+&emsp;&emsp;NumDoc描述了chunk中的文档数量。
 
 ### StartPointBlock
 
@@ -204,7 +204,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/18.png">
 
-&emsp;&emsp;图18中Min、AvgInc、Length、BitRequired字段的值作为参数，将会在读取阶段用于解码图14中的NumDocsBlock中的信息，本文中不展开对这些参数的介绍。
+&emsp;&emsp;图18中Min、AvgInc、Offset、BitRequired字段的值作为参数，将会在读取阶段用于解码图14中的NumDocsBlock中的信息，本文中不展开对这些参数的介绍。
 
 ### StartPointsMeta
 
@@ -214,7 +214,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/19.png">
 
-&emsp;&emsp;图18中Min、AvgInc、Length、BitRequired字段的值作为参数，将会在读取阶段用于解码图15中的StartPointBlock中的信息，本文中不展开对这些参数的介绍。
+&emsp;&emsp;图18中Min、AvgInc、Offset、BitRequired字段的值作为参数，将会在读取阶段用于解码图15中的StartPointBlock中的信息，本文中不展开对这些参数的介绍。
 
 ### SPEndPointer
 

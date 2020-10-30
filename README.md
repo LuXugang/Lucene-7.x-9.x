@@ -252,6 +252,8 @@
 
 ##### 6. [DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1223/120.html)
 
+##### 7. [DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2020/1030/173.html)
+
 # Other
 
 ##### 1. 倒排表的数据结构：

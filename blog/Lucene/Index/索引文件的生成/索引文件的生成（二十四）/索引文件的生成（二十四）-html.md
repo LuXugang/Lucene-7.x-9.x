@@ -133,7 +133,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/13.png">
 
-&emsp;&emsp;图13中Min、AvgInc、Length、BitRequired为编码信息，其编码逻辑本文不会展开，编码的目的是为了能降低索引文件的文件大小，另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)。
+&emsp;&emsp;图13中Min、AvgInc、Offset、BitRequired为编码信息，其编码逻辑本文不会展开，编码的目的是为了能降低索引文件的文件大小，另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)。
 
 
 ### 生成StartPoints的信息
@@ -158,7 +158,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/16.png">
 
-&emsp;&emsp;图16中Min、AvgInc、Length、BitRequired为编码信息，其编码逻辑本文不会展开。另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)。
+&emsp;&emsp;图16中Min、AvgInc、Offset、BitRequired为编码信息，其编码逻辑本文不会展开。另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)。
 
 ## 结语
 
