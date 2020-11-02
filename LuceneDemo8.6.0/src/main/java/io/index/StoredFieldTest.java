@@ -55,11 +55,14 @@ public class StoredFieldTest {
             doc = new Document();
             doc.add(new Field("content", "the name is name", type));
             indexWriter.addDocument(doc);
+            if(count == 70000){
+                indexWriter.commit();
+            }
         }
         indexWriter.commit();
         Document document;
         List<IndexableField> fields;
-        IndexReader reader = DirectoryReader.open(indexWriter);
+        IndexReader reader = DirectoryReader.open(directory);
         // 测试第一个段中的文档0（段内文档号）
         document = reader.document(0);
         // 文档0有3个存储域

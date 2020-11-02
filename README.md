@@ -197,6 +197,7 @@
 - [索引文件的读取（十一）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0819/162.html)
 - [索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
 - [索引文件的读取（十三）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0911/166.html)
+- [索引文件的读取（十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/174.html)
 
 ##### 11. 范围域（rangeField）
 
@@ -271,6 +272,7 @@
 - [off-heap/on-heap（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)
 - [off-heap/on-heap（二）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0805/159.html)
 - [off-heap/on-heap（三）](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)
+- [off-heap/on-heap（四）](https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/174.html)
 
 ##### 6. TermRangeQuery
 

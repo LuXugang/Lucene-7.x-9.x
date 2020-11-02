@@ -10,6 +10,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
@@ -51,9 +52,12 @@ public class PointValuesTest {
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-//        doc.add(new IntPoint("title", 100, 100));
         doc.add(new IntPoint("book", 100, 100));
         indexWriter.addDocument(doc);
+//        // 文档2
+//        doc = new Document();
+//        doc.add(new TextField("abc", "edd", Field.Store.YES ));
+//        indexWriter.addDocument(doc);
         int count = 0 ;
         int a,b,c;
         while (count++ < 4096){
@@ -64,19 +68,14 @@ public class PointValuesTest {
             c = c == 0 ? c + 1 : c;
             doc.add(new IntPoint("book", a, c));
             indexWriter.addDocument(doc);
-//            if(count == 1024){
-//                indexWriter.commit();
-//            }
         }
-
         indexWriter.commit();
-
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-
         int [] lowValue = {-1, -1};
         int [] upValue = {60, 60};
         Query query = IntPoint.newRangeQuery("book", lowValue, upValue);
+
 
         // 返回Top5的结果
         int resultTopN = 5;
@@ -89,14 +88,9 @@ public class PointValuesTest {
             // 输出满足查询条件的 文档号
             System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
         }
-
     }
-
     public static void main(String[] args) throws Exception{
         PointValuesTest test = new PointValuesTest();
         test.doSearch();
-//    byte[] packed = new byte[100];
-//    IntPoint.encodeDimension(256, packed, 0);
-//    System.out.println(packed);
     }
 }
