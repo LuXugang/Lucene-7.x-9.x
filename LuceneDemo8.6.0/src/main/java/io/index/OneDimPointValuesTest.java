@@ -57,7 +57,7 @@ public class OneDimPointValuesTest {
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a, c;
-        while (count++ < 4096){
+        while (count++ < 4091){
             doc = new Document();
             a = random.nextInt(100);
             a = (a <= 21 ? 23 : a);
