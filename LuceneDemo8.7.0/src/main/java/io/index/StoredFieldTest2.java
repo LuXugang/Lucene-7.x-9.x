@@ -15,9 +15,9 @@ import java.util.List;
 
 /**
  * @author Lu Xugang
- * @date 2020/10/29 10:00 AM
+ * @date 2020/11/5 4:06 PM
  */
-public class StoredFieldTest {
+public class StoredFieldTest2 {
     private Directory directory;
 
     {
@@ -51,18 +51,15 @@ public class StoredFieldTest {
             doc.add(new Field("content", "abc", type));
             doc.add(new Field("content", "cd", type));
             doc.add(new StringField("attachment", "cd", Field.Store.NO));
-            doc.add(new NumericDocValuesField(sortedField, 3L));
             doc.add(new StoredField("author", 3));
-            indexWriter.addDocument(doc);
+            indexWriter.addDocument(doc)    ;
             // 文档1
             doc = new Document();
             doc.add(new StringField("attachment", "cd", Field.Store.NO));
-            doc.add(new NumericDocValuesField(sortedField, 1L));
             indexWriter.addDocument(doc);
             // 文档2
             doc = new Document();
             doc.add(new Field("content", "the name is name", type));
-            doc.add(new NumericDocValuesField(sortedField, 2L));
             indexWriter.addDocument(doc);
             if(count == 70000){
                 indexWriter.commit();
@@ -71,7 +68,7 @@ public class StoredFieldTest {
         indexWriter.commit();
         Document document;
         List<IndexableField> fields;
-        IndexReader reader = DirectoryReader.open(indexWriter);
+        IndexReader reader = DirectoryReader.open(directory);
         // 测试第一个段中的文档0（段内文档号）
         document = reader.document(0);
         // 文档0有3个存储域
@@ -105,7 +102,7 @@ public class StoredFieldTest {
     }
 
     public static void main(String[] args) throws Exception{
-        StoredFieldTest test = new StoredFieldTest();
+        StoredFieldTest2 test = new StoredFieldTest2();
         test.doIndexAndSearch();
     }
 }
