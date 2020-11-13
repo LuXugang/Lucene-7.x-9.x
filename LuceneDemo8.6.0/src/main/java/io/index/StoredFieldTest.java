@@ -36,7 +36,6 @@ public class StoredFieldTest {
         String sortedField = "sortByNumber";
         SortField indexSortField = new SortField(sortedField, SortField.Type.LONG);
         Sort indexSort = new Sort(indexSortField);;
-        conf.setIndexSort(indexSort);
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
         FieldType type = new FieldType();
@@ -45,7 +44,7 @@ public class StoredFieldTest {
         type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
         Document doc ;
         int count = 0;
-        while (count++ < 100){
+        while (count++ < 14000){
             // 文档0
             doc = new Document();
             doc.add(new Field("content", "abc", type));

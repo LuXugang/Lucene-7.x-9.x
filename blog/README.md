@@ -202,6 +202,7 @@
 - [索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
 - [索引文件的读取（十三）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0911/166.html)
 - [索引文件的读取（十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/174.html)
+- [索引文件的读取（十五）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Search/2020/1113/177.html)
 
 ##### 11. 范围域（rangeField）
 
