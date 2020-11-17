@@ -18,43 +18,46 @@ DocBase是chunk中第一个文档的文档号。
 #### ChunkDocs
 chunk中包含的文档个数。
 #### NumFields
-NumFields记录了每篇文档中存储域的个数NumField，根据chunk中的个文档数chunkDocs，分为不同的情况：
+NumFields记录了每篇文档中需要记录词向量的域的数量，根据chunk中的个文档数chunkDocs，分为不同的情况：
 ##### chunkDocs == 1
 图3：
 <img src="tvx&&tvd-image/3.png">
-直接记录该片文档的存储域的个数NumField。
+直接记录该篇文档中需要记录词向量的域的数量。
+
 ##### chunkDocs ≥ 1
 图4：
 <img src="tvx&&tvd-image/4.png">
-记录chunk中的每一篇文档的存储域的个数，使用PackedInts存储。
+记录chunk中的每一篇文档中需要记录词向量的域的数量，使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)存储。
+
 #### FieldNums
-FieldNums中存储当前chunk中域的种类，根据域的编号来获得 域的种类，根据域的种类个数分为不用的情况：
+FieldNums中存储当前chunk中需要记录词向量的域的种类，根据域的编号来获得域的种类，根据域的种类个数分为不用的情况：
 ##### (域的种类 - 1) ≤ 7
 图5：
 <img src="tvx&&tvd-image/5.png">
 ###### token
 token是一个组合值，并且大小是一个字节：
-- numDistinctFields：当前chunk中的域的种类
-- bitsRequired：存储每一个域的编号需要最少bit位个数
+- numDistinctFields：当前chunk中需要记录词向量的域的种类
+- bitsRequired：存储每个域的编号（最大值，因为使用了[固定位数按位存储](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)）需要的bit数量
 - 左移5位描述了bitsRequired最多可以是31
-- 由于一个字节的低五位被用来描述bitsRequired，所以还剩余3个字节可以用来表示numDistinctFields，所以numDistinctFields ≤ 7时可以跟bitsRequired使用一个字节存储。
+- 由于一个字节的低五位被用来描述bitsRequired，所以还剩余3个bit可以用来表示numDistinctFields，所以numDistinctFields的值小于等于7时可以跟bitsRequired使用一个字节存储。
 ###### PackedIntsValue
-把所有的域的编号用PackedInts存储。
+把所有的域的编号用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)存储。
 #####  (域的种类 - 1) > 7
 图6：
 <img src="tvx&&tvd-image/6.png">
 ###### token
 token是一个组合值，并且大小是一个字节：
 - bitsRequired：存储每一个域的编号需要最少bit位个数
-- numDistinctFields的值大于7，那么在token中就是  (7 << 5 ) | bitsRequired
-- numDistinctFields - 0x07：存储剩余的差值
+- 由于numDistinctFields的值大于7，那么在token的高三位用来描述numDistinctFields一部分值，即7，低5位用来描述bitsRequired
+- numDistinctFields - 0x07：存储剩余的差值，例如假设numDistinctFields的值为13，那么7存储在token中、6存储在当前字段
 #### FieldNumOffs
 图7：
 <img src="tvx&&tvd-image/7.png">
-FieldNumOffs中存放了chunk中每一篇文档包含的所有域的编号的索引，并且使用PackedInts存储，该索引其实就是fieldNums[]数组的下标值，fieldNums[]数组的数组元素是chunk中的域的编号，数组元素个数是域的种类。通过这种方式使得不直接存储域的编号，因为域的编号可能跨度很大，并且值很大，那就需要更大的存储空间，而存储下标值就可以解决这个问题。
+FieldNumOffs中存放了chunk中每一篇文档包含的所有域的编号的索引，并且使用PackedInts存储，该索引其实就是fieldNums[]数组的下标值，fieldNums[]数组的数组元素是chunk中的域的编号，数组元素个数是域的种类。通过这种方式使得不直接存储域的编号，因为域的编号可能跨度很大，由于使用[固定位数按位存储](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)，每个域的编号占用的bit数量取决编号最大的，那会导致较大的存储空间，而存储下标值就缓解这个问题。
 图8：
 <img src="tvx&&tvd-image/8.png">
-上图中有4个域的编号，如果直接存储域的编号，那么需要 3 (8) + 8 (255) + 2 (2) + 2 (3) = 15个bit位，如存储索引即小标志时，那么需要 1 (0) + 1 (1) + 2 (2) + 2 (3) = 6个bit位。
+上图中有4个域的编号，如果直接存储域的编号，其中域的编号最大值为255，即需要8个bit，由于存在4个域的编号，故需要 8 *4 = 32个bit。若值存储索引值，那么需要 1 (0) + 1 (1) + 2 (2) + 2 (3) = 6个bit位。
+
 #### Flags
 Flags用来描述域是否存放位置position、偏移offset、负载payload信息，flag的值可以是下面3个值的组合：
 - 0x01：包含位置position信息
@@ -67,12 +70,14 @@ Flags用来描述域是否存放位置position、偏移offset、负载payload信
 ##### 相同的域名有相同的flag
 图9：
 <img src="tvx&&tvd-image/9.png">
-对于某个域名来说，无论它在哪个文档中都记录相同的flag信息，所以只要每种域名记录一次即可，并且用PackedInts存储，固定值0为标志位，在读取阶段用来区分Flags的不同数据结构。
+对于某个记录词向量的域名来说，无论它在哪个文档中都记录相同的flag信息，所以只要每种域名记录一次即可，并且用PackedInts存储，固定值0为标志位，在读取阶段用来区分Flags的不同数据结构。
 
 ##### 相同的域名有不相同的flag
 图10：
 <img src="tvx&&tvd-image/10.png">
-对于一个域名来说，它在不同文档中的flag可能不一样，所以必须记录所有文档中的所有域的flag，并且用PackedInts存储，固定值1ss为标志位，在读取阶段用来区分Flags的不同数据结构。
+对于一个域名来说，它在不同文档中的flag可能不一样（例如当前文档中，某个记录词向量的域名只记录位置信息，而在下一篇文档中，该域名记录了位置信息跟偏移信息），那么只能所有文档中的所有域的flag，并且用PackedInts存储，固定值1为标志位，在读取阶段用来区分Flags的不同数据结构。
+
+
 
 #### TermData
 TermData记录了域值信息，下文中提及的term是指域值通过分词器获得一个或多个token。
@@ -88,14 +93,13 @@ TermFreqs描述了每一篇文档的每一个域中的每一个term在当前文�
 ##### Positions
 Positions描述了每一篇文档的每一个域中的每一个term在当前文档中的所有位置position信息，使用PackedInts存储。
 ##### StartOffset
-StartOffset描述了每一篇文档的每一个域中的每一个term的startoffset，使用PackedInts存储。
+StartOffset描述了每一篇文档的每一个域中的每一个term的startOffset，使用PackedInts存储。
 ##### Lengths
 Lengths描述了每一篇文档的每一个域中的每一个term的偏移长度，使用PackedInts存储。
 ##### TermAndPayloads
 使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法存储每一篇文档的每一个域中的每一个term值跟payload(如果有的话)。
 ### ChunkCount
 .tvd文件中chunk的个数。
-### 
 ## .tvd整体数据结构
 图12：
 <img src="tvx&&tvd-image/12.png">

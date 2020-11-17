@@ -20,13 +20,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十五）/3.png">
 
-[点击]()查看大图
+[点击](http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十五）/page_3.html)查看大图
 
 &emsp;&emsp;在介绍每个步骤之前， 我们先回顾下文章[索引文件的读取（十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/174.html)中很重要的内容，即索引文件.fdm中的信息在生成reader阶段就已经被全量读取到内存的，而索引文件.fdx的NumDocBlock字段以及StartPointBlock字段则是off-heap方式读取。
 
 #### 步骤一
 
-&emsp;&emsp;执行步骤一的目的是找出一个index，该index描述的是第index个chunk，因为在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)我们说到，在flush阶段，每1024（2<< BlockShitf）个chunk就会生成一个NumDoc**s**Meta，所以通过索引文件.fdx的ChunkSize得到chunk的数量以及二分法，随后通过下面的代码一判断出属于哪一个NumDocMeta，随后通过代码二判断出NumDocMeta这个block中的块内索引blockIndex
+&emsp;&emsp;执行步骤一的目的是找出一个index，该index描述的是第index个chunk，因为在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)我们说到，在flush阶段，每1024（2<< BlockShitf）个chunk就会生成一个NumDoc**s**Meta，所以通过索引文件.fdm的TotalChunks得到chunk的数量以及二分法，随后通过下面的代码一判断出属于哪一个NumDocMeta，随后通过代码二判断出NumDocMeta这个block中的块内索引blockIndex
 
 代码一：
 

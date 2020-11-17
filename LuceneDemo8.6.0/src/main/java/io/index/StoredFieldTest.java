@@ -44,7 +44,7 @@ public class StoredFieldTest {
         type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
         Document doc ;
         int count = 0;
-        while (count++ < 14000){
+        while (count++ < 140000){
             // 文档0
             doc = new Document();
             doc.add(new Field("content", "abc", type));
@@ -81,7 +81,7 @@ public class StoredFieldTest {
         assert fields.get(2).name().equals("author");
 
         // 测试第一个段中的文档1（段内文档号）
-        document = reader.document(1);
+        document = reader.document(390000);
         // 文档1有0个存储域
         fields = document.getFields();
         assert fields.size() == 0;

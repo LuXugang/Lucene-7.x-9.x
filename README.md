@@ -42,7 +42,9 @@
 
 ##### 14. [索引文件之fdx&&fdt&&fdm-8.6.0](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)
 
-##### 15. [索引文件之kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)
+##### 15. [索引文件之kdd&kdi&kdm-8.6.0](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)
+
+##### 16. [索引文件之tvd&&tvx&&tvm-8.7.0](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1117/178.html)
 
 # Index
 
@@ -291,3 +293,5 @@
 
 - [TermsEnum（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/160.html)
 - [PostingsEnum（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0911/166.html)
+
+##### 8. [删除队列DeleteQueue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/150.html)
