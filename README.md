@@ -15,6 +15,7 @@
 - [SortedDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)
 - [SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/47.html)
 - [NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)
+- [BinaryDocValues-8.7.0](https://www.amazingkoala.com.cn/Lucene/DocValues/2020/1121/179.html)
 
 ##### 2. [索引文件之cfs&&cfe](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0710/73.html)
 
