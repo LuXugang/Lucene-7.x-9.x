@@ -22,7 +22,7 @@ public class StoredFieldTest {
 
     {
         try {
-            FileOperation.deleteFile("./data");
+//            FileOperation.deleteFile("./data");
             directory = new MMapDirectory(Paths.get("./data"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,18 +33,28 @@ public class StoredFieldTest {
     public void doIndexAndSearch() throws Exception {
         WhitespaceAnalyzer analyzer = new WhitespaceAnalyzer();
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-        String sortedField = "sortByNumber";
+        conf.setMergeScheduler(new SerialMergeScheduler());
+        String sortedField = "oldSorterRule";
+        String sortedField2 = "newSorterRule";
         SortField indexSortField = new SortField(sortedField, SortField.Type.LONG);
+//        SortField indexSortField = new SortField(sortedField2, SortField.Type.LONG);
         Sort indexSort = new Sort(indexSortField);;
+//        conf.setIndexSort(indexSort);
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
         FieldType type = new FieldType();
         type.setStored(true);
         type.setTokenized(true);
         type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+        type.setStoreTermVectors(true);
+        type.setStoreTermVectorPositions(true);
+        type.setStoreTermVectorPayloads(true);
         Document doc ;
         int count = 0;
-        while (count++ < 100){
+        while (count++ < 1000000){
+//            doc = new Document();
+//            doc.add(new Field("good", "the name is name", type));
+//            indexWriter.addDocument(doc);
             // 文档0
             doc = new Document();
             doc.add(new Field("content", "abc", type));
@@ -54,17 +64,20 @@ public class StoredFieldTest {
             doc = new Document();
             doc.add(new StringField("attachment", "cd", Field.Store.NO));
             doc.add(new NumericDocValuesField(sortedField, 1));
+            doc.add(new NumericDocValuesField(sortedField2, 1));
             indexWriter.addDocument(doc);
             // 文档2
             doc = new Document();
             doc.add(new Field("content", "the name is name", type));
             doc.add(new NumericDocValuesField(sortedField, 2));
             indexWriter.addDocument(doc);
-            if(count == 70000){
+            if(count % 1000 == 0){
                 indexWriter.commit();
+                break;
             }
         }
         indexWriter.commit();
+        System.out.println("ab");
     }
 
     public static void main(String[] args) throws Exception{

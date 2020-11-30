@@ -80,7 +80,11 @@
 
 ##### 4. [段的合并调度MergeScheduler](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/60.html)
 
-##### 5. 文档的增删改
+##### 5. 索引文件的合并
+
+- [索引文件的合并（一）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html)
+
+##### 6. 文档的增删改
 
 - [文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)
 - [文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)
@@ -88,7 +92,7 @@
 - [文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)
 - [文档的增删改（下）（part 3）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0709/72.html)
 
-##### 6. 近实时搜索NRT
+##### 7. 近实时搜索NRT
 
 - [近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)
 - [近实时搜索NRT（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0917/94.html)
@@ -96,12 +100,12 @@
 - [近实时搜索NRT（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0925/96.html)
 - [近实时搜索NRT（五）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0929/97.html)
 
-##### 7. 文档提交之commit
+##### 8ths . 文档提交之commit
 
 - [文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)
 - [文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)
 
-##### 8. 文档提交之flush
+##### 9. 文档提交之flush
 
 - [文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)
 - [文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)
@@ -112,12 +116,12 @@
 - [文档提交之flush（七）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/80.html)
 - [文档提交之flush（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0812/81.html)
 
-##### 9. SegmentReader
+##### 10. SegmentReader
 
 - [SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)
 - [SegmentReader（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1015/100.html)
 
-##### 10. 索引文件的生成
+##### 11. 索引文件的生成
 
 - [索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)
 - [索引文件的生成（二）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)
@@ -144,7 +148,7 @@
 - [索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html)
 - [索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)
 
-##### 11. 软删除softDeletes
+##### 12. 软删除softDeletes
 
 - [软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)
 - [软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)

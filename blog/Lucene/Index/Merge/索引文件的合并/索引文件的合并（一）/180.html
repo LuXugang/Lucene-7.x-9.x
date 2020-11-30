@@ -1,0 +1,548 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>索引文件的合并（一）-html</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+
+</style>
+</head>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="索引文件的合并一）httpswwwamazingkoalacomcnluceneindexlucene-870）" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/Index/'><span>索引文件的合并（一）</span></a><span>（Lucene 8.7.0）</span></h1><p>&emsp;&emsp;<span>从本篇文章开始介绍索引文件合并的过程，其中</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html'><span>合并策略</span></a><span>、</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/60.html'><span>合并调度</span></a><span>在之前的文章中已经介绍，没有阅读过这些文章并不会影响对本篇文章的理解。</span></p><p>&emsp;&emsp;<span>由于本篇文章是索引文件的合并的开篇文章，故我们先给出各类索引文件合并的先后顺序，如下所示：</span></p><p><span>图1：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/1.png"></p><p>&emsp;&emsp;<span>图1中第96行的merge( )方法在被调用后，就开始依次对各种类型的索引文件进行合并，该方法被调用的时机点如下图所示：</span></p><p><span>图2：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/2.png"></p><p>&emsp;&emsp;<span>图2中的流程图是执行段的合并的完整流程，其介绍可以阅读系列文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/101.html'><span>执行段的合并</span></a><span>。在</span><font color=red><span>红框</span></font><span>标注的流程点</span><code>执行索引文件的合并</code><span>中会调用图1中的第96行的merge( )方法，开始索引文件的合并。我们先介绍索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的合并。</span></p><h2><a name="索引文件fdxfdtfdm的合并流程图" class="md-header-anchor"></a><span>索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的合并流程图</span></h2><p><span>图3：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/3.png"></p><h3><a name="待合并集合" class="md-header-anchor"></a><span>待合并集合</span></h3><p><span>图4：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/4.png"></p><p>&emsp;&emsp;<span>无论执行哪种索引文件的合并，其输入参数都是同一个MergeState对象，该对象中包含了不同索引文件对应的&#39;&#39;reader&#39;&#39;数组，数组中的某一个&quot;reader&quot;描述了某个段的索引文件信息，如下图所示：</span></p><p><span>图5：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/5.png"></p><p>&emsp;&emsp;<span>所以对于索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的合并，会使用到图3中的StoredFieldsReader[ </span><span>]</span><span>数组，它即是图5中的待合并集合。</span></p><p>&emsp;&emsp;<strong><span>MergeState对象是何时以及如何生成的：</span></strong></p><ul><li><span>在图2的流程点</span><code>生成SegmentMerge</code><span>中生成MergeState对象</span></li></ul><p><span>图6：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/6.png"></p><ul><li><p><span>图6中MergeState的构造函数的参数之一是每个待合并的段对应的SegmentReader（CodecReader的实现类）的集合，而在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html'><span>SegmentReader（一）</span></a><span>中我们知道，SegmentReader中有一个SegmentCoreReaders对象，它包含了段中所有索引文件对应的reader：</span></p><ul><li><span>StoredFieldsReader：从</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html'><span>索引文件之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中读取存储域的索引信息</span></li><li><span>FieldsProducer：从</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html'><span>索引文件tim&amp;&amp;tip</span></a><span>、</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html'><span>索引文件doc</span></a><span>、</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html'><span>索引文件pos&amp;&amp;pay</span></a><span>中读取域的索引信息</span></li><li><span>TermVectorsReader：从</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1117/178.html'><span>索引文件之tvd&amp;&amp;tvx&amp;&amp;tvm</span></a><span>读取词向量的索引信息</span></li><li><span>PointsReader：从</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html'><span>索引文件之kdd&amp;kdi&amp;kdm</span></a><span>中读取域值为数值类型的索引信息</span></li><li><span>NormsProducer：从</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html'><span>索引文件nvd&amp;&amp;nvm</span></a><span>中读取域的打分信息</span></li><li><span>FieldInfos：从</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html'><span>索引文件fnm</span></a><span>读取域的信息</span></li></ul></li><li><p><span>所以图4中MergeState对象中所有索引文件对应的&#39;&#39;reader&#39;&#39;信息都是通过深拷贝从SegmentCoreReaders对象中获取的</span></p></li></ul><h3><a name="统计每个段中域名的信息" class="md-header-anchor"></a><span>统计每个段中域名的信息</span></h3><p><span>图7：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/7.png"></p><p>&emsp;&emsp;<span>执行该流程点的目的是为了给后续流程中的合并方式给出依据条件，合并方式即图3中的</span><font color=blue><span>naive merge</span></font><span>、</span><font color=green><span>optimized merge</span></font><span>、</span><font color=red><span>bulk merge</span></font><span>。这三种合并方式描述了合并后生成的新的索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的生成方式以及读取待合并的索引文件的方式。</span></p><p>&emsp;&emsp;<span>统计的逻辑为判断所有的段对应的域名与域的编号的映射关系是否都相同（Computes which segments have identical field name to number mappings）。至于在什么情况下会出现不一致的情况，我们将在介绍</span><strong><span>索引文件的合并之fnm</span></strong><span>中展开。</span></p><h3><a name="是否配置了indexsort" class="md-header-anchor"></a><span>是否配置了IndexSort？</span></h3><p><span>图8：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/8.png"></p><p>&emsp;&emsp;<span>该流程点通过判断IndexWriter的配置信息</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html'><span>IndexWriterConfig</span></a><span>来确定是否配置了IndexSort。如果配置了段内排序，那么合并后的段将会段内有序，即段内的文档将会根据IndexWriterConfig中的一个或者多个排序规则进行排序。</span></p><h5><a name="段内排序" class="md-header-anchor"></a><span>段内排序</span></h5><p>&emsp;&emsp;<span>待合并的段集合中，要么所有段有相同的段内排序规则，要么都没有段内排序，也就是不存在只有部分段有段内排序，也不存在不同的段有不同的排序规则。</span></p><p>&emsp;&emsp;<span>在IndexWriter构造阶段，配置信息IndexSort属于</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html'><span>不可变配置</span></a><span>，使得通过该IndexWriter对象生成的段总是拥有相同的段内排序规则。另外IndexWriter的构造函数中包含一个</span><a href='https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html'><span>Directory</span></a><span>对象，如果构造IndexWriter时配置的</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html'><span>OpenMode</span></a><span>模式为CREATE_OR_APPEND或者APPEND，会先读取Directory对应的索引目录中&quot;旧的&quot;段，它们是其他IndexWriter对象生成的，可能这些&quot;旧的&quot;段中的段内排序规则跟当前IndexWriter中的不一致，那么Lucene不允许读取这些&quot;旧的&quot;的索引文件，会抛出以下的异常：</span></p><p><span>图9：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/9.png"></p><p>&emsp;&emsp;<span>图9中segmentIndexSort为&quot;旧的&quot;索引文件中的段内排序规则，IndexSort为当前IndexWriter的段内排序规则。</span></p><p>&emsp;&emsp;<strong><span>为什么Lucene不允许配置了IndexSort的IndexWriter读取段内排序规则不相同的&quot;旧的&quot;段</span></strong><span>：</span></p><ul><li><span>如果允许读取，那么这个&quot;旧的&quot;段在跟新的段合并时，需要对这个&quot;旧的&quot;段按照IndexWriter中的排序规则进行重新排序，在这个issue中指出，在内存中进行重新排序是不安全或者影响合并性能的，详细的介绍见：</span><a href='https://issues.apache.org/jira/browse/LUCENE-8505' target='_blank' class='url'>https://issues.apache.org/jira/browse/LUCENE-8505</a><span> 。</span></li><li><span>在Lucene 8.0.0之前，如果&quot;旧的&quot;段没有段内排序规则，并且是Lucene 6.5.0或之前的版本生成的段，那么在段的合并期间会对这些&quot;旧的&quot;段先进行排序，然后再合并。原因是段内排序这个功能是Lucene 6.5.0新加入的，出于兼容的目的才允许这么做。而在Lucene 8.0.0之后则取消了，正如图9所示，&quot;旧的&quot;段中没有排序规则或者跟IndexWriter中的排序规则不一致就抛出异常，同样的上述的issue中说明了原因。如果一定要使用&quot;旧的&quot;索引文件，只能reIndex。注意的是IndexWriter.addIndexes(...)方法中同样进行跟图9中一样的非法验证。</span></li><li><span>当然如果当前IndexWriter中没有配置段内排序，那么它就不会去检查&quot;旧的&quot;段中是否有段内排序， 正如图9中第1131行代码所示。</span></li></ul><h2><a name="结语" class="md-header-anchor"></a><span>结语</span></h2><p>&emsp;&emsp;<span>无</span></p><p><a href='https://www.amazingkoala.com.cn/attachment/Lucene/Index/索引文件的合并/索引文件的合并（一）/索引文件的合并（一）.zip'><span>点击</span></a><span>下载附件</span></p></div>
+</body>
+</html>
