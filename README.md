@@ -83,6 +83,7 @@
 ##### 5. 索引文件的合并
 
 - [索引文件的合并（一）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html)
+- [索引文件的合并（二）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1202/181.html)
 
 ##### 6. 文档的增删改
 

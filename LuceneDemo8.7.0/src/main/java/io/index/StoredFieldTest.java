@@ -22,7 +22,7 @@ public class StoredFieldTest {
 
     {
         try {
-//            FileOperation.deleteFile("./data");
+            FileOperation.deleteFile("./data");
             directory = new MMapDirectory(Paths.get("./data"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class StoredFieldTest {
         SortField indexSortField = new SortField(sortedField, SortField.Type.LONG);
 //        SortField indexSortField = new SortField(sortedField2, SortField.Type.LONG);
         Sort indexSort = new Sort(indexSortField);;
-//        conf.setIndexSort(indexSort);
+        conf.setIndexSort(indexSort);
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
         FieldType type = new FieldType();
@@ -63,7 +63,7 @@ public class StoredFieldTest {
             // 文档1
             doc = new Document();
             doc.add(new StringField("attachment", "cd", Field.Store.NO));
-            doc.add(new NumericDocValuesField(sortedField, 1));
+            doc.add(new NumericDocValuesField(sortedField, 3));
             doc.add(new NumericDocValuesField(sortedField2, 1));
             indexWriter.addDocument(doc);
             // 文档2
@@ -73,7 +73,6 @@ public class StoredFieldTest {
             indexWriter.addDocument(doc);
             if(count % 1000 == 0){
                 indexWriter.commit();
-                break;
             }
         }
         indexWriter.commit();

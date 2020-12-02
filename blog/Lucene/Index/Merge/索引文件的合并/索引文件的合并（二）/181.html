@@ -1,0 +1,548 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>索引文件的合并（二）-html</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+
+</style>
+</head>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="索引文件的合并二）httpswwwamazingkoalacomcnluceneindexlucene-870）" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/Index/'><span>索引文件的合并（二）</span></a><span>（Lucene 8.7.0）</span></h1><p>&emsp;&emsp;<span>本文承接文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html'><span>索引文件的合并（一）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>，继续介绍剩余的内容，下面先给出索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的合并流程图。</span></p><h2><a name="索引文件fdxfdtfdm的合并流程图" class="md-header-anchor"></a><span>索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的合并流程图</span></h2><p><span>图1：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/1.png"></p><h3><a name="docmap-数组" class="md-header-anchor"></a><span>DocMap[ ]数组</span></h3><p>&emsp;&emsp;<span>继续介绍图1的流程点之前，我们先介绍下DocMap[ </span><span>]</span><span>数组，如果合并后的段是段内排序的，那么需要在构造MergeState（见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html'><span>索引文件的合并（一）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>的介绍）对象期间生成DocMap[ ]数组，数组中的数组元素描述了某个待合并的段的一个映射关系，它描述了段中文档号到新段文档号的映射关系。</span></p><p><span>图2：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/2.png"></p><p>&emsp;&emsp;<span>图2中描述了待合并的段中的文档号映射到新段后的文档号。其中待合并的第一个段中的文档号3以及待合并的第二个段的文档号2用</span><font color=#FF0000><span>红框</span></font><span>额外标注，它们表示这两篇文档号是被标记为删除的，在合并后的新段中不会出现这两个文档号映射关系（代码中其实有删除文档号到新段文档号的映射，只是在合并的过程中会通过</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html'><span>索引文件之liv</span></a><span>过滤，所以相当于没有映射关系）。图2中的映射关系使用DocMap[ ]数组存储：</span></p><p><span>图3：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/3.png"></p><p><strong><span>图2中的映射关系是如何生成的：</span></strong></p><p>&emsp;&emsp;<span>回答这个问题前必须再次强调在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html'><span>索引文件的合并（一）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中的内容：待合并的段中的文档号是段内有序的，并且所有的段的排序规则都是相同的。</span></p><p>&emsp;&emsp;<span>生成图2的映射关系的大概逻辑就是：</span></p><ul><li><span>把所有的段丢进一个优先级队列中，所以这个队列中的元素数量为待合并的段的数量</span></li><li><span>优先级队列的排序规则为比较文档中的一个或者多个排序域（排序域即跟IndexWriter中的</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html'><span>IndexSort</span></a><span>相同域名的域），如果排序域仍然无法比较出结果，那么就根据文档所属段的编号（生成一个段的生成是同步的，先生成的段对应的编号小），编号越小则胜出。</span></li><li><span>每个段按照文档号大小的顺序，每次取出一篇文档中的排序域参与比较，如果胜出，那么这篇文档的文档号建立与新段中的文档号的映射，接着这个段取出下一篇文档中的排序域继续参与比较，随后优先级队列重排</span></li></ul><p>&emsp;&emsp;<span>详细的过程可以看源码，实现方式易读易懂：</span><a href='https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/MultiSorter.java' target='_blank' class='url'>https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/MultiSorter.java</a><span>  。虽然是Lucene 8.4.0的链接，但是跟Lucene 8.7.0中的实现是一样的。</span></p><p><span>图4：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/4.png"></p><p>&emsp;&emsp;<span>我们看下MultiSorter的注释，它提到所有的leaf reader必须是有序的并且使用相同的排序规则，即上文中提到的待合并的段中的文档号是段内有序的，并且所有的段的排序规则都是相同的。</span></p><h3><a name="初始化优先级队列" class="md-header-anchor"></a><span>初始化优先级队列</span></h3><p><span>图5：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/5.png"></p><p>&emsp;&emsp;<span>当前流程点需要初始化了一个优先级队列，目的在于随后的剩余的流程中我们将通过这个优先级队列有序的取出获得一个文档号，它对应的索引文件信息将被写入到新的索引文件。</span></p><p>&emsp;&emsp;<span>初始化优先级队列的大概逻辑为：</span></p><ul><li><span>把所有的段丢这个优先级队列中</span></li><li><span>优先级队列的排序规则为比较段中的文档号映射到新段的文档号，我们称之为mappedDocID（源码中的变量名），mappedDocID越小优先级越高。获得mappedDocID的方式正是上文中提到的DocMap[ ]数组</span></li></ul><h3><a name="是否每个段中的域名信息都相同" class="md-header-anchor"></a><span>是否每个段中的域名信息都相同？</span></h3><p><span>图6：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/6.png"></p><p>&emsp;&emsp;<span>域名信息的概念在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html'><span>索引文件的合并（一）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中以及介绍，不赘述。如果当前流程点为true，那么能使用比naive merger性能较高的optimized merge。</span></p><h3><a name="执行naive-merge" class="md-header-anchor"></a><span>执行naive merge</span></h3><p><span>图7：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/7.png"></p><p>&emsp;&emsp;<font color=blue><span>naive merge</span></font><span>同图2中的</span><font color=green><span>optimized merge</span></font><span>、</span><font color=red><span>bulk merge</span></font><span>属于索引文件的合并方式。由于索引文件的合并实际是读取旧的索引文件以及生成新的索引文件的过程，所以我们结合</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html'><span>索引文件fdx&amp;&amp;fdt&amp;&amp;fdm的生成</span></a><span>过程来介绍这几种合并方式的差异。</span></p><p>&emsp;&emsp;<span>执行naive merge的过程可以划分下面几个步骤：</span></p><h4><a name="第一步从图5的优先级队列中找到优先级最高的段对应的文档号" class="md-header-anchor"></a><span>第一步：从图5的优先级队列中找到优先级最高的段对应的文档号</span></h4><p>&emsp;&emsp;<span>由于新的段也是段内排序的，所以我们从优先级队列中有序的取出后再写入到新段，使得新的段也能保持有序</span></p><h4><a name="第二步根据文档号从索引文件fdt中读取一个chunk然后这个chunk中找到这个文档号对应的存储域信息" class="md-header-anchor"></a><span>第二步：根据文档号从索引文件.fdt中读取一个Chunk，然后这个Chunk中找到这个文档号对应的存储域信息</span></h4><p>&emsp;&emsp;<span>其读取过程正如文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/174.html'><span>索引文件的读取（十四）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中的内容，按照下面的流程图读取：</span></p><p><span>图8：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/8.png"></p><p>&emsp;&emsp;<span>图8中根据文档号从一个段中取出了对应的存储域的信息，Document描述。</span></p><h4><a name="第三步将存储域的信息写入到新的索引文件中" class="md-header-anchor"></a><span>第三步：将存储域的信息写入到新的索引文件中</span></h4><p>&emsp;&emsp;<span>其写入过程正如文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html'><span>索引文件的生成（二十三）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中的内容，按照下面的流程图写入：</span></p><p><span>图9：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/9.png"></p><p>&emsp;&emsp;<span>图9中用</span><font color=red><span>红框</span></font><span>标注的流程点描述了当前步骤需要执行的写入操作。这里标注的目的是为了与其他的合并方式相比较，下文中会展开介绍。</span></p><p>&emsp;&emsp;<span>重复上述3个步骤，直到所有待合并的段中的文档号都被处理结束。</span></p><h3><a name="执行optimized-merge" class="md-header-anchor"></a><span>执行optimized merge</span></h3><p><span>图10：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/10.png"></p><p>&emsp;&emsp;<span>执行optimized merge的过程同naive merge一样可以划分为下面的步骤：</span></p><h4><a name="第一步从图5的优先级队列中找到优先级最高的段对应的文档号-n152" class="md-header-anchor"></a><span>第一步：从图5的优先级队列中找到优先级最高的段对应的文档号</span></h4><p>&emsp;&emsp;<span>同naive merge。</span></p><h4><a name="第二步根据文档号从索引文件fdt中读取一个chunk然后这个chunk中找到这个文档号对应的存储域信息-n154" class="md-header-anchor"></a><span>第二步：根据文档号从索引文件.fdt中读取一个Chunk，然后这个Chunk中找到这个文档号对应的存储域信息</span></h4><p>&emsp;&emsp;<span>同naive merge。</span></p><h4><a name="第三步将存储域的信息写入到新的索引文件中-n156" class="md-header-anchor"></a><span>第三步：将存储域的信息写入到新的索引文件中</span></h4><p>&emsp;&emsp;<span>其写入过程正如文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html'><span>索引文件的生成（二十三）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中的内容，按照下面的流程图写入：</span></p><p><span>图11：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/11.png"></p><p>&emsp;&emsp;<span>相比较图9，发现optimized merge不需要执行</span><code>处理存储域的域值信息</code><span>这步骤。</span></p><p><strong><span>为什么不用执行</span><code>处理存储域的域值信息</code><span>这两个流程：</span></strong></p><p>&emsp;&emsp;<span>我们先看下存储域的域值信息包含了什么信息，如下所示：</span></p><p><span>图12：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/12.png"></p><p>&emsp;&emsp;<span>图12中，使用bufferedDocs[ </span><span>]</span><span>数组存放存储域的域值信息（该数组的详细介绍见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html'><span>索引文件的生成（二十三）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>），可见包含了</span><font color=red><span>红框</span></font><span>标注的域的编号的信息。如果待合并的段集合中某一个或多个段的域的编号信息跟MergeState中的域的编号mergeFieldInfos（见文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1130/180.html'><span>索引文件的合并（一）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>的图4）不一致，就需要重新获取域的编号信息，意味着图12中的存储域的域值信息会发生变化。反之，如果某个待合并的段中的域的编号跟MergeState中的域的编号信息一致，则可以</span><strong><span>复用</span></strong><span>图12中的域值信息。那么只要</span><strong><span>拷贝</span></strong><span>文档对应在图12中的存储域的域值信息（字节流）到新段的bufferedDoc[ </span><span>]</span><span>数组中即可，即不用通过执行</span><code>处理存储域的域值信息</code><span>给新段的bufferedDoc[ </span><span>]</span><span>数组赋值。</span></p><p><span>图13：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（二）/13.png"></p><p>&emsp;&emsp;<span>上文中我们提到合并过程是依次处理段中的每篇文档，那么如何根据某个待合并的段中的文档号，找到它对应的存储域的域值信息呢，即如果当前处理的文档号0，如何从找到图13中找到文档号0的存储域的域值信息在索引文件.fdx的数据区间呢？</span></p><p>&emsp;&emsp;<span>在图8中，当我们执行了流程点</span><code>读取一个Chunk</code><span>之后，即获得了图13中的DocFieldCounts以及DocLengths字段信息，根据这两个信息就可以获得某篇文档的存储域的信息在索引文件.fdx的数据区间。感兴趣的朋友可以阅读文章</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html'><span>索引文件的生成（二十三）之fdx&amp;&amp;fdt&amp;&amp;fdm</span></a><span>中的介绍，本文中不赘述。</span></p><h2><a name="结语" class="md-header-anchor"></a><span>结语</span></h2><p>&emsp;&emsp;<span>通过上文介绍，我们了解s了为什么要执行不同的合并方式以及</span><font color=blue><span>naive merge</span></font><span>以及</span><font color=green><span>optimized merge</span></font><span>的区别，其实差别并不是太大。</span></p><p><a href='https://www.amazingkoala.com.cn/attachment/Lucene/Index/索引文件的合并/索引文件的合并（二）/索引文件的合并（二）.zip'><span>点击</span></a><span>下载附件</span></p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></div>
+</body>
+</html>
