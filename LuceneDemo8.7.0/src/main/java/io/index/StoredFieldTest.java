@@ -39,7 +39,7 @@ public class StoredFieldTest {
         SortField indexSortField = new SortField(sortedField, SortField.Type.LONG);
 //        SortField indexSortField = new SortField(sortedField2, SortField.Type.LONG);
         Sort indexSort = new Sort(indexSortField);;
-        conf.setIndexSort(indexSort);
+//        conf.setIndexSort(indexSort);
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
         FieldType type = new FieldType();
@@ -51,7 +51,7 @@ public class StoredFieldTest {
         type.setStoreTermVectorPayloads(true);
         Document doc ;
         int count = 0;
-        while (count++ < 1000000){
+        while (count++ < 10000000){
 //            doc = new Document();
 //            doc.add(new Field("good", "the name is name", type));
 //            indexWriter.addDocument(doc);
@@ -71,8 +71,9 @@ public class StoredFieldTest {
             doc.add(new Field("content", "the name is name", type));
             doc.add(new NumericDocValuesField(sortedField, 2));
             indexWriter.addDocument(doc);
-            if(count % 1000 == 0){
+            if(count % 341 == 0){
                 indexWriter.commit();
+//                break;
             }
         }
         indexWriter.commit();
