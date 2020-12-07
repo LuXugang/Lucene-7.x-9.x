@@ -133,10 +133,7 @@ public class IndexFileWithLessFieldValues {
     builder.add(new TermQuery(new Term("title", "aab")), BooleanClause.Occur.SHOULD);
 
 
-   ScoreDoc doc[]  =  indexSearcher.search(builder.build() , 10).scoreDocs;
-
-    System.out.printf("ha");
-
+   indexSearcher.search(builder.build() , new TotalHitCountCollector());
   }
 
   public static void main(String[] args) throws Exception{

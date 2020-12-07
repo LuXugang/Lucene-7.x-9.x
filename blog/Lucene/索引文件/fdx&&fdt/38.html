@@ -16,6 +16,7 @@ a:active, a:hover { outline: 0px; }
 .for-image #write { padding-left: 8px; padding-right: 8px; }
 body.typora-export { padding-left: 30px; padding-right: 30px; }
 .typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
 @media screen and (max-width: 500px) { 
   body.typora-export { padding-left: 0px; padding-right: 0px; }
   #write { padding-left: 20px; padding-right: 20px; }
@@ -24,13 +25,14 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
 }
 #write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
 button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
 input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
 *, ::after, ::before { box-sizing: border-box; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
 p { orphans: 4; }
 h1 { font-size: 2rem; }
 h2 { font-size: 1.8rem; }
@@ -42,11 +44,11 @@ h6 { font-size: 1rem; }
 .hidden { display: none; }
 .md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
 a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
 sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
 #write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
 figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
+figure > table { margin: 0px; }
 tr { break-inside: avoid; break-after: auto; }
 thead { display: table-header-group; }
 table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
@@ -81,23 +83,24 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
 .footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print { 
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
   #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
   .typora-export * { -webkit-print-color-adjust: exact; }
   html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
+  .typora-export #write { break-after: avoid; }
   .typora-export #write::after { height: 0px; }
-  @page { margin: 20mm 0px; }
+  .is-mac table { break-inside: avoid; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
 a img, img a { cursor: pointer; }
 pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
 p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
 p > .md-image:only-child { display: inline-block; width: 100%; }
 #write .MathJax_Display { margin: 0.8em 0px 0px; }
 .md-math-block { width: 100%; }
 .md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
 .md-task-list-item { position: relative; list-style-type: none; }
 .task-list-item.md-task-list-item { padding-left: 0px; }
 .md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
@@ -138,15 +141,22 @@ a.md-print-anchor { white-space: pre !important; border: none !important; displa
 .MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
 .MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
 .MathJax_SVG * { transition: none; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
 .os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
 .md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
 [lang="mermaid"] .node text { font-size: 1rem; }
 table tr th { border-bottom-width: 0px; }
 video { max-width: 100%; display: block; margin: 0px auto; }
 iframe { max-width: 100%; width: 100%; border: none; }
 .highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
 
 
 :root {
@@ -156,12 +166,16 @@ iframe { max-width: 100%; width: 100%; border: none; }
 
 @include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
 
-html {
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
     font-size: 16px;
 }
 
 body {
-    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: rgb(51, 51, 51);
     line-height: 1.6;
 }
@@ -172,6 +186,19 @@ body {
   	padding: 30px;
     padding-bottom: 100px;
 }
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
 #write > ul:first-child,
 #write > ol:first-child{
     margin-top: 30px;
@@ -226,17 +253,33 @@ h6 code {
     font-size: inherit;
 }
 h1 {
-    padding-bottom: .3em;
     font-size: 2.25em;
     line-height: 1.2;
     border-bottom: 1px solid #eee;
 }
 h2 {
-   padding-bottom: .3em;
     font-size: 1.75em;
     line-height: 1.225;
     border-bottom: 1px solid #eee;
 }
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
 h3 {
     font-size: 1.5em;
     line-height: 1.43;
@@ -313,13 +356,11 @@ table tr th {
     font-weight: bold;
     border: 1px solid #dfe2e5;
     border-bottom: 0;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
 table tr td {
     border: 1px solid #dfe2e5;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
@@ -489,11 +530,19 @@ header, .context-menu, .megamenu-content, footer{
     border-color: #e5e5e5;
 }
 
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
  .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
 </style>
 </head>
-<body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name='header-n4814' class='md-header-anchor '></a><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/'>fdx&amp;&amp;fdt</a></h1><p>&emsp;&emsp;当STORE.YES的域生成了<a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html'>倒排表</a>以后，将文档的域值信息写入到.fdt（field data）、.fdx（field index）文件中。</p><h1><a name='header-n4817' class='md-header-anchor '></a>数据结构</h1><h2><a name='header-n4818' class='md-header-anchor '></a>.fdt</h2><p>图1：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/1.png"></p><h3><a name='header-n4821' class='md-header-anchor '></a>ChunkSize</h3><p>&emsp;&emsp;ChunkSize用来描述压缩存储域值信息的方式，后面会详细介绍。</p><h3><a name='header-n4823' class='md-header-anchor '></a>PackedIntsVersion</h3><p>&emsp;&emsp;PackedIntsVersion描述了压缩使用的方式，当前版本中是VERSION_MONOTONIC_WITHOUT_ZIGZAG。</p><h3><a name='header-n4825' class='md-header-anchor '></a>Chunk</h3><p>图2：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/2.png"></p><p>&emsp;&emsp;生成一个chunk的条件是 文档个数达到128 或者 所有文档的域值信息的总长度 达到ChunkSize。</p><h4><a name='header-n4829' class='md-header-anchor '></a>DocBase</h4><p>&emsp;&emsp;当前chunk中第一个文档的文档号，因为根据这个文档号来差值存储，在读取的阶段需要根据该值恢复其他文档号。</p><h4><a name='header-n4831' class='md-header-anchor '></a>ChunkDocs</h4><p>图3：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/3.png"></p><p>&emsp;&emsp;ChunkDocs是一个numBufferedDocs跟slicedBit的组合值。ChunkDocs = (numBufferedDocs |slicedBit )。</p><h5><a name='header-n4835' class='md-header-anchor '></a>numBufferedDocs</h5><p>&emsp;&emsp;numBufferedDocs描述了当前chunk中的文档数量。numBufferedDocs是一个 ≤ 128的值。</p><h5><a name='header-n4837' class='md-header-anchor '></a>slicedBit</h5><p>&emsp;&emsp;如果待处理的域值信息的长度超过2倍的chunkSize（默认值 16384），那么需要分块压缩，下文会具体介绍。</p><h4><a name='header-n4839' class='md-header-anchor '></a>DocFieldCounts</h4><p>&emsp;&emsp;根据chunk中包含的文档个数numBufferedDocs、每篇文档包含的存储域的个数numStoredFields分为不同的情况。</p><h5><a name='header-n4841' class='md-header-anchor '></a>numBufferedDocs的个数为1</h5><p>图4：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/4.png"></p><h5><a name='header-n4844' class='md-header-anchor '></a>numBufferedDocs的个数＞ 1 并且每篇文档中的numStoredFields都是相同的</h5><p>图5：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/5.png"></p><p>&emsp;&emsp;只要存储一个numStoredFields的值就行啦。</p><h5><a name='header-n4848' class='md-header-anchor '></a>numBufferedDocs的个数＞ 1 并且每篇文档中的numStoredFields不都相同的</h5><p>图6：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/6.png"></p><p>&emsp;&emsp;使用PackedInt来存储所有的numStoredFields，这里不赘述了，<a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html'>点击这里</a>可以看其中的一种压缩方式。</p><h4><a name='header-n4852' class='md-header-anchor '></a>DocLengths</h4><p>&emsp;&emsp;同DocFieldCounts类似，据chunk中包含的文档个数numBufferedDocs、每篇文档中域值信息的长度分为不同的情况。</p><h5><a name='header-n4854' class='md-header-anchor '></a>numBufferedDocs的个数为1</h5><p>图7：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/7.png"></p><h5><a name='header-n4857' class='md-header-anchor '></a>numBufferedDocs的个数＞ 1 并且每篇文档中的域值信息长度都是相同的</h5><p>图8：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/8.png"></p><h5><a name='header-n4860' class='md-header-anchor '></a>numBufferedDocs的个数＞ 1 并且每篇文档中的域值信息长度不都是相同的</h5><p>图9：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/9.png"></p><p>&emsp;&emsp;使用PackedInt来存储所有的域值信息长度，这里不赘述了，<a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html'>点击这里</a>可以看其中的一种压缩方式。</p><h4><a name='header-n4864' class='md-header-anchor '></a>CompressedDocs</h4><p>图10：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/10.png">
-&emsp;&emsp;CompressedDocs中使用<a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html'>LZ4</a>算法将域值信息压缩存储。域值信息包含如下内容：</p><ul><li>Doc的个数为chunk中包含的文档个数</li><li>域的编号</li><li>域值的类型：String、BinaryValue、Int、Float、Long、Double</li><li>域值的编号跟域值的类型组合存储为FieldNumAndType</li><li>Value：域值</li></ul><h2><a name='header-n4878' class='md-header-anchor '></a>.fdt整体数据结构</h2><p>图11：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/11.png"></p><p>&emsp;&emsp;上图中是其中一种 .fdt文件数据结构。</p><p>图12：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/12.png"></p><h3><a name='header-n4884' class='md-header-anchor '></a>Block</h3><p>图13：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/13.png"></p><p>&emsp;&emsp;在.fdt中，每当chunk的个数达到1024(blockSzie)，在.fdx文件中就会生成一个block，block中的信息作为索引来映射.fdt中的数据区间。</p><h4><a name='header-n4888' class='md-header-anchor '></a>BlockChunks</h4><p>&emsp;&emsp;block中包含的chunk的个数，即1024个。</p><h4><a name='header-n4890' class='md-header-anchor '></a>DocBases</h4><p>图14：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/14.png"></p><p>&emsp;&emsp;DocBases中描述了文档号的信息。</p><h5><a name='header-n4894' class='md-header-anchor '></a>DocBase</h5><p>&emsp;&emsp;block中第一个文档的文档号。用来在读取阶段，恢复所有chunk中其他被编码的文档号。</p><h5><a name='header-n4896' class='md-header-anchor '></a>AvgChunkDocs</h5><p>&emsp;&emsp;AvgChunkDocs描述了block中平均一个chunk中包含的文档数。</p><h5><a name='header-n4898' class='md-header-anchor '></a>BitsPerDocBaseDelta</h5><p>&emsp;&emsp;BitsPerDocBaseDelta描述了存储文档号的需要固定bit个数。</p><h5><a name='header-n4900' class='md-header-anchor '></a>DocBaseDeltas</h5><p>&emsp;&emsp;一个block中用docBaseDeltas[]数组来存放每个chunk中的文档个数，而每一个chunk中的文档个数是不一样的，出于最大化优化空间存储，不直接对文档数量值进行存储，而是存储差值docDelta。又因为docBaseDeltas[]数组又不能保证数组元素递增，所以不能使用相邻数组元素的差值来作为docDelta，Lucene提供的方法就是计算docBaseDeltas[]中数组元素平均值avgChunkDocs，对每一个数组元素存储一个docDelta的值，docDelta的计算公式为：docDelta = ( docBase - avgChunkDocs * i), 其中i为数组的下标值，docBase是下标值为i的数组元素前所有的数组元素之和，然后对所有docDelta使用PackedInts进行压缩编码，即DocBaseDeltas。</p><h4><a name='header-n4902' class='md-header-anchor '></a>StartPointers</h4><p>图15：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/15.png"></p><p>&emsp;&emsp;StartPointers中描述了.fdt文件中每一个chunk的索引映射信息。</p><h5><a name='header-n4906' class='md-header-anchor '></a>StartPointerBase</h5><p>&emsp;&emsp;当前block中第一个chunk的索引值。</p><h5><a name='header-n4908' class='md-header-anchor '></a>AvgChunkSize</h5><p>&emsp;&emsp;block中平均每一个chunk的大小。</p><h5><a name='header-n4910' class='md-header-anchor '></a>BitsPerStartPointerDelta</h5><p>&emsp;&emsp;存储每一个chunk大小需要固定bit个数。</p><h5><a name='header-n4912' class='md-header-anchor '></a>StartPointerDeltas</h5><p>&emsp;&emsp;逻辑跟DocBaseDeltas一样，不赘述。</p><h3><a name='header-n4914' class='md-header-anchor '></a>DirtyChunkCount</h3><p>&emsp;&emsp;chunk的个数。</p><h2><a name='header-n4916' class='md-header-anchor '></a>.fdx整体数据结构</h2><p>图16：</p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/16.png"></p><h1><a name='header-n4919' class='md-header-anchor '></a>结语</h1><p>&emsp;&emsp;没啥要讲的。</p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/fdx&&fdt.zip'>点击下载</a>Markdown文件</p></div>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="fdxfdthttpswwwamazingkoalacomcnlucenesuoyinwenjian" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/'><span>fdx&amp;&amp;fdt</span></a></h1><p>&emsp;&emsp;<span>当STORE.YES的域生成了</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html'><span>倒排表</span></a><span>以后，将文档的域值信息写入到.fdt（field data）、.fdx（field index）文件中。</span></p><h1><a name="数据结构" class="md-header-anchor"></a><span>数据结构</span></h1><h2><a name="fdt" class="md-header-anchor"></a><span>.fdt</span></h2><p><span>图1：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/1.png"></p><h3><a name="chunksize" class="md-header-anchor"></a><span>ChunkSize</span></h3><p>&emsp;&emsp;<span>ChunkSize作为一个参数，用来判断是否要生成一个Chunk，以及用来描述压缩存储域值信息的方式，后面会详细介绍。</span></p><h3><a name="packedintsversion" class="md-header-anchor"></a><span>PackedIntsVersion</span></h3><p>&emsp;&emsp;<span>PackedIntsVersion描述了压缩使用的方式，当前版本中是VERSION_MONOTONIC_WITHOUT_ZIGZAG。</span></p><h3><a name="chunk" class="md-header-anchor"></a><span>Chunk</span></h3><p><span>图2：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/2.png"></p><p>&emsp;&emsp;<span>在处理每一篇文档的过程中，如果满足以下任意一个条件，那么就将已处理的文档的域值信息生成一个chunk：</span></p><ul><li><span>已处理的文档数量达到128</span></li><li><span>已处理的所有域值的总长度达到ChunkSize。</span></li></ul><h4><a name="docbase" class="md-header-anchor"></a><span>DocBase</span></h4><p>&emsp;&emsp;<span>当前chunk中第一个文档的文档号（该文档号为段内文档号），因为根据这个文档号来差值存储，在读取的阶段需要根据该值恢复其他文档号。</span></p><h4><a name="chunkdocs" class="md-header-anchor"></a><span>ChunkDocs</span></h4><p><span>图3：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/3.png"></p><p>&emsp;&emsp;<span>ChunkDocs是一个numBufferedDocs跟slicedBit的组合值。ChunkDocs = (numBufferedDocs |slicedBit )。</span></p><h5><a name="numbuffereddocs" class="md-header-anchor"></a><span>numBufferedDocs</span></h5><p>&emsp;&emsp;<span>numBufferedDocs描述了当前chunk中的文档数量。numBufferedDocs是一个 ≤ 128的值。</span></p><h5><a name="slicedbit" class="md-header-anchor"></a><span>slicedBit</span></h5><p>&emsp;&emsp;<span>如果待处理的域值信息的长度超过2倍的chunkSize（默认值 16384），那么需要分块压缩，下文会具体介绍。</span></p><h4><a name="docfieldcounts" class="md-header-anchor"></a><span>DocFieldCounts</span></h4><p>&emsp;&emsp;<span>根据chunk中包含的文档个数numBufferedDocs、每篇文档包含的存储域的数量numStoredFields分为不同的情况。</span></p><h5><a name="numbuffereddocs的个数为1" class="md-header-anchor"></a><span>numBufferedDocs的个数为1</span></h5><p><span>图4：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/4.png"></p><h5><a name="numbuffereddocs的个数＞-1-并且每篇文档中的numstoredfields都是相同的" class="md-header-anchor"></a><span>numBufferedDocs的个数＞ 1 并且每篇文档中的numStoredFields都是相同的</span></h5><p><span>图5：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/5.png"></p><p>&emsp;&emsp;<span>只要存储一个numStoredFields的值就行啦。</span></p><h5><a name="numbuffereddocs的个数＞-1-并且每篇文档中的numstoredfields不都相同的" class="md-header-anchor"></a><span>numBufferedDocs的个数＞ 1 并且每篇文档中的numStoredFields不都相同的</span></h5><p><span>图6：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/6.png"></p><p>&emsp;&emsp;<span>使用PackedInt来存储所有的numStoredFields，这里不赘述了，</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html'><span>点击这里</span></a><span>可以看其中的一种压缩方式。</span></p><h4><a name="doclengths" class="md-header-anchor"></a><span>DocLengths</span></h4><p>&emsp;&emsp;<span>同DocFieldCounts类似，据chunk中包含的文档个数numBufferedDocs、每篇文档中域值信息的长度分为不同的情况。</span></p><h5><a name="numbuffereddocs的个数为1-n45" class="md-header-anchor"></a><span>numBufferedDocs的个数为1</span></h5><p><span>图7：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/7.png"></p><h5><a name="numbuffereddocs的个数＞-1-并且每篇文档中的域值信息长度都是相同的" class="md-header-anchor"></a><span>numBufferedDocs的个数＞ 1 并且每篇文档中的域值信息长度都是相同的</span></h5><p><span>图8：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/8.png"></p><h5><a name="numbuffereddocs的个数＞-1-并且每篇文档中的域值信息长度不都是相同的" class="md-header-anchor"></a><span>numBufferedDocs的个数＞ 1 并且每篇文档中的域值信息长度不都是相同的</span></h5><p><span>图9：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/9.png"></p><p>&emsp;&emsp;<span>使用PackedInt来存储所有的域值信息长度，这里不赘述了，</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html'><span>点击这里</span></a><span>可以看其中的一种压缩方式。</span></p><h4><a name="compresseddocs" class="md-header-anchor"></a><span>CompressedDocs</span></h4><p><span>图10：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/10.png"></p><p>&emsp;&emsp;<span>CompressedDocs中使用</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html'><span>LZ4</span></a><span>算法将域值信息压缩存储。域值信息包含如下内容，字段Doc的数量对应为一个chunk中包含的文档数量：</span></p><ul><li><span>域的编号</span></li><li><span>域值的类型：String、BinaryValue、Int、Float、Long、Double</span></li><li><span>域值的编号跟域值的类型组合存储为FieldNumAndType</span></li><li><span>Value：域值</span></li></ul><h2><a name="fdt整体数据结构" class="md-header-anchor"></a><span>.fdt整体数据结构</span></h2><p><span>图11：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/11.png"></p><p>&emsp;&emsp;<span>上图中是其中一种 .fdt文件数据结构。</span></p><p><span>图12：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/12.png"></p><h3><a name="block" class="md-header-anchor"></a><span>Block</span></h3><p><span>图13：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/13.png"></p><p>&emsp;&emsp;<span>在.fdt中，每当chunk的个数达到1024(blockSzie)，在.fdx文件中就会生成一个block，block中的信息作为索引来映射.fdt中的数据区间。</span></p><h4><a name="blockchunks" class="md-header-anchor"></a><span>BlockChunks</span></h4><p>&emsp;&emsp;<span>block中包含的chunk的个数，即1024个。</span></p><h4><a name="docbases" class="md-header-anchor"></a><span>DocBases</span></h4><p><span>图14：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/14.png"></p><p>&emsp;&emsp;<span>DocBases中描述了文档号的信息。</span></p><h5><a name="docbase-n84" class="md-header-anchor"></a><span>DocBase</span></h5><p>&emsp;&emsp;<span>block中第一个文档的文档号。用来在读取阶段，恢复所有chunk中其他被编码的文档号。</span></p><h5><a name="avgchunkdocs" class="md-header-anchor"></a><span>AvgChunkDocs</span></h5><p>&emsp;&emsp;<span>AvgChunkDocs描述了block中平均一个chunk中包含的文档数。</span></p><h5><a name="bitsperdocbasedelta" class="md-header-anchor"></a><span>BitsPerDocBaseDelta</span></h5><p>&emsp;&emsp;<span>BitsPerDocBaseDelta描述了存储文档号的需要固定bit个数。</span></p><h5><a name="docbasedeltas" class="md-header-anchor"></a><span>DocBaseDeltas</span></h5><p>&emsp;&emsp;<span>一个block中用docBaseDeltas[]数组来存放每个chunk中的文档个数，而每一个chunk中的文档个数是不一样的，出于最大化优化空间存储，不直接对文档数量值进行存储，而是存储差值docDelta。又因为docBaseDeltas[]数组又不能保证数组元素递增，所以不能使用相邻数组元素的差值来作为docDelta，Lucene提供的方法就是计算docBaseDeltas[]中数组元素平均值avgChunkDocs，对每一个数组元素存储一个docDelta的值，docDelta的计算公式为：docDelta = ( docBase - avgChunkDocs * i), 其中i为数组的下标值，docBase是下标值为i的数组元素前所有的数组元素之和，然后对所有docDelta使用PackedInts进行压缩编码，即DocBaseDeltas。</span></p><h4><a name="startpointers" class="md-header-anchor"></a><span>StartPointers</span></h4><p><span>图15：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/15.png"></p><p>&emsp;&emsp;<span>StartPointers中描述了.fdt文件中每一个chunk的索引映射信息。</span></p><h5><a name="startpointerbase" class="md-header-anchor"></a><span>StartPointerBase</span></h5><p>&emsp;&emsp;<span>当前block中第一个chunk的索引值。</span></p><h5><a name="avgchunksize" class="md-header-anchor"></a><span>AvgChunkSize</span></h5><p>&emsp;&emsp;<span>block中平均每一个chunk的大小。</span></p><h5><a name="bitsperstartpointerdelta" class="md-header-anchor"></a><span>BitsPerStartPointerDelta</span></h5><p>&emsp;&emsp;<span>存储每一个chunk大小需要固定bit个数。</span></p><h5><a name="startpointerdeltas" class="md-header-anchor"></a><span>StartPointerDeltas</span></h5><p>&emsp;&emsp;<span>逻辑跟DocBaseDeltas一样，不赘述。</span></p><h3><a name="chunkcount" class="md-header-anchor"></a><span>ChunkCount</span></h3><p><span>chunk的个数。</span></p><h3><a name="dirtychunkcount" class="md-header-anchor"></a><span>DirtyChunkCount</span></h3><p><span>在索引阶段，如果还有一些文档未被写入到索引文件中，那么在flush阶段会强制写入，并用该字段记录。</span></p><h2><a name="fdx整体数据结构" class="md-header-anchor"></a><span>.fdx整体数据结构</span></h2><p><span>图16：</span></p><p><img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/16.png"></p><h1><a name="结语" class="md-header-anchor"></a><span>结语</span></h1><p>&emsp;&emsp;<span>没啥要讲的。</span></p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/fdx&amp;&amp;fdt.zip'><span>点击下载</span></a><span>Markdown文件</span></p></div>
 </body>
 </html>

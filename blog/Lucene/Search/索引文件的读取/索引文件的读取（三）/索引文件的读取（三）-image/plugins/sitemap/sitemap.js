@@ -37,7 +37,7 @@ var openPreviousPage = $axure.player.openPreviousPage = function () {
         });
 
         $(window.document).bind('keyup', function (e) {
-            if (e.target.localName == "textarea" || e.target.localName == "input") return;
+            if (e.target.localName == "textarea" || e.target.localName == "input" || event.target.isContentEditable) return;
             switch(e.which) {
                 case 188:
                     openPreviousPage();
@@ -50,7 +50,8 @@ var openPreviousPage = $axure.player.openPreviousPage = function () {
         });
 
         generateSitemap();
-
+        var pageCount = $('.sitemapPageLink').length;
+        
         $('.leftArrow').click(openPreviousPage);
         $('.rightArrow').click(openNextPage);
 
@@ -76,10 +77,17 @@ var openPreviousPage = $axure.player.openPreviousPage = function () {
             $axure.player.setVarInCurrentUrlHash(PAGE_URL_NAME, currentNodeUrl.substring(0, currentNodeUrl.lastIndexOf('.html')));
 
             $('#sitemapTreeContainer').find('.sitemapHighlight').removeClass('sitemapHighlight');
-            $('.sitemapPageLink[nodeUrl="' + currentNodeUrl + '"]').parent().parent().addClass('sitemapHighlight');
+            var $currentNode = $('.sitemapPageLink[nodeUrl="' + currentNodeUrl + '"]');
+            $currentNode.parent().parent().addClass('sitemapHighlight');
 
             var pageName = $axure.page.pageName;
             $('.pageNameHeader').html(pageName);
+
+            if ($currentNode.length > 0 && pageCount > 1) {
+                var currentNode = $currentNode[0];
+                var currentNum = $('.sitemapPageLink').index(currentNode) + 1;
+                $('.pageCountHeader').html('(' + currentNum + ' of ' + pageCount + ')');
+            } else $('.pageCountHeader').html('');
 
             //If highlight var is present and set to 1 or else if
             //sitemap highlight button is selected then highlight interactive elements

@@ -108,7 +108,31 @@
         //set ref visibility for ref of flow shape, if that exists
         var ref = document.getElementById(elementId + '_ref');
         if(ref) _visibility.SetVisible(ref, options.value);
+
+        if(options.value && !MOBILE_DEVICE && $ax.adaptive.isDeviceMode()) _updateMobileScrollForWidgetShown(axObj);
     };
+
+    var _updateMobileScrollForWidgetShown = function(widget) {
+        var isPanel = $ax.public.fn.IsDynamicPanel(widget.type);
+        var isLayer = $ax.public.fn.IsLayer(widget.type);
+        if (isPanel) {
+            var elementId = $id(widget);
+            var stateId = $ax.repeater.applySuffixToElementId(elementId, '_state0');
+            $ax.dynamicPanelManager.updateMobileScroll(elementId, stateId, true);
+            if (!widget.diagrams) return;
+            for (var i = 0; i < widget.diagrams.length; ++i) {
+                var diagram = widget.diagrams[i];
+                if (!diagram.objects) continue;
+                for (var j = 0; j < diagram.objects.length; ++j) {
+                    _updateMobileScrollForWidgetShown(diagram.objects[j]);
+                }
+            }
+        } else if (isLayer) {
+            for (var i = 0; i < widget.objs.length; ++i) {
+                _updateMobileScrollForWidgetShown(widget.objs[i]);
+            }
+        }
+    }
 
     var _setVisibility = function(parentId, childId, options, preserveScroll) {
         var wrapped = $jobj(childId);

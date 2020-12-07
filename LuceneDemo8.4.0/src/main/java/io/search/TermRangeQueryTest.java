@@ -17,6 +17,7 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author Lu Xugang
@@ -46,32 +47,26 @@ public class TermRangeQueryTest {
         // 文档0
         doc = new Document();
         doc.add(new TextField("content", "a", Field.Store.YES));
-        doc.add(new TextField("name", "Chris", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-        doc.add(new TextField("content", "bcd", Field.Store.YES));
-        doc.add(new TextField("name", "Andy", Field.Store.YES));
+        doc.add(new TextField("content", "bcd gc", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档2
         doc = new Document();
         doc.add(new TextField("content", "ga", Field.Store.YES));
-        doc.add(new TextField("name", "Jack", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档3
         doc = new Document();
-        doc.add(new TextField("content", "gc", Field.Store.YES));
-        doc.add(new TextField("name", "Tom", Field.Store.YES));
+        doc.add(new TextField("content", "gch gc bcd", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档4
         doc = new Document();
-        doc.add(new TextField("content", "gch", Field.Store.YES));
-        doc.add(new TextField("name", "Pony", Field.Store.YES));
+        doc.add(new TextField("content", "gch bcd ga ", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档5
         doc = new Document();
         doc.add(new TextField("content", "gchb", Field.Store.YES));
-        doc.add(new TextField("name", "Jolin", Field.Store.YES));
         indexWriter.addDocument(doc);
         indexWriter.commit();
         IndexReader reader = DirectoryReader.open(indexWriter);

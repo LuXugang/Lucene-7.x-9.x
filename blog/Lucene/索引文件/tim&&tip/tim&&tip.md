@@ -30,7 +30,9 @@
 
 #### EntryCount
 
-&emsp;&emsp;EntryCount描述了当前的OuterNode中包含多个entries，即包含了多少个term的信息。
+&emsp;&emsp;EntryCount描述了当前的OuterNode中包含多个entries，即包含了多少个term的信息（或者有相同前缀的term集合），该值是一个组合值，EntryCount的最低的一个bit位描述用来描述当前NodeBlock是否为该域的最后一个block。
+
+&emsp;&emsp;不过SuffixLength是一个组合值，该值的最低的一个bit位描述了当前NodeBlock是否包含sub block（OuterNode即sub block，下文会介绍），即当前NodeBlock为OuterNode还是InnerNode。
 
 #### SuffixLength、StatsLength、MetaLength
 
@@ -49,6 +51,8 @@
 ##### SuffixValue
 
 &emsp;&emsp;term的后缀值，之前提到按照term的大小顺序进行处理的，如果一批term具有相同的前缀并且这批term的个数超过25个，那么这批term会被处理为一个NodeBlock，并且SuffixValue只存储除去相同前缀的后缀部分。
+
+&emsp;&emsp;**注意的是**：下文中InnerNode中的Suffix字段将会额外多出一个index字段，该字段的介绍见下文。
 
 #### TermStats
 

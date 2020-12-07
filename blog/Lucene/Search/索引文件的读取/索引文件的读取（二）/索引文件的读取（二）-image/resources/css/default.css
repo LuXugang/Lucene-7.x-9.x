@@ -685,6 +685,14 @@ div.axClearMsgBubble_Player {
     margin-right: 6px;
 }
 
+.pageCountHeader {
+    float: left;
+    white-space: nowrap;
+    margin-left: 5px;
+    margin-right: 6px;
+    color: #aaaaaa;
+}
+
 #interfaceAdaptiveViewsContainer {
     display: none;
     margin: 4px 0px 4px 30.5px;

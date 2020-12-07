@@ -50,7 +50,6 @@ public class PointValuesTest {
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-        doc.add(new IntPoint("title", 100, 100));
         doc.add(new IntPoint("book", 100, 100));
         indexWriter.addDocument(doc);
 //        // 文档2

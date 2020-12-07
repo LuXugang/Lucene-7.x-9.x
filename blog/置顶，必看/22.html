@@ -16,6 +16,7 @@ a:active, a:hover { outline: 0px; }
 .for-image #write { padding-left: 8px; padding-right: 8px; }
 body.typora-export { padding-left: 30px; padding-right: 30px; }
 .typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
 @media screen and (max-width: 500px) { 
   body.typora-export { padding-left: 0px; padding-right: 0px; }
   #write { padding-left: 20px; padding-right: 20px; }
@@ -24,14 +25,14 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
 }
 #write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
 button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
 input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
 *, ::after, ::before { box-sizing: border-box; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
 p { line-height: inherit; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
 p { orphans: 4; }
 h1 { font-size: 2rem; }
 h2 { font-size: 1.8rem; }
@@ -43,11 +44,11 @@ h6 { font-size: 1rem; }
 .hidden { display: none; }
 .md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
 a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
 sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
 #write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
 figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
+figure > table { margin: 0px; }
 tr { break-inside: avoid; break-after: auto; }
 thead { display: table-header-group; }
 table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
@@ -82,22 +83,24 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
 .footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print { 
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
   #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
   .typora-export * { -webkit-print-color-adjust: exact; }
   html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write { break-after: avoid; }
   .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
 a img, img a { cursor: pointer; }
 pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
 p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
 p > .md-image:only-child { display: inline-block; width: 100%; }
 #write .MathJax_Display { margin: 0.8em 0px 0px; }
 .md-math-block { width: 100%; }
 .md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
 .md-task-list-item { position: relative; list-style-type: none; }
 .task-list-item.md-task-list-item { padding-left: 0px; }
 .md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
@@ -141,13 +144,19 @@ a.md-print-anchor { white-space: pre !important; border: none !important; displa
 .MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
 .os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
 .md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
 [lang="mermaid"] .node text { font-size: 1rem; }
 table tr th { border-bottom-width: 0px; }
 video { max-width: 100%; display: block; margin: 0px auto; }
 iframe { max-width: 100%; width: 100%; border: none; }
 .highlight td, .highlight tr { border: 0px; }
 svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
 
 
 :root {
@@ -157,12 +166,16 @@ svg[id^="mermaidChart"] { line-height: 1em; }
 
 @include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
 
-html {
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
     font-size: 16px;
 }
 
 body {
-    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: rgb(51, 51, 51);
     line-height: 1.6;
 }
@@ -173,6 +186,19 @@ body {
   	padding: 30px;
     padding-bottom: 100px;
 }
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
 #write > ul:first-child,
 #write > ol:first-child{
     margin-top: 30px;
@@ -227,17 +253,33 @@ h6 code {
     font-size: inherit;
 }
 h1 {
-    padding-bottom: .3em;
     font-size: 2.25em;
     line-height: 1.2;
     border-bottom: 1px solid #eee;
 }
 h2 {
-   padding-bottom: .3em;
     font-size: 1.75em;
     line-height: 1.225;
     border-bottom: 1px solid #eee;
 }
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
 h3 {
     font-size: 1.5em;
     line-height: 1.43;
@@ -500,7 +542,7 @@ header, .context-menu, .megamenu-content, footer{
  .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
 </style>
 </head>
-<body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h3><a name="简单说明httpswwwamazingkoalacomcn" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/'><span>简单说明</span></a></h3><ul><li><span>博客中的Lucene版本是7.5.0，如果是其他版本的会在文章标题体现。</span></li><li><span>我准备通过demo中的每一个功能来介绍Lucene的具体实现，并且在关键代码出会添加注释(会尽量详细)，完整的代码注释大家可以去我的GitHub中找到。</span></li><li><span>如果你喜欢我的文章，可以下载每篇文章结尾的附件，附件中的MD文件，强烈推荐使用Typora阅读。</span></li><li><span>博客中所有关于Lucene文章的代码大家可以在我的GitHub中找到，地址：</span><a href='https://github.com/luxugang/Lucene-7.5.0' target='_blank' class='url'>https://github.com/luxugang/Lucene-7.5.0</a><span>。</span></li><li><span>本博客中的文章</span><strong><span>随意转载</span></strong><span>，如果能标注转载地址就最好啦。</span></li><li><span>文章中如果有错误，希望朋友们能指出来，邮箱：</span><a href='mailto:133662517@qq.com' target='_blank' class='url'>133662517@qq.com</a></li></ul><h3><a name="博客计划" class="md-header-anchor"></a><span>博客计划</span></h3><ul><li><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/'><span>索引文件</span></a></li><li><span>facet</span></li><li><span>group</span></li><li><a href='http://www.amazingkoala.com.cn/Lucene/DocValues/'><span>DocValues</span></a></li><li><a href='http://www.amazingkoala.com.cn/Lucene/gongjulei/'><span>Lucene中的工具类</span></a></li><li><a href='http://www.amazingkoala.com.cn/Lucene/Index/'><span>索引阶段的内容</span></a></li><li><a href='http://www.amazingkoala.com.cn/Lucene/Search/'><span>搜索阶段的内容</span></a></li></ul><p>&nbsp;</p></div>
+<body class='typora-export'>
+<div id='write'  class=''><h3><a name="简单说明httpswwwamazingkoalacomcn" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/'><span>简单说明</span></a></h3><ul><li><span>博客中的Lucene版本是7.5.0，如果是其他版本的会在文章标题体现。</span></li><li><span>我准备通过demo中的每一个功能来介绍Lucene的具体实现，并且在关键代码出会添加注释(会尽量详细)，完整的代码注释大家可以去我的GitHub中找到。</span></li><li><span>如果你喜欢我的文章，可以下载每篇文章结尾的附件，附件中的MD文件，强烈推荐使用Typora阅读。</span></li><li><span>博客中所有关于Lucene文章的代码大家可以在我的GitHub中找到，地址：</span><a href='https://github.com/luxugang/Lucene-7.5.0' target='_blank' class='url'>https://github.com/luxugang/Lucene-7.5.0</a><span>。</span></li><li><span>本博客中的文章</span><strong><span>随意转载</span></strong><span>，如果能标注转载地址就最好啦。</span></li><li><span>文章中如果有错误，希望朋友们能指出来，邮箱：</span><a href='mailto:133662517@qq.com' target='_blank' class='url'>133662517@qq.com</a><span>，微信：364367207</span></li></ul><h3><a name="博客计划" class="md-header-anchor"></a><span>博客计划</span></h3><ul><li><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/'><span>索引文件</span></a></li><li><span>facet</span></li><li><span>group</span></li><li><a href='http://www.amazingkoala.com.cn/Lucene/DocValues/'><span>DocValues</span></a></li><li><a href='http://www.amazingkoala.com.cn/Lucene/gongjulei/'><span>Lucene中的工具类</span></a></li><li><a href='http://www.amazingkoala.com.cn/Lucene/Index/'><span>索引阶段的内容</span></a></li><li><a href='http://www.amazingkoala.com.cn/Lucene/Search/'><span>搜索阶段的内容</span></a></li></ul><p>&nbsp;</p></div>
 </body>
 </html>

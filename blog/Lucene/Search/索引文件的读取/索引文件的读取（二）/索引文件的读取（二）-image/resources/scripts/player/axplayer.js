@@ -294,7 +294,8 @@ var iphoneXFirstPass = true;
         }
 
         if($axure.player.settings != null && !$axure.player.settings.isExpo) {
-            mainFrame.contentWindow.location.href = getInitialUrl();
+            const linkUrlWithVars = $axure.getLinkUrlWithVars(getInitialUrl());
+            mainFrame.contentWindow.location.href = linkUrlWithVars;
         }
     }
 
@@ -1960,6 +1961,25 @@ var iphoneXFirstPass = true;
         }
     }
 
+    function loadVariablesFromUrl(removeVarFromUrl) {
+        let originalHashValues = window.location.href.substr(window.location.href.indexOf('#')) || '';
+        let variables = {};
+        const query = (originalHashValues.split(GLOBAL_VAR_NAME)[1] || '');
+        
+        if(query.length > 0) {
+            $axure.utils.parseGlobalVars(query, function(varName, varValue) {
+                variables[varName] = varValue;
+            });
+            
+            if(removeVarFromUrl) {
+                originalHashValues = originalHashValues.replace(GLOBAL_VAR_NAME, "").replace(query, "");
+                replaceHash(originalHashValues);
+            }
+        }
+
+        return variables;
+    }
+    
     function getInitialUrl() {
         var shortId = getHashStringVar(PAGE_ID_NAME);
         var foundById = [];
@@ -2167,7 +2187,7 @@ var iphoneXFirstPass = true;
         if (newHash != null) {
             replaceHash(newHash);
         }
-    }
+    };
 
     function setUpController() {
 
@@ -2186,8 +2206,10 @@ var iphoneXFirstPass = true;
         //Global Var array, getLinkUrl function and setGlobalVar listener are
         //for use in setting global vars in page url string when clicking a 
         //page in the sitemap
+        //NEW: this is now also used when navigating to a new window/popup,
+        //if there are global variables on the urls
         //-----------------------------------------
-        var _globalVars = {};
+        var _globalVars = loadVariablesFromUrl(true);
 
         //-----------------------------------------
         //Used by getLinkUrl below to check if local server is running 

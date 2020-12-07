@@ -684,7 +684,7 @@ public final class BlockTreeTermsWriter extends FieldsConsumer {
       // .tim文件中下一个可以写入数据的位置
       long startFP = termsOut.getFilePointer();
 
-      // floorLeadLabel为true，说明相同前缀的term的个数需要至少一个block来存储，一个block中最少包含25个、最多包含45个term的信息
+      // 如果isFloor为true但是 floorLeadLabel == -1 说明生成了多个floor block并且当前是第一个floor block 他没有floorLeadLabel
       boolean hasFloorLeadLabel = isFloor && floorLeadLabel != -1;
 
       final BytesRef prefix = new BytesRef(prefixLength + (hasFloorLeadLabel ? 1 : 0));

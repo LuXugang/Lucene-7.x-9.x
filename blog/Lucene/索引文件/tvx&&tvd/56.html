@@ -16,6 +16,7 @@ a:active, a:hover { outline: 0px; }
 .for-image #write { padding-left: 8px; padding-right: 8px; }
 body.typora-export { padding-left: 30px; padding-right: 30px; }
 .typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
 @media screen and (max-width: 500px) { 
   body.typora-export { padding-left: 0px; padding-right: 0px; }
   #write { padding-left: 20px; padding-right: 20px; }
@@ -24,13 +25,14 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
 }
 #write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
 button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
 input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
 *, ::after, ::before { box-sizing: border-box; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
 p { orphans: 4; }
 h1 { font-size: 2rem; }
 h2 { font-size: 1.8rem; }
@@ -42,11 +44,11 @@ h6 { font-size: 1rem; }
 .hidden { display: none; }
 .md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
 a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
 sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
 #write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
 figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
+figure > table { margin: 0px; }
 tr { break-inside: avoid; break-after: auto; }
 thead { display: table-header-group; }
 table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
@@ -81,23 +83,24 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
 .footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print { 
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
   #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
   .typora-export * { -webkit-print-color-adjust: exact; }
   html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
+  .typora-export #write { break-after: avoid; }
   .typora-export #write::after { height: 0px; }
-  @page { margin: 20mm 0px; }
+  .is-mac table { break-inside: avoid; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
 a img, img a { cursor: pointer; }
 pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
 p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
 p > .md-image:only-child { display: inline-block; width: 100%; }
 #write .MathJax_Display { margin: 0.8em 0px 0px; }
 .md-math-block { width: 100%; }
 .md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
 .md-task-list-item { position: relative; list-style-type: none; }
 .task-list-item.md-task-list-item { padding-left: 0px; }
 .md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
@@ -138,15 +141,22 @@ a.md-print-anchor { white-space: pre !important; border: none !important; displa
 .MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
 .MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
 .MathJax_SVG * { transition: none; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
 .os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
 .md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
 [lang="mermaid"] .node text { font-size: 1rem; }
 table tr th { border-bottom-width: 0px; }
 video { max-width: 100%; display: block; margin: 0px auto; }
 iframe { max-width: 100%; width: 100%; border: none; }
 .highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
 
 
 :root {
@@ -156,12 +166,16 @@ iframe { max-width: 100%; width: 100%; border: none; }
 
 @include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
 
-html {
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
     font-size: 16px;
 }
 
 body {
-    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: rgb(51, 51, 51);
     line-height: 1.6;
 }
@@ -172,6 +186,19 @@ body {
   	padding: 30px;
     padding-bottom: 100px;
 }
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
 #write > ul:first-child,
 #write > ol:first-child{
     margin-top: 30px;
@@ -226,17 +253,33 @@ h6 code {
     font-size: inherit;
 }
 h1 {
-    padding-bottom: .3em;
     font-size: 2.25em;
     line-height: 1.2;
     border-bottom: 1px solid #eee;
 }
 h2 {
-   padding-bottom: .3em;
     font-size: 1.75em;
     line-height: 1.225;
     border-bottom: 1px solid #eee;
 }
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
 h3 {
     font-size: 1.5em;
     line-height: 1.43;
@@ -313,13 +356,11 @@ table tr th {
     font-weight: bold;
     border: 1px solid #dfe2e5;
     border-bottom: 0;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
 table tr td {
     border: 1px solid #dfe2e5;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
@@ -489,33 +530,41 @@ header, .context-menu, .megamenu-content, footer{
     border-color: #e5e5e5;
 }
 
- .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+
 </style>
 </head>
-<body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name='header-n0' class='md-header-anchor '></a><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/'>tvx&amp;&amp;tvd</a></h1><p>当设置了TermVector的域生成了<a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/0428/55.html'>倒排表</a>以后，将文档的词向量信息写到.tvx（vector_index）跟.tvd（vector_data）文件中。</p><h1><a name='header-n3' class='md-header-anchor '></a>数据结构</h1><h2><a name='header-n4' class='md-header-anchor '></a>.tvd</h2><p>图1：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/1.png"></p><h3><a name='header-n6' class='md-header-anchor '></a>PackedIntsVersion</h3><p>PackedIntsVersion描述了压缩使用的方式，当前版本中是VERSION_MONOTONIC_WITHOUT_ZIGZAG。</p><h3><a name='header-n8' class='md-header-anchor '></a>ChunkSize</h3><p>ChunkSize用来在压缩存储域值信息的方式，后面会详细介绍。</p><h3><a name='header-n10' class='md-header-anchor '></a>Chunk</h3><p>图2：
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="tvxtvdhttpswwwamazingkoalacomcnlucenesuoyinwenjian" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/'><span>tvx&amp;&amp;tvd</span></a></h1><p><span>当设置了TermVector的域生成了</span><a href='https://www.amazingkoala.com.cn/Lucene/Index/2019/0428/55.html'><span>倒排表</span></a><span>以后，将文档的词向量信息写到.tvx（vector_index）跟.tvd（vector_data）文件中。</span></p><h1><a name="数据结构" class="md-header-anchor"></a><span>数据结构</span></h1><h2><a name="tvd" class="md-header-anchor"></a><span>.tvd</span></h2><p><span>图1：</span>
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/1.png"></p><h3><a name="packedintsversion" class="md-header-anchor"></a><span>PackedIntsVersion</span></h3><p><span>PackedIntsVersion描述了压缩使用的方式，当前版本中是VERSION_MONOTONIC_WITHOUT_ZIGZAG。</span></p><h3><a name="chunksize" class="md-header-anchor"></a><span>ChunkSize</span></h3><p><span>ChunkSize用来在压缩存储域值信息的方式，后面会详细介绍。</span></p><h3><a name="chunk" class="md-header-anchor"></a><span>Chunk</span></h3><p><span>图2：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/2.png">
-在文档数达到128篇之前，如果这些文档中的所有存储域的域值长度达到4096，或者文档数达到128篇，那么就使得这些文档的信息生成一个Chunk。</p><h4><a name='header-n12' class='md-header-anchor '></a>DocBase</h4><p>DocBase是chunk中第一个文档的文档号。</p><h4><a name='header-n14' class='md-header-anchor '></a>ChunkDocs</h4><p>chunk中包含的文档个数。</p><h4><a name='header-n16' class='md-header-anchor '></a>NumFields</h4><p>NumFields记录了每篇文档中存储域的个数NumField，根据chunk中的个文档数chunkDocs，分为不同的情况：</p><h5><a name='header-n18' class='md-header-anchor '></a>chunkDocs == 1</h5><p>图3：
+<span>在文档数达到128篇之前，如果这些文档中的所有存储域的域值长度达到4096，或者文档数达到128篇，那么就使得这些文档的信息生成一个Chunk。</span></p><h4><a name="docbase" class="md-header-anchor"></a><span>DocBase</span></h4><p><span>DocBase是chunk中第一个文档的文档号。</span></p><h4><a name="chunkdocs" class="md-header-anchor"></a><span>ChunkDocs</span></h4><p><span>chunk中包含的文档个数。</span></p><h4><a name="numfields" class="md-header-anchor"></a><span>NumFields</span></h4><p><span>NumFields记录了每篇文档中需要记录词向量的域的数量，根据chunk中的个文档数chunkDocs，分为不同的情况：</span></p><h5><a name="chunkdocs--1" class="md-header-anchor"></a><span>chunkDocs == 1</span></h5><p><span>图3：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/3.png">
-直接记录该片文档的存储域的个数NumField。</p><h5><a name='header-n20' class='md-header-anchor '></a>chunkDocs ≥ 1</h5><p>图4：
+<span>直接记录该篇文档中需要记录词向量的域的数量。</span></p><h5><a name="chunkdocs-≥-1" class="md-header-anchor"></a><span>chunkDocs ≥ 1</span></h5><p><span>图4：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/4.png">
-记录chunk中的每一篇文档的存储域的个数，使用PackedInts存储。</p><h4><a name='header-n22' class='md-header-anchor '></a>FieldNums</h4><p>FieldNums中存储当前chunk中域的种类，根据域的编号来获得 域的种类，根据域的种类个数分为不用的情况：</p><h5><a name='header-n24' class='md-header-anchor '></a>(域的种类 - 1) ≤ 7</h5><p>图5：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/5.png"></p><h6><a name='header-n26' class='md-header-anchor '></a>token</h6><p>token是一个组合值，并且大小是一个字节：</p><ul><li>numDistinctFields：当前chunk中的域的种类</li><li>bitsRequired：存储每一个域的编号需要最少bit位个数</li><li>左移5位描述了bitsRequired最多可以是31</li><li>由于一个字节的低五位被用来描述bitsRequired，所以还剩余3个字节可以用来表示numDistinctFields，所以numDistinctFields ≤ 7时可以跟bitsRequired使用一个字节存储。</li></ul><h6><a name='header-n36' class='md-header-anchor '></a>PackedIntsValue</h6><p>把所有的域的编号用PackedInts存储。</p><h5><a name='header-n39' class='md-header-anchor '></a>(域的种类 - 1) &gt; 7</h5><p>图6：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/6.png"></p><h6><a name='header-n41' class='md-header-anchor '></a>token</h6><p>token是一个组合值，并且大小是一个字节：</p><ul><li>bitsRequired：存储每一个域的编号需要最少bit位个数</li><li>numDistinctFields的值大于7，那么在token中就是  (7 &lt;&lt; 5 ) | bitsRequired</li><li>numDistinctFields - 0x07：存储剩余的差值</li></ul><h4><a name='header-n49' class='md-header-anchor '></a>FieldNumOffs</h4><p>图7：
+<span>记录chunk中的每一篇文档中需要记录词向量的域的数量，使用</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html'><span>PackedInts</span></a><span>存储。</span></p><h4><a name="fieldnums" class="md-header-anchor"></a><span>FieldNums</span></h4><p><span>FieldNums中存储当前chunk中需要记录词向量的域的种类，根据域的编号来获得域的种类，根据域的种类个数分为不用的情况：</span></p><h5><a name="域的种类---1-≤-7" class="md-header-anchor"></a><span>(域的种类 - 1) ≤ 7</span></h5><p><span>图5：</span>
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/5.png"></p><h6><a name="token" class="md-header-anchor"></a><span>token</span></h6><p><span>token是一个组合值，并且大小是一个字节：</span></p><ul><li><span>numDistinctFields：当前chunk中需要记录词向量的域的种类</span></li><li><span>bitsRequired：存储每个域的编号（最大值，因为使用了</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html'><span>固定位数按位存储</span></a><span>）需要的bit数量</span></li><li><span>左移5位描述了bitsRequired最多可以是31</span></li><li><span>由于一个字节的低五位被用来描述bitsRequired，所以还剩余3个bit可以用来表示numDistinctFields，所以numDistinctFields的值小于等于7时可以跟bitsRequired使用一个字节存储。</span></li></ul><h6><a name="packedintsvalue" class="md-header-anchor"></a><span>PackedIntsValue</span></h6><p><span>把所有的域的编号用</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html'><span>PackedInts</span></a><span>存储。</span></p><h5><a name="域的种类---1--7" class="md-header-anchor"></a><span>(域的种类 - 1) &gt; 7</span></h5><p><span>图6：</span>
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/6.png"></p><h6><a name="token-n41" class="md-header-anchor"></a><span>token</span></h6><p><span>token是一个组合值，并且大小是一个字节：</span></p><ul><li><span>bitsRequired：存储每一个域的编号需要最少bit位个数</span></li><li><span>由于numDistinctFields的值大于7，那么在token的高三位用来描述numDistinctFields一部分值，即7，低5位用来描述bitsRequired</span></li><li><span>numDistinctFields - 0x07：存储剩余的差值，例如假设numDistinctFields的值为13，那么7存储在token中、6存储在当前字段</span></li></ul><h4><a name="fieldnumoffs" class="md-header-anchor"></a><span>FieldNumOffs</span></h4><p><span>图7：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/7.png">
-FieldNumOffs中存放了chunk中每一篇文档包含的所有域的编号的索引，并且使用PackedInts存储，该索引其实就是fieldNums[]数组的下标值，fieldNums[]数组的数组元素是chunk中的域的编号，数组元素个数是域的种类。通过这种方式使得不直接存储域的编号，因为域的编号可能跨度很大，并且值很大，那就需要更大的存储空间，而存储下标值就可以解决这个问题。
-图8：
+<span>FieldNumOffs中存放了chunk中每一篇文档包含的所有域的编号的索引，并且使用PackedInts存储，该索引其实就是fieldNums[]数组的下标值，fieldNums[]数组的数组元素是chunk中的域的编号，数组元素个数是域的种类。通过这种方式使得不直接存储域的编号，因为域的编号可能跨度很大，由于使用</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html'><span>固定位数按位存储</span></a><span>，每个域的编号占用的bit数量取决编号最大的，那会导致较大的存储空间，而存储下标值就缓解这个问题。</span>
+<span>图8：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/8.png">
-上图中有4个域的编号，如果直接存储域的编号，那么需要 3 (8) + 8 (255) + 2 (2) + 2 (3) = 15个bit位，如存储索引即小标志时，那么需要 1 (0) + 1 (1) + 2 (2) + 2 (3) = 6个bit位。</p><h4><a name='header-n52' class='md-header-anchor '></a>Flags</h4><p>Flags用来描述域是否存放位置position、偏移offset、负载payload信息，flag的值可以是下面3个值的组合：</p><ul><li>0x01：包含位置position信息</li><li>0x02：包含偏移offset信息</li><li>0x04：包含负载payload信息</li></ul><p>比如说 flag = 3，二进制即0b00000011，即包含位置跟偏移信息。
-根据相同域名在不同的文档中是否有相同的Flag分为不同的情况：</p><h5><a name='header-n62' class='md-header-anchor '></a>相同的域名有相同的flag</h5><p>图9：
+<span>上图中有4个域的编号，如果直接存储域的编号，其中域的编号最大值为255，即需要8个bit，由于存在4个域的编号，故需要 8 *4 = 32个bit。若值存储索引值，那么需要 1 (0) + 1 (1) + 2 (2) + 2 (3) = 6个bit位。</span></p><h4><a name="flags" class="md-header-anchor"></a><span>Flags</span></h4><p><span>Flags用来描述域是否存放位置position、偏移offset、负载payload信息，flag的值可以是下面3个值的组合：</span></p><ul><li><span>0x01：包含位置position信息</span></li><li><span>0x02：包含偏移offset信息</span></li><li><span>0x04：包含负载payload信息</span></li></ul><p><span>比如说 flag = 3，二进制即0b00000011，即包含位置跟偏移信息。</span>
+<span>根据相同域名在不同的文档中是否有相同的Flag分为不同的情况：</span></p><h5><a name="相同的域名有相同的flag" class="md-header-anchor"></a><span>相同的域名有相同的flag</span></h5><p><span>图9：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/9.png">
-对于某个域名来说，无论它在哪个文档中都记录相同的flag信息，所以只要每种域名记录一次即可，并且用PackedInts存储，固定值0为标志位，在读取阶段用来区分Flags的不同数据结构。</p><h5><a name='header-n64' class='md-header-anchor '></a>相同的域名有不相同的flag</h5><p>图10：
+<span>对于某个记录词向量的域名来说，无论它在哪个文档中都记录相同的flag信息，所以只要每种域名记录一次即可，并且用PackedInts存储，固定值0为标志位，在读取阶段用来区分Flags的不同数据结构。</span></p><h5><a name="相同的域名有不相同的flag" class="md-header-anchor"></a><span>相同的域名有不相同的flag</span></h5><p><span>图10：</span>
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/10.png">
-对于一个域名来说，它在不同文档中的flag可能不一样，所以必须记录所有文档中的所有域的flag，并且用PackedInts存储，固定值1ss为标志位，在读取阶段用来区分Flags的不同数据结构。</p><h4><a name='header-n66' class='md-header-anchor '></a>TermData</h4><p>TermData记录了域值信息，下文中提及的term是指域值通过分词器获得一个或多个token。
-图11：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/11.png"></p><h5><a name='header-n68' class='md-header-anchor '></a>NumTerms</h5><p>NumTerms描述了每一篇文档的每一个域包含的term个数，使用PackedInts存储。</p><h5><a name='header-n70' class='md-header-anchor '></a>TermLengths</h5><p>TermLengths描述了每一篇文档的每一个域中的每一个term的长度，使用PackedInts存储。</p><h5><a name='header-n72' class='md-header-anchor '></a>TermFreqs</h5><p>TermFreqs描述了每一篇文档的每一个域中的每一个term在当前文档中的词频，使用PackedInts存储。</p><h5><a name='header-n74' class='md-header-anchor '></a>Positions</h5><p>Positions描述了每一篇文档的每一个域中的每一个term在当前文档中的所有位置position信息，使用PackedInts存储。</p><h5><a name='header-n76' class='md-header-anchor '></a>StartOffset</h5><p>StartOffset描述了每一篇文档的每一个域中的每一个term的startoffset，使用PackedInts存储。</p><h5><a name='header-n78' class='md-header-anchor '></a>Lengths</h5><p>Lengths描述了每一篇文档的每一个域中的每一个term的偏移长度，使用PackedInts存储。</p><h5><a name='header-n80' class='md-header-anchor '></a>TermAndPayloads</h5><p>使用<a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html'>LZ4</a>算法存储每一篇文档的每一个域中的每一个term值跟payload(如果有的话)。</p><h3><a name='header-n82' class='md-header-anchor '></a>ChunkCount</h3><p>.tvd文件中chunk的个数。
-### </p><h2><a name='header-n84' class='md-header-anchor '></a>.tvd整体数据结构</h2><p>图12：
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/12.png"></p><h2><a name='header-n86' class='md-header-anchor '></a>.tvx</h2><p>.tvx跟<a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html'>.fdx</a>的生成代码在源码中是一模一样的，所以不赘述了。</p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/tvx&&tvd.zip'>点击下载</a>Markdown文档</p></div>
+<span>对于一个域名来说，它在不同文档中的flag可能不一样（例如当前文档中，某个记录词向量的域名只记录位置信息，而在下一篇文档中，该域名记录了位置信息跟偏移信息），那么只能所有文档中的所有域的flag，并且用PackedInts存储，固定值1为标志位，在读取阶段用来区分Flags的不同数据结构。</span></p><p>&nbsp;</p><h4><a name="termdata" class="md-header-anchor"></a><span>TermData</span></h4><p><span>TermData记录了域值信息，下文中提及的term是指域值通过分词器获得一个或多个token。</span>
+<span>图11：</span>
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/11.png"></p><h5><a name="numterms" class="md-header-anchor"></a><span>NumTerms</span></h5><p><span>NumTerms描述了每一篇文档的每一个域包含的term个数，使用PackedInts存储。</span></p><h5><a name="termlengths" class="md-header-anchor"></a><span>TermLengths</span></h5><p><span>TermLengths描述了每一篇文档的每一个域中的每一个term的长度，使用PackedInts存储。</span></p><h5><a name="termfreqs" class="md-header-anchor"></a><span>TermFreqs</span></h5><p><span>TermFreqs描述了每一篇文档的每一个域中的每一个term在当前文档中的词频，使用PackedInts存储。</span></p><h5><a name="positions" class="md-header-anchor"></a><span>Positions</span></h5><p><span>Positions描述了每一篇文档的每一个域中的每一个term在当前文档中的所有位置position信息，使用PackedInts存储。</span></p><h5><a name="startoffset" class="md-header-anchor"></a><span>StartOffset</span></h5><p><span>StartOffset描述了每一篇文档的每一个域中的每一个term的startOffset，使用PackedInts存储。</span></p><h5><a name="lengths" class="md-header-anchor"></a><span>Lengths</span></h5><p><span>Lengths描述了每一篇文档的每一个域中的每一个term的偏移长度，使用PackedInts存储。</span></p><h5><a name="termandpayloads" class="md-header-anchor"></a><span>TermAndPayloads</span></h5><p><span>使用</span><a href='https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html'><span>LZ4</span></a><span>算法存储每一篇文档的每一个域中的每一个term值跟payload(如果有的话)。</span></p><h3><a name="chunkcount" class="md-header-anchor"></a><span>ChunkCount</span></h3><p><span>.tvd文件中chunk的个数。</span></p><h2><a name="tvd整体数据结构" class="md-header-anchor"></a><span>.tvd整体数据结构</span></h2><p><span>图12：</span>
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvx&&tvd/12.png"></p><h2><a name="tvx" class="md-header-anchor"></a><span>.tvx</span></h2><p><span>.tvx跟</span><a href='https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html'><span>.fdx</span></a><span>的生成代码在源码中是一模一样的，所以不赘述了。</span></p><p><a href='http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/tvx&amp;&amp;tvd.zip'><span>点击下载</span></a><span>Markdown文档</span></p><p>&nbsp;</p></div>
 </body>
 </html>

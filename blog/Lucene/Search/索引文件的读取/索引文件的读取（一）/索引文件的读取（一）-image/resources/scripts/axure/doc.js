@@ -720,8 +720,7 @@
     $ax.public.navigate = $ax.navigate = function(to) { //url, includeVariables, type) {
         var targetUrl;
         if(typeof (to) === 'object') {
-            includeVariables = to.includeVariables;
-            targetUrl = !includeVariables ? to.url : $ax.globalVariableProvider.getLinkUrl(to.url);
+            targetUrl = !to.includeVariables ? to.url : $ax.globalVariableProvider.getLinkUrl(to.url, to.useGlobalVarNameInUrl);
 
             if(to.target == "new") {
                 window.open(targetUrl, "");
