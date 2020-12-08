@@ -6,8 +6,10 @@ import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -33,6 +35,7 @@ public class StoredFieldTest {
     public void doIndexAndSearch() throws Exception {
         WhitespaceAnalyzer analyzer = new WhitespaceAnalyzer();
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
+        conf.setReaderPooling(false);
         conf.setMergeScheduler(new SerialMergeScheduler());
         String sortedField = "oldSorterRule";
         String sortedField2 = "newSorterRule";
@@ -49,6 +52,10 @@ public class StoredFieldTest {
         type.setStoreTermVectors(true);
         type.setStoreTermVectorPositions(true);
         type.setStoreTermVectorPayloads(true);
+        FieldType type1 = new FieldType();
+        type1.setStored(true);
+        type1.setTokenized(true);
+        type1.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
         Document doc ;
         int count = 0;
         while (count++ < 10000000){
@@ -57,20 +64,25 @@ public class StoredFieldTest {
 //            indexWriter.addDocument(doc);
             // 文档0
             doc = new Document();
-            doc.add(new Field("content", "abc", type));
-            doc.add(new Field("content", "cd", type));
+            doc.add(new Field("content", "abc", type1));
+            doc.add(new Field("content", "cd", type1));
             indexWriter.addDocument(doc);
             // 文档1
             doc = new Document();
-            doc.add(new StringField("attachment", "cd", Field.Store.NO));
+            doc.add(new Field("attachment", "cd", type));
             doc.add(new NumericDocValuesField(sortedField, 3));
             doc.add(new NumericDocValuesField(sortedField2, 1));
             indexWriter.addDocument(doc);
             // 文档2
             doc = new Document();
-            doc.add(new Field("content", "the name is name", type));
+            doc.add(new Field("content", "the name is name", type1));
             doc.add(new NumericDocValuesField(sortedField, 2));
             indexWriter.addDocument(doc);
+            if(count == 3751){
+                indexWriter.deleteDocuments(new TermQuery(new Term("content", new BytesRef("cd"))));
+                indexWriter.updateNumericDocValue(new Term("attachment", new BytesRef("cd")), sortedField, 100);
+            }
+
             if(count % 341 == 0){
                 indexWriter.commit();
 //                break;

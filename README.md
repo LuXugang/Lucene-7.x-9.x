@@ -102,7 +102,7 @@
 - [近实时搜索NRT（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0925/96.html)
 - [近实时搜索NRT（五）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0929/97.html)
 
-##### 8ths . 文档提交之commit
+##### 8. 文档提交之commit
 
 - [文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)
 - [文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)
@@ -158,6 +158,10 @@
 - [软删除softDeletes（四）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0629/151.html)
 - [软删除softDeletes（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0708/152.html)
 - [软删除softDeletes（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0709/153.html)
+
+##### 13. ReaderPool
+
+- [ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)
 
 
 # Search
