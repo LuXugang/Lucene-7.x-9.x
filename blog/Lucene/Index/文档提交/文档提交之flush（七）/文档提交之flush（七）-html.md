@@ -130,7 +130,7 @@
 - 处理QueryDeletes：该处理逻辑跟Lucene查询阶段，通过一个Query查找出所有文档的逻辑是一样的，在这里我们暂时不介绍，在介绍Lucene的查询时会详细展开
 - 处理DocValuesUpdates：该处理在后面介绍软删除的文章会展开介绍
 
-&emsp;&emsp;尽管我们没有对上述几个处理逻辑进行展开介绍，但这三个流程最终的目的就是找出满足删除要求的文档号，并通过PendingDeletes来记录这些文档号。
+&emsp;&emsp;尽管我们没有对上述几个处理逻辑进行展开介绍，但这三个流程最终的目的就是找出满足删除要求的文档号，通过[ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)对象暂存TermDeletes、QueryDeletes生成的删除信息以及DocValuesUpdates生成的更新信息。最后在图1的流程点`更新ReaderPool`中将删除信息以及更新信息生成索引文件。
 
 &emsp;&emsp;如果图2中处理的是段内FrozenBufferedUpdates，那么是不用处理`处理TermDeletes`的，因为删除信息TermArrayNode、TermNode在生成索引文件[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)阶段就被处理了（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）。
 

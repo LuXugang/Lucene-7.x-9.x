@@ -37,6 +37,7 @@ public class StoredFieldTest {
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
         conf.setReaderPooling(false);
         conf.setMergeScheduler(new SerialMergeScheduler());
+        conf.setReaderPooling(true);
         String sortedField = "oldSorterRule";
         String sortedField2 = "newSorterRule";
         SortField indexSortField = new SortField(sortedField, SortField.Type.LONG);
@@ -58,7 +59,7 @@ public class StoredFieldTest {
         type1.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
         Document doc ;
         int count = 0;
-        while (count++ < 10000000){
+        while (count++ < 3800){
 //            doc = new Document();
 //            doc.add(new Field("good", "the name is name", type));
 //            indexWriter.addDocument(doc);

@@ -107,6 +107,8 @@ private final Map<SegmentCommitInfo,ReadersAndUpdates> readerMap = new HashMap<>
 -	List\<SegmentReader\> readers：readers中的每一个SegmentReader描述的是某个待合并的段的信息，并且SegmentReader是通过ReadersAndUpdates获得的
 -	List\<Bits\> hardLiveDocs：hardLiveDocs中的每一个Bits描述的是某个待合并的段中被标记为删除的文档号集合，并且hardLiveDocs是通过[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)获得的
 
+&emsp;&emsp;详细关于ReaderPool的介绍，可以阅读文章[ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)。
+
 ## 获取SegmentReader的集合MergeReader
 
 &emsp;&emsp;该流程会涉及软删除的概念，基于篇幅，将在下一篇文章中展开。

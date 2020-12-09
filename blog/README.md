@@ -162,6 +162,7 @@
 ##### 13. ReaderPool
 
 - [ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)
+- [ReaderPool（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1209/184.html)
 
 
 # Search
