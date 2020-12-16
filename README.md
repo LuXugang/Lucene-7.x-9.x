@@ -274,6 +274,8 @@
 
 ##### 7. [DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2020/1030/173.html)
 
+##### 8. [Run Length游标编码](https://www.amazingkoala.com.cn/Lucene/Index/2020/0418/133.html)
+
 # Other
 
 ##### 1. 倒排表的数据结构：

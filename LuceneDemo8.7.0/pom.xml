@@ -27,6 +27,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.lucene</groupId>-->
+<!--            <artifactId>lucene-monitor</artifactId>-->
+<!--            <version>8.7.0</version>-->
+<!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common -->
         <dependency>
@@ -71,11 +76,7 @@
             <artifactId>lucene-join</artifactId>
             <version>8.7.0</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.elasticsearch.client</groupId>-->
-        <!--            <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
-        <!--            <version>7.2.0</version>-->
-        <!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-facet</artifactId>
@@ -87,12 +88,6 @@
             <artifactId>lucene-backward-codecs</artifactId>
             <version>8.7.0</version>
         </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.lucene</groupId>-->
-        <!--            <artifactId>lucene-codecs</artifactId>-->
-        <!--            <version>6.4.0</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-misc</artifactId>

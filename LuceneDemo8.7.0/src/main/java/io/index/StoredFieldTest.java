@@ -14,6 +14,7 @@ import org.apache.lucene.util.BytesRef;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -67,17 +68,20 @@ public class StoredFieldTest {
             doc = new Document();
             doc.add(new Field("content", "abc", type1));
             doc.add(new Field("content", "cd", type1));
+            doc.add(new IntPoint("intField", 3, 4));
             indexWriter.addDocument(doc);
             // 文档1
             doc = new Document();
             doc.add(new Field("attachment", "cd", type));
             doc.add(new NumericDocValuesField(sortedField, 3));
             doc.add(new NumericDocValuesField(sortedField2, 1));
+            doc.add(new IntPoint("intField", 7, 4));
             indexWriter.addDocument(doc);
             // 文档2
             doc = new Document();
             doc.add(new Field("content", "the name is name", type1));
             doc.add(new NumericDocValuesField(sortedField, 2));
+            doc.add(new IntPoint("intField", new Random().nextInt(100), 4));
             indexWriter.addDocument(doc);
             if(count == 3751){
                 indexWriter.deleteDocuments(new TermQuery(new Term("content", new BytesRef("cd"))));

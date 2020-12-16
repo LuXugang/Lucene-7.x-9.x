@@ -18,7 +18,7 @@
 
 &emsp;&emsp;在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)中我们将每个维度的最长公共前缀的信息写入到了索引文件.dim中，同样后缀信息也需要将写进去。
 
-&emsp;&emsp;将维度值拆分为相同的前缀跟不相同的后缀两部分并且分别存储的目的在于降低存储开销（reduce the storage cost）,为了能进一步降低存储开销，在当前流程点，会遍历一次叶子节点中的所有点数据，找出一个或者多个区间，在某个区间里面的点数据的排序维度（见在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)）对应的维度值，该维度值的不同后缀的第一个字节是相同的。
+&emsp;&emsp;将维度值拆分为相同的前缀跟不相同的后缀两部分并且分别存储的目的在于降低存储开销（reduce the storage cost）,为了能进一步降低存储开销，在当前流程点，会遍历一次叶子节点中的所有点数据，找出一个或者多个区间，在某个区间里面的点数据的排序维度（见在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)）对应的维度值，该维度值的不同后缀的第一个字节是相同的。这种处理的思想称为游标编码（Run Length Encoding）。
 
 图4：
 
