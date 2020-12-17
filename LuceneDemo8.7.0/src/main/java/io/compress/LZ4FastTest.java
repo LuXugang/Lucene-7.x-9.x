@@ -35,5 +35,6 @@ public class LZ4FastTest {
         System.arraycopy(array, dictOff, restored, restoreOffset, dictLen);
         LZ4.decompress(new ByteArrayDataInput(compressed), len, restored, dictLen + restoreOffset);
         System.out.printf("abc");
+
     }
 }

@@ -1,0 +1,734 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>构建BKD树的节点值diff</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/构建bkd树的节点值diff/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script src="resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="data/document.js"></script>
+    <script src="files/构建bkd树的节点值diff/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u133" class="ax_default box_1">
+        <img id="u133_img" class="img " src="images/构建bkd树的节点值diff/u133.svg"/>
+        <div id="u133_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u134" class="ax_default box_1">
+        <img id="u134_img" class="img " src="images/构建bkd树的节点值diff/u134.svg"/>
+        <div id="u134_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u135" class="ax_default flow_shape">
+        <div id="u135_div" class=""></div>
+        <div id="u135_text" class="text ">
+          <p><span>开始</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Parallelogram) -->
+      <div id="u136" class="ax_default flow_shape">
+        <img id="u136_img" class="img " src="images/change/u99.svg"/>
+        <div id="u136_text" class="text ">
+          <p><span>节点</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u137" class="ax_default flow_shape">
+        <img id="u137_img" class="img " src="images/构建bkd树的节点值diff/u137.svg"/>
+        <div id="u137_text" class="text ">
+          <p><span>是否为叶子节点？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u138" class="ax_default flow_shape">
+        <div id="u138_div" class=""></div>
+        <div id="u138_text" class="text ">
+          <p><span>选出叶子节点的排序维度</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u139" class="ax_default flow_shape">
+        <div id="u139_div" class=""></div>
+        <div id="u139_text" class="text ">
+          <p><span>选出切分维度</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u140" class="ax_default flow_shape">
+        <div id="u140_div" class=""></div>
+        <div id="u140_text" class="text ">
+          <p><span>内部节点的排序</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u141" class="ax_default flow_shape">
+        <div id="u141_div" class=""></div>
+        <div id="u141_text" class="text ">
+          <p><span>设置splitPackedValues数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u142" class="ax_default flow_shape">
+        <div id="u142_div" class=""></div>
+        <div id="u142_text" class="text ">
+          <p><span>第一次更新parentSplits数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u143" class="ax_default connector">
+        <img id="u143_seg0" class="img " src="images/构建bkd树的节点值diff/u143_seg0.svg" alt="u143_seg0"/>
+        <img id="u143_seg1" class="img " src="images/构建bkd树的节点值diff/u143_seg1.svg" alt="u143_seg1"/>
+        <div id="u143_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u144" class="ax_default connector">
+        <img id="u144_seg0" class="img " src="images/构建bkd树的节点值diff/u144_seg0.svg" alt="u144_seg0"/>
+        <img id="u144_seg1" class="img " src="images/构建bkd树的节点值diff/u144_seg1.svg" alt="u144_seg1"/>
+        <div id="u144_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u145" class="ax_default connector">
+        <img id="u145_seg0" class="img " src="images/构建bkd树的节点值diff/u145_seg0.svg" alt="u145_seg0"/>
+        <img id="u145_seg1" class="img " src="images/构建bkd树的节点值diff/u145_seg1.svg" alt="u145_seg1"/>
+        <div id="u145_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u146" class="ax_default connector">
+        <img id="u146_seg0" class="img " src="images/构建bkd树的节点值diff/u146_seg0.svg" alt="u146_seg0"/>
+        <img id="u146_seg1" class="img " src="images/构建bkd树的节点值diff/u146_seg1.svg" alt="u146_seg1"/>
+        <div id="u146_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u147" class="ax_default connector">
+        <img id="u147_seg0" class="img " src="images/构建bkd树的节点值diff/u147_seg0.svg" alt="u147_seg0"/>
+        <img id="u147_seg1" class="img " src="images/构建bkd树的节点值diff/u147_seg1.svg" alt="u147_seg1"/>
+        <div id="u147_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u148" class="ax_default connector">
+        <img id="u148_seg0" class="img " src="images/构建bkd树的节点值diff/u148_seg0.svg" alt="u148_seg0"/>
+        <img id="u148_seg1" class="img " src="images/构建bkd树的节点值diff/u148_seg1.svg" alt="u148_seg1"/>
+        <div id="u148_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u149" class="ax_default connector">
+        <img id="u149_seg0" class="img " src="images/构建bkd树的节点值diff/u149_seg0.svg" alt="u149_seg0"/>
+        <img id="u149_seg1" class="img " src="images/构建bkd树的节点值diff/u149_seg1.svg" alt="u149_seg1"/>
+        <div id="u149_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u150" class="ax_default flow_shape">
+        <div id="u150_div" class=""></div>
+        <div id="u150_text" class="text ">
+          <p><span>设置左子树的准备数据</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u151" class="ax_default flow_shape">
+        <div id="u151_div" class=""></div>
+        <div id="u151_text" class="text ">
+          <p><span>设置右子树的准备数据</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u152" class="ax_default connector">
+        <img id="u152_seg0" class="img " src="images/构建bkd树的节点值diff/u152_seg0.svg" alt="u152_seg0"/>
+        <img id="u152_seg1" class="img " src="images/构建bkd树的节点值diff/u152_seg1.svg" alt="u152_seg1"/>
+        <div id="u152_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u153" class="ax_default connector">
+        <img id="u153_seg0" class="img " src="images/构建bkd树的节点值diff/u153_seg0.svg" alt="u153_seg0"/>
+        <img id="u153_seg1" class="img " src="images/构建bkd树的节点值diff/u153_seg1.svg" alt="u153_seg1"/>
+        <div id="u153_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u154" class="ax_default connector">
+        <img id="u154_seg0" class="img " src="images/构建bkd树的节点值diff/u154_seg0.svg" alt="u154_seg0"/>
+        <img id="u154_seg1" class="img " src="images/构建bkd树的节点值diff/u154_seg1.svg" alt="u154_seg1"/>
+        <img id="u154_seg2" class="img " src="images/构建bkd树的节点值diff/u154_seg2.svg" alt="u154_seg2"/>
+        <img id="u154_seg3" class="img " src="images/构建bkd树的节点值diff/u154_seg3.svg" alt="u154_seg3"/>
+        <img id="u154_seg4" class="img " src="images/构建bkd树的节点值diff/u154_seg4.svg" alt="u154_seg4"/>
+        <div id="u154_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u155" class="ax_default connector">
+        <img id="u155_seg0" class="img " src="images/构建bkd树的节点值diff/u155_seg0.svg" alt="u155_seg0"/>
+        <img id="u155_seg1" class="img " src="images/构建bkd树的节点值diff/u155_seg1.svg" alt="u155_seg1"/>
+        <img id="u155_seg2" class="img " src="images/构建bkd树的节点值diff/u155_seg2.svg" alt="u155_seg2"/>
+        <img id="u155_seg3" class="img " src="images/构建bkd树的节点值diff/u155_seg3.svg" alt="u155_seg3"/>
+        <img id="u155_seg4" class="img " src="images/构建bkd树的节点值diff/u155_seg4.svg" alt="u155_seg4"/>
+        <div id="u155_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u156" class="ax_default label">
+        <div id="u156_div" class=""></div>
+        <div id="u156_text" class="text ">
+          <p><span>处理左子树</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u157" class="ax_default label">
+        <div id="u157_div" class=""></div>
+        <div id="u157_text" class="text ">
+          <p><span>处理右子树</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u158" class="ax_default flow_shape">
+        <div id="u158_div" class=""></div>
+        <div id="u158_text" class="text ">
+          <p><span>第二次更新parentSplits数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u159" class="ax_default connector">
+        <img id="u159_seg0" class="img " src="images/构建bkd树的节点值diff/u159_seg0.svg" alt="u159_seg0"/>
+        <img id="u159_seg1" class="img " src="images/构建bkd树的节点值diff/u159_seg1.svg" alt="u159_seg1"/>
+        <div id="u159_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u160" class="ax_default connector">
+        <img id="u160_seg0" class="img " src="images/构建bkd树的节点值diff/u160_seg0.svg" alt="u160_seg0"/>
+        <img id="u160_seg1" class="img " src="images/构建bkd树的节点值diff/u160_seg1.svg" alt="u160_seg1"/>
+        <div id="u160_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u161" class="ax_default flow_shape">
+        <div id="u161_div" class=""></div>
+        <div id="u161_text" class="text ">
+          <p><span>叶子节点的排序</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u162" class="ax_default flow_shape">
+        <div id="u162_div" class=""></div>
+        <div id="u162_text" class="text ">
+          <p><span>更新leafBlockFPs数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u163" class="ax_default flow_shape">
+        <div id="u163_div" class=""></div>
+        <div id="u163_text" class="text ">
+          <p><span>写入文档号信息到索引文件.dim中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u164" class="ax_default flow_shape">
+        <div id="u164_div" class=""></div>
+        <div id="u164_text" class="text ">
+          <p><span>写入相同前缀信息到索引文件.dim中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u165" class="ax_default flow_shape">
+        <div id="u165_div" class=""></div>
+        <div id="u165_text" class="text ">
+          <p><span>写入不同后缀信息到索引文件.dim中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u166" class="ax_default flow_shape">
+        <div id="u166_div" class=""></div>
+        <div id="u166_text" class="text ">
+          <p><span>返回</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u167" class="ax_default connector">
+        <img id="u167_seg0" class="img " src="images/构建bkd树的节点值diff/u167_seg0.svg" alt="u167_seg0"/>
+        <img id="u167_seg1" class="img " src="images/构建bkd树的节点值diff/u167_seg1.svg" alt="u167_seg1"/>
+        <div id="u167_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u168" class="ax_default connector">
+        <img id="u168_seg0" class="img " src="images/构建bkd树的节点值diff/u168_seg0.svg" alt="u168_seg0"/>
+        <img id="u168_seg1" class="img " src="images/构建bkd树的节点值diff/u168_seg1.svg" alt="u168_seg1"/>
+        <div id="u168_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u169" class="ax_default connector">
+        <img id="u169_seg0" class="img " src="images/构建bkd树的节点值diff/u169_seg0.svg" alt="u169_seg0"/>
+        <img id="u169_seg1" class="img " src="images/构建bkd树的节点值diff/u169_seg1.svg" alt="u169_seg1"/>
+        <div id="u169_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u170" class="ax_default connector">
+        <img id="u170_seg0" class="img " src="images/构建bkd树的节点值diff/u170_seg0.svg" alt="u170_seg0"/>
+        <img id="u170_seg1" class="img " src="images/构建bkd树的节点值diff/u170_seg1.svg" alt="u170_seg1"/>
+        <div id="u170_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u171" class="ax_default connector">
+        <img id="u171_seg0" class="img " src="images/构建bkd树的节点值diff/u171_seg0.svg" alt="u171_seg0"/>
+        <img id="u171_seg1" class="img " src="images/构建bkd树的节点值diff/u171_seg1.svg" alt="u171_seg1"/>
+        <div id="u171_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u172" class="ax_default connector">
+        <img id="u172_seg0" class="img " src="images/构建bkd树的节点值diff/u172_seg0.svg" alt="u172_seg0"/>
+        <img id="u172_seg1" class="img " src="images/构建bkd树的节点值diff/u172_seg1.svg" alt="u172_seg1"/>
+        <div id="u172_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u173" class="ax_default label">
+        <div id="u173_div" class=""></div>
+        <div id="u173_text" class="text ">
+          <p><span>处理叶子节点</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u174" class="ax_default label">
+        <div id="u174_div" class=""></div>
+        <div id="u174_text" class="text ">
+          <p><span>处理内部节点</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u175" class="ax_default flow_shape">
+        <img id="u175_img" class="img " src="images/构建bkd树的节点值diff/u137.svg"/>
+        <div id="u175_text" class="text ">
+          <p><span>当前节点是否</span></p><p><span>为根节点？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u176" class="ax_default flow_shape">
+        <div id="u176_div" class=""></div>
+        <div id="u176_text" class="text ">
+          <p><span>结束</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u177" class="ax_default connector">
+        <img id="u177_seg0" class="img " src="images/构建bkd树的节点值diff/u177_seg0.svg" alt="u177_seg0"/>
+        <img id="u177_seg1" class="img " src="images/构建bkd树的节点值diff/u177_seg1.svg" alt="u177_seg1"/>
+        <img id="u177_seg2" class="img " src="images/构建bkd树的节点值diff/u177_seg2.svg" alt="u177_seg2"/>
+        <div id="u177_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u178" class="ax_default label">
+        <div id="u178_div" class=""></div>
+        <div id="u178_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u179" class="ax_default label">
+        <div id="u179_div" class=""></div>
+        <div id="u179_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u180" class="ax_default label">
+        <div id="u180_div" class=""></div>
+        <div id="u180_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u181" class="ax_default connector">
+        <img id="u181_seg0" class="img " src="images/构建bkd树的节点值diff/u181_seg0.svg" alt="u181_seg0"/>
+        <img id="u181_seg1" class="img " src="images/构建bkd树的节点值diff/u181_seg1.svg" alt="u181_seg1"/>
+        <img id="u181_seg2" class="img " src="images/构建bkd树的节点值diff/u181_seg2.svg" alt="u181_seg2"/>
+        <div id="u181_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u182" class="ax_default label">
+        <div id="u182_div" class=""></div>
+        <div id="u182_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u183" class="ax_default paragraph">
+        <div id="u183_div" class=""></div>
+        <div id="u183_text" class="text ">
+          <p><span>构建BKD树的节点值（node value）流程图</span></p><p><span>维度值大于等于2（Lucene 7.5.0）</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u184" class="ax_default flow_shape">
+        <div id="u184_div" class=""></div>
+        <div id="u184_text" class="text ">
+          <p><span>开始</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Parallelogram) -->
+      <div id="u185" class="ax_default flow_shape">
+        <img id="u185_img" class="img " src="images/change/u99.svg"/>
+        <div id="u185_text" class="text ">
+          <p><span>节点</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u186" class="ax_default flow_shape">
+        <div id="u186_div" class=""></div>
+        <div id="u186_text" class="text ">
+          <p><span>节点内的点数据排序</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u187" class="ax_default flow_shape">
+        <img id="u187_img" class="img " src="images/构建bkd树的节点值diff/u137.svg"/>
+        <div id="u187_text" class="text ">
+          <p><span>是否还有未处理</span></p><p><span>的点数据？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u188" class="ax_default flow_shape">
+        <div id="u188_div" class=""></div>
+        <div id="u188_text" class="text ">
+          <p><span>写入文档号信息到索引文件.kdd中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u189" class="ax_default flow_shape">
+        <div id="u189_div" class=""></div>
+        <div id="u189_text" class="text ">
+          <p><span>写入相同前缀信息到索引文件.kdd中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u190" class="ax_default flow_shape">
+        <div id="u190_div" class=""></div>
+        <div id="u190_text" class="text ">
+          <p><span>写入不同后缀信息到索引文件.kdd中</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u191" class="ax_default flow_shape">
+        <div id="u191_div" class=""></div>
+        <div id="u191_text" class="text ">
+          <p><span>统计leafCardinality</span></p><p><span>以及其他一些信息</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u192" class="ax_default flow_shape">
+        <div id="u192_div" class=""></div>
+        <div id="u192_text" class="text ">
+          <p><span>结束</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Shape) -->
+      <div id="u193" class="ax_default flow_shape">
+        <img id="u193_img" class="img " src="images/构建bkd树的节点值diff/u137.svg"/>
+        <div id="u193_text" class="text ">
+          <p><span>是否生成</span></p><p><span>一个叶子节点？</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u194" class="ax_default connector">
+        <img id="u194_seg0" class="img " src="images/构建bkd树的节点值diff/u194_seg0.svg" alt="u194_seg0"/>
+        <img id="u194_seg1" class="img " src="images/构建bkd树的节点值diff/u194_seg1.svg" alt="u194_seg1"/>
+        <div id="u194_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u195" class="ax_default connector">
+        <img id="u195_seg0" class="img " src="images/构建bkd树的节点值diff/u195_seg0.svg" alt="u195_seg0"/>
+        <img id="u195_seg1" class="img " src="images/构建bkd树的节点值diff/u195_seg1.svg" alt="u195_seg1"/>
+        <div id="u195_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u196" class="ax_default connector">
+        <img id="u196_seg0" class="img " src="images/构建bkd树的节点值diff/u196_seg0.svg" alt="u196_seg0"/>
+        <img id="u196_seg1" class="img " src="images/构建bkd树的节点值diff/u196_seg1.svg" alt="u196_seg1"/>
+        <div id="u196_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u197" class="ax_default connector">
+        <img id="u197_seg0" class="img " src="images/构建bkd树的节点值diff/u197_seg0.svg" alt="u197_seg0"/>
+        <img id="u197_seg1" class="img " src="images/构建bkd树的节点值diff/u197_seg1.svg" alt="u197_seg1"/>
+        <div id="u197_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u198" class="ax_default connector">
+        <img id="u198_seg0" class="img " src="images/构建bkd树的节点值diff/u198_seg0.svg" alt="u198_seg0"/>
+        <img id="u198_seg1" class="img " src="images/构建bkd树的节点值diff/u198_seg1.svg" alt="u198_seg1"/>
+        <div id="u198_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u199" class="ax_default connector">
+        <img id="u199_seg0" class="img " src="images/构建bkd树的节点值diff/u199_seg0.svg" alt="u199_seg0"/>
+        <img id="u199_seg1" class="img " src="images/构建bkd树的节点值diff/u199_seg1.svg" alt="u199_seg1"/>
+        <img id="u199_seg2" class="img " src="images/构建bkd树的节点值diff/u199_seg2.svg" alt="u199_seg2"/>
+        <div id="u199_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u200" class="ax_default connector">
+        <img id="u200_seg0" class="img " src="images/构建bkd树的节点值diff/u200_seg0.svg" alt="u200_seg0"/>
+        <img id="u200_seg1" class="img " src="images/构建bkd树的节点值diff/u200_seg1.svg" alt="u200_seg1"/>
+        <img id="u200_seg2" class="img " src="images/构建bkd树的节点值diff/u200_seg2.svg" alt="u200_seg2"/>
+        <img id="u200_seg3" class="img " src="images/构建bkd树的节点值diff/u200_seg3.svg" alt="u200_seg3"/>
+        <img id="u200_seg4" class="img " src="images/构建bkd树的节点值diff/u200_seg4.svg" alt="u200_seg4"/>
+        <div id="u200_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u201" class="ax_default connector">
+        <img id="u201_seg0" class="img " src="images/构建bkd树的节点值diff/u201_seg0.svg" alt="u201_seg0"/>
+        <img id="u201_seg1" class="img " src="images/构建bkd树的节点值diff/u201_seg1.svg" alt="u201_seg1"/>
+        <img id="u201_seg2" class="img " src="images/构建bkd树的节点值diff/u201_seg2.svg" alt="u201_seg2"/>
+        <img id="u201_seg3" class="img " src="images/构建bkd树的节点值diff/u201_seg3.svg" alt="u201_seg3"/>
+        <div id="u201_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u202" class="ax_default label">
+        <div id="u202_div" class=""></div>
+        <div id="u202_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u203" class="ax_default label">
+        <div id="u203_div" class=""></div>
+        <div id="u203_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u204" class="ax_default label">
+        <div id="u204_div" class=""></div>
+        <div id="u204_text" class="text ">
+          <p><span>否</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u205" class="ax_default label">
+        <div id="u205_div" class=""></div>
+        <div id="u205_text" class="text ">
+          <p><span>是</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u206" class="ax_default paragraph">
+        <div id="u206_div" class=""></div>
+        <div id="u206_text" class="text ">
+          <p><span>构建BKD树的节点值（node value）流程图</span></p><p><span>维度值等于1（Lucene 8.7.0）</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u207" class="ax_default flow_shape">
+        <div id="u207_div" class=""></div>
+        <div id="u207_text" class="text ">
+          <p><span>更新leafBlockFPs数组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u208" class="ax_default connector">
+        <img id="u208_seg0" class="img " src="images/构建bkd树的节点值diff/u208_seg0.svg" alt="u208_seg0"/>
+        <img id="u208_seg1" class="img " src="images/构建bkd树的节点值diff/u208_seg1.svg" alt="u208_seg1"/>
+        <div id="u208_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u209" class="ax_default connector">
+        <img id="u209_seg0" class="img " src="images/构建bkd树的节点值diff/u209_seg0.svg" alt="u209_seg0"/>
+        <img id="u209_seg1" class="img " src="images/构建bkd树的节点值diff/u209_seg1.svg" alt="u209_seg1"/>
+        <div id="u209_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u210" class="ax_default connector">
+        <img id="u210_seg0" class="img " src="images/构建bkd树的节点值diff/u210_seg0.svg" alt="u210_seg0"/>
+        <img id="u210_seg1" class="img " src="images/构建bkd树的节点值diff/u210_seg1.svg" alt="u210_seg1"/>
+        <div id="u210_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Connector) -->
+      <div id="u211" class="ax_default connector">
+        <img id="u211_seg0" class="img " src="images/构建bkd树的节点值diff/u211_seg0.svg" alt="u211_seg0"/>
+        <img id="u211_seg1" class="img " src="images/构建bkd树的节点值diff/u211_seg1.svg" alt="u211_seg1"/>
+        <img id="u211_seg2" class="img " src="images/构建bkd树的节点值diff/u211_seg2.svg" alt="u211_seg2"/>
+        <img id="u211_seg3" class="img " src="images/构建bkd树的节点值diff/u211_seg3.svg" alt="u211_seg3"/>
+        <div id="u211_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+    </div>
+    <script src="resources/scripts/axure/ios.js"></script>
+  </body>
+</html>

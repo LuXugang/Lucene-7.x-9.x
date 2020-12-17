@@ -36,29 +36,33 @@ public class BinaryDocValuesTest {
 
     public void doIndexAndSearch() throws Exception {
         conf.setUseCompoundFile(false);
-        conf.setMergePolicy(NoMergePolicy.INSTANCE);
+        conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
         Document doc;
-        // 文档0
-        doc = new Document();
-        doc.add(new BinaryDocValuesField("level", new BytesRef("a df")));
-        doc.add(new TextField("abc", "document0", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 文档1
-        doc = new Document();
-        doc.add(new BinaryDocValuesField("level", new BytesRef("dc")));
-        doc.add(new TextField("abc", "document1", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 文档2
-        doc = new Document();
-        doc.add(new TextField("abc", "document2", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 文档3
-        doc = new Document();
-        doc.add(new BinaryDocValuesField("level", new BytesRef("da")));
-        doc.add(new TextField("abc", "document3", Field.Store.YES));
-        indexWriter.addDocument(doc);
-        indexWriter.commit();
+        int commitCount = 0;
+        while (commitCount++ < 100000){
+            // 文档0
+            doc = new Document();
+            doc.add(new BinaryDocValuesField("level", new BytesRef("a df")));
+            doc.add(new TextField("abc", "document0", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 文档1
+            doc = new Document();
+            doc.add(new BinaryDocValuesField("level", new BytesRef("dc")));
+            doc.add(new TextField("abc", "document1", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 文档2
+            doc = new Document();
+            doc.add(new TextField("abc", "document2", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            // 文档3
+            doc = new Document();
+            doc.add(new BinaryDocValuesField("level", new BytesRef("da")));
+            doc.add(new TextField("abc", "document3", Field.Store.YES));
+            indexWriter.addDocument(doc);
+            indexWriter.commit();
+        }
+
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
         Sort sortByLevel = new Sort(new SortField("level", SortField.Type.STRING_VAL, false));

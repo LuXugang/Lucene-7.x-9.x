@@ -8,6 +8,7 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.SerialMergeScheduler;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -40,36 +41,42 @@ public class PointValuesTest {
 
     public void doSearch() throws Exception {
         conf.setUseCompoundFile(false);
+        conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
 
         Random random = new Random();
         Document doc;
-        // 文档0
-        doc = new Document();
-        doc.add(new IntPoint("book", 1));
-        indexWriter.addDocument(doc);
-        // 文档1
-        doc = new Document();
-        doc.add(new IntPoint("book", 100));
-        indexWriter.addDocument(doc);
-        // 文档0
-        doc = new Document();
-        doc.add(new IntPoint("book", 3));
-        indexWriter.addDocument(doc);
-        // 文档1
-        doc = new Document();
-        doc.add(new IntPoint("book", 0));
-        indexWriter.addDocument(doc);
-        int count = 0 ;
-        int a;
-        while (count++ < 4096){
+        int commitCount = 0;
+        while (commitCount++ < 10000){
+            // 文档0
             doc = new Document();
-            a = random.nextInt(100);
-            a = a == 0 ? a + 1 : a;
-            doc.add(new IntPoint("book", a));
+            doc.add(new IntPoint("book", -1));
             indexWriter.addDocument(doc);
+            // 文档1
+            doc = new Document();
+            doc.add(new IntPoint("book", 100));
+            indexWriter.addDocument(doc);
+            // 文档3
+            doc = new Document();
+            doc.add(new IntPoint("book", -3));
+            indexWriter.addDocument(doc);
+            // 文档4
+            doc = new Document();
+            doc.add(new IntPoint("book", 0));
+            doc.add(new IntPoint("book", 1));
+            indexWriter.addDocument(doc);
+            int count = 0 ;
+            int a;
+            while (count++ < 4096){
+                doc = new Document();
+                a = random.nextInt(100);
+                a = a == 0 ? a + 2 : a;
+                doc.add(new IntPoint("book", a));
+                indexWriter.addDocument(doc);
+            }
+            indexWriter.commit();
         }
-        indexWriter.commit();
+
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
         int [] lowValue = {3};
