@@ -63,7 +63,6 @@ public class PointValuesTest {
             // 文档4
             doc = new Document();
             doc.add(new IntPoint("book", 0));
-            doc.add(new IntPoint("book", 1));
             indexWriter.addDocument(doc);
             int count = 0 ;
             int a;
