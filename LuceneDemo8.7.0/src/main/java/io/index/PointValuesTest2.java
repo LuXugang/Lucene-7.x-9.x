@@ -59,7 +59,8 @@ public class PointValuesTest2 {
             indexWriter.addDocument(doc);
             int count = 0 ;
             int a,c;
-            while (count++ < 4096){
+//            while (count++ < 4096){
+            while (count++ < 140000){
                 doc = new Document();
                 a = random.nextInt(100);
                 a = a == 0 ? a + 2 : a;

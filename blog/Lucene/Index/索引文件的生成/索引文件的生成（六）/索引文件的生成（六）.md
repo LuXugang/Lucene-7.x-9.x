@@ -96,7 +96,7 @@ minItemsInBlock < maxItemsInBlock < 2*(minItemsInBlock-1)
 - isFloor：布尔值，用来区分是否为floor block
 - floorLeadByte：该字段即leading label，如果不是floor block生成的PendingBlock，那么该值为 -1
 
-&emsp;&emsp;在生成PendingBlock的过程中，同时也是将term信息写入到[索引文件.timp](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)文件的过程，即生成NodeBlock的过程，其中一个block（head block或者floor block）对应生成一个NodeBlock，上文中我们说到PendingEntry信息可分为两种类型：PendingTerm和PendingBlock，根据block中的不同类型的PendingEntry，在索引文件.timp中写入的数据结构也是不同的。
+&emsp;&emsp;在生成PendingBlock的过程中，同时也是将term信息写入到[索引文件.tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)文件的过程，即生成NodeBlock的过程，其中一个block（head block或者floor block）对应生成一个NodeBlock，上文中我们说到PendingEntry信息可分为两种类型：PendingTerm和PendingBlock，根据block中的不同类型的PendingEntry，在索引文件.tim中写入的数据结构也是不同的。
 
 #### block中只包含PendingTerm
 
@@ -170,6 +170,7 @@ minItemsInBlock < maxItemsInBlock < 2*(minItemsInBlock-1)
 - fp：该值描述了第一个block中包含的term信息在NodeBlock中的起始位置，**例如图8、图10中的EntryCount字段的位置**
 - hasTerms标志位：该值描述了这个block中是否至少包含一个PendingTerm
 - isFloor标志位：该值描述了是否划分了多个floor block
+- floorBLockNumber：除了第一个floor block，剩余floor block的数量
 - FloorMetaData：一个floor block的信息
   - floorLeadByte：即上文中说到的leading label
   - fpDelta：描述了当前floor block包含的term信息在NodeBlock中的起始位置，这里存储的是与第一个block的fp的差值
