@@ -50,12 +50,11 @@ public class PointValuesTest2 {
         while (commitCount++ < 10000){
             // 文档0
             doc = new Document();
-            doc.add(new IntPoint("book", 2, 2));
+            doc.add(new IntPoint("book", 1, 1));
             indexWriter.addDocument(doc);
             // 文档1
             doc = new Document();
             doc.add(new IntPoint("book", 0, 0));
-            doc.add(new IntPoint("book", 1, 1));
             indexWriter.addDocument(doc);
             int count = 0 ;
             int a,c;

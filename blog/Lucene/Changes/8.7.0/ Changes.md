@@ -46,3 +46,13 @@ We noticed some indexing rate regressions in Elasticsearch after upgrading to a 
 ## [LUCENE-9447](http://issues.apache.org/jira/browse/LUCENE-9447), [LUCENE-9486](http://issues.apache.org/jira/browse/LUCENE-9486)
 
 &emsp;&emsp;从Lucene 8.7.0开始，对生成一个chunk的触发条件进行了修改，即图1中chunk中包含的文档数量上限值、域值的大小上限值得到了提高。这两个issue中解释了原因，并给出了测试数据，感兴趣的可以点进去看下。
+
+## [LUCENE-9484](http://issues.apache.org/jira/browse/LUCENE-9484)
+
+&emsp;&emsp;在文章[构造IndexWriter对象（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1114/107.html)中我们知道，IndexWriter对象可以通过IndexSort实现段内的排序，使得随后生成的段都是段内有序的，并且具有相同的排序规则。另外IndexWriter在构造期间，如果索引目录中已经存在一些段，我们称之为旧段，如果这些段的排序规则跟IndexWriter中配置的不一致，那么会导致IndexWriter对象初始化失败。在Lucene 8.7.0之前， 我们需要根据IndexWriter中的IndexSort的排序规则对旧段重新排序才可以，降低了用户体验。当前issue中正是解决了这个问题。通过SortingCodecReader类封装旧段对应的reader，然后利用IndexWriter中的addIndex方法即可。使用SortingCodecReader类时，通过制定了旧段对应的reader跟IndexWriter中的IndexSort排序规则，Lucene会对reader进行重排。
+
+## [LUCENE-8962](http://issues.apache.org/jira/browse/LUCENE-8962)
+
+&emsp;&emsp;在多线程执行索引（Indexing）的过程中，当某个线程执行了flush( \)、commit( \)操作或者getReader( \)实现NRT操作时，会使得所有的线程将对应的[DWPT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)执行flush，可能导致生成许多的小段（small segments）。在文章[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/)中我们说到，当存在多个段时，搜索的过程为依次（单线程执行搜索操作）遍历每一个段，最后对每个段的结果进行合并。大佬[Michael McCandless](https://www.linkedin.com/in/mikemccand/)提出了一个讨论，是否能在commit(\)、getReader( \)的方法返回前就能将这些小段进行合并，使得减少搜索期间遍历的段的数量，降低查询时间。
+
+&emsp;&emsp;故在从Lucene 8.6.0开始（Lucene 8.7.0中进行了优化），通过构造IndexWriter期间指定的配置项maxFullFlushMergeWaitMillis来实现在commit( \)跟getReader( \)调用期间实现对一些小段的合并。注意的是，这里的执行段的合并会阻塞commit( \)跟getReader( \)这两个方法，故通过maxFullFlushMergeWaitMillis来指定超时时间。如果在超时时间内没有完成小段的合并，则commit( \)跟getReader( \)继续执行，在这两个方法返回后，可能还存在多个小段。 maxFullFlushMergeWaitMillis的默认值为0，表示不会在commit( \)跟getReader( \)的调用期间执行小段的合并。
