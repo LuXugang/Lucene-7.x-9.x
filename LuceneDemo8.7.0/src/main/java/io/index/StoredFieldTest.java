@@ -72,6 +72,7 @@ public class StoredFieldTest {
             indexWriter.addDocument(doc);
             // 文档1
             doc = new Document();
+            doc.add(new Field("content", "cd", type1));
             doc.add(new Field("attachment", "cd", type));
             doc.add(new NumericDocValuesField(sortedField, 3));
             doc.add(new NumericDocValuesField(sortedField2, 1));
