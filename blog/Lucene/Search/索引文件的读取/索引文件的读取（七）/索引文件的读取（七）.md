@@ -54,7 +54,7 @@
 
 ##### IndexStartFP
 
-&emsp;&emsp;对于索引文件.tip，IndexStartFP描述了每个域对应的第一个**读取**的NodeBlock在索引文件.tim中的起始读取位置，如下所示：
+&emsp;&emsp;对于索引文件.tip，IndexStartFP描述了每个域对应的FSTIndex字段在索引文件.tip中的起始读取位置，如下所示：
 
 图7：
 

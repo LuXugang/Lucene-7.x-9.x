@@ -38,6 +38,7 @@ public class StoredFieldTest2 {
         Sort indexSort = new Sort(indexSortField);;
         conf.setIndexSort(indexSort);
         conf.setUseCompoundFile(false);
+        conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
         FieldType type = new FieldType();
         type.setStored(true);
@@ -45,7 +46,7 @@ public class StoredFieldTest2 {
         type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
         Document doc ;
         int count = 0;
-        while (count++ < 140000){
+        while (count++ < 14000000){
             // 文档0
             doc = new Document();
             doc.add(new Field("content", "abc", type));
@@ -61,7 +62,7 @@ public class StoredFieldTest2 {
             doc = new Document();
             doc.add(new Field("content", "the name is name", type));
             indexWriter.addDocument(doc);
-            if(count == 70000){
+            if(count % 50000 == 0){
                 indexWriter.commit();
             }
         }
