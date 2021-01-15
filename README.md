@@ -10,6 +10,10 @@
 
 #### [Changes（Lucene 8.7.0）](https://www.amazingkoala.com.cn/Lucene/Changes/2020/1106/176.html)
 
+# Codecs
+
+#### 1. [SIMD（Single Instruction Multiple Data）](https://www.amazingkoala.com.cn/Lucene/Codecs/2021/0115/187.html)
+
 # 索引文件
 
 #### 1. DocValues
@@ -287,7 +291,7 @@
 #### 1. 倒排表的数据结构：
 
 - [TermVector倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0428/55.html)
-- [存储域倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)
+- [倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)
 
 #### 2. [SortedDocValues VS BinaryDocValues](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
 
