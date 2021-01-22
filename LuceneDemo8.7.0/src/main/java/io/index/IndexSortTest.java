@@ -4,8 +4,7 @@ import io.util.FileOperation;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
@@ -69,7 +68,11 @@ public class IndexSortTest {
         indexWriter.commit();
         Document document;
         List<IndexableField> fields;
+
         IndexReader reader = DirectoryReader.open(directory);
+        reader.document(0);
+
+        IndexSearcher searcher = new IndexSearcher(reader);
     }
 
     public static void main(String[] args) throws Exception{
