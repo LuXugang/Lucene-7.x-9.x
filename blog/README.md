@@ -6,6 +6,10 @@
 
 &emsp;&emsp;另外最新的文章可能会依据最新的Lucene版本，版本号会在文章的标题说明。
 
+# Lucene核心技术
+
+#### 1.[Lucene核心技术（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0201/188.html)
+
 # Changes
 
 #### [Changes（Lucene 8.7.0）](https://www.amazingkoala.com.cn/Lucene/Changes/2020/1106/176.html)
