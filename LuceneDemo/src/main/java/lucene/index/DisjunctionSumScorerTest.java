@@ -54,16 +54,7 @@ public class DisjunctionSumScorerTest {
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(new Terpublic static String getRandomString(int length){
-            String str="abcdefghijklmnopqrstuvwxyz";
-            Random random=new Random();
-            StringBuffer sb=new StringBuffer();
-            for(int i=0;i<length;i++){
-                int number=random.nextInt(26);
-                sb.append(str.charAt(number));
-            }
-            return sb.toString();
-        }mQuery(new Term("author", "lily")), BooleanClause.Occur.SHOULD);
+        builder.add(new TermQuery(new Term("author", "lily")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("author", "lucy")), BooleanClause.Occur.SHOULD);
         builder.setMinimumNumberShouldMatch(1);
         searcher.search(builder.build(), 100);

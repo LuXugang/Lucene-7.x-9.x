@@ -32,10 +32,7 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
-<!--            <version>4.8.0</version>-->
-<!--            <version>7.5.0</version>-->
-            <version>8.3.0</version>
-<!--            <version>6.0.0</version>-->
+            <version>7.5.0</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.apache.lucene</groupId>-->
@@ -115,11 +112,11 @@
             <artifactId>lucene-queryparser</artifactId>
             <version>7.5.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-sandbox</artifactId>
-            <version>5.5.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.lucene</groupId>-->
+<!--            <artifactId>lucene-sandbox</artifactId>-->
+<!--            <version>5.5.0</version>-->
+<!--        </dependency>-->
     </dependencies>
     <build>
         <plugins>
