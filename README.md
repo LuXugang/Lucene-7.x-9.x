@@ -178,6 +178,10 @@
 - [ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)
 - [ReaderPool（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1209/184.html)
 
+#### 14. 索引文件的载入
+
+- [索引文件的载入（一）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2021/0218/189.html)
+
 
 # Search
 
