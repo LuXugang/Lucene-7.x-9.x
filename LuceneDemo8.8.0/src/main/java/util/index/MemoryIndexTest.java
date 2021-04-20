@@ -2,6 +2,7 @@ package util.index;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.memory.MemoryIndex;
@@ -20,14 +21,19 @@ public class MemoryIndexTest {
     private final IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 
     public void doSearch() throws Exception {
-        MemoryIndex memoryIndex = new MemoryIndex(true, true);
-        memoryIndex.addField("author", "lily lucy", analyzer);
-        memoryIndex.addField("bcontent", "good for you", analyzer);
-        memoryIndex.addField("author", "lily", analyzer);
+        Document document = new Document();
+        document.add(new StringField("author", "lily lucy", Field.Store.YES));
+        document.add(new StringField("bcontent", "good for you", Field.Store.YES));
+        document.add(new StringField("author", "lily", Field.Store.YES));
+        document.add(new SortedDocValuesField("sortedDocValues", new BytesRef("abc")));
+        document.add(new NumericDocValuesField("numericDocValues", 1L));
+        MemoryIndex memoryIndex = MemoryIndex.fromDocument(document, analyzer, true, true, 0);
+
         Query query = new TermQuery(new Term("author", new BytesRef("lily")));
         float score = memoryIndex.search(query);
         if (score >= 0.0f) {
             System.out.println("it's a match: "+score+"");
+            System.out.println(memoryIndex.toStringDebug());
         } else {
             System.out.println("no match found");
         }
