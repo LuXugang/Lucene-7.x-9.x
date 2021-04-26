@@ -22,13 +22,12 @@ public class MemoryIndexTest {
 
     public void doSearch() throws Exception {
         Document document = new Document();
-        document.add(new StringField("author", "lily lucy", Field.Store.YES));
-        document.add(new StringField("bcontent", "good for you", Field.Store.YES));
+        document.add(new StringField("author", "jay", Field.Store.YES));
         document.add(new StringField("author", "lily", Field.Store.YES));
-        document.add(new SortedDocValuesField("sortedDocValues", new BytesRef("abc")));
-        document.add(new NumericDocValuesField("numericDocValues", 1L));
+        document.add(new StringField("author", "jay", Field.Store.YES));
+        document.add(new StringField("author", "lucy", Field.Store.YES));
+        int count = 0;
         MemoryIndex memoryIndex = MemoryIndex.fromDocument(document, analyzer, true, true, 0);
-
         Query query = new TermQuery(new Term("author", new BytesRef("lily")));
         float score = memoryIndex.search(query);
         if (score >= 0.0f) {

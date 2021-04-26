@@ -1,0 +1,553 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>MemoryIndex（一）-html</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-require-zoom-fix foreignObject { font-size: var(--mermaid-font-zoom); }
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table th:first-child,
+table td:first-child {
+    margin-top: 0;
+}
+table th:last-child,
+table td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+ :root {--mermaid-font-zoom:1em ;} 
+</style>
+</head>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="memoryindex一）httpswwwamazingkoalacomcnluceneindexlucene-880）" class="md-header-anchor"></a><a href='https://www.amazingkoala.com.cn/Lucene/Index/'><span>MemoryIndex（一）</span></a><span>（Lucene 8.8.0）</span></h1><p>&emsp;&emsp;<span>从本篇文章开始介绍Lucene中提供的基于内存的搜索引擎的内容。我们通过MemoryIndex类的注释简单的了解下。</span></p><p><span>图1：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/1.png"></p><p>&emsp;&emsp;<span>图1中中包含了两个重点内容：</span></p><ul><li><span>单文档：使用MemoryIndex生成的索引是单文档（single-document）的，所有的索引数据都在同一篇文档中</span></li><li><span>使用场景：不适用于数量大并且需要持久化的数据场景；适用于数量较小、瞬时实时的数据、查询频繁的场景，在随后的文章中，我们会介绍MemoryIndex在Elasticsearch中的应用场景</span></li></ul><h2><a name="内存索引" class="md-header-anchor"></a><span>内存索引</span></h2><p><span>图2：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/2.png"></p><p>&emsp;&emsp;<span>从图1中可以看出，内存索引的层次结构首先按照域名划分，属于同一个域名的索引又按照Posting、Terms、PointValues、FIeldInfo、Norm、DocValues划分（</span><strong><span>只列出了部分关键内容</span></strong><span>）。</span></p><p>&emsp;&emsp;<span>在源码层面，使用了一个Map来存放所有的内存索引：</span></p><p><span>图3：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/3.png"></p><p>&emsp;&emsp;<span>图3中的TreeMap的key跟value跟图2中的关系如下所示，即域名为key，该域名对应的索引信息为value，在代码中用Info对象存储：</span></p><p><span>图4：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/4.png"></p><h2><a name="内存索引的数据结构" class="md-header-anchor"></a><span>内存索引的数据结构</span></h2><p>&emsp;&emsp;<span>接着我们对图4中用</span><font color=Blue><span>蓝色虚线框</span></font><span>标注的几个不同类型索引信息分别介绍下其数据结构。</span></p><h3><a name="posting" class="md-header-anchor"></a><span>Posting</span></h3><p>&emsp;&emsp;<span>Posting中存放的是倒排信息，基于磁盘的索引中的倒排信息包含了文档号docId、词频frequency、位置position、偏移offset（offset是一个二元组，即startOffset、endOffset）、负载payload共五类信息，由于我们在上文中说到生成的索引在一篇文档中，所以基于内存的索引中只要存储除去文档号docId的其他四种信息即可。</span></p><p>&emsp;&emsp;<span>在源码中，使用了</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2018/1209/24.html'><span>IntBlockPool</span></a><span>类来存储Posting的位置position、偏移offset、负载payload这三类信息，而词频frequency则是使用一个额外的数组存放，在下文中介绍termId时再展开介绍。</span></p><p>&emsp;&emsp;<span>对于IntBlockPool类，实际上使用了一个int类型的二维数组buffers来存储Posting。</span></p><p>&emsp;&emsp;<span>对于某个域名对应的Posting，其数据结构如下：</span></p><p><span>图5：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/5.png"></p><p>&emsp;&emsp;<span>由于偏移offset、负载payload可以分别使用参数来决定是否存储，如下所示。故在不同参数下，一共有图5中三种Posting的数据结构。</span></p><p><span>图6：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/6.png"></p><p>&emsp;&emsp;<span>另外在图5中可以看到，并没有真正的存储payload的值，而是存放了一个索引值payloadIndex，该索引值指向另一个数据结构中的某个位置，在那个位置存放着payload的值，后面的文章中会详细展开。如果没有payload值，那么payloadIndex的值置为-1。</span></p><h4><a name="哨兵值" class="md-header-anchor"></a><span>哨兵值</span></h4><p>&emsp;&emsp;<span>将term的Posing信息写入到二维数组buffers之前，会在二维数组buffers中预分配一段空间连续的分片，哨兵值位于分片中的最后一个位置。</span></p><p>&emsp;&emsp;<span>哨兵值有两个作用：</span></p><ul><li><p><span>作用一：用来描述</span><strong><span>当前分片</span></strong><span>是否无法再存储更多的Posting信息。在写入到分片的过程中，如果遇到了哨兵值，说明需要再分配一个新的分片</span></p><ul><li><span>二维数组buffers中每个数组元素都会被初始化为0，而哨兵值是一个非0的值，故可以通过判断即将写入的位置的数组元素是否为0</span></li></ul></li><li><p><span>作用二：哨兵值用来描述新分配的分片大小</span></p></li></ul><h5><a name="新的分片大小的分配规则" class="md-header-anchor"></a><span>新的分片大小的分配规则</span></h5><p>&emsp;&emsp;<span>在存储域值时，会使用到ByteBlockPool对象存储，该对象中也有相同的哨兵值的概念，其分配规则也是类似，在后面的文章中我们再详细展开。在本文中，我们只需要知道。除了第一次分配的分配大小为2，随后新的分片的大小总是为4，其原因同样会在后面的文章中展开。</span></p><h4><a name="termid" class="md-header-anchor"></a><span>termId</span></h4><p>&emsp;&emsp;<span>termId是从0开始的递增值，用来唯一代表一个term。termId从0开始递增，每处理一个新的term，termId执行+1操作，新的termId即代表这个term。</span></p><p>&emsp;&emsp;<span>如果我们</span><strong><span>依次处理</span></strong><span>Jack， Jay， Jay，lily， lucy， lily 这几个term，那么这些term对应的termId如下所示：</span></p><p><span>表一：</span></p><figure><table><thead><tr><th style='text-align:center;' ><span>term</span></th><th style='text-align:center;' ><span>termId</span></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Jack</span></td><td style='text-align:center;' ><span>0</span></td></tr><tr><td style='text-align:center;' ><span>Jay</span></td><td style='text-align:center;' ><span>1</span></td></tr><tr><td style='text-align:center;' ><span>Jay</span></td><td style='text-align:center;' ><span>1</span></td></tr><tr><td style='text-align:center;' ><span>lily</span></td><td style='text-align:center;' ><span>2</span></td></tr><tr><td style='text-align:center;' ><span>lucy</span></td><td style='text-align:center;' ><span>3</span></td></tr><tr><td style='text-align:center;' ><span>lily</span></td><td style='text-align:center;' ><span>2</span></td></tr></tbody></table></figure><p>&emsp;&emsp;<span>在介绍了termId之后，我们就可以介绍上文中提到的term的词频frequency的存储方式。</span></p><p>&emsp;&emsp;<span>由于有了termId的概念，故使用了一个名字为freq的int 类型的数组存储即可。其中数组下标为termId，数组元素为term的词频frequency。该数组在代码中的定义如下所示：</span></p><p><span>图7：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/7.png"></p><p>&emsp;&emsp;<span>图7中的SliceByteStartArray对象实际也是Info（见图4）对象中的一个变量。</span></p><p>&emsp;&emsp;<span>SliceByteStartArray对象中的另外两个数组，start[ ]跟end[ ]数组，他们的</span><strong><span>数组下标同样是termId</span></strong><span>，数组元素分别描述了term的Posting信息在二维数组buffers（见图5）的开始跟结束位置。因为</span><strong><span>所有term</span></strong><span>的Posting信息都存放在同一个二维数组buffers中，故在读取阶段，通过start[ ]跟end[ ]数组获得某个term的Posting信息在二维数组buffers中的起始读取位置跟结束位置。下文会通过例子详细介绍SliceByteStartArray对象。</span></p><h4><a name="bytesrefhash" class="md-header-anchor"></a><span>BytesRefHash</span></h4><p>&emsp;&emsp;<span>上文中介绍了term的词频frequency、位置position、偏移offset、负载payload的存储方式，term自身的值也是需要存储的，它使用BytesRefHash对象存储。在读取阶段，根据termId就能从BytesRefHash对象中获得term的值。其写入跟读取的方式在文章</span><a href='https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0218/32.html'><span>ByteRefHash</span></a><span>中已经详细介绍，故本文不赘述。</span></p><h4><a name="例子" class="md-header-anchor"></a><span>例子</span></h4><p>&emsp;&emsp;<span>我们通过一个例子来介绍term的倒排信息是如何存储的。</span></p><p><span>图8：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/8.png"></p><p>&emsp;&emsp;<span>图8中，</span><font color=Red><span>红框标注</span></font><span>的两个参数都是true，意思是存储偏移offset跟负载payload的值。</span></p><h5><a name="写入逻辑" class="md-header-anchor"></a><span>写入逻辑</span></h5><p>&emsp;&emsp;<span>在介绍例子之前，我们先概述下写入的逻辑的核心过程：</span></p><ul><li><p><span>分片</span><strong><span>预分配</span></strong><span>：如果term从未处理过，那么在二维数组buffers中预分配一个分片，然后写入term的Posting信息</span></p><ul><li><span>预分配的分片，</span><strong><span>第一次分配的分片大小只有2个数组元素大小</span></strong><span>。因为在图8中两个参数都为false的情况下，只需要存储位置position，那么再上哨兵值，故只需要2个数组</span></li></ul></li><li><p><span>分片</span><strong><span>再分配</span></strong><span>：如果分片无法再存储更多的Posting信息，那么重新分配一个新的分片</span></p><ul><li><span>在往分片写入的过程中，如果遇到了哨兵值，说明</span><strong><span>当前分片</span></strong><span>无法存储更多的信息，需要再分配一个新的分片。</span><strong><span>注意的是新的分片不一定在当前分片的下一个位置</span></strong><span>，故将</span><strong><span>当前分片</span></strong><span>的哨兵值改为一个索引值，即二维数组buffers的下标值，该值对应的位置即新的分片在二维数组中的起始位置。下文的例子中会介绍这种情况</span></li></ul></li><li><p><span>Posting写入顺序：位置position --&gt; 偏移Offset（startOffset、endOffset）--&gt; 负载payload</span></p></li></ul><p>&emsp;&emsp;<span>根据图8的代码的，域名为&quot;author&quot;的域值在分词后将会生成四个term，并且处理的顺序分别为 jay --&gt; lily --&gt; jay --&gt; lucy。那么首先这几个term对应的termId以及Posting信息如下表所示：</span></p><p><span>表二：</span></p><figure><table><thead><tr><th style='text-align:center;' ><span>Term</span></th><th style='text-align:center;' ><span>TermId</span></th><th style='text-align:center;' ><span>词频frequency</span></th><th style='text-align:center;' ><span>偏移Offset</span></th><th style='text-align:center;' ><span>位置position</span></th><th style='text-align:center;' ><span>负载payload</span></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>jay</span></td><td style='text-align:center;' ><span>0</span></td><td style='text-align:center;' ><span>2</span></td><td style='text-align:center;' ><span>[0, 3], [9, 12]</span></td><td style='text-align:center;' ><span>0， 2</span></td><td style='text-align:center;' ><span>-1</span></td></tr><tr><td style='text-align:center;' ><span>lily</span></td><td style='text-align:center;' ><span>1</span></td><td style='text-align:center;' ><span>1</span></td><td style='text-align:center;' ><span>[4, 8]</span></td><td style='text-align:center;' ><span>1</span></td><td style='text-align:center;' ><span>-1</span></td></tr><tr><td style='text-align:center;' ><span>lucy</span></td><td style='text-align:center;' ><span>2</span></td><td style='text-align:center;' ><span>1</span></td><td style='text-align:center;' ><span>[13, 17]</span></td><td style='text-align:center;' ><span>3</span></td><td style='text-align:center;' ><span>-1</span></td></tr></tbody></table></figure><p>&emsp;&emsp;<span>表二中，为了便于介绍，我们直接列出了所有term 的倒排信息。另外图8中的例子中没有设置负载payload，所以对应的payloadIndex为-1。在实际处理过程中，是通过分词器获取的。</span></p><h5><a name="添加第一个termjay" class="md-header-anchor"></a><span>添加第一个term：jay</span></h5><p>&emsp;&emsp;<span>由于jay这个term第一次处理，故在二维数组buffers中预分配大小为2个数组元素大小的连续空间：</span></p><p><span>图9：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/9.png"></p><h6><a name="写入位置position" class="md-header-anchor"></a><span>写入位置position</span></h6><p><span>图10：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/10.png"></p><h6><a name="写入偏移offsetpayload" class="md-header-anchor"></a><span>写入偏移Offset、payload</span></h6><p>&emsp;&emsp;<span>由于当前分片的下一个写入位置是个哨兵值，故先进行分片再分配，新的分片的大小固定为4个数组元素大小。接着当前分片的哨兵值被替换为一个索引值index，用来描述新的分片在二维数组buffers中的起始位置，即2，然后写入偏移Offset的startOffset跟endOffset：</span></p><p><span>图11：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/11.png"></p><h6><a name="写入slicebytestartarray" class="md-header-anchor"></a><span>写入SliceByteStartArray</span></h6><p>&emsp;&emsp;<span>在写入Posting的过程中，会将当前处理的term在二维数组buffers中的起始、结束位置、词频frequency写入到SliceByteStartArray对象（见图7）中：</span></p><p><span>图12：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/12.png"></p><h5><a name="添加termlily" class="md-header-anchor"></a><span>添加term：lily</span></h5><p>&emsp;&emsp;<span>添加的过程跟添加第一个jay是一样的，故直接给出结果：</span></p><p><span>图13：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/13.png"></p><h5><a name="添加第二个termjay" class="md-header-anchor"></a><span>添加第二个term：jay</span></h5><h6><a name="写入位置position-n845" class="md-header-anchor"></a><span>写入位置position</span></h6><p>&emsp;&emsp;<span>由图13可知，当前分片无法存储更多的数据，故先分配一个新的固定大小为4的分片，当前分片的哨兵值更新为12，然后写入位置position。注意的是SliceByteStartArray对象中的信息在写完便宜offset、负载payload后才更新</span></p><p><span>图14：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/14.png"></p><h6><a name="写入偏移offsetpayload-n849" class="md-header-anchor"></a><span>写入偏移Offset、payload</span></h6><p>&emsp;&emsp;<span>由图3可知，写入偏移offset、payload需要3个数组元素大小，故在写完偏移offset后，先分配新的分配，修改哨兵值为16，然后写入payloadIndex，最后更新SliceByteStartArray中的end、freq数组：</span></p><p><span>图15：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/15.png"></p><h5><a name="添加termlucy" class="md-header-anchor"></a><span>添加term：lucy</span></h5><p><span>emsp;</span>&emsp;<span>添加的过程跟添加第一个jay是一样的，故直接给出结果：</span></p><p><span>图16：</span></p><p><img src="https://www.amazingkoala.com.cn/uploads/lucene/index/MemoryIndex/MemoryIndex（一）/16.png"></p><h2><a name="结语" class="md-header-anchor"></a><span>结语</span></h2><p>&emsp;&emsp;<span>本文简单的介绍了MemoryIndex的概念，以及如何存储倒排信息的内容。在随后的文章将进一步介绍term自身的值、负载payload，以及其他类型索引文件的内容。</span></p><p><a href='https://www.amazingkoala.com.cn/attachment/Lucene/Index/MemoryIndex/MemoryIndex（一）.zip'><span>点击</span></a><span>下载附件</span></p><p>&nbsp;</p><p>&nbsp;</p></div>
+</body>
+</html>

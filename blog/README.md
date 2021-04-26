@@ -182,6 +182,10 @@
 
 - [索引文件的载入（一）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2021/0218/189.html)
 
+#### 15. 内存索引
+
+- [内存索引（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0426/190.html)
+
 
 # Search
 
