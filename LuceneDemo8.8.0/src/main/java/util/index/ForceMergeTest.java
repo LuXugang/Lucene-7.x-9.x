@@ -79,11 +79,11 @@ public class ForceMergeTest {
             indexWriter.addDocument(doc);
             indexWriter.commit();
         }
+//        IndexReader reader = DirectoryReader.open(indexWriter);
         indexWriter.forceMerge(2);
-//        indexWriter.commit();
-        IndexReader reader = DirectoryReader.open(indexWriter);
-        IndexSearcher searcher = new IndexSearcher(reader);
-        searcher.search(new MatchAllDocsQuery(), 10);
+        indexWriter.commit();
+//        IndexSearcher searcher = new IndexSearcher(reader);
+//        searcher.search(new MatchAllDocsQuery(), 10);
 
     }
 

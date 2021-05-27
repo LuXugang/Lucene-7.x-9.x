@@ -186,6 +186,10 @@
 
 - [内存索引（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0426/190.html)
 
+#### 16. 强制合并ForceMerge
+
+- [ForceMerge（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0527/191.html)
+
 
 # Search
 
