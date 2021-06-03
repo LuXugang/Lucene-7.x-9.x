@@ -189,6 +189,7 @@
 #### 16. 强制合并ForceMerge
 
 - [ForceMerge（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0527/191.html)
+- [ForceMerge（二）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0603/192.html)
 
 
 # Search
