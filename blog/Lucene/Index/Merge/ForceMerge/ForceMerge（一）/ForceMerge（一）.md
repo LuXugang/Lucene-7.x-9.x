@@ -78,7 +78,7 @@
 
 ##### pendingMerges
 
-&emsp;&emsp;pendingMerges是一个线程共享的容器（List对象）。根据段的合并策略获取了一个或多个oneMerge后，这些oneMerge会被暂时保存到pendingMerges。
+&emsp;&emsp;pendingMerges是一个**线程共享**的容器（List对象）。根据段的合并策略获取了一个或多个oneMerge后，这些oneMerge会被暂时保存到pendingMerges。执行合并的所有线程总是同步的从这个容器中取出一个OneMerge来执行段的合并操作，这句话特别重要。
 
 ##### runningMerges
 

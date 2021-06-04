@@ -92,9 +92,15 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/ForceMerge/ForceMerge（二）/9.png">
 
-&emsp;&emsp;当通过三种方式中的一种获取了待合并的段集合后，这些段将会被注册。注册成功后，这些段将用一个称为**mergingSegments**的容器存放。可以理解成这些段添加了一个状态，该状态描述的是这些段正在执行段的合并操作。
+&emsp;&emsp;当通过三种方式中的一种获取了待合并的段集合（一个或多个OneMerge）后，这些OneMerge会依次进行注册操作。**如果**注册成功，OneMerge中包含的段将用一个称为**mergingSegments**的容器存放。该容器的作用可以理解成这些段添加了一个状态，该状态描述的是这些段正在执行段的合并操作。同时还会添加到pendingMerges（见文章[ForceMerge（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0527/191.html)）容器中。
 
-**为什么要注册待合并的段**
+**什么情况下会注册失败**
+
+&emsp;&emsp;在注册的过程中，会判断每一个段是否已经处于其他线程的合并操作中，即通过mergingSegments是否包含这个段来判断。如果OneMerge中至少一个段已经在mergingSegments中，那么注册将会失败，意味着将不会被添加到pendingMerges容器中，那么就不会进行合并操作。这里需要再次重复下在文章[ForceMerge（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0527/191.html)中提到的内容，即**pendingMerges是线程共享的容器，执行合并的所有线程总是同步的从这个容器中取出一个OneMerge来执行段的合并操作**。
+
+&emsp;&emsp;上文的内容同时描述了这么一个事实：**多个线程在执行图7中的三个方式中的任意一个后获得了一个或多个OneMerge，这些OneMerge不一定能参与段的合并操作**
+
+**注册待合并的段还有什么其他作用**
 
 &emsp;&emsp;由于允许并发执行索引的增删改跟段的合并操作，那么存在这么一种场景，在索引提交阶段，如果某个段中的所有文档都满足删除的条件，这个段会被直接删除。如果此时这个段正在执行段的合并操作，那么就会出现空指针问题。所以在删除某个段前可以通过检查mergingSegments中是否包含此段来判断是否要删除这个段。
   - 在文章[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)介绍流程点`发布FlushedSegment`时我们知道，某些段在索引提交阶段会被丢弃。我们可以看下源码中这个方法来直观的理解：
@@ -105,7 +111,7 @@
 
 &emsp;&emsp;如果一个段的文档都满足删除信息（has 100% deleted documents）时，该方法将被调用。<font color=red>红框</font>标注的注释解释了mergingSegments的作用：如果当前段正在合并中，那么把这个段留在[readerPool](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)中即可。
 
-&emsp;&emsp;注意的是，图10的方法属于IndexWriter类型，并且也用synchronized修饰了。另外在当前流程点`注册待合并的段`中，还会将待合并的段集合添加到pendingMerges（见文章[ForceMerge（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0527/191.html)）容器中。
+&emsp;&emsp;注意的是，图10的方法属于IndexWriter类型，并且也用synchronized修饰了。
 
 ## 结语
 
