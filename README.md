@@ -253,6 +253,11 @@
 
 - [block-max-WAND（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0916/167.html)
 
+#### 13. 查询TopN的优化之NumericDocValues
+
+- [查询TopN的优化之NumericDocValues（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/193.html)
+
+
 # Util
 
 #### 1. [RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/98.html)
