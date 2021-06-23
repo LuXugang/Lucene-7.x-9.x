@@ -278,10 +278,13 @@
 
 #### 7. [RamUsageEstimator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1212/117.html)
 
-#### 8. [IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)
+#### 8. IndexedDISI
 
-#### 9. [IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)
+- [IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)
 
+- [IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)
+
+#### 8. [文档号收集器DocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)
 
 # 压缩存储
 
