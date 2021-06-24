@@ -260,7 +260,10 @@
 
 # Util
 
-#### 1. [RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/98.html)
+#### 1. RoaringDocIdSet
+
+- [RoaringDocIdSet（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/98.html)
+- [RoaringDocIdSet（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)
 
 #### 2. [Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)
 
