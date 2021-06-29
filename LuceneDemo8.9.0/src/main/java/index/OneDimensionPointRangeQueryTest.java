@@ -2,6 +2,7 @@ package index;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.document.BinaryDocValuesField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.NumericDocValuesField;
@@ -11,6 +12,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
 
 import java.io.IOException;
@@ -48,11 +50,13 @@ public class OneDimensionPointRangeQueryTest {
         doc.add(new IntPoint("sortField", 1));
         doc.add(new IntPoint("sortField", 3));
         doc.add(new NumericDocValuesField("sortField", 1));
+        doc.add(new BinaryDocValuesField("sortFieldString", new BytesRef("a")));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
         doc.add(new IntPoint("sortField", 2));
         doc.add(new NumericDocValuesField("sortField", 2));
+        doc.add(new BinaryDocValuesField("sortFieldString", new BytesRef("b")));
         indexWriter.addDocument(doc);
 //        // 文档2
 //        doc = new Document();
@@ -66,6 +70,7 @@ public class OneDimensionPointRangeQueryTest {
             a = a <= 2 ? a + 4 : a;
             doc.add(new IntPoint("sortField", a));
             doc.add(new NumericDocValuesField("sortField", a));
+            doc.add(new BinaryDocValuesField("sortFieldString", new BytesRef(String.valueOf(a))));
             indexWriter.addDocument(doc);
         }
         indexWriter.commit();
@@ -78,8 +83,8 @@ public class OneDimensionPointRangeQueryTest {
         // 返回Top5的结果
         int resultTopN = 5;
 
-
-        SortField sortField = new SortedNumericSortField("sortField", SortField.Type.INT);
+//        SortField sortField = new SortedNumericSortField("sortField", SortField.Type.INT);
+        SortField sortField = new SortField("sortFieldString", SortField.Type.SCORE);
         sortField.setCanUsePoints();
         Sort sort = new Sort(sortField);
         TopFieldCollector collector = TopFieldCollector.create(sort, resultTopN, 520);

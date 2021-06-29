@@ -256,6 +256,7 @@
 #### 13. 查询TopN的优化之NumericDocValues
 
 - [查询TopN的优化之NumericDocValues（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/193.html)
+- [查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0629/195.html)
 
 
 # Util
