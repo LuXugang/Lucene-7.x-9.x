@@ -3,10 +3,7 @@ package index;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
@@ -39,18 +36,19 @@ public class IndexOrDocValuesQueryTest {
     private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
-        conf.setUseCompoundFile(true);
+        conf.setUseCompoundFile(false);
+        conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("number", 1));
-        doc.add(new SortedNumericDocValuesField("number", 1));
-        doc.add(new SortedNumericDocValuesField("number", 2));
-        doc.add(new SortedDocValuesField("content", new BytesRef("my good teach")));
-        doc.add(new StringField("content", "my good teach", Field.Store.YES));
-        doc.add(new BinaryDocValuesField("numberString", new BytesRef("a")));
+        doc.add(new NumericDocValuesField("a", 1));
+        doc.add(new NumericDocValuesField("b", 2));
+        doc.add(new NumericDocValuesField("c", 3));
+        doc.add(new SortedNumericDocValuesField("a-b-c", 1));
+        doc.add(new SortedNumericDocValuesField("a-b-c", 2));
+        doc.add(new SortedNumericDocValuesField("a-b-c", 3));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
@@ -72,6 +70,8 @@ public class IndexOrDocValuesQueryTest {
             doc.add(new BinaryDocValuesField("numberString", new BytesRef(String.valueOf(a))));
             doc.add(new StringField("content", "ddf", Field.Store.YES));
             indexWriter.addDocument(doc);
+            if(count % 2000 == 0)
+                indexWriter.commit();
         }
         indexWriter.commit();
         DirectoryReader reader = DirectoryReader.open(indexWriter);

@@ -84,7 +84,7 @@ public class SoftDeletesTest8 {
     }
 
     public static void main(String[] args) throws Exception{
-        SoftDeletesTest9 test = new SoftDeletesTest9();
+        SoftDeletesTest8 test = new SoftDeletesTest8();
         test.doIndexAndSearch();
     }
 }
