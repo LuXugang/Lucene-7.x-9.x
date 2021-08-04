@@ -248,7 +248,7 @@
 #### 11. 范围域（rangeField）
 
 - [RangeField（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
-
+DisjunctionMaxQuery
 #### 12. block-max-WAND
 
 - [block-max-WAND（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0916/167.html)
@@ -259,6 +259,10 @@
 - [查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0629/195.html)
 
 #### 14. [IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/196.html)
+
+#### 15. DisjunctionMaxQuery
+
+- [DisjunctionMaxQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0804/197.html)
 
 
 # Util

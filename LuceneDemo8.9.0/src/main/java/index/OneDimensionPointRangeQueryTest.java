@@ -2,10 +2,7 @@ package index;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.BinaryDocValuesField;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -47,10 +44,9 @@ public class OneDimensionPointRangeQueryTest {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new IntPoint("sortField", 1));
-        doc.add(new IntPoint("sortField", 3));
-        doc.add(new NumericDocValuesField("sortField", 1));
-        doc.add(new BinaryDocValuesField("sortFieldString", new BytesRef("a")));
+        doc.add(new StringField("标题","balabala", Field.Store.YES));
+        doc.add(new StringField("内容","balabala", Field.Store.YES));
+        doc.add(new StringField("附件","balabala", Field.Store.YES));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
