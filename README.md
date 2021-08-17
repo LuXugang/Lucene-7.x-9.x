@@ -264,6 +264,10 @@ DisjunctionMaxQuery
 
 - [DisjunctionMaxQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0804/197.html)
 
+#### 16. GeoQuery
+
+- [GeoQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html)
+
 
 # Util
 
@@ -354,3 +358,5 @@ DisjunctionMaxQuery
 - [PostingsEnum（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0911/166.html)
 
 #### 8. [删除队列DeleteQueue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/150.html)
+
+#### 9. [GeoHash编码](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html)
