@@ -360,3 +360,7 @@ DisjunctionMaxQuery
 #### 8. [删除队列DeleteQueue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/150.html)
 
 #### 9. [GeoHash编码](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html)
+
+# OpenSearch
+
+#### 1. [OpenSearch-SQL调研](https://www.amazingkoala.com.cn/OpenSearch/2021/0819/199.html)
