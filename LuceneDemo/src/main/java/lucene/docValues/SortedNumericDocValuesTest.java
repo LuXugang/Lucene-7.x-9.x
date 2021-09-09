@@ -59,6 +59,7 @@ public class SortedNumericDocValuesTest {
       // 2
       doc = new Document();
       doc.add(new SortedNumericDocValuesField(groupField1, 92L));
+        doc.add(new SortedNumericDocValuesField(groupField1, 912L));
       doc.add(new SortedNumericDocValuesField(groupField2, 100L));
       doc.add(new StringField("name", "liudehua", Field.Store.YES));
       indexWriter.addDocument(doc);
