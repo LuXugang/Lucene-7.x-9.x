@@ -52,7 +52,7 @@ public class IndexSortTest {
 
         // 文档0
         doc = new Document();
-        doc.add(new Field("sequence", "第0篇添加的文档", fieldType));
+        doc.add(new Field("sequence", "文档0", fieldType));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("c1")));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("c2")));
         doc.add(new SortedSetDocValuesField("sort1", new BytesRef("a1")));
@@ -60,7 +60,7 @@ public class IndexSortTest {
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-        doc.add(new Field("sequence", "第1篇添加的文档", fieldType));
+        doc.add(new Field("sequence", "文档1", fieldType));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("b1")));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("c1")));
         doc.add(new SortedSetDocValuesField("sort1", new BytesRef("e1")));
@@ -68,7 +68,7 @@ public class IndexSortTest {
         indexWriter.addDocument(doc);
         // 文档2
         doc = new Document();
-        doc.add(new Field("sequence", "第2篇添加的文档", fieldType));
+        doc.add(new Field("sequence", "文档2", fieldType));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("b1")));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("b2")));
         doc.add(new SortedSetDocValuesField("sort1", new BytesRef("e2")));
@@ -76,7 +76,7 @@ public class IndexSortTest {
         indexWriter.addDocument(doc);
         // 文档3
         doc = new Document();
-        doc.add(new Field("sequence", "第3篇添加的文档", fieldType));
+        doc.add(new Field("sequence", "文档3", fieldType));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("b1")));
         doc.add(new SortedSetDocValuesField("sort0", new BytesRef("b2")));
         doc.add(new SortedSetDocValuesField("sort1", new BytesRef("e1")));
@@ -84,7 +84,7 @@ public class IndexSortTest {
         indexWriter.addDocument(doc);
         // 文档4
         doc = new Document();
-        doc.add(new Field("sequence", "第4篇添加的文档", fieldType));
+        doc.add(new Field("sequence", "文档4", fieldType));
         indexWriter.addDocument(doc);
         indexWriter.commit();
         DirectoryReader reader= DirectoryReader.open(indexWriter);
