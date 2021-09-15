@@ -191,6 +191,10 @@
 - [ForceMerge（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0527/191.html)
 - [ForceMerge（二）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0603/192.html)
 
+#### 17. 段内排序IndexSort
+
+- [段内排序IndexSort（一）](https://www.amazingkoala.com.cn/Lucene/Index/2021/0915/201.html)
+
 
 # Search
 

@@ -15,6 +15,7 @@ import util.FileOperation;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Random;
 
 /**
  * 文章中的demo 不要修改
@@ -41,13 +42,13 @@ public class IndexSortTest {
         Document doc;
 
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-        SortedSetSortField sortField1 = new SortedSetSortField("sort0", true, SortedSetSelector.Type.MIN);
-        SortedSetSortField sortField2 = new SortedSetSortField("sort1", true, SortedSetSelector.Type.MAX);
-        SortField[] sortFields = new SortField[2];
-        sortFields[0] = sortField1;
-        sortFields[1] = sortField2;
-        Sort sort = new Sort(sortFields);
-        conf.setIndexSort(sort);
+        SortedSetSortField indexSortField1 = new SortedSetSortField("sort0", true, SortedSetSelector.Type.MIN);
+        SortedSetSortField indexSortField2 = new SortedSetSortField("sort1", true, SortedSetSelector.Type.MAX);
+        SortField[] indexSortFields = new SortField[2];
+        indexSortFields[0] = indexSortField1;
+        indexSortFields[1] = indexSortField2;
+        Sort indexSort = new Sort(indexSortFields);
+        conf.setIndexSort(indexSort);
         IndexWriter indexWriter = new IndexWriter(directory, conf);
 
         // 文档0
@@ -89,7 +90,19 @@ public class IndexSortTest {
         indexWriter.commit();
         DirectoryReader reader= DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        ScoreDoc[] result = searcher.search(new MatchAllDocsQuery(), 100).scoreDocs;
+        boolean resultToSort = new Random().nextBoolean();
+        System.out.println(resultToSort ? "sorted in search phase" : "not sorted in search phase");
+        SortedSetSortField searchSortField1 = new SortedSetSortField("sort0", true, SortedSetSelector.Type.MAX);
+        SortedSetSortField searchSortField2 = new SortedSetSortField("sort1", true, SortedSetSelector.Type.MIN);
+        SortField[] searchSortFields = new SortField[2];
+        searchSortFields[0] = searchSortField1;
+        searchSortFields[1] = searchSortField2;
+        Sort searchSort = new Sort(searchSortFields);
+        ScoreDoc[] result = resultToSort
+                ?
+                searcher.search(new MatchAllDocsQuery(), 100, searchSort).scoreDocs
+                :
+                searcher.search(new MatchAllDocsQuery(), 100).scoreDocs;
         for (ScoreDoc scoreDoc : result) {
             System.out.println("段内排序后的文档号: "+scoreDoc.doc+" VS 段内排序前的文档: "+reader.document(scoreDoc.doc).get("sequence")+"");
         }
