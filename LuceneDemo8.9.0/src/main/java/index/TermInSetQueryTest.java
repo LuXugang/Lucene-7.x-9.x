@@ -1,11 +1,11 @@
-package query;
+package index;
 
-import index.DisjunctionMaxQueryTest;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -16,9 +16,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class LRUCacheTest {
+public class TermInSetQueryTest {
+//    private static String alphabet = "a b c d e f g ";
+        private static String alphabet = "a b c d e f g h i j k l m n o p q r s t";
     private Directory directory;
 
     {
@@ -42,47 +43,46 @@ public class LRUCacheTest {
         conf.setUseCompoundFile(false);
         conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
-        Random random = new Random();
         Document doc;
-        int count = 0 ;
-        int a, b;
-        while (count < 40960){
+        int count = 0;
+        while (count++ < 409600){
+            // 文档0
             doc = new Document();
-            a = random.nextInt(100);
-            b = random.nextInt(100);
-            a = a <= 2 ? a + 4 : a;
-            b = b <= 2 ? b + 4 : b;
-            doc.add(new IntPoint("number", a));
-            doc.add(new NumericDocValuesField("number", b));
-            doc.add(new BinaryDocValuesField("numberString", new BytesRef(String.valueOf(a))));
-            doc.add(new StringField("termField", "good" + random.nextInt(3), Field.Store.YES));
-            if(count % 2 == 0){
-                doc.add(new Field("content", "my good teach", fieldType));
-            }else {
-                doc.add(new Field("content", "my efds", fieldType));
-            }
-            doc.add(new Field("content", "ddf", fieldType));
+            doc.add(new Field("body", "china a ", fieldType));
             indexWriter.addDocument(doc);
-            count++;
+            // 文档1
+            doc = new Document();
+            doc.add(new Field("body", "china b", fieldType));
+            indexWriter.addDocument(doc);
+            // 文档2
+            doc = new Document();
+            doc.add(new Field("body", "china d", fieldType));
+            indexWriter.addDocument(doc);
         }
-        indexWriter.commit();
-        DirectoryReader reader = DirectoryReader.open(indexWriter);
-        IndexSearcher searcher = new IndexSearcher(reader);
-        Query query = IntPoint.newRangeQuery("number", 1, 200);
-        Query query1 = new TermRangeQuery("termField", new BytesRef("a"), new BytesRef("z"), true, true);
-        Collector collector = new TotalHitCountCollector();
 
-        // 返回Top5的结果
-        int resultTopN = 100;
+        indexWriter.commit();
+
+        DirectoryReader directoryReader = DirectoryReader.open(indexWriter);
+        IndexSearcher searcher = new IndexSearcher(directoryReader);
+
+
+        List<BytesRef> terms = new ArrayList<>();
+        for (String s : alphabet.split(" ")) {
+            terms.add(new BytesRef(s.trim()));
+        }
+        Query query  = new TermInSetQuery("body", terms);
+
         int queryCount = 100;
         for (int i = 0; i < queryCount;  i++) {
-            searcher.search(query1, collector);
+            ScoreDoc[] result = searcher.search(query, 100).scoreDocs;
+            for (ScoreDoc scoreDoc : result) {
+                System.out.println("文档号: "+scoreDoc.doc+" 文档分数: "+scoreDoc.score+"");
+            }
         }
-
         System.out.println("DONE");
     }
     public static void main(String[] args) throws Exception{
-        LRUCacheTest test = new LRUCacheTest();
+        TermInSetQueryTest test = new TermInSetQueryTest();
         test.doSearch();
     }
 }

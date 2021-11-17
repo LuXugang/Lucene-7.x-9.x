@@ -97,7 +97,7 @@ public class IndexOrDocValuesQueryTest {
         // 返回Top5的结果
         int resultTopN = 10000;
 
-        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
+        ScoreDoc[] scoreDocs = searcher.search(indexOrDocValuesQuery, resultTopN).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
             System.out.println("文档号: "+scoreDoc.doc+"");
         }
