@@ -40,6 +40,11 @@ public class TestPointRangeQuery {
 
         Random random = new Random();
         Document doc;
+
+        IntPoint oneDim = new IntPoint("oneDim", 3);
+        IntPoint twoDim = new IntPoint("twoDim", 5, 6);
+        IntPoint threeDim = new IntPoint("threeDim", 5, 6, 8);
+
         int count = 0 ;
         int a, b;
         int minA = Integer.MAX_VALUE;

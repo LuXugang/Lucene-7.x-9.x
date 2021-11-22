@@ -273,6 +273,10 @@
 - [GeoQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html)
 - [GeoQuery（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0902/200.html)
 
+#### 17. PointRangeQuery
+
+- [PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)
+
 
 # Util
 
