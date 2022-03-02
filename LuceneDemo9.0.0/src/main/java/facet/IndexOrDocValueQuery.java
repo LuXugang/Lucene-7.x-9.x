@@ -1,10 +1,9 @@
-package index;
+package facet;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -15,11 +14,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
 
-/**
- * @author Lu Xugang
- * @date 2021/6/30 1:30 下午
- */
-public class IndexOrDocValuesQueryTest {
+public class IndexOrDocValueQuery {
     private Directory directory;
 
     {
@@ -49,15 +44,15 @@ public class IndexOrDocValuesQueryTest {
         doc.add(new SortedNumericDocValuesField("a-b-c", 1));
         doc.add(new SortedNumericDocValuesField("a-b-c", 2));
         doc.add(new SortedNumericDocValuesField("a-b-c", 3));
+        doc.add(new StringField("termFiled", "my", Field.Store.YES));
+        doc.add(new IntPoint("number", 2));
+        doc.add(new SortedNumericDocValuesField("number", 2));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
         doc.add(new IntPoint("number", 2));
-        doc.add(new SortedNumericDocValuesField("number", 3));
-        doc.add(new SortedNumericDocValuesField("number", 4));
-        doc.add(new SortedDocValuesField("content", new BytesRef("my good teach")));
-        doc.add(new StringField("content", "my", Field.Store.YES));
-        doc.add(new BinaryDocValuesField("numberString", new BytesRef("b")));
+        doc.add(new SortedNumericDocValuesField("number", 2));
+        doc.add(new StringField("termFiled", "my", Field.Store.YES));
         indexWriter.addDocument(doc);
         int count = 0 ;
         int a;
@@ -67,7 +62,6 @@ public class IndexOrDocValuesQueryTest {
             a = a <= 2 ? a + 4 : a;
             doc.add(new IntPoint("number", a));
             doc.add(new SortedNumericDocValuesField("number", a));
-            doc.add(new BinaryDocValuesField("numberString", new BytesRef(String.valueOf(a))));
             doc.add(new StringField("content", "ddf", Field.Store.YES));
             indexWriter.addDocument(doc);
             if(count % 2000 == 0)
@@ -79,23 +73,19 @@ public class IndexOrDocValuesQueryTest {
         int lowValue = Integer.MIN_VALUE;
         int upValue = Integer.MAX_VALUE;
 
+        Query termQuery = new TermQuery(new Term("termFiled", new BytesRef("my")));
 
-        Query termQuery = new TermQuery(new Term("content", new BytesRef("my")));
-
-        Query pointsRangeQuery = IntPoint.newRangeQuery("number", lowValue, upValue);
-        Query docValuesRangeQuery = SortedNumericDocValuesField.newSlowRangeQuery("number", Long.MIN_VALUE, Long.MAX_VALUE);
+        Query pointsRangeQuery = IntPoint.newRangeQuery("number", -100, 999999);
+        Query docValuesRangeQuery = SortedNumericDocValuesField.newSlowRangeQuery("number", -100, 999999);
         Query indexOrDocValuesQuery = new IndexOrDocValuesQuery(pointsRangeQuery, docValuesRangeQuery);
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(termQuery, BooleanClause.Occur.MUST);
         builder.add(indexOrDocValuesQuery, BooleanClause.Occur.MUST);
-
         Query query = builder.build();
 
         // 返回Top5的结果
         int resultTopN = 10000;
-
-        Query docValuesQuery = SortedNumericDocValuesField.newSlowRangeQuery("number", Long.MIN_VALUE, Long.MAX_VALUE);
 
         ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
@@ -105,7 +95,7 @@ public class IndexOrDocValuesQueryTest {
         System.out.println("DONE");
     }
     public static void main(String[] args) throws Exception{
-        IndexOrDocValuesQueryTest test = new IndexOrDocValuesQueryTest();
+        IndexOrDocValueQuery test = new IndexOrDocValueQuery();
         test.doSearch();
     }
 }
