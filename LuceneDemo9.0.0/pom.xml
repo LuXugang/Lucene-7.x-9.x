@@ -76,11 +76,17 @@
             <artifactId>lucene-highlighter</artifactId>
             <version>${lucene.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.lucene</groupId>-->
-        <!--            <artifactId>lucene-join</artifactId>-->
-        <!--            <version>${lucene.version}</version>-->
-        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+                <dependency>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-sandbox</artifactId>
+                    <version>${lucene.version}</version>
+                </dependency>
 
         <dependency>
             <groupId>org.apache.lucene</groupId>
