@@ -278,6 +278,10 @@
 - [PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)
 - [PointRangeQuery（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1128/203.html)
 
+#### 18. IndexSortSortedNumericDocValuesRangeQuery
+
+- [IndexSortSortedNumericDocValuesRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2022/0314/204.html)
+
 
 # Util
 
