@@ -32,8 +32,7 @@ public class IndexOrDocValueQuery {
     private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
-//        SortField sortField = new SortedNumericSortField("number", SortField.Type.LONG);
-        SortField sortField = new SortedNumericSortField("number", SortField.Type.LONG, true);
+        SortField sortField = new SortedNumericSortField("number2", SortField.Type.LONG);
         sortField.setMissingValue(1L);
         Sort indexSort = new Sort(sortField);
 //        Sort indexSort = new Sort(new SortedNumericSortField("number", SortField.Type.LONG, true, SortedNumericSelector.Type.MAX));
@@ -45,20 +44,15 @@ public class IndexOrDocValueQuery {
         Document doc;
         // 文档0
         doc = new Document();
-        doc.add(new NumericDocValuesField("a", 1));
-        doc.add(new NumericDocValuesField("b", 2));
-        doc.add(new NumericDocValuesField("c", 3));
-        doc.add(new SortedNumericDocValuesField("a-b-c", 1));
-        doc.add(new SortedNumericDocValuesField("a-b-c", 2));
-        doc.add(new SortedNumericDocValuesField("a-b-c", 3));
         doc.add(new StringField("termFiled", "my", Field.Store.YES));
+        doc.add(new StringField("number1", "my", Field.Store.YES));
         doc.add(new LongPoint("number", 5));
         doc.add(new SortedNumericDocValuesField("number", 5));
         indexWriter.addDocument(doc);
         // 文档1
         doc = new Document();
-//        doc.add(new LongPoint("number", 2));
-//        doc.add(new SortedNumericDocValuesField("number", 2));
+        doc.add(new LongPoint("number", 2));
+        doc.add(new SortedNumericDocValuesField("number", 2));
         doc.add(new StringField("termFiled", "my", Field.Store.YES));
         indexWriter.addDocument(doc);
 
@@ -87,13 +81,15 @@ public class IndexOrDocValueQuery {
         int lowValue = Integer.MIN_VALUE;
         int upValue = Integer.MAX_VALUE;
 
-        Query termQuery = new TermQuery(new Term("termFiled", new BytesRef("my")));
+        Query termQuery = new TermQuery(new Term("number", new BytesRef("my")));
 
-        Query pointsRangeQuery = LongPoint.newRangeQuery("number", -100, 80);
-        Query docValuesRangeQuery = SortedNumericDocValuesField.newSlowRangeQuery("number", -100, 80);
+        Query pointsRangeQuery = LongPoint.newRangeQuery("termFiled", -100, 80);
+        Query docValuesRangeQuery = SortedNumericDocValuesField.newSlowRangeQuery("number1", -100, 80);
         Query indexOrDocValuesQuery = new IndexOrDocValuesQuery(pointsRangeQuery, docValuesRangeQuery);
 
-        Query sortSortQuery = new IndexSortSortedNumericDocValuesRangeQuery("number", -100, 80, pointsRangeQuery);
+        Query sortSortQuery = new IndexSortSortedNumericDocValuesRangeQuery("number1", -100, 80, docValuesRangeQuery);
+
+        Query docValueExist= new DocValuesFieldExistsQuery("number");
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(termQuery, BooleanClause.Occur.MUST);
@@ -101,10 +97,16 @@ public class IndexOrDocValueQuery {
 //        builder.add(indexOrDocValuesQuery, BooleanClause.Occur.MUST);
         Query query = builder.build();
 
+
+        Weight weight = docValueExist.createWeight(searcher, ScoreMode.COMPLETE, 1.0f);
+        for (LeafReaderContext context : searcher.getIndexReader().leaves()) {
+             weight.count(context);
+        }
+
         // 返回Top5的结果
         int resultTopN = 10000000;
 
-        ScoreDoc[] scoreDocs = searcher.search(sortSortQuery, resultTopN).scoreDocs;
+        ScoreDoc[] scoreDocs = searcher.search(docValueExist, resultTopN).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
             System.out.println("文档号: "+scoreDoc.doc+"");
         }
