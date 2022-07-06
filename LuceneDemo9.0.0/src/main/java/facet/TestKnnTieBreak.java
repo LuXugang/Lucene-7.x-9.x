@@ -1,27 +1,40 @@
+package facet;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.KnnVectorField;
-import org.apache.lucene.document.SortedDocValuesField;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.facet.StringDocValuesReaderState;
-import org.apache.lucene.facet.StringValueFacetCounts;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.SortedNumericDocValuesField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.SerialMergeScheduler;
+import org.apache.lucene.index.VectorSimilarityFunction;
+import org.apache.lucene.search.Collector;
+import org.apache.lucene.search.DocValuesFieldExistsQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.KnnVectorQuery;
+import org.apache.lucene.search.NormsFieldExistsQuery;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortedNumericSortField;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.VectorUtil;
+import util.FileOperation;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class StringValuesFacetCount {
+public class TestKnnTieBreak {
     private Directory directory;
 
     {
@@ -38,47 +51,34 @@ public class StringValuesFacetCount {
     private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
+        SortField sortField = new SortedNumericSortField("number2", SortField.Type.LONG);
+        sortField.setMissingValue(1L);
+        Sort indexSort = new Sort(sortField);
 //        Sort indexSort = new Sort(new SortedNumericSortField("number", SortField.Type.LONG, true, SortedNumericSelector.Type.MAX));
         conf.setUseCompoundFile(false);
         conf.setMergeScheduler(new SerialMergeScheduler());
+        conf.setIndexSort(indexSort);
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
 
-        int count = 0 ;
-        while (count++ < 10){
+        for (int j = 0; j < 5; j++) {
             doc = new Document();
-                doc.add(new StringField("content1", "content1" + random.nextInt(1000), Field.Store.YES));
-            doc.add(new StringField("content2", "content2" + random.nextInt(1000), Field.Store.YES));
-            doc.add(new SortedDocValuesField("field", new BytesRef(String.valueOf(count))));
-            doc.add(new KnnVectorField("knn1", new float[]{0.3f, 0.5f}));
-            doc.add(new KnnVectorField("knn2", new float[]{0.3f, 0.5f}));
+            doc.add(new KnnVectorField("field", new float[] {0, 1}, VectorSimilarityFunction.EUCLIDEAN));
             indexWriter.addDocument(doc);
-            if(count % 3 == 0){
+        }
+        indexWriter.commit();
+        try (IndexReader reader = DirectoryReader.open(indexWriter)) {
+            IndexSearcher searcher = new IndexSearcher(reader);
+            KnnVectorQuery query = new KnnVectorQuery("field", new float[] {2, 3}, 3);
+            ScoreDoc[] scoreDocs = searcher.search(query, 3).scoreDocs;
+            for (ScoreDoc scoreDoc : scoreDocs) {
+                System.out.println("docId: "+scoreDoc.doc+"");
             }
         }
-//        indexWriter.deleteDocuments(new Term("content", "a"));
-        indexWriter.commit();
-
-        DirectoryReader reader = DirectoryReader.open(indexWriter);
-        IndexSearcher searcher = new IndexSearcher(reader);
-        StringDocValuesReaderState state =
-                new StringDocValuesReaderState(searcher.getIndexReader(), "field");
-        StringValueFacetCounts facets = new StringValueFacetCounts(state);
-
-
-    }
-
-    private float[] randomVector(int dim, Random random) {
-        float[] v = new float[dim];
-        for (int i = 0; i < dim; i++) {
-            v[i] = random.nextFloat();
-        }
-        VectorUtil.l2normalize(v);
-        return v;
     }
     public static void main(String[] args) throws Exception{
-        StringValuesFacetCount test = new StringValuesFacetCount();
+        TestKnnTieBreak test = new TestKnnTieBreak();
         test.doSearch();
     }
 }

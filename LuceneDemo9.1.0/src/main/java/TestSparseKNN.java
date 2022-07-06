@@ -9,6 +9,7 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.KnnVectorFieldExistsQuery;
 import org.apache.lucene.search.KnnVectorQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -35,8 +36,9 @@ public class TestSparseKNN {
         fieldType.setStored(true);
 
         int dimension = 3;
-        int number = 100000;
-        String input = "./dimension/vector."+dimension+"d."+(number/1000)+"k.txt";
+        int number = 10000;
+//        String input = "/Users/luxugang/Project/Lucene-7.5.0-8.4.0/LuceneDemo9.1.0/dimension/vector.3d.100k.txt";
+        String input = "/Users/luxugang/Project/Lucene-7.5.0-8.4.0/LuceneDemo9.1.0/dimension/vector.constant.txt";
         IndexWriter indexWriter = new IndexWriter(directory, conf);
         long indexCost = 0;
         System.out.println("start to index");
@@ -83,6 +85,9 @@ public class TestSparseKNN {
         candidateQueryPara.add(new float[]{0.016738f,0.21394f, -0.16618f});
         candidateQueryPara.add(new float[]{1f,1f, 1f});
 
+        int vectorCount = indexSearcher.count(new KnnVectorFieldExistsQuery("vector"));
+        System.out.println("vector count: "+vectorCount+"");
+
         long costSum = 0;
         int NumberOfDocumentsToFind = 10;
         for (float[] floats : candidateQueryPara) {
@@ -99,7 +104,7 @@ public class TestSparseKNN {
 
     public static void main(String[] args) throws Exception{
         TestSparseKNN TestSparseKNN = new TestSparseKNN();
-        int iter = 10;
+        int iter = 1;
         long searchCostSum = 0;
         long indexCostSum = 0;
         int top = 0;

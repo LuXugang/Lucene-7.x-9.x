@@ -1,16 +1,14 @@
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.KnnVectorField;
-import org.apache.lucene.document.SortedDocValuesField;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.facet.StringDocValuesReaderState;
-import org.apache.lucene.facet.StringValueFacetCounts;
+import org.apache.lucene.document.SortedSetDocValuesField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.SerialMergeScheduler;
+import org.apache.lucene.index.SortedSetDocValues;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -21,7 +19,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class StringValuesFacetCount {
+public class TestSortedSetDocValuesCount {
     private Directory directory;
 
     {
@@ -38,35 +36,38 @@ public class StringValuesFacetCount {
     private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
-//        Sort indexSort = new Sort(new SortedNumericSortField("number", SortField.Type.LONG, true, SortedNumericSelector.Type.MAX));
         conf.setUseCompoundFile(false);
         conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
-
+//
         int count = 0 ;
-        while (count++ < 10){
-            doc = new Document();
-                doc.add(new StringField("content1", "content1" + random.nextInt(1000), Field.Store.YES));
-            doc.add(new StringField("content2", "content2" + random.nextInt(1000), Field.Store.YES));
-            doc.add(new SortedDocValuesField("field", new BytesRef(String.valueOf(count))));
-            doc.add(new KnnVectorField("knn1", new float[]{0.3f, 0.5f}));
-            doc.add(new KnnVectorField("knn2", new float[]{0.3f, 0.5f}));
-            indexWriter.addDocument(doc);
-            if(count % 3 == 0){
-            }
-        }
-//        indexWriter.deleteDocuments(new Term("content", "a"));
-        indexWriter.commit();
+
+        doc = new Document();
+        doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
+        doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
+        doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("b")));
+        indexWriter.addDocument(doc);
+
+        doc = new Document();
+        doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("b")));
+        doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("b")));
+        indexWriter.addDocument(doc);
 
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        StringDocValuesReaderState state =
-                new StringDocValuesReaderState(searcher.getIndexReader(), "field");
-        StringValueFacetCounts facets = new StringValueFacetCounts(state);
+
+        for (LeafReaderContext leaf : reader.leaves()) {
+            SortedSetDocValues docValues = leaf.reader().getSortedSetDocValues("sortedSet") ;
+            for (int doc1 = docValues.nextDoc(); doc1 != DocIdSetIterator.NO_MORE_DOCS; doc1 = docValues.nextDoc()) {
+                System.out.println("abc");
+                System.out.println("docValuesCount:" + docValues.docValueCount());
+            }
+        }
 
 
+        System.out.println("DONE");
     }
 
     private float[] randomVector(int dim, Random random) {
@@ -78,7 +79,7 @@ public class StringValuesFacetCount {
         return v;
     }
     public static void main(String[] args) throws Exception{
-        StringValuesFacetCount test = new StringValuesFacetCount();
+        TestSortedSetDocValuesCount test = new TestSortedSetDocValuesCount();
         test.doSearch();
     }
 }

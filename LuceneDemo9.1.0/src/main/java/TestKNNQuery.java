@@ -12,6 +12,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.SerialMergeScheduler;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.KnnVectorQuery;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -21,7 +23,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class StringValuesFacetCount {
+public class TestKNNQuery {
     private Directory directory;
 
     {
@@ -38,47 +40,45 @@ public class StringValuesFacetCount {
     private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
-//        Sort indexSort = new Sort(new SortedNumericSortField("number", SortField.Type.LONG, true, SortedNumericSelector.Type.MAX));
         conf.setUseCompoundFile(false);
         conf.setMergeScheduler(new SerialMergeScheduler());
         indexWriter = new IndexWriter(directory, conf);
-        Random random = new Random();
         Document doc;
+        doc = new Document();
+        doc.add(new KnnVectorField("vector", new float[]{1.0f, 0.3f}));
+        indexWriter.addDocument(doc);
 
-        int count = 0 ;
-        while (count++ < 10){
-            doc = new Document();
-                doc.add(new StringField("content1", "content1" + random.nextInt(1000), Field.Store.YES));
-            doc.add(new StringField("content2", "content2" + random.nextInt(1000), Field.Store.YES));
-            doc.add(new SortedDocValuesField("field", new BytesRef(String.valueOf(count))));
-            doc.add(new KnnVectorField("knn1", new float[]{0.3f, 0.5f}));
-            doc.add(new KnnVectorField("knn2", new float[]{0.3f, 0.5f}));
-            indexWriter.addDocument(doc);
-            if(count % 3 == 0){
-            }
-        }
-//        indexWriter.deleteDocuments(new Term("content", "a"));
+        doc = new Document();
+        doc.add(new KnnVectorField("vector", new float[]{1.0f, 0.4f}));
+        indexWriter.addDocument(doc);
+
+
+        doc = new Document();
+        doc.add(new KnnVectorField("vector", new float[]{1.0f, 0.3f}));
+        indexWriter.addDocument(doc);
+
+
         indexWriter.commit();
 
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        StringDocValuesReaderState state =
-                new StringDocValuesReaderState(searcher.getIndexReader(), "field");
-        StringValueFacetCounts facets = new StringValueFacetCounts(state);
 
+        float[] queryFloat = new float[]{1.0f, 0.2f};
 
-    }
+        KnnVectorQuery kvq = new KnnVectorQuery("vector", queryFloat, 10);
 
-    private float[] randomVector(int dim, Random random) {
-        float[] v = new float[dim];
-        for (int i = 0; i < dim; i++) {
-            v[i] = random.nextFloat();
+        ScoreDoc[] docs = searcher.search(kvq, 1000).scoreDocs;
+        System.out.println("match: "+docs.length+"");
+        for (int i = 0; i < docs.length; i++) {
+            System.out.println(docs[i].doc);
         }
-        VectorUtil.l2normalize(v);
-        return v;
+
+
+
+
     }
     public static void main(String[] args) throws Exception{
-        StringValuesFacetCount test = new StringValuesFacetCount();
+        TestKNNQuery test = new TestKNNQuery();
         test.doSearch();
     }
 }

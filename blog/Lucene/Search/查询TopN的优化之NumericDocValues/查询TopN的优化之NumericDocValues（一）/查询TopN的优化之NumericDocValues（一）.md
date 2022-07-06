@@ -61,6 +61,21 @@
 
 ## 优化
 
+&emsp;&emsp;注意的是，当search sort（图2所以）跟indexSort一样或者被包含时，那么就不会开启本文介绍的优化，原因可见下面的注释：
+
+```java
+ /**
+   * Informs the comparator that the skipping of documents should be disabled. This function is
+   * called by TopFieldCollector in cases when the skipping functionality should not be applied or
+   * not necessary. An example could be when search sort is a part of the index sort, and can be
+   * already efficiently handled by TopFieldCollector, and doing extra work for skipping in the
+   * comparator is redundant.
+   */
+  public void disableSkipping() {}
+```
+
+
+
 &emsp;&emsp;从图5的比较中可以看到，大大的减少了在收集器中处理的文档数量，意味着查询性能得到了很大的提高。
 
 &emsp;&emsp;其优化过程可以用一句话来概括：**利用PointValues实现正排信息的排序，通过PointValues更新迭代器，最新的迭代器中的文档对应的正排信息都是有竞争力的（competitive）**。

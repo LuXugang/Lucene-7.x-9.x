@@ -106,7 +106,7 @@ public class TestSparseKNN1 {
 
     public static void main(String[] args) throws Exception{
         TestSparseKNN1 TestSparseKNN1 = new TestSparseKNN1();
-        int iter = 10;
+        int iter = 1;
         long searchCostSum = 0;
         long indexCostSum = 0;
         int top = 0;

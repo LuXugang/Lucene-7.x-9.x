@@ -89,50 +89,6 @@ public class SortedNumericDocValuesTest {
       indexWriter.addDocument(doc);
 
 
-//      // 7
-//      doc = new Document();
-//      doc.add(new StringField("abcd", "good", Field.Store.YES));
-//      indexWriter.addDocument(doc);
-
-//            String groupField = "superStart";
-//            doc = new Document();
-//            doc.add(new SortedDocValuesField(groupField, new BytesRef("aa")));
-//            indexWriter.addDocument(doc);
-
-//      int num = 0;
-//      long number = 100L;
-//            while (num++ < (1 << 14)){
-//                if(num % 2 == 0){
-//                    number = 3;
-//                }else {
-//                    number = 4;
-//                }
-////              number++;
-//                doc = new Document();
-//                doc.add(new SortedNumericDocValuesField(groupField1, number));
-//                indexWriter.addDocument(doc);
-//            }
-//
-//      doc = new Document();
-//      doc.add(new SortedNumericDocValuesField(groupField1, 300L));
-//      indexWriter.addDocument(doc);
-////
-//      num = 0;
-//      number = 100;
-//      while (num++ < 200){
-//                if(num % 2 == 0){
-//                    number = 3;
-//                }else {
-//                    number = 4;
-//                }
-//        doc = new Document();
-//        doc.add(new SortedNumericDocValuesField(groupField1, number));
-//        number++;
-//        indexWriter.addDocument(doc);
-//      }
-//
-
-
     }
 
     indexWriter.commit();
@@ -144,11 +100,11 @@ public class SortedNumericDocValuesTest {
 //    Sort sort = new Sort(new SortedNumericSortField("age", SortField.Type.LONG), new SortedNumericSortField("price", SortField.Type.LONG));
     Sort sort = new Sort(new SortedNumericSortField("age", SortField.Type.LONG));
 
-    TopDocs docs = searcher.search(new MatchAllDocsQuery(), 3, sort);
+    TopDocs docs = searcher.search(new MatchAllDocsQuery(), 10000, sort);
 
    for (ScoreDoc scoreDoc: docs.scoreDocs){
      Document document = searcher.doc(scoreDoc.doc);
-     System.out.println("name is "+ document.get("name")+"");
+       System.out.println("id: "+scoreDoc.doc+" score: "+scoreDoc.score+"");
    }
 
   }

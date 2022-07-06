@@ -31,7 +31,7 @@ public class DocValuesExistQuery {
     {
         try {
             FileOperation.deleteFile("./data");
-            directory = new MMapDirectory(Paths.get("./data"));
+            directory = new MMapDirectory(Paths.get("/Users/luxugang/Project/lucene_bench_home/indices/wikimedium500k.lucene_baseline.facets.taxonomy:Date.taxonomy:Month.taxonomy:DayOfYear.sortedset:Date.sortedset:Month.sortedset:DayOfYear.taxonomy:RandomLabel.sortedset:RandomLabel.Lucene90.Lucene90.nd0.5M/facets"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,31 +52,31 @@ public class DocValuesExistQuery {
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
-
-        int count = 0 ;
-        while (count++ < 10000){
-            if(count == 2000){
-                doc = new Document();
-                doc.add(new StringField("field", "a", Field.Store.NO));
-                indexWriter.addDocument(doc);
-            }else {
-                doc = new Document();
-                doc.add(new KnnVectorField("vector", randomVector(5, random)));
-                indexWriter.addDocument(doc);
-            }
-        }
-        doc = new Document();
-        doc.add(new StringField("field", "a", Field.Store.NO));
-        doc.add(new KnnVectorField("vector", randomVector(5, random)));
-        indexWriter.addDocument(doc);
-
-        doc = new Document();
-        doc.add(new StringField("field", "a", Field.Store.NO));
-        doc.add(new KnnVectorField("vector", randomVector(5, random)));
-        indexWriter.addDocument(doc);
-
-
-        indexWriter.commit();
+//
+//        int count = 0 ;
+//        while (count++ < 10000){
+//            if(count == 2000){
+//                doc = new Document();
+//                doc.add(new StringField("field", "a", Field.Store.NO));
+//                indexWriter.addDocument(doc);
+//            }else {
+//                doc = new Document();
+//                doc.add(new KnnVectorField("vector", randomVector(5, random)));
+//                indexWriter.addDocument(doc);
+//            }
+//        }
+//        doc = new Document();
+//        doc.add(new StringField("field", "a", Field.Store.NO));
+//        doc.add(new KnnVectorField("vector", randomVector(5, random)));
+//        indexWriter.addDocument(doc);
+//
+//        doc = new Document();
+//        doc.add(new StringField("field", "a", Field.Store.NO));
+//        doc.add(new KnnVectorField("vector", randomVector(5, random)));
+//        indexWriter.addDocument(doc);
+//
+//
+//        indexWriter.commit();
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
