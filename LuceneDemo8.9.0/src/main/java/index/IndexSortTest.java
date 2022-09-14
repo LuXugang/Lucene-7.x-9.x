@@ -1,5 +1,8 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Random;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -13,13 +16,7 @@ import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Random;
-
-/**
- * 文章中的demo 不要修改
- */
+/** 文章中的demo 不要修改 */
 public class IndexSortTest {
     private Directory directory;
 
@@ -42,8 +39,10 @@ public class IndexSortTest {
         Document doc;
 
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-        SortedSetSortField indexSortField1 = new SortedSetSortField("sort0", true, SortedSetSelector.Type.MIN);
-        SortedSetSortField indexSortField2 = new SortedSetSortField("sort1", true, SortedSetSelector.Type.MAX);
+        SortedSetSortField indexSortField1 =
+                new SortedSetSortField("sort0", true, SortedSetSelector.Type.MIN);
+        SortedSetSortField indexSortField2 =
+                new SortedSetSortField("sort1", true, SortedSetSelector.Type.MAX);
         SortField[] indexSortFields = new SortField[2];
         indexSortFields[0] = indexSortField1;
         indexSortFields[1] = indexSortField2;
@@ -88,28 +87,35 @@ public class IndexSortTest {
         doc.add(new Field("sequence", "文档4", fieldType));
         indexWriter.addDocument(doc);
         indexWriter.commit();
-        DirectoryReader reader= DirectoryReader.open(indexWriter);
+        DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
         boolean resultToSort = new Random().nextBoolean();
         System.out.println(resultToSort ? "sorted in search phase" : "not sorted in search phase");
-        SortedSetSortField searchSortField1 = new SortedSetSortField("sort0", true, SortedSetSelector.Type.MAX);
-        SortedSetSortField searchSortField2 = new SortedSetSortField("sort1", true, SortedSetSelector.Type.MIN);
+        SortedSetSortField searchSortField1 =
+                new SortedSetSortField("sort0", true, SortedSetSelector.Type.MAX);
+        SortedSetSortField searchSortField2 =
+                new SortedSetSortField("sort1", true, SortedSetSelector.Type.MIN);
         SortField[] searchSortFields = new SortField[2];
         searchSortFields[0] = searchSortField1;
         searchSortFields[1] = searchSortField2;
         Sort searchSort = new Sort(searchSortFields);
-        ScoreDoc[] result = resultToSort
-                ?
-                searcher.search(new MatchAllDocsQuery(), 100, searchSort).scoreDocs
-                :
-                searcher.search(new MatchAllDocsQuery(), 100).scoreDocs;
+        ScoreDoc[] result =
+                resultToSort
+                        ? searcher.search(new MatchAllDocsQuery(), 100, searchSort).scoreDocs
+                        : searcher.search(new MatchAllDocsQuery(), 100).scoreDocs;
         for (ScoreDoc scoreDoc : result) {
-            System.out.println("段内排序后的文档号: "+scoreDoc.doc+" VS 段内排序前的文档: "+reader.document(scoreDoc.doc).get("sequence")+"");
+            System.out.println(
+                    "段内排序后的文档号: "
+                            + scoreDoc.doc
+                            + " VS 段内排序前的文档: "
+                            + reader.document(scoreDoc.doc).get("sequence")
+                            + "");
         }
 
         System.out.println("DONE");
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         IndexSortTest test = new IndexSortTest();
         test.doSearch();
     }

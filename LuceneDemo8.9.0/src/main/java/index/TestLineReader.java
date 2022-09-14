@@ -1,15 +1,13 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.DocValues;
 import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.SortedNumericDocValues;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.store.NIOFSDirectory;
-
-import java.io.IOException;
-import java.nio.file.Paths;
 
 /**
  * @author Lu Xugang
@@ -25,12 +23,18 @@ public class TestLineReader {
         for (int k = 0; k < 10; k++) {
             startTime += System.currentTimeMillis();
             for (LeafReaderContext context : ireader.leaves()) {
-                SortedNumericDocValues docValuesLong = DocValues.getSortedNumeric(context.reader(), "long");
-                SortedNumericDocValues docValuesLong300 = DocValues.getSortedNumeric(context.reader(), "long300");
-                SortedNumericDocValues docValuesLong3000 = DocValues.getSortedNumeric(context.reader(), "long3000");
-                SortedNumericDocValues docValuesLong30000 = DocValues.getSortedNumeric(context.reader(), "long30000");
-                SortedNumericDocValues docValuesLong300000 = DocValues.getSortedNumeric(context.reader(), "long300000");
-                SortedNumericDocValues docValuesLong3000000 = DocValues.getSortedNumeric(context.reader(), "long3000000");
+                SortedNumericDocValues docValuesLong =
+                        DocValues.getSortedNumeric(context.reader(), "long");
+                SortedNumericDocValues docValuesLong300 =
+                        DocValues.getSortedNumeric(context.reader(), "long300");
+                SortedNumericDocValues docValuesLong3000 =
+                        DocValues.getSortedNumeric(context.reader(), "long3000");
+                SortedNumericDocValues docValuesLong30000 =
+                        DocValues.getSortedNumeric(context.reader(), "long30000");
+                SortedNumericDocValues docValuesLong300000 =
+                        DocValues.getSortedNumeric(context.reader(), "long300000");
+                SortedNumericDocValues docValuesLong3000000 =
+                        DocValues.getSortedNumeric(context.reader(), "long3000000");
                 for (int i = 0; i < context.reader().maxDoc(); i++) {
                     docValuesLong.nextDoc();
                     docValuesLong.nextValue();
@@ -38,12 +42,12 @@ public class TestLineReader {
                     docValuesLong300.nextValue();
                     docValuesLong3000.nextDoc();
                     docValuesLong3000.nextValue();
-//                    docValuesLong30000.nextDoc();
-//                    docValuesLong30000.nextValue();
-//                    docValuesLong300000.nextDoc();
-//                    docValuesLong300000.nextValue();
-//                    docValuesLong3000000.nextDoc();
-//                    docValuesLong3000000.nextValue();
+                    //                    docValuesLong30000.nextDoc();
+                    //                    docValuesLong30000.nextValue();
+                    //                    docValuesLong300000.nextDoc();
+                    //                    docValuesLong300000.nextValue();
+                    //                    docValuesLong3000000.nextDoc();
+                    //                    docValuesLong3000000.nextValue();
                 }
                 baseDoc += context.reader().maxDoc();
             }

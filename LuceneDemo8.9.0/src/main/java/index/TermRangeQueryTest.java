@@ -1,5 +1,7 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -18,9 +20,6 @@ import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-
 public class TermRangeQueryTest {
     private Directory directory;
 
@@ -33,7 +32,6 @@ public class TermRangeQueryTest {
             e.printStackTrace();
         }
     }
-
 
     private void doDemo() throws Exception {
 
@@ -81,24 +79,23 @@ public class TermRangeQueryTest {
         IndexReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        Query query = new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gc"), true, true);
-
+        Query query =
+                new TermRangeQuery("content", new BytesRef("bc"), new BytesRef("gc"), true, true);
 
         // 返回Top5的结果
         int resultTopN = 5;
 
         ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
 
-        System.out.println("Total Result Number: "+scoreDocs.length+"");
+        System.out.println("Total Result Number: " + scoreDocs.length + "");
         for (int i = 0; i < scoreDocs.length; i++) {
             ScoreDoc scoreDoc = scoreDocs[i];
             // 输出满足查询条件的 文档号
-            System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+            System.out.println("result" + i + ": 文档" + scoreDoc.doc + "");
         }
-
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         TermRangeQueryTest termRangeQueryTest = new TermRangeQueryTest();
         termRangeQueryTest.doDemo();
     }

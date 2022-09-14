@@ -1,5 +1,9 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -11,11 +15,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DisjunctionMaxQueryTest2 {
     private Directory directory;
@@ -73,12 +72,13 @@ public class DisjunctionMaxQueryTest2 {
 
         ScoreDoc[] result = searcher.search(disjunctionMaxQuery, 100).scoreDocs;
         for (ScoreDoc scoreDoc : result) {
-            System.out.println("文档号: "+scoreDoc.doc+" 文档分数: "+scoreDoc.score+"");
+            System.out.println("文档号: " + scoreDoc.doc + " 文档分数: " + scoreDoc.score + "");
         }
 
         System.out.println("DONE");
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         DisjunctionMaxQueryTest1 test = new DisjunctionMaxQueryTest1();
         test.doSearch();
     }

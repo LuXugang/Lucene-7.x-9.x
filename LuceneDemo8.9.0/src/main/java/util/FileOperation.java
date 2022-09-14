@@ -18,7 +18,6 @@ public class FileOperation {
                 } else {
                     aTmp.delete();
                 }
-
             }
             dir.delete();
         }

@@ -1,21 +1,16 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Random;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.store.NIOFSDirectory;
-import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Test {
     private Directory directory;
@@ -39,7 +34,7 @@ public class Test {
         int i = 100000000;
         Random random = new Random();
         for (int i1 = 0; i1 < i; i1++) {
-           Document document = new Document();
+            Document document = new Document();
 
             document.add(new LongPoint("long", i));
             document.add(new SortedNumericDocValuesField("long", i));
@@ -65,16 +60,15 @@ public class Test {
             document.add(new SortedNumericDocValuesField("long3000000", r));
 
             indexWriter.addDocument(document);
-            if(i1 % 1000000 == 0){
-                System.out.println("doc numbers: "+i1+"");
+            if (i1 % 1000000 == 0) {
+                System.out.println("doc numbers: " + i1 + "");
             }
         }
         indexWriter.close();
         directory.close();
-
-
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         Test test = new Test();
         test.doSearch();
     }

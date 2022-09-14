@@ -1,5 +1,8 @@
 package index;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -9,14 +12,6 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.BytesRef;
-import util.FileOperation;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UpdateDocumentTest {
     private Directory directory;
@@ -69,7 +64,7 @@ public class UpdateDocumentTest {
         ScoreDoc[] result = searcher.search(new MatchAllDocsQuery(), 100).scoreDocs;
         for (ScoreDoc scoreDoc : result) {
             Document document = directoryReader.document(scoreDoc.doc);
-            System.out.println("order: "+document.get("order")+"");
+            System.out.println("order: " + document.get("order") + "");
         }
 
         System.out.println("DONE");
@@ -86,13 +81,12 @@ public class UpdateDocumentTest {
                 } else {
                     aTmp.delete();
                 }
-
             }
             dir.delete();
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         UpdateDocumentTest test = new UpdateDocumentTest();
         test.doSearch();
     }

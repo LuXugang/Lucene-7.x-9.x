@@ -1,21 +1,34 @@
-package io.index;
-
-import io.util.FileOperation;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.*;
-import org.apache.lucene.search.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TermInSetQuery;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Lu Xugang
- * @date 2020/11/16 10:20
- */
 public class IndexSortTest {
     private Directory directory;
 
@@ -41,7 +54,7 @@ public class IndexSortTest {
         FieldType type = new FieldType();
         type.setStored(true);
         type.setTokenized(true);
-        type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+        type.setIndexOptions(IndexOptions.DOCS);
         Document doc ;
         int count = 0;
         while (count++ < 1){
@@ -70,10 +83,17 @@ public class IndexSortTest {
         List<IndexableField> fields;
 
         IndexReader reader = DirectoryReader.open(directory);
+        for (LeafReaderContext leaf : reader.leaves()) {
+           Terms terms = leaf.reader().terms("content");
+            System.out.println("abc");
+        }
         reader.document(0);
 
         IndexSearcher searcher = new IndexSearcher(reader);
-        Query query = new TermQuery(new Term("content", "name"));
+        List<BytesRef> list = new ArrayList<>();
+        list.add(new BytesRef("abc"));
+        list.add(new BytesRef("abc"));
+        Query query = new TermInSetQuery("content", list);
         searcher.search(query, 1000);
     }
 

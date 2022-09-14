@@ -1,19 +1,17 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Random;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -59,9 +57,9 @@ public class IndexOrDocValuesQueryTest {
         doc.add(new StringField("content", "my", Field.Store.YES));
         doc.add(new BinaryDocValuesField("numberString", new BytesRef("b")));
         indexWriter.addDocument(doc);
-        int count = 0 ;
+        int count = 0;
         int a;
-        while (count++ < 40960){
+        while (count++ < 40960) {
             doc = new Document();
             a = random.nextInt(100);
             a = a <= 2 ? a + 4 : a;
@@ -70,8 +68,7 @@ public class IndexOrDocValuesQueryTest {
             doc.add(new BinaryDocValuesField("numberString", new BytesRef(String.valueOf(a))));
             doc.add(new StringField("content", "ddf", Field.Store.YES));
             indexWriter.addDocument(doc);
-            if(count % 2000 == 0)
-                indexWriter.commit();
+            if (count % 2000 == 0) indexWriter.commit();
         }
         indexWriter.commit();
         DirectoryReader reader = DirectoryReader.open(indexWriter);
@@ -79,12 +76,14 @@ public class IndexOrDocValuesQueryTest {
         int lowValue = Integer.MIN_VALUE;
         int upValue = Integer.MAX_VALUE;
 
-
         Query termQuery = new TermQuery(new Term("content", new BytesRef("my")));
 
         Query pointsRangeQuery = IntPoint.newRangeQuery("number", lowValue, upValue);
-        Query docValuesRangeQuery = SortedNumericDocValuesField.newSlowRangeQuery("number", Long.MIN_VALUE, Long.MAX_VALUE);
-        Query indexOrDocValuesQuery = new IndexOrDocValuesQuery(pointsRangeQuery, docValuesRangeQuery);
+        Query docValuesRangeQuery =
+                SortedNumericDocValuesField.newSlowRangeQuery(
+                        "number", Long.MIN_VALUE, Long.MAX_VALUE);
+        Query indexOrDocValuesQuery =
+                new IndexOrDocValuesQuery(pointsRangeQuery, docValuesRangeQuery);
 
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(termQuery, BooleanClause.Occur.MUST);
@@ -95,16 +94,19 @@ public class IndexOrDocValuesQueryTest {
         // 返回Top5的结果
         int resultTopN = 10000;
 
-        Query docValuesQuery = SortedNumericDocValuesField.newSlowRangeQuery("number", Long.MIN_VALUE, Long.MAX_VALUE);
+        Query docValuesQuery =
+                SortedNumericDocValuesField.newSlowRangeQuery(
+                        "number", Long.MIN_VALUE, Long.MAX_VALUE);
 
         ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
-            System.out.println("文档号: "+scoreDoc.doc+"");
+            System.out.println("文档号: " + scoreDoc.doc + "");
         }
 
         System.out.println("DONE");
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         IndexOrDocValuesQueryTest test = new IndexOrDocValuesQueryTest();
         test.doSearch();
     }

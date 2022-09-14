@@ -1,22 +1,17 @@
 package query;
 
-import index.DisjunctionMaxQueryTest;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Random;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class LRUCacheTest {
     private Directory directory;
@@ -44,9 +39,9 @@ public class LRUCacheTest {
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
-        int count = 0 ;
+        int count = 0;
         int a, b;
-        while (count < 40960){
+        while (count < 40960) {
             doc = new Document();
             a = random.nextInt(100);
             b = random.nextInt(100);
@@ -56,9 +51,9 @@ public class LRUCacheTest {
             doc.add(new NumericDocValuesField("number", b));
             doc.add(new BinaryDocValuesField("numberString", new BytesRef(String.valueOf(a))));
             doc.add(new StringField("termField", "good" + random.nextInt(3), Field.Store.YES));
-            if(count % 2 == 0){
+            if (count % 2 == 0) {
                 doc.add(new Field("content", "my good teach", fieldType));
-            }else {
+            } else {
                 doc.add(new Field("content", "my efds", fieldType));
             }
             doc.add(new Field("content", "ddf", fieldType));
@@ -69,19 +64,21 @@ public class LRUCacheTest {
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
         Query query = IntPoint.newRangeQuery("number", 1, 200);
-        Query query1 = new TermRangeQuery("termField", new BytesRef("a"), new BytesRef("z"), true, true);
+        Query query1 =
+                new TermRangeQuery("termField", new BytesRef("a"), new BytesRef("z"), true, true);
         Collector collector = new TotalHitCountCollector();
 
         // 返回Top5的结果
         int resultTopN = 100;
         int queryCount = 100;
-        for (int i = 0; i < queryCount;  i++) {
+        for (int i = 0; i < queryCount; i++) {
             searcher.search(query1, collector);
         }
 
         System.out.println("DONE");
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         LRUCacheTest test = new LRUCacheTest();
         test.doSearch();
     }

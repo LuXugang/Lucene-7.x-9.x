@@ -1,2 +1,3 @@
-package index;public class TestKNNTieBreak {
-}
+package index;
+
+public class TestKNNTieBreak {}

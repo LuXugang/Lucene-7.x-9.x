@@ -1,5 +1,10 @@
 package index;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.*;
@@ -9,12 +14,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 import util.FileOperation;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * @author Lu Xugang
@@ -46,18 +45,18 @@ public class DisjunctionMaxQueryTest {
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
-        int count = 0 ;
+        int count = 0;
         int a;
-        while (count < 40960){
+        while (count < 40960) {
             doc = new Document();
             a = random.nextInt(100);
             a = a <= 2 ? a + 4 : a;
             doc.add(new IntPoint("number", a));
             doc.add(new NumericDocValuesField("number", a));
             doc.add(new BinaryDocValuesField("numberString", new BytesRef(String.valueOf(a))));
-            if(count % 2 == 0){
+            if (count % 2 == 0) {
                 doc.add(new Field("content", "my good teach", fieldType));
-            }else {
+            } else {
                 doc.add(new Field("content", "my efds", fieldType));
             }
             doc.add(new Field("content", "ddf", fieldType));
@@ -81,12 +80,13 @@ public class DisjunctionMaxQueryTest {
 
         ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
-            System.out.println("文档号: "+scoreDoc.doc+"");
+            System.out.println("文档号: " + scoreDoc.doc + "");
         }
 
         System.out.println("DONE");
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         DisjunctionMaxQueryTest test = new DisjunctionMaxQueryTest();
         test.doSearch();
     }
