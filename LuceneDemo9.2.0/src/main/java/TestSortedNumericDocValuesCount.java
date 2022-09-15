@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Random;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -13,10 +16,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.VectorUtil;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Random;
 
 public class TestSortedNumericDocValuesCount {
     private Directory directory;
@@ -40,8 +39,8 @@ public class TestSortedNumericDocValuesCount {
         indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
-//
-        int count = 0 ;
+        //
+        int count = 0;
 
         doc = new Document();
         doc.add(new SortedNumericDocValuesField("number", 100));
@@ -58,8 +57,10 @@ public class TestSortedNumericDocValuesCount {
         IndexSearcher searcher = new IndexSearcher(reader);
 
         for (LeafReaderContext leaf : reader.leaves()) {
-            SortedNumericDocValues docValues = leaf.reader().getSortedNumericDocValues("number") ;
-            for (int doc1 = docValues.nextDoc(); doc1 != DocIdSetIterator.NO_MORE_DOCS; doc1 = docValues.nextDoc()) {
+            SortedNumericDocValues docValues = leaf.reader().getSortedNumericDocValues("number");
+            for (int doc1 = docValues.nextDoc();
+                    doc1 != DocIdSetIterator.NO_MORE_DOCS;
+                    doc1 = docValues.nextDoc()) {
                 System.out.println("abc");
                 System.out.println("docValuesCount:" + docValues.docValueCount());
             }
@@ -75,7 +76,8 @@ public class TestSortedNumericDocValuesCount {
         VectorUtil.l2normalize(v);
         return v;
     }
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         TestSortedNumericDocValuesCount test = new TestSortedNumericDocValuesCount();
         test.doSearch();
     }

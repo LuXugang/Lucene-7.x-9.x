@@ -1,5 +1,3 @@
-package index;
-
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
@@ -13,9 +11,8 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.sandbox.search.IndexSortSortedNumericDocValuesRangeQuery;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.IndexSortSortedNumericDocValuesRangeQuery;
-import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
@@ -24,7 +21,6 @@ import org.apache.lucene.search.SortedNumericSortField;
 import org.apache.lucene.search.TopFieldCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import util.FileOperation;
 
 public class NumericDocValuesTopNOptimization2 {
     private Directory directory;
@@ -56,11 +52,11 @@ public class NumericDocValuesTopNOptimization2 {
         long sortValue;
         int shouldMatch = 0;
         while (count++ < 1000000) {
-            if(count == 3 || count == 5) {
+            if (count == 3 || count == 5) {
                 sortValue = 8L;
             } else {
                 sortValue = random.nextInt(2000);
-                if(sortValue <= 10L){
+                if (sortValue <= 10L) {
                     sortValue = 100L;
                 }
                 shouldMatch++;
@@ -76,7 +72,7 @@ public class NumericDocValuesTopNOptimization2 {
         indexWriter.commit();
         indexWriter.forceMerge(1);
         DirectoryReader reader = DirectoryReader.open(indexWriter);
-        System.out.println("segment size: "+reader.leaves().size()+"");
+        System.out.println("segment size: " + reader.leaves().size() + "");
         IndexSearcher searcher = new IndexSearcher(reader);
         SortField sortField = new SortedNumericSortField("sortField", SortField.Type.LONG);
         sortField.setMissingValue(Long.MAX_VALUE);
@@ -84,12 +80,11 @@ public class NumericDocValuesTopNOptimization2 {
         Query rangeQuery =
                 new IndexSortSortedNumericDocValuesRangeQuery(
                         "sortField", lowerValue, upperValue, fallbackQuery);
-        sortField.setCanUsePoints();
         Sort sort = new Sort(sortField);
         int topN = 3;
         TopFieldCollector collector = TopFieldCollector.create(sort, topN, 1000);
         searcher.search(rangeQuery, collector);
-//        searcher.search(new MatchAllDocsQuery(), collector);
+        //        searcher.search(new MatchAllDocsQuery(), collector);
         System.out.println("收集器处理的文档数量: " + collector.getTotalHits() + "");
         for (ScoreDoc scoreDoc : collector.topDocs().scoreDocs) {
             System.out.println(

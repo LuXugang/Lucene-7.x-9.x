@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -12,22 +16,15 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.LeafReaderContext;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermInSetQuery;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class IndexSortTest {
     private Directory directory;
@@ -40,6 +37,7 @@ public class IndexSortTest {
             e.printStackTrace();
         }
     }
+
     IndexWriter indexWriter;
 
     public void doIndexAndSearch() throws Exception {
@@ -47,7 +45,8 @@ public class IndexSortTest {
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
         String sortedField = "sortByNumber";
         SortField indexSortField = new SortField(sortedField, SortField.Type.LONG);
-        Sort indexSort = new Sort(indexSortField);;
+        Sort indexSort = new Sort(indexSortField);
+        ;
         conf.setIndexSort(indexSort);
         conf.setUseCompoundFile(false);
         indexWriter = new IndexWriter(directory, conf);
@@ -55,9 +54,9 @@ public class IndexSortTest {
         type.setStored(true);
         type.setTokenized(true);
         type.setIndexOptions(IndexOptions.DOCS);
-        Document doc ;
+        Document doc;
         int count = 0;
-        while (count++ < 1){
+        while (count++ < 1) {
             // 文档0
             doc = new Document();
             doc.add(new Field("content", "abc", type));
@@ -65,7 +64,7 @@ public class IndexSortTest {
             doc.add(new StringField("attachment", "cd", Field.Store.NO));
             doc.add(new NumericDocValuesField(sortedField, 5));
             doc.add(new StoredField("author", 3));
-            indexWriter.addDocument(doc)    ;
+            indexWriter.addDocument(doc);
             // 文档1
             doc = new Document();
             doc.add(new StringField("attachment", "cd", Field.Store.NO));
@@ -84,7 +83,7 @@ public class IndexSortTest {
 
         IndexReader reader = DirectoryReader.open(directory);
         for (LeafReaderContext leaf : reader.leaves()) {
-           Terms terms = leaf.reader().terms("content");
+            Terms terms = leaf.reader().terms("content");
             System.out.println("abc");
         }
         reader.document(0);
@@ -97,7 +96,7 @@ public class IndexSortTest {
         searcher.search(query, 1000);
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         IndexSortTest test = new IndexSortTest();
         test.doIndexAndSearch();
     }
