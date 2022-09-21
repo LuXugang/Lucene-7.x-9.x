@@ -49,7 +49,7 @@ public class NumericDocValuesTopNOptimization2 {
             indexWriter.addDocument(addDocument(sortValue, "sortedField"));
         }
 
-        // index 10w documents out boundary
+        // index documents which are out of boundary
         int outOfBoundaryDocumentCount = random.nextBoolean() ? 10 : 20000;
         outOfBoundaryDocumentCount = 20000;
         System.out.println("outOfBoundaryDocumentCount:" + outOfBoundaryDocumentCount);
