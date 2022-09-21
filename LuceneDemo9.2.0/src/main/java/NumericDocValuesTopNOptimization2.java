@@ -1,7 +1,3 @@
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Random;
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -11,10 +7,8 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.sandbox.search.IndexSortSortedNumericDocValuesRangeQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortedNumericSortField;
@@ -22,78 +16,99 @@ import org.apache.lucene.search.TopFieldCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.Random;
+
+/**
+ * example for https://github.com/apache/lucene/issues/11773 , do not modifier the code
+ */
 public class NumericDocValuesTopNOptimization2 {
-    private Directory directory;
 
-    {
-        try {
-            FileOperation.deleteFile("./data");
-            directory = new MMapDirectory(Paths.get("./data"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private final Analyzer analyzer = new WhitespaceAnalyzer();
-    private final IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 
     public void doSearch() throws Exception {
+        Directory directory;
+        deleteFile("./data");
+        directory = new MMapDirectory(Paths.get("./data"));
+        IndexWriterConfig conf = new IndexWriterConfig(new WhitespaceAnalyzer());
         conf.setUseCompoundFile(true);
         IndexWriter indexWriter = new IndexWriter(directory, conf);
         int count = 0;
 
         Random random = new Random();
-        boolean optimize = random.nextBoolean();
-        System.out.println(optimize ? "enableOptimization" : "disableOptimization");
-        long upperValue = Long.MAX_VALUE - 2;
+        long upperValue = Long.MAX_VALUE;
         long lowerValue = 10L;
-
-        Document doc;
         long sortValue;
-        int shouldMatch = 0;
-        while (count++ < 1000000) {
-            if (count == 3 || count == 5) {
-                sortValue = 8L;
-            } else {
-                sortValue = random.nextInt(2000);
-                if (sortValue <= 10L) {
-                    sortValue = 100L;
-                }
-                shouldMatch++;
+        // add top3 documents
+        indexWriter.addDocument(addDocument(lowerValue, "sortedField"));
+        indexWriter.addDocument(addDocument(lowerValue, "sortedField"));
+        indexWriter.addDocument(addDocument(lowerValue, "sortedField"));
+        // index 80000 documents in boundary should be matched by PointRangeQuery
+        while (count++ < 80000) {
+            sortValue = random.nextLong();
+            if(sortValue <= lowerValue){
+                // make sure the sortValue is in the query boundary
+                sortValue =  20L;
             }
-            doc = new Document();
-            doc.add(new StringField("content", String.valueOf(sortValue), Field.Store.YES));
-            doc.add(new NumericDocValuesField("sortField", sortValue));
-            doc.add(new LongPoint("sortField", sortValue));
-            indexWriter.addDocument(doc);
+            indexWriter.addDocument(addDocument(sortValue, "sortedField"));
         }
-        System.out.println("shouldMatch: " + shouldMatch);
+
+        // index 10w documents out boundary
+        int outOfBoundaryDocumentCount = random.nextBoolean() ? 10 : 20000;
+        System.out.println("outOfBoundaryDocumentCount:" + outOfBoundaryDocumentCount);
+        count = 0;
+        while (count++ < outOfBoundaryDocumentCount) {
+            sortValue = random.nextInt((int)lowerValue - 1);
+            indexWriter.addDocument(addDocument(sortValue, "sortedField"));
+        }
 
         indexWriter.commit();
         indexWriter.forceMerge(1);
         DirectoryReader reader = DirectoryReader.open(indexWriter);
-        System.out.println("segment size: " + reader.leaves().size() + "");
         IndexSearcher searcher = new IndexSearcher(reader);
-        SortField sortField = new SortedNumericSortField("sortField", SortField.Type.LONG);
+        SortField sortField = new SortedNumericSortField("sortedField", SortField.Type.LONG);
         sortField.setMissingValue(Long.MAX_VALUE);
-        Query fallbackQuery = LongPoint.newRangeQuery("sortField", lowerValue, upperValue);
         Query rangeQuery =
-                new IndexSortSortedNumericDocValuesRangeQuery(
-                        "sortField", lowerValue, upperValue, fallbackQuery);
+                LongPoint.newRangeQuery(
+                        "sortedField", lowerValue, upperValue);
         Sort sort = new Sort(sortField);
         int topN = 3;
         TopFieldCollector collector = TopFieldCollector.create(sort, topN, 1000);
         searcher.search(rangeQuery, collector);
-        //        searcher.search(new MatchAllDocsQuery(), collector);
-        System.out.println("收集器处理的文档数量: " + collector.getTotalHits() + "");
-        for (ScoreDoc scoreDoc : collector.topDocs().scoreDocs) {
-            System.out.println(
-                    "文档号/文档值: " + scoreDoc.doc + " / " + searcher.doc(scoreDoc.doc).get("content"));
-        }
+        System.out.println("hits in collector: " + collector.getTotalHits() + "");
+        indexWriter.close();;
+        reader.close();
+    }
+
+    private Document addDocument(Long value, String fieldName){
+        Document doc = new Document();
+        doc.add(new StringField("content", String.valueOf(value), Field.Store.YES));
+        doc.add(new NumericDocValuesField(fieldName, value));
+        doc.add(new LongPoint(fieldName, value));
+        return doc;
     }
 
     public static void main(String[] args) throws Exception {
         NumericDocValuesTopNOptimization2 test = new NumericDocValuesTopNOptimization2();
-        test.doSearch();
+        int count = 5;
+        for (int i = 0; i < count; i++) {
+            test.doSearch();
+        }
+    }
+
+    public static void deleteFile(String filePath) {
+        File dir = new File(filePath);
+        if (dir.exists()) {
+            File[] tmp = dir.listFiles();
+            assert tmp != null;
+            for (File aTmp : tmp) {
+                if (aTmp.isDirectory()) {
+                    deleteFile(filePath + "/" + aTmp.getName());
+                } else {
+                    aTmp.delete();
+                }
+            }
+            dir.delete();
+        }
     }
 }
