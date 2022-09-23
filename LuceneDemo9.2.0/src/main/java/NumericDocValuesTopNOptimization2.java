@@ -51,7 +51,7 @@ public class NumericDocValuesTopNOptimization2 {
 
         // index documents which are out of boundary
         int outOfBoundaryDocumentCount = random.nextBoolean() ? 10 : 20000;
-        outOfBoundaryDocumentCount = 20000;
+        outOfBoundaryDocumentCount = 100;
         System.out.println("outOfBoundaryDocumentCount:" + outOfBoundaryDocumentCount);
         count = 0;
         while (count++ < outOfBoundaryDocumentCount) {
@@ -86,7 +86,7 @@ public class NumericDocValuesTopNOptimization2 {
 
     public static void main(String[] args) throws Exception {
         NumericDocValuesTopNOptimization2 test = new NumericDocValuesTopNOptimization2();
-        int count = 5;
+        int count = 1;
         for (int i = 0; i < count; i++) {
             test.doSearch();
         }
