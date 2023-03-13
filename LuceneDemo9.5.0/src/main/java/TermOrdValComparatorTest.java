@@ -4,16 +4,19 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.SortedDocValuesField;
+import org.apache.lucene.document.SortedSetDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortedSetSortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -36,39 +39,39 @@ public class TermOrdValComparatorTest {
         }
     }
 
-    private Analyzer analyzer = new WhitespaceAnalyzer();
-    private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-    private IndexWriter indexWriter;
+    private final Analyzer analyzer = new WhitespaceAnalyzer();
+    private final IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 
     public void doSearch() throws Exception {
+        SortField field = new SortedSetSortField("name", false);
+        field.setMissingValue(SortField.STRING_LAST);
+        Sort indexSearch = new Sort(field);
         conf.setUseCompoundFile(false);
-        indexWriter = new IndexWriter(directory, conf);
-
+//        conf.setIndexSort(indexSearch);
+        IndexWriter indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
         Document doc;
         // 文档0
 
-        doc = new Document();
-        doc.add(new StringField("name", "a", Field.Store.YES));
-        doc.add(new SortedDocValuesField("name", new BytesRef("b")));
-        indexWriter.addDocument(doc);
-
-        doc = new Document();
-        doc.add(new StringField("name", "a", Field.Store.YES));
-        doc.add(new SortedDocValuesField("name", new BytesRef("a")));
-        indexWriter.addDocument(doc);
-
-        doc = new Document();
-        doc.add(new StringField("name", "a", Field.Store.YES));
-        doc.add(new SortedDocValuesField("name", new BytesRef("c")));
-        indexWriter.addDocument(doc);
-
         int count = 0;
-        while (count++ < 10000){
+        while (count++ < 200000){
             doc = new Document();
-            doc.add(new StringField("name", "a", Field.Store.YES));
-            doc.add(new SortedDocValuesField("name", new BytesRef("d" + new Random().nextInt())));
-            indexWriter.addDocument(doc);
+            if(count == 999 || count ==  1000|| count == 1001){
+                String aaa = "d" + new Random().nextInt();
+                doc.add(new StringField("name", aaa, Field.Store.YES));
+                doc.add(new SortedSetDocValuesField("name", new BytesRef("z")));
+                indexWriter.addDocument(doc);
+            }if(count == 1002){
+                doc.add(new StringField("name", "y", Field.Store.YES));
+                doc.add(new SortedSetDocValuesField("name", new BytesRef("y")));
+                indexWriter.addDocument(doc);
+            }else {
+                String aaa = "d" + new Random().nextInt();
+                doc.add(new StringField("name", aaa, Field.Store.YES));
+                doc.add(new SortedSetDocValuesField("name", new BytesRef(aaa)));
+                indexWriter.addDocument(doc);
+            }
+
         }
 
         indexWriter.commit();
@@ -78,20 +81,24 @@ public class TermOrdValComparatorTest {
         System.out.println("document count : "+reader.maxDoc()+"");
 
 
-        Query query = new TermQuery(new Term("name", "a"));
-        Sort searchSort = new Sort(new SortField("name", SortField.Type.STRING));
+        Query query = new MatchAllDocsQuery();
+        SortField searchSortField = new SortedSetSortField("name", false);
+        searchSortField.setMissingValue(SortField.STRING_LAST);
+        Sort searchSort = new Sort(searchSortField);
         // 返回Top5的结果
-        int resultTopN = 1301;
+        int resultTopN = 1000;
 
         ScoreDoc[] scoreDocs = searcher.search(query, resultTopN, searchSort).scoreDocs;
+//        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
 
         System.out.println("Total Result Number: "+scoreDocs.length+"");
         for (int i = 0; i < scoreDocs.length; i++) {
             ScoreDoc scoreDoc = scoreDocs[i];
             // 输出满足查询条件的 文档号
-            System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+            System.out.println(""+i+"：doc id: "+scoreDoc.doc+": 文档"+reader.document(scoreDoc.doc).get("name")+"");
         }
     }
+
     public static void main(String[] args) throws Exception{
         TermOrdValComparatorTest test = new TermOrdValComparatorTest();
         test.doSearch();
