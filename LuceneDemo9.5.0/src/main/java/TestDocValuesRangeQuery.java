@@ -2,28 +2,19 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.SortedNumericDocValuesField;
 import org.apache.lucene.document.SortedSetDocValuesField;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.NoDeletionPolicy;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.SortedNumericSortField;
 import org.apache.lucene.search.SortedSetSortField;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -33,7 +24,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class TestBooleanQuery {
+public class TestDocValuesRangeQuery {
     private Directory directory;
 
     {
@@ -49,59 +40,45 @@ public class TestBooleanQuery {
     private final IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 
     public void doSearch() throws Exception {
-        SortField field = new SortedSetSortField("name", false);
-        field.setMissingValue(SortField.STRING_LAST);
-        Sort indexSearch = new Sort(field);
         conf.setUseCompoundFile(false);
 //        conf.setIndexSort(indexSearch);
-        conf.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         IndexWriter indexWriter = new IndexWriter(directory, conf);
         Random random = new Random();
-        Document doc;
-        String aaa = null;
-        String bbb = null;
-
+        Document doc = new Document();
         // 文档0
-        doc = new Document();
-        doc.add(new StringField("name", "a", Field.Store.YES));
-        doc.add(new StringField("name", "z", Field.Store.YES));
-        doc.add(new NumericDocValuesField("num", 2));
+
+        doc.add(new SortedNumericDocValuesField("name", 2));
         indexWriter.addDocument(doc);
 
-        // 文档1
         doc = new Document();
-        doc.add(new StringField("name", "b", Field.Store.YES));
-        doc.add(new StringField("name", "z", Field.Store.YES));
-        doc.add(new NumericDocValuesField("num", 1));
+        doc.add(new SortedNumericDocValuesField("name", 3));
         indexWriter.addDocument(doc);
 
-        // 文档2
         doc = new Document();
-        doc.add(new StringField("name", "c", Field.Store.YES));
-        doc.add(new StringField("name", "z", Field.Store.YES));
-        doc.add(new NumericDocValuesField("num", 3));
+        doc.add(new SortedNumericDocValuesField("name", 4));
         indexWriter.addDocument(doc);
 
-        // 文档3
         doc = new Document();
-        doc.add(new StringField("name", "f", Field.Store.YES));
-        doc.add(new StringField("name", "z", Field.Store.YES));
+        doc.add(new StringField("abc", "df", Field.Store.YES));
+        indexWriter.addDocument(doc);
+
+        doc = new Document();
+        doc.add(new SortedNumericDocValuesField("name", 5));
         indexWriter.addDocument(doc);
 
         indexWriter.commit();
-
+        indexWriter.forceMerge(1);
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
+        System.out.println("document count : "+reader.maxDoc()+"");
 
-//        Query query = new TermQuery(new Term("name", new BytesRef("z")));
-        Query query = new MatchAllDocsQuery();
+
+        Query query = SortedNumericDocValuesField.newSlowRangeQuery("name", 3, 9);
+        SortField searchSortField = new SortedSetSortField("name", false);
         // 返回Top5的结果
         int resultTopN = 1000;
 
-
-        Sort sort = new Sort(new SortedNumericSortField("num", SortField.Type.INT));
-
-        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN, sort).scoreDocs;
+        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
 //        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
 
         System.out.println("Total Result Number: "+scoreDocs.length+"");
@@ -113,7 +90,7 @@ public class TestBooleanQuery {
     }
 
     public static void main(String[] args) throws Exception{
-        TestBooleanQuery test = new TestBooleanQuery();
+        TestDocValuesRangeQuery test = new TestDocValuesRangeQuery();
         test.doSearch();
     }
 }

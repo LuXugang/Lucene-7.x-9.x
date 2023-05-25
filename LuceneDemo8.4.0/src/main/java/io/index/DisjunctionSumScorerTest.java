@@ -61,7 +61,7 @@ public class DisjunctionSumScorerTest {
         builder.add(new TermQuery(new Term("author", "lily")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("author", "lucy")), BooleanClause.Occur.SHOULD);
         builder.add(new TermQuery(new Term("author", "good")), BooleanClause.Occur.SHOULD);
-        builder.setMinimumNumberShouldMatch(2);
+        builder.setMinimumNumberShouldMatch(1);
         searcher.search(builder.build(), 3);
 
         System.out.println("abc");
