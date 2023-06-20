@@ -50,7 +50,7 @@ public class TestTieredMergePolicy {
         int count = 0;
         while (segmentCount++ < segmentSize){
             count = 0;
-            while (count++ != 2000){
+            while (count++ != 310000){
                 doc = new Document();
                 doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
                 doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
