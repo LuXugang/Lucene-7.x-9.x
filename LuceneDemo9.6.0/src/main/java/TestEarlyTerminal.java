@@ -22,6 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+//TODO: 文章中的例子，不要修改
 public class TestEarlyTerminal {
     private Directory directory;
 
