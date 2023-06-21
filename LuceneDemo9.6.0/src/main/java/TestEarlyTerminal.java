@@ -1,23 +1,18 @@
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.SortedSetDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.LeafReaderContext;
-import org.apache.lucene.index.SerialMergeScheduler;
 import org.apache.lucene.search.CollectorManager;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
-import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NamedThreadFactory;
 
 import java.io.IOException;
@@ -39,84 +34,39 @@ public class TestEarlyTerminal {
         }
     }
 
-    private Analyzer analyzer = new WhitespaceAnalyzer();
-    private IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-    private IndexWriter indexWriter;
 
     public void doSearch() throws Exception {
-        conf.setUseCompoundFile(false);
-        indexWriter = new IndexWriter(directory, conf);
-        Random random = new Random();
-        Document doc;
-        int count = 0;
-        // segment 0
-        while (count++ != 310000){
-            doc = new Document();
-            doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
-            doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
-            indexWriter.addDocument(doc);
-        }
-        indexWriter.commit();
-
-        count = 0;
-        // segment 3
-        while (count++ != 100000){
-            doc = new Document();
-            doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
-            doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
-            indexWriter.addDocument(doc);
-        }
-        indexWriter.commit();
-
-        count = 0;
-        // segment 2
-        while (count++ != 250000){
-            doc = new Document();
-            doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
-            doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
-            indexWriter.addDocument(doc);
-        }
-        indexWriter.commit();
-
-        count = 0;
-        // segment 3
-        while (count++ != 10000){
-            doc = new Document();
-            doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
-            doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
-            indexWriter.addDocument(doc);
-        }
-        indexWriter.commit();
+        IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(new WhitespaceAnalyzer()));
+        addSegment(indexWriter, 310000);
+        addSegment(indexWriter, 100000);
+        addSegment(indexWriter, 240000);
+        addSegment(indexWriter, 1000);
+        addSegment(indexWriter, 1400);
+        addSegment(indexWriter, 1500);
+        addSegment(indexWriter, 1300);
+        addSegment(indexWriter, 1200);
+        addSegment(indexWriter, 1600);
 
         DirectoryReader reader = DirectoryReader.open(indexWriter);
-        // four segments
-        assert  reader.leaves().size() == 4;
-
         ThreadPoolExecutor service =
-                new ThreadPoolExecutor(
-                        4,
-                        4,
-                        0L,
-                        TimeUnit.MILLISECONDS,
-                        new LinkedBlockingQueue<Runnable>(),
-                        new NamedThreadFactory("TestIndexSearcher"));
+                new ThreadPoolExecutor(4, 4, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new NamedThreadFactory("TestIndexSearcher"));
         IndexSearcher multiThreadsSearcher = new IndexSearcher(reader, service);
         IndexSearcher singleThreadSearcher = new IndexSearcher(reader);
         Query query = new MatchAllDocsQuery();
-        final int topN = 2000;
-
-        // multi threads search
-        final int slicesSize = multiThreadsSearcher.getSlices().length;
-        assert slicesSize == 3;
+        final int topN = 1000;
         CollectorManager<TopScoreDocCollector, TopDocs> collectorManager = TopScoreDocCollector.createSharedManager(topN, null, topN);
-        TopDocs topDocs1 = multiThreadsSearcher.search(query, collectorManager);
-        // totalHits == 6000
-        assert topDocs1.totalHits.value == ((long) topN * slicesSize);
+        // 索引中有9个段
+        assert reader.leaves().size() == 9;
+        // 使用多线程的IndexSearcher中有4个Slice
+        assert multiThreadsSearcher.getSlices().length == 4;
 
-        // single thread search
+        // 多线程查询
+        TopDocs topDocs1 = multiThreadsSearcher.search(query, collectorManager);
+        System.out.println("多线程中，Collect中处理的文档数量: "+topDocs1.totalHits.value);
+
+        // 单线程查询
         TopDocs topDocs2 = singleThreadSearcher.search(query, topN);
-        // totalHits == 2001
-        assert topDocs2.totalHits.value == 2001;
+        System.out.println("单线程中，Collect中处理的文档数量: " + topDocs2.totalHits.value);
 
         System.out.println("wait a moment");
         Thread.sleep(10000);
@@ -125,6 +75,18 @@ public class TestEarlyTerminal {
         reader.close();
         directory.close();
         System.out.println("DONE");
+    }
+
+    void addSegment(IndexWriter indexWriter, int documentSize) throws Exception{
+        Document doc;
+        int count = 0;
+        Random random = new Random();
+        while (count++ != documentSize){
+            doc = new Document();
+            doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
+            indexWriter.addDocument(doc);
+        }
+        indexWriter.commit();
     }
 
     public static void main(String[] args) throws Exception {
