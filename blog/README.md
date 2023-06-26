@@ -282,6 +282,10 @@
 
 - [IndexSortSortedNumericDocValuesRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2022/0314/204.html)
 
+#### 19. 段的多线程查询
+
+-  [段的多线程查询（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0626/206.html)
+
 
 # Util
 
