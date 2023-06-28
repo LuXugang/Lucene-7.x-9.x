@@ -1,6 +1,9 @@
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.SortedDocValuesField;
+import org.apache.lucene.document.SortedNumericDocValuesField;
 import org.apache.lucene.document.SortedSetDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
@@ -13,6 +16,11 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortedNumericSortField;
+import org.apache.lucene.search.SortedSetSortField;
+import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -45,19 +53,29 @@ public class TestTieredMergePolicy {
         Random random = new Random();
         Document doc;
         //
-        int segmentSize = 11;
+        int segmentSize = 1;
         int segmentCount = 0;
         int count = 0;
-        while (segmentCount++ < segmentSize){
-            count = 0;
-            while (count++ != 310000){
+        String stringValue;
+        while (count++ != 5000){
+            stringValue = String.valueOf(random.nextInt(1000000));
+            if(count == 3){
                 doc = new Document();
-                doc.add(new SortedSetDocValuesField("sortedSet", new BytesRef("a")));
-                doc.add(new StringField("name", String.valueOf(random.nextInt(1000000)), StringField.Store.YES));
+                doc.add(new StringField("content", stringValue, StringField.Store.YES));
+                indexWriter.addDocument(doc);
+            }else if(count == 2010 || count == 2011){
+                doc = new Document();
+                doc.add(new StringField("content", stringValue, StringField.Store.YES));
+                indexWriter.addDocument(doc);
+            }else {
+                doc = new Document();
+                doc.add(new StringField("age", String.valueOf(count), StringField.Store.YES));
+                doc.add(new SortedDocValuesField("name", new BytesRef(stringValue)));
+                doc.add(new StringField("name", stringValue, StringField.Store.YES));
                 indexWriter.addDocument(doc);
             }
-            indexWriter.commit();
         }
+        indexWriter.commit();
 
 //        indexWriter.forceMerge(1);
 //
@@ -65,15 +83,10 @@ public class TestTieredMergePolicy {
         IndexSearcher searcher = new IndexSearcher(reader);
 
         Query query = new MatchAllDocsQuery();
-        System.out.println("段的数量: "+reader.leaves().size());
-        for (LeafReaderContext leaf : reader.leaves()) {
-            System.out.println("段: "+leaf.toString()+"");
-        }
-        System.out.println(reader.maxDoc());
-        ScoreDoc[] scoreDocs = searcher.search(query, 2000000).scoreDocs;
-        for (ScoreDoc scoreDoc : scoreDocs) {
+        Sort sort = new Sort(new SortedSetSortField("name", true));
+        TopFieldDocs docs  = searcher.search(query, 2000, sort);
+        System.out.println(docs.totalHits.value);
 
-        }
 
         System.out.println("DONE");
     }
