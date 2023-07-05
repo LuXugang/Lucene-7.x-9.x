@@ -1,4 +1,4 @@
-# [段的多线程查询（一）](https://www.amazingkoala.com.cn/Lucene/Search/)
+# [段的多线程查询（一）](https://www.amazingkoala.com.cn/Lucene/Search/)(Lucene 9.6.0)
 
 &emsp;&emsp;前段时间有个朋友问到我：对多个段进行查询时，为什么在定义IndexSearcher时使用了[Executor](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executors.html)后，相比较单个线程轮询方式查询相同的多个段，查询速度并没有提升，有时候还下降了？本篇文章会介绍多线程查询中的一些知识点，给与大家在解决性能问题时提供一些思路。
 
