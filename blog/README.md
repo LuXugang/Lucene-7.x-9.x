@@ -286,6 +286,10 @@
 
 -  [段的多线程查询（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0626/206.html)
 
+#### 20. BulkScorer
+
+- [BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)
+
 
 # Util
 
@@ -378,6 +382,8 @@
 #### 8. [删除队列DeleteQueue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/150.html)
 
 #### 9. [GeoHash编码](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html)
+
+#### 10. [DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)
 
 # OpenSearch
 
