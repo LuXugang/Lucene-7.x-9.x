@@ -289,6 +289,7 @@
 #### 20. BulkScorer
 
 - [BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)
+- [BulkScorer（二）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0724/208.html)
 
 
 # Util
