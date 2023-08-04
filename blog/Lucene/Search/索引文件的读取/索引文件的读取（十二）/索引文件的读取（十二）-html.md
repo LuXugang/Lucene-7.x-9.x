@@ -125,7 +125,7 @@ public void add(int freq, long norm) {
 
 &emsp;&emsp;至此我们知道，**在索引阶段，只是根据freq跟norm这一对信息粗略的选出一些具有竞争力的候选者，即并不会真正的调用score( )方法计算出文档的打分值，原因很明显，在索引阶段，需要处理包含term的每一篇文档号，此时对这些文档号执行打分操作在性能上是不现实的**。
 
-&emsp;&emsp;至此我们可以真正的回答上文中提出的问题，即**为什么存储freq跟normValue**，原因就是这种方式使得在搜索阶段，能根据这些最具竞争力的freq跟norm信息，计算出一个block中的128篇文档的最高的文档打分值maxScore。通过这个maxScore使得一些类似TopN的查询能快速的在block中跳转，最终找到满足查询条件的文档号。在后面的文章中我们会详细的介绍如何通过Impact实现性能更高的查询，这里就简单的提一下。
+&emsp;&emsp;至此我们可以真正的回答上文中提出的问题，即**为什么存储freq跟normValue**，原因就是这种方式使得在搜索阶段，能根据这些最具竞争力的freq跟norm信息，计算出一个block中的128篇文档的最高的文档打分值maxScore。通过这个maxScore使得一些类似TopN的查询能快速的在block中跳转，最终找到满足查询条件的文档号。在[后面的文章](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)中我们会详细的介绍如何通过Impact实现性能更高的查询，这里就简单的提一下。
 
 ## 结语
 
