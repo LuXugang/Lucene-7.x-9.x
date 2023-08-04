@@ -386,7 +386,12 @@
 
 #### 10. [DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)
 
-#### 11. [Impact](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
+#### 11. Impact
+
+- [Impact（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
+- [Impact（二）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)
+
+#### 11. [ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)
 
 # OpenSearch
 

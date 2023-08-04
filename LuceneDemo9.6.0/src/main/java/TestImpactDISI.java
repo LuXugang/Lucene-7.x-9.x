@@ -9,11 +9,17 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.CollectorManager;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopFieldCollector;
+import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -42,8 +48,11 @@ public class TestImpactDISI {
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         Query query = new TermQuery(new Term("name", new BytesRef("abc")));
         IndexSearcher searcher = new IndexSearcher(reader);
-        TopDocs docs = searcher.search(query, 20);
-        for (ScoreDoc scoreDoc : docs.scoreDocs) {
+        SortField sortField = new SortField("name", SortField.Type.SCORE);
+        CollectorManager<TopFieldCollector, TopFieldDocs> manager =
+                TopFieldCollector.createSharedManager(new Sort(sortField), 20, null, 20);
+        TopDocs topDocs = searcher.search(query, manager);
+        for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
             System.out.println(scoreDoc.doc);
             System.out.println(scoreDoc.score);
             System.out.println("------------------");
@@ -51,7 +60,7 @@ public class TestImpactDISI {
         indexWriter.close();
         reader.close();
         directory.close();
-        System.out.println("total hits: " + docs.totalHits.value);
+        System.out.println("total hits: " + topDocs.totalHits.value);
         System.out.println("DONE");
     }
 
