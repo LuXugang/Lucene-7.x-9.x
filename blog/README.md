@@ -357,7 +357,10 @@
 
 #### 2. [SortedDocValues VS BinaryDocValues](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)
 
-#### 3. [两阶段遍历（TwoPhaseIterator）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
+#### 3. 两阶段遍历（TwoPhaseIterator）
+
+- [TwoPhaseIterator（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)
+- [TwoPhaseIterator（二）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0814/210.html)
 
 #### 4. [查找表（lookup table）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)
 
@@ -391,7 +394,9 @@
 - [Impact（一）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)
 - [Impact（二）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)
 
-#### 11. [ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)
+#### 12. [ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)
+
+#### 13. [Scorer](https://www.amazingkoala.com.cn/Lucene/Search/2023/0814/210.html)
 
 # OpenSearch
 

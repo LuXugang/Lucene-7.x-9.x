@@ -69,7 +69,7 @@ public class DisjunctionMaxQueryTest {
 
         Query termQuery1 = new TermQuery(new Term("content", new BytesRef("my")));
         Query termQuery2 = new TermQuery(new Term("content", new BytesRef("good")));
-        List<Query> queries = new ArrayList<>();
+        List<Query> queries = new ArrayList<Query>();
         queries.add(termQuery1);
         queries.add(termQuery2);
 

@@ -73,15 +73,15 @@ public class IndexOrDocValuesQueryTest {
         indexWriter.commit();
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher searcher = new IndexSearcher(reader);
-        int lowValue = Integer.MIN_VALUE;
-        int upValue = Integer.MAX_VALUE;
+        int lowValue = 1;
+        int upValue = 9;
 
         Query termQuery = new TermQuery(new Term("content", new BytesRef("my")));
 
         Query pointsRangeQuery = IntPoint.newRangeQuery("number", lowValue, upValue);
         Query docValuesRangeQuery =
                 SortedNumericDocValuesField.newSlowRangeQuery(
-                        "number", Long.MIN_VALUE, Long.MAX_VALUE);
+                        "number", lowValue, upValue);
         Query indexOrDocValuesQuery =
                 new IndexOrDocValuesQuery(pointsRangeQuery, docValuesRangeQuery);
 
@@ -98,7 +98,7 @@ public class IndexOrDocValuesQueryTest {
                 SortedNumericDocValuesField.newSlowRangeQuery(
                         "number", Long.MIN_VALUE, Long.MAX_VALUE);
 
-        ScoreDoc[] scoreDocs = searcher.search(query, resultTopN).scoreDocs;
+        ScoreDoc[] scoreDocs = searcher.search(indexOrDocValuesQuery, resultTopN).scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
             System.out.println("文档号: " + scoreDoc.doc + "");
         }
