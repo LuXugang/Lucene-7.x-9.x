@@ -1,13 +1,21 @@
-# [dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+---
+title: 索引文件之dim&&dii
+date: 2019-04-24 00:00:00
+tags: [index, indexFile,dim,dii]
+categories:
+- Lucene
+- suoyinwenjian
+---
+
 &emsp;&emsp;从Lucene6.0开始出现点数据（Point Value）的概念，通过将多维度的点数据生成KD-tree结构，来实现快速的单维度的范围查询（比如 IntPoint.newRangeQuery）以及N dimesional shape intersection filtering。
 
 &emsp;&emsp;索引文件.dim中的数据结构由一系列的block组成，在内存中展现为一颗满二叉树(单维度可能不是，这块内容会在介绍数值类型的范围查询时候介绍)，并且叶子节点描述了所有的点数据。
 
-&emsp;&emsp;阅读本文章之前，必须先了解多维度的点数据是如何生成一个满二叉树，否则难以理解文章中的一些名词概念，而在本文中不会赘述这些名词。在[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)中介绍了生成树的过程，请务必先看这篇文章。
+&emsp;&emsp;阅读本文章之前，必须先了解多维度的点数据是如何生成一个满二叉树，否则难以理解文章中的一些名词概念，而在本文中不会赘述这些名词。在[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/Bkd-Tree)中介绍了生成树的过程，请务必先看这篇文章。
 
 &emsp;&emsp;索引结构的主要逻辑在下面的Java文件中，关键逻辑都加以了注释：https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/bkd/BKDWriter.java。
 
-&emsp;&emsp;另外索引文件.dim、dii的生成过程见系列文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)。
+&emsp;&emsp;另外索引文件.dim、dii的生成过程见系列文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)。
 
 
 # dim文件的数据结构

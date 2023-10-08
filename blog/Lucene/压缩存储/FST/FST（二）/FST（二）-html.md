@@ -1,6 +1,15 @@
+---
+title: FST（二）（Lucene 8.4.0）
+date: 2020-10-09 00:00:00
+tags: [encode, decode,util,fst]
+categories:
+- Lucene
+- yasuocunchu
+---
+
 # [FST（二）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)（Lucene 8.4.0）
 
-&emsp;&emsp;在文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)（**必须先阅读该篇文章**）中我们通过一个例子，简单的描述了Lucene是如何使用一个字节数组current\[ ]存储FST信息的，为了能更好的理解读取过程，我们需要另外给出例子（差别在于把"mop"改成了"mo"），输入数据以及对应FST的信息如下。
+&emsp;&emsp;在文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)（**必须先阅读该篇文章**）中我们通过一个例子，简单的描述了Lucene是如何使用一个字节数组current\[ ]存储FST信息的，为了能更好的理解读取过程，我们需要另外给出例子（差别在于把"mop"改成了"mo"），输入数据以及对应FST的信息如下。
 
 ```text
 String[] inputValues = {"mo", "moth", "pop", "star", "stop", "top"};
@@ -28,7 +37,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 ## 读取FST
 
-&emsp;&emsp;在文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)中我们说到，对于某个term的每一个字符对应的FST信息将以一个四元组信息（**至少包含label跟flag**）被写入到current[ ]数组中，即index、output、label、flag，其中flag跟index用于找出这个term的每一个字符在current[ ]数组中的起始读取位置以及读取区间，label是这个字符的ASCII，output则是这个term的完整或部分附加值，当获取了所有的字符后就能获得完整的附加值。例如"mo"这个term，它包含2个字符，这几个字符在图1的数组current[ ]数组中的数据区间如下表所示：
+&emsp;&emsp;在文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)中我们说到，对于某个term的每一个字符对应的FST信息将以一个四元组信息（**至少包含label跟flag**）被写入到current[ ]数组中，即index、output、label、flag，其中flag跟index用于找出这个term的每一个字符在current[ ]数组中的起始读取位置以及读取区间，label是这个字符的ASCII，output则是这个term的完整或部分附加值，当获取了所有的字符后就能获得完整的附加值。例如"mo"这个term，它包含2个字符，这几个字符在图1的数组current[ ]数组中的数据区间如下表所示：
 
 表一：
 
@@ -50,7 +59,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 |    BIT_ARC_HAS_OUTPUT    |  16   |                  arc有output值(output不为0)                  |
 | BIT_ARC_HAS_FINAL_OUTPUT |  32   |            某个term的最后一个字符带有附加值output            |
 
-&emsp;&emsp;表二中的Flag相比较文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)，多了BIT_ARC_HAS_FINAL_OUTPUT，在那一篇文章中未直接给出的原因在于，那篇文章中的例子的特殊性使得不会使用到该flag，这也是为什么本篇文章我们需要换一个例子。
+&emsp;&emsp;表二中的Flag相比较文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)，多了BIT_ARC_HAS_FINAL_OUTPUT，在那一篇文章中未直接给出的原因在于，那篇文章中的例子的特殊性使得不会使用到该flag，这也是为什么本篇文章我们需要换一个例子。
 
 &emsp;&emsp;无论哪种读取方式，总是从current[ ]数组中最后一个有效数据，即下标38，的位置开始读取，又因为四元组信息中至少包含flag跟label信息，故直接从最后一个有效数据开始往前读取两个数组元素，获得label的值为"m"、flag的值为16，接着根据flag的值的组合，执行不同的读取逻辑，如下图所示：
 
@@ -96,7 +105,7 @@ long[] outputValues = {100, 91, 72, 83, 54, 55};
 
 &emsp;&emsp;**字符"h"是最后一个字符了，为什么还有BIT_TARGET_NEXT**
 
-&emsp;&emsp;如果你看过文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)就会知道，它的target是-1，表示没有合法的下一个字符了。
+&emsp;&emsp;如果你看过文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)就会知道，它的target是-1，表示没有合法的下一个字符了。
 
 &emsp;&emsp;通过"mo"、"moth"的介绍已经可以了解读取FST的逻辑，对于BIT_LAST_ARC还需要一点补充，当不包含BIT_LAST_ARC时，说明结点中包含多个Arc，那么在源码中会保留该节点前的字符信息，使得不用重复读取，即实现了深度遍历的逻辑。以图2为例，当读取"star"的字符"a"时，就会知道节点9还有其他的arc，那么此时会保留节点9之前的信息，即字符"s"、"t"的信息，使得读取完"star"后，再读取"stop"时不用再次读取"s"、"t"的信息。
 

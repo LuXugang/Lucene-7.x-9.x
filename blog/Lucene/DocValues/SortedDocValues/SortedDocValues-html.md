@@ -1,4 +1,12 @@
-# [SortedDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)
+---
+title: SortedDocValues
+date: 2019-02- 00:00:00
+tags: DocValues
+categories:
+- Lucene
+- DocValues
+---
+
 SortedDocValues同NumericDocValues、SortedNumericDocValues一样，在实际应用中最多的场景用于提供给搜索结果一个排序规则。本篇文章只讲述使用了SortedDocValues后，其在.dvd、.dvm文件中的索引结构。在以后的介绍例如 facet、join、group等功能时，会详细介绍如何根据.dvd、dvm中的索引数据进行查询的过程。
 # 预备知识
 下面出现的变量名皆为源码中的同名变量名。
@@ -34,7 +42,7 @@ sortedValues[]数组中实现了 数组下标ord 到 数组元素termId的映射
 
 ### DocIdData
 DocIdData中记录包含当前域的文档号。
-如果IndexWriter添加的document中不都包含当前域，那么需要将包含当前域的文档号记录到DocIdData中，并且使用IndexedDISI类来存储文档号，[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)存储文档号后生成的数据结构单独的作为一篇文章介绍，在这里不赘述。
+如果IndexWriter添加的document中不都包含当前域，那么需要将包含当前域的文档号记录到DocIdData中，并且使用IndexedDISI类来存储文档号，[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)存储文档号后生成的数据结构单独的作为一篇文章介绍，在这里不赘述。
 
 ### Ords
 Ords记录了每一篇文档中SortedDocValuesField的域值对应的ord值。这里的ord值即上文中的预备知识中的ord值。
@@ -76,7 +84,7 @@ BlockIndex中记录了每一个block相对于第一个block的在.dvd文件中�
 图8：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/DocValues/SortedDocValues1/8.png">
 但是满足搜索要求的文档只会将docId传入到Collector类的collect(int doc)方法中，即我们只能知道文档号的信息，无法获得当前文档中SortedDocValuesField的域值来做排序比较。
-这时候我们可以根据文档号docId从IndexedDISI中找到**段内编号（见文章[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)）**。段内编号作为currentValues[]数组下标值，取出数组元素，即termId，然后termId作为ordMap[]数组下标值，取出数组元素，即ord值。根据ord值我们就可以找到当前文档中的 SortedDocValuesField的域值在对应的Block中，然后遍历Block中的16个域值，直到找到我们想要的域值。
+这时候我们可以根据文档号docId从IndexedDISI中找到**段内编号（见文章[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)）**。段内编号作为currentValues[]数组下标值，取出数组元素，即termId，然后termId作为ordMap[]数组下标值，取出数组元素，即ord值。根据ord值我们就可以找到当前文档中的 SortedDocValuesField的域值在对应的Block中，然后遍历Block中的16个域值，直到找到我们想要的域值。
 图9：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/DocValues/SortedDocValues1/9.png">
 
@@ -271,5 +279,3 @@ length为PrefixValueIndex在.dvd文件中的数据长度。
 在读取阶段，通过offset跟length就可以获得所有PrefixValueIndex数据。
 # 结语
 本文详细介绍了SortedDocValues在.dvd、.dvm文件中的数据结构，并简单介绍了为什么要写入TermsDict、TermsIndex的数据。SortedDocValues跟SortedSetDocValues是在所有DocValues中数据结构最为复杂的。另外在预备知识中提到的几个数组，它们都是在SortedDocValuesWriter类中生成，大家可以可看我的源码注释来加快SortedDocValuesWriter类的理解，源码地址：https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/SortedDocValuesWriter.java
-
-[点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/DocValues/SortedDocValues/SortedDocValues.zip)Markdown文件

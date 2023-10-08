@@ -1,10 +1,17 @@
-# [cfs&&cfe](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+---
+title: 索引文件之cfs&&cfe
+date: 2019-07-10 00:00:00
+tags: [index, indexFile]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
 &emsp;&emsp;索引文件.cfs、.cfe被称为复合（compound）索引文件，在IndexWriterConfig可以配置是否生成复合索引文件，默认开启。
 
-&emsp;&emsp;在前面的文章中，我们介绍了其他的[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)，而复合索引文件则是将这些索引文件的数据组合到一个文件中，这种设计的目的是为了减少文件描述符的使用。
+&emsp;&emsp;在前面的文章中，我们介绍了其他的索引文件，而复合索引文件则是将这些索引文件的数据组合到一个文件中，这种设计的目的是为了减少文件描述符的使用。
 
-&emsp;&emsp;正如上文中描述的那样，复合文件实质是索引文件的组合，意思是无论是否设置了使用复合文件，总是先生成非复合索引文件，随后在flush阶段，才将这些文件生成.cfs、.cfe文件，其中[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)、[.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)索引文件不会被组合到.cfs、.cfe中。
+&emsp;&emsp;正如上文中描述的那样，复合文件实质是索引文件的组合，意思是无论是否设置了使用复合文件，总是先生成非复合索引文件，随后在flush阶段，才将这些文件生成.cfs、.cfe文件，其中[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)、[.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)索引文件不会被组合到.cfs、.cfe中。
 
 # cfs文件的数据结构
 

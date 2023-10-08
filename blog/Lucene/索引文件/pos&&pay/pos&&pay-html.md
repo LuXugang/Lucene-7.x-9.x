@@ -1,4 +1,11 @@
-## [pos&&pay文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 8.4.0）
+---
+title: 索引文件之pos&&pay（Lucene 8.4.0）
+date: 2019-03-24 00:00:00
+tags: [index, indexFile,pos,pay]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
 &emsp;&emsp;position在Lucene中描述的是一个term在一篇文档中的位置，并且存在一个或多个position。
 
@@ -6,9 +13,9 @@
 
 &emsp;&emsp;offset是一对整数值(a pair of integers)，即startOffset跟endOffset，它们分别描述了term的第一个字符跟最后一个在文档中的位置。
 
-&emsp;&emsp;每一个term在所有文档中的position、payload、offset信息在IndexWriter.addDocument()的过程中计算出来，在内存中生成一张倒排表，在[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段，通过读取倒排表，将position信息写入到.pos文件中，将payload、offset信息写入到.pay文件中。
+&emsp;&emsp;每一个term在所有文档中的position、payload、offset信息在IndexWriter.addDocument()的过程中计算出来，在内存中生成一张倒排表，在[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段，通过读取倒排表，将position信息写入到.pos文件中，将payload、offset信息写入到.pay文件中。
 
-&emsp;&emsp;本文介绍的是索引文件.pos、.pay的数据结构，其生成过程见文章[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)。
+&emsp;&emsp;本文介绍的是索引文件.pos、.pay的数据结构，其生成过程见文章[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/索引文件的生成（二）之doc&&pay&&pos)。
 
 ## pay文件的数据结构
 
@@ -31,9 +38,9 @@
 
 #### PackedPayLengthBlock
 
-&emsp;&emsp;PackedPayLengthBlock存放了128个payload的长度数据，并且使用了[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)进行了压缩存储，在读取阶段能根据长度数据从PayData中获得对应长度的数据（不明白？请阅读系列文章[索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)）。
+&emsp;&emsp;PackedPayLengthBlock存放了128个payload的长度数据，并且使用了[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)进行了压缩存储，在读取阶段能根据长度数据从PayData中获得对应长度的数据（不明白？请阅读系列文章[索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)）。
 
-**这里注意是由于每一个payload的长度无法保证递增，只能使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)存储原始数据。**
+**这里注意是由于每一个payload的长度无法保证递增，只能使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)存储原始数据。**
 
 #### SumPayLength
 
@@ -123,6 +130,6 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/pos&&pay/7.png">
 
 ## 结语
-&emsp;&emsp;.pos、.pay、.doc、.tim、.tip文件都是在[flush()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段通过读取倒排表一起生成的，另外.doc跟.pos、.pay文件还有映射关系，在后面介绍.doc文件时候会涉及。
+&emsp;&emsp;.pos、.pay、.doc、.tim、.tip文件都是在[flush()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段通过读取倒排表一起生成的，另外.doc跟.pos、.pay文件还有映射关系，在后面介绍.doc文件时候会涉及。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/pos&&pay.zip)Markdown文件

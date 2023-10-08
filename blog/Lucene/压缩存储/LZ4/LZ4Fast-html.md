@@ -1,3 +1,12 @@
+---
+title: LZ4
+date: 2019-02-26 00:00:00
+tags: [encode, decode,util,lz4]
+categories:
+- Lucene
+- yasuocunchu
+---
+
 ## [LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)
 LZ4是一种无损数据压缩算法，着重于压缩和解压的速度，并且应用广泛。在Hadoop、Linux内核、文件系统都有应用，而在Lucene中，则是使用LZ4对倒排表的数据以及词向量（termVector）进行压缩存储。在本篇文章中，介绍LZ4Fast的压缩逻辑在Lucene中的Java实现。
 ## 两种实现

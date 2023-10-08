@@ -1,4 +1,11 @@
-# [索引文件锁LockFactory](http://www.amazingkoala.com.cn/Lucene/Store/)
+---
+title: 索引文件锁LockFactory
+date: 2019-06-04 00:00:00
+tags: [directory,lock]
+categories:
+- Lucene
+- Store
+---
 
 &emsp;&emsp;LockFactory在Lucene中用来对索引文件所在的目录进行加锁，使得同一时间总是只有一个IndexWriter对象可以更改索引文件，即保证单进程内(single in-process)多个不同IndexWriter对象互斥更改（多线程持有相同引用的IndexWriter对象视为一个IndexWriter不会受制于LockFactory，而是受制于对象锁（synchronized(this)）、多进程内(multi-processes)多个对象互斥更改。
 
@@ -95,7 +102,7 @@
 ### SimpleFSLockFactory与NativeFSLockFactory各自的特点
 &emsp;&emsp;尽管NativeFSLockFactory是默认的FSDirectory的索引文件锁，但基于实际场景，有时候使用SimpleFSLockFactory能更好的工作(work perfectly)。
 
-- NativeFSLockFactory基于 java.nio.*来获得FileLock，但在某些文件系统下可能会受限，比如说在NFS下可能无法获得FileLock(the lock can incorrectly be double acquired)，此时使用SimpleFSLockFactory就不会有这个问题
+- NativeFSLockFactory基于 java.nio.\*来获得FileLock，但在某些文件系统下可能会受限，比如说在NFS下可能无法获得FileLock(the lock can incorrectly be double acquired)，此时使用SimpleFSLockFactory就不会有这个问题
 - 当JVM异常退出时，残留的（leftover）write.lock文件无法删除，如果使用SimpleFSLockFactory需要手动的去删除该文件，否则尝试获得索引文件锁时就直接抛出异常，而使用NativeFSLockFactory时，不用关心当前write.lock文件是否被正确删除，因为它只关心write.lock是否被其他进程占用，而JVM异常退出后，会自动释放FileLock(操作系统会释放FileLock)，所以不能通过判断write.lock文件在索引文件的目录中就认为索引文件被锁定了(locked)，Lucene从不会因为异常去删除write.lock文件
 
 ## VerifyingLockFactory
@@ -109,7 +116,6 @@
 &emsp;&emsp;本文介绍了实现互斥访问索引文件的索引文件锁LockFactory。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Store/LockFactory/LockFactory.zip)Markdown文件
-
 
 
 

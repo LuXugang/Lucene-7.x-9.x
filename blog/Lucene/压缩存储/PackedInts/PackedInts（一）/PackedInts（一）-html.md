@@ -1,4 +1,11 @@
-## [PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+---
+title: PackedInts（一）
+date: 2019-12-17 00:00:00
+tags: [encode, decode,util]
+categories:
+- Lucene
+- yasuocunchu
+---
 
 &emsp;&emsp;为了能节省空间，Lucene使用[PackedInts类](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/packed/PackedInts.java)对long类型的数据进行压缩存储，基于内存使用率（memory-efficient）跟解压速度（读取速度），提供了多种压缩方法，我们先通过类图预览下这些压缩方法。
 
@@ -271,12 +278,12 @@
 
 - 1个数值：bitsPerValue为64才能使得额外空间开销最小，每个数值的空间开销为（64-64\*1）/（1）= 0，它其实就是Direct64
 - 2个数值：bitsPerValue为32才能使得额外空间开销最小，每个数值的空间开销为（64-32\*2）/（2）= 0
-- 3个数值，bitsPerValue为21才能使得额外空间开销最小，每个数值的空间开销为（64-21\*3）/（3）= 0.33
-- 4个数值，bitsPerValue为16才能使得额外空间开销最小，每个数值的空间开销为（64-16\*4）/（4）= 0
-- 5个数值，bitsPerValue为12才能使得额外空间开销最小，每个数值的空间开销为（64-12\*5）/（5）= 0.8
-- 6个数值，bitsPerValue为10才能使得额外空间开销最小，每个数值的空间开销为（64-10\*6）/（6）= 0.66
-- 7个数值，bitsPerValue为9才能使得额外空间开销最小，每个数值的空间开销为（64-9\*7）/（7）= 0.14
-- 8个数值，bitsPerValue为8才能使得额外空间开销最小，每个数值的空间开销为（64-8\*8）/（8）= 0
+- 3个数值：bitsPerValue为21才能使得额外空间开销最小，每个数值的空间开销为（64-21\*3）/（3）= 0.33
+- 4个数值：bitsPerValue为16才能使得额外空间开销最小，每个数值的空间开销为（64-16\*4）/（4）= 0
+- 5个数值：bitsPerValue为12才能使得额外空间开销最小，每个数值的空间开销为（64-12\*5）/（5）= 0.8
+- 6个数值：bitsPerValue为10才能使得额外空间开销最小，每个数值的空间开销为（64-10\*6）/（6）= 0.66
+- 7个数值：bitsPerValue为9才能使得额外空间开销最小，每个数值的空间开销为（64-9\*7）/（7）= 0.14
+- 8个数值：bitsPerValue为8才能使得额外空间开销最小，每个数值的空间开销为（64-8\*8）/（8）= 0
 -                                   。。。 。。。
 
 &emsp;&emsp;可以看出那些实现了Packed64SingleBlock\*压缩的bitsPerValue都是基于空间开销下的最优解。

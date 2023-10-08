@@ -1,4 +1,11 @@
-# [Directory](https://www.amazingkoala.com.cn/Lucene/Store/)(上)
+---
+title: Directory（上）
+date: 2019-06-13 00:00:00
+tags: [directory,mmap]
+categories:
+- Lucene
+- Store
+---
 
 &emsp;&emsp;Directory类用来维护索引目录中的索引文件，定义了`创建`、`打开`、`删除`、`读取`、`重命名`、`同步`(持久化索引文件至磁盘)、`校验和`（checksum computing）等抽象方法。
 
@@ -15,7 +22,7 @@
 &emsp;&emsp;接下来一一介绍其子类。
 
 ## BaseDirectory
-&emsp;&emsp;BaseDirectory同样是一个抽象类，提供了其子类共有的`获取索引文件锁`的方法，即维护了一个LockFactory对象，[索引文件锁](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/62.html)的概念已经在前面的文章中介绍，这里不赘述。
+&emsp;&emsp;BaseDirectory同样是一个抽象类，提供了其子类共有的`获取索引文件锁`的方法，即维护了一个LockFactory对象，[索引文件锁](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/索引文件锁LockFactory)的概念已经在前面的文章中介绍，这里不赘述。
 &emsp;&emsp;下图中为BaseDirectory类的子类：
 
 图2：
@@ -37,7 +44,7 @@
 - 打开索引文件：使用Files的[newByteChannel](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html)方法来`打开`一个索引文件，比如说通过DirectoryReader.open(IndexWriter)读取索引文件信息会调用此方法
 - 读取索引文件：使用FileChannelImpl`读取`索引文件，使得可以随机访问索引文件的一块连续数据。
 
-&emsp;&emsp;随机访问索引文件的一块连续数据在Lucene中是很重要的，例如图4中画出了[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)索引文件的数据结构，索引文件按照域（field）划分，在读取阶段，Lucene总是按域逐个处理，所以需要获取每一个域在.doc索引文件中的数据区域。
+&emsp;&emsp;随机访问索引文件的一块连续数据在Lucene中是很重要的，例如图4中画出了[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)索引文件的数据结构，索引文件按照域（field）划分，在读取阶段，Lucene总是按域逐个处理，所以需要获取每一个域在.doc索引文件中的数据区域。
 
 图4：
 
@@ -124,8 +131,8 @@
 #### 删除
 &emsp;&emsp;在一些情况下需要删除索引文件，至少包括以下情况：
 
-- 索引合并：即[段合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)，被合并的段中的索引文件会被删除
-- 删除旧的commit()：如果是IndexWriter使用了KeepOnlyLastCommitDeletionPolicy策略，那么每当有新的commit()操作，就会生成一个新的[Segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)文件，并且随后删除上一个，即Segment_N-1文件
+- 索引合并：即[段合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)，被合并的段中的索引文件会被删除
+- 删除旧的commit()：如果是IndexWriter使用了KeepOnlyLastCommitDeletionPolicy策略，那么每当有新的commit()操作，就会生成一个新的[Segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)文件，并且随后删除上一个，即Segment_N-1文件
 
 &emsp;&emsp;另外有一个pendingDeletes的Set对象，当索引文件无法被删除时，pendingDeletes会记录该文件，并且在执行`创建`、`删除`、`重命名`、`同步`时会尝试再次删除这些文件，本该被删除的索引文件如果还留在索引目录中，可能会导致一些问题，比如被错误的合并、被错误的重命名(下文会介绍)。
 
@@ -160,7 +167,6 @@
 &emsp;&emsp;本文介绍Lucene7.5.0的core模块中的BaseDirectory类及其子类。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Store/Directory/Directory%EF%BC%88%E4%B8%8A%EF%BC%89/Directory%EF%BC%88%E4%B8%8A%EF%BC%89.zip)Markdown文档
-
 
 
 

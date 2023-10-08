@@ -1,4 +1,12 @@
-# [si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+---
+title: 索引文件之si
+date: 2019-06-05 00:00:00
+tags: [index, indexFile,si]
+categories:
+- Lucene
+- suoyinwenjian
+---
+
 &emsp;&emsp;当生成一个新的segment时（执行flush、commit、merge、addIndexes(facet)），会生成一个描述段文件信息（segmentInfo）的.si索引文件。
 
 # si文件的数据结构
@@ -21,7 +29,7 @@
 &emsp;&emsp;在读取.si文件时的读取该标志位，如果该值为1，表示.si文件中带有Min.major、Min.minor、Min.bugfix的信息需要读取，否则标志位的值为0。
 
 ### Min.major、Min.minor、Min.bugfix
-&emsp;&emsp;上文中提到生成一个新的segment可能由flush、commit、merge、addIndexes(facet)触发，那么当[merge](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/60.html)触发时，意味着多个segment会合并为一个新的segment，那么将某个最小创建版本的segment作为Min.major、Min.minor、Min.bugfix，可以用来判断是否兼容该最小版本的索引文件。
+&emsp;&emsp;上文中提到生成一个新的segment可能由flush、commit、merge、addIndexes(facet)触发，那么当[merge](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/MergeScheduler)触发时，意味着多个segment会合并为一个新的segment，那么将某个最小创建版本的segment作为Min.major、Min.minor、Min.bugfix，可以用来判断是否兼容该最小版本的索引文件。
 
 ## SegSize
 &emsp;&emsp;该字段描述了segment中的文档（Document）个数。
@@ -29,7 +37,7 @@
 ## IsCompoundFile
 &emsp;&emsp;该字段描述了segment对应的索引文件是否使用组合文件，在索引文件中生成不同的文件
 
-&emsp;&emsp;不使用组合文件会生成[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)、[.tvd、tvx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/56.html)、[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)、[.dim、.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)、[tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)、[nvd、.nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)、[.dvm、,dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/)：
+&emsp;&emsp;不使用组合文件会生成[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)、[.tvd、tvx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/索引文件之tvx&&tvd)、[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)、[.dim、.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)、[tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)、[nvd、.nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)、[.dvm、,dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)：
 
 图3：
 
@@ -54,10 +62,10 @@
 &emsp;&emsp;该字段描述了segment对应的索引文件的名字，索引文件即图3或者图4。
 
 ## Attributes
-&emsp;&emsp;该字段描述了记录存储域的索引文件，即[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)使用的索引模式，索引模式有两种: BEST_SPEED 或 BEST_COMPRESSION，Attributes记录其索引模式的名称，两者的区别在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html) 已经介绍，不赘述。
+&emsp;&emsp;该字段描述了记录存储域的索引文件，即[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)使用的索引模式，索引模式有两种: BEST_SPEED 或 BEST_COMPRESSION，Attributes记录其索引模式的名称。
 
 ## IndexSort
-&emsp;&emsp;该字段用来对segment内的文档进行排序（用法见[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中的**预备知识**及[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)中的**sortMap**），该值在IndexWriterConfig对象中设置排序规则，可以提供多个Sort对象。该字段会影响文档信息写入索引文件的信息，顺便提一下的是，如果设置了IndexSort后，在 [两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)就只会生成一个临时文件的.fdx、.fdx、.tvd、.tvx文件。
+&emsp;&emsp;该字段用来对segment内的文档进行排序（用法见[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)中的**预备知识**及[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)中的**sortMap**），该值在IndexWriterConfig对象中设置排序规则，可以提供多个Sort对象。
 
 图5：
 
@@ -70,7 +78,7 @@
 &emsp;&emsp;SortField的域名。
 
 ### SortTypeID
-&emsp;&emsp;在前面的文章中介绍了[FieldComparator](https://www.amazingkoala.com.cn/Lucene/Search/2019/0415/50.html)，它同IndexSort一样使用Sort对象来实现排序，而IndexSort中的排序类型（SortField的域值类型）只是FieldComparator中的部分排序类型，每一种排序类型对应一个SortTypeID：
+&emsp;&emsp;在前面的文章中介绍了[FieldComparator](https://www.amazingkoala.com.cn/Lucene/Search/2019/0415/FieldComparator&&LeafFieldComparator)，它同IndexSort一样使用Sort对象来实现排序，而IndexSort中的排序类型（SortField的域值类型）只是FieldComparator中的部分排序类型，每一种排序类型对应一个SortTypeID：
 
 - 0：STRING
 - 1：LONG

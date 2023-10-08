@@ -1,8 +1,8 @@
 # [Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 8.4.0）
 
-&emsp;&emsp;在文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)中我们介绍了确定型有穷自动机(Deterministic Finite Automaton)的概念，以及在TermRangeQuery中如何根据查询条件生成一个转移图，本文依旧根据该文章中的例子，介绍在Lucene中如何构建DFA，即生成图2的转移图，以及存储状态（state）、转移（transition）函数的数据结构。
+&emsp;&emsp;在文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)中我们介绍了确定型有穷自动机(Deterministic Finite Automaton)的概念，以及在TermRangeQuery中如何根据查询条件生成一个转移图，本文依旧根据该文章中的例子，介绍在Lucene中如何构建DFA，即生成图2的转移图，以及存储状态（state）、转移（transition）函数的数据结构。
 
-&emsp;&emsp;我们再次给出文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)中的例子：
+&emsp;&emsp;我们再次给出文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)中的例子：
 
 图1：
 
@@ -22,7 +22,7 @@
 - 0：描述的是初始状态，即状态0
 - {1，3，4，5}：描述的是可接受状态或终结状态
 
-&emsp;&emsp;上述内容如果没看明白请先阅读文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)。
+&emsp;&emsp;上述内容如果没看明白请先阅读文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)。
 
 ## 构建DFA的流程图
 
@@ -50,7 +50,7 @@ $$
 \delta(0，ASCII)\begin{cases}1,\qquad 99(c) ≤ ASCII ≤ 102(f)\\2,\qquad ASCII = 98(b)\\3,\qquad ASCII = 103(g)\end{cases}
 $$
 
-&emsp;&emsp;上述公式是如何得出见文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)中的介绍，该公式的转移函数信息用transitions、states数组存储如下所示：
+&emsp;&emsp;上述公式是如何得出见文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)中的介绍，该公式的转移函数信息用transitions、states数组存储如下所示：
 
 图4：
 

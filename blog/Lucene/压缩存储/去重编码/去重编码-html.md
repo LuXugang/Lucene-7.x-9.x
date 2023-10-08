@@ -1,4 +1,12 @@
-## [去重编码(dedupAndEncode)](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)
+---
+title: 去重编码
+date: 2019-01-30 00:00:00
+tags: [encode, decode,util]
+categories:
+- Lucene
+- yasuocunchu
+---
+
 去重编码是Lucene中对int类型数据的一种压缩存储方式，在FacetsConfig类中用到此方法来处理int类型数据。其优点在于，存储一个原本需要固定4个字节空间大小的int类型的数据，最好的情况下只要1个字节，最差的情况下需要5个字节。
 ## 处理过程
 去重编码的过程主要分三步：
@@ -134,5 +142,3 @@ public class ConvertByteRefToInt {
 ```
 ## 结语
 去重编码(dedupAndEncode)是Lucene中的压缩存储的方式之一，还有VInt，VLong等数据类型都是属于压缩存储，在后面的博客中会一一介绍。demo看这里：https://github.com/luxugang/Lucene-7.5.0/tree/master/LuceneDemo/src/main/java/lucene/compress/dedupAndEncodeTest
-
-[点击下载](http://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0130/29.html)Markdown文件

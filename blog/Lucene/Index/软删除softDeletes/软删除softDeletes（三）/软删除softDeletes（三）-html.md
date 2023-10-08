@@ -1,6 +1,13 @@
-# [软删除softDeletes（三）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 软删除softDeletes（三）（Lucene 8.4.0）
+date: 2020-06-24 00:00:00
+tags: [softDeletes, delete]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)中我们说到，在Lucene 7.5.0版本中，使用了下面两个容器来存储软删除的删除信息、DocValues的更新信息：
+&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/软删除softDeletes（二）)中我们说到，在Lucene 7.5.0版本中，使用了下面两个容器来存储软删除的删除信息、DocValues的更新信息：
 
 - Map<String,LinkedHashMap<Term,NumericDocValuesUpdate>> numericUpdates：DocValuesUpdatesNode
 - Map<String,LinkedHashMap<Term,BinaryDocValuesUpdate>> binaryUpdate：DocValuesUpdatesNode
@@ -17,11 +24,11 @@ LUCENE-8590: BufferedUpdates now uses an optimized storage for buffering docvalu
 
 &emsp;&emsp;该issue的地址见：https://issues.apache.org/jira/browse/LUCENE-8590 ，对于上述中优化存储的内容将在下一篇文章中展开。
 
-&emsp;&emsp;在介绍软删除在flush/commit阶段的相关内容之前，我想先重新介绍在多线程下执行文档删除（更新）操作时，删除结点（即[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)中介绍的Node对象）如何被添加到全局的deleteQueue中，以及在flush阶段，DWPT（见文章[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)）生成一个段时，如何最终确定这个段包含了哪些私有删除信息（见文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）。
+&emsp;&emsp;在介绍软删除在flush/commit阶段的相关内容之前，我想先重新介绍在多线程下执行文档删除（更新）操作时，删除结点（即[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/软删除softDeletes（二）)中介绍的Node对象）如何被添加到全局的deleteQueue中，以及在flush阶段，DWPT（见文章[文档的增删改（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/文档的增删改（三）)）生成一个段时，如何最终确定这个段包含了哪些私有删除信息（见文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)）。
 
 ## 添加删除结点到全局deleteQueue
 
-&emsp;&emsp;在触发主动flush（见文章[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)）之前，总是**只存在一个**全局的deleteQueue，它用来存储在上一次主动flush到下一次主动flush期间所有线程执行删除操作后对应的删除信息，即删除结点Node对象，为了便于描述，我们假设一个DWPT总是只由一个相同的线程来管理（一个DWPT如果执行了一次文档的增删改操作后，没有触发自动flush，那么下次再次执行文档的增删改操作时可能会由另一个线程管理，见文章[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)）。
+&emsp;&emsp;在触发主动flush（见文章[文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)）之前，总是**只存在一个**全局的deleteQueue，它用来存储在上一次主动flush到下一次主动flush期间所有线程执行删除操作后对应的删除信息，即删除结点Node对象，为了便于描述，我们假设一个DWPT总是只由一个相同的线程来管理（一个DWPT如果执行了一次文档的增删改操作后，没有触发自动flush，那么下次再次执行文档的增删改操作时可能会由另一个线程管理，见文章[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)）。
 
 &emsp;&emsp;每个DWPT对象中有一个私有的DeleteSlice对象，DeleteSlice的结构很简单，如下所示：
 
@@ -45,7 +52,7 @@ LUCENE-8590: BufferedUpdates now uses an optimized storage for buffering docvalu
 
 &emsp;&emsp;**在完善删除结点的前后全局deleteSlice的sliceHead以及sliceTail有什么区别：**
 
-&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)中我们说到，删除结点在被**完善（添加哨兵值，见文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)）**后使用新的容器来存储，在源码中的描述就是删除信息Node在被完善后用BufferedUpdate对象（新的容器的是对象成员，见在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)）来存储。
+&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/软删除softDeletes（二）)中我们说到，删除结点在被**完善（添加哨兵值，见文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)）**后使用新的容器来存储，在源码中的描述就是删除信息Node在被完善后用BufferedUpdate对象（新的容器的是对象成员，见在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/软删除softDeletes（二）)）来存储。
 
 &emsp;&emsp;**全局deleteSlice什么时候会发生完善删除结点：**
 
@@ -59,7 +66,7 @@ LUCENE-8590: BufferedUpdates now uses an optimized storage for buffering docvalu
 
 &emsp;&emsp;**为什么是尝试完善删除结点，而不是强制完善删除结点：**
 
-&emsp;&emsp;在flush阶段，deleteQueue中所有的删除结点都会被完善删除结点，这些删除信息的作用（apply）对象为索引目录中已经生成的段，为了防止产生重复的删除信息，只会让第一个执行flush的DWPT在生成段的时候完善全局deleteSlice对应的删除结点，意味着这个DWPT对应的线程相对于其他线程会有额外的负担，那么如果在索引阶段，每个线程管理的DWPT在添加一个删除结点后就尝试完善全局deleteSlice对应的删除结点，就能减轻在flush阶段第一个生成段对应的线程的压力。索引期间的删除结点操作是个tryLock的同步操作，所以如果线程尝试完善全局DeleteSlice对应的删除结点时发现其他线程正在执行，那么就跳过此次操作。另外一个更重要的原因是，我们在文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)中知道，完善删除结点的主要目的就是添加哨兵值，哨兵值用来描述删除信息的作用范围，然而全局DeleteSlice中的的删除信息是用来作用索引文件已经生成的段的所有文档，所以这个哨兵值是个常量为0x7fffffff，代表了所有的文档号，但是对于DWPT的DeleteSlice中的删除信息，它们的作用（apply）对象是DWPT即将生成的段中的文档，所以此时的哨兵值为DWPT当前收集的文档数量，即numDocsInRAM（见文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)），下文会进一步介绍。
+&emsp;&emsp;在flush阶段，deleteQueue中所有的删除结点都会被完善删除结点，这些删除信息的作用（apply）对象为索引目录中已经生成的段，为了防止产生重复的删除信息，只会让第一个执行flush的DWPT在生成段的时候完善全局deleteSlice对应的删除结点，意味着这个DWPT对应的线程相对于其他线程会有额外的负担，那么如果在索引阶段，每个线程管理的DWPT在添加一个删除结点后就尝试完善全局deleteSlice对应的删除结点，就能减轻在flush阶段第一个生成段对应的线程的压力。索引期间的删除结点操作是个tryLock的同步操作，所以如果线程尝试完善全局DeleteSlice对应的删除结点时发现其他线程正在执行，那么就跳过此次操作。另外一个更重要的原因是，我们在文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)中知道，完善删除结点的主要目的就是添加哨兵值，哨兵值用来描述删除信息的作用范围，然而全局DeleteSlice中的的删除信息是用来作用索引文件已经生成的段的所有文档，所以这个哨兵值是个常量为0x7fffffff，代表了所有的文档号，但是对于DWPT的DeleteSlice中的删除信息，它们的作用（apply）对象是DWPT即将生成的段中的文档，所以此时的哨兵值为DWPT当前收集的文档数量，即numDocsInRAM（见文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)），下文会进一步介绍。
 
 &emsp;&emsp;图2中，如果ThreadA在添加了删除结点后执行了tryApplyGlobalSlice()的操作，下图所示：
 
@@ -75,7 +82,7 @@ LUCENE-8590: BufferedUpdates now uses an optimized storage for buffering docvalu
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/软删除softDeletes/软删除softDeletes（三）/5.png">
 
-&emsp;&emsp;同样的在添加完删除结点DocValuesUpdatesNode之后，ThreadA管理的DWPT同样会对它包含的DeleteSlice，即私有DeleteSlice对应的删除节点执行完善的操作，那么在删除结点DocValuesUpdatesNode被完善后用新的容器来存储，即被存储到BufferedUpdates对象中，并且BufferedUpdates对象是DWPT的私有的（看不懂？先看下文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)），最后更新DWPT的DeleteSlice的sliceHead，让它指向sliceTail指向的删除结点，如下所示：
+&emsp;&emsp;同样的在添加完删除结点DocValuesUpdatesNode之后，ThreadA管理的DWPT同样会对它包含的DeleteSlice，即私有DeleteSlice对应的删除节点执行完善的操作，那么在删除结点DocValuesUpdatesNode被完善后用新的容器来存储，即被存储到BufferedUpdates对象中，并且BufferedUpdates对象是DWPT的私有的（看不懂？先看下文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)），最后更新DWPT的DeleteSlice的sliceHead，让它指向sliceTail指向的删除结点，如下所示：
 
 图6：
 
@@ -140,6 +147,6 @@ LUCENE-8590: BufferedUpdates now uses an optimized storage for buffering docvalu
 
 ## 结语
 
-&emsp;&emsp;相信通过上文的介绍，能完全的理解Lucene在索引阶段处理删除信息的方式，在后面的文章中我们还会介绍在flush阶段跟删除信息相关的知识，为了更快的理解，建议先阅读系列文章[文档提交之flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)。
+&emsp;&emsp;相信通过上文的介绍，能完全的理解Lucene在索引阶段处理删除信息的方式，在后面的文章中我们还会介绍在flush阶段跟删除信息相关的知识，为了更快的理解，建议先阅读系列文章[文档提交之flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/软删除softDeletes/软删除softDeletes（三）/软删除softDeletes（三）.zip)下载附件

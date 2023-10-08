@@ -1,4 +1,11 @@
-# [BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)
+---
+title: BulkOperationPacked
+date: 2019-02-13 00:00:00
+tags: [encode, decode,util]
+categories:
+- Lucene
+- yasuocunchu
+---
 
 &emsp;&emsp;BulkOperation类的子类BulkOperationPacked，提供了很多对整数(integers)的压缩存储方法，其压缩存储过程其实就是对数据进行编码，将每一个整数（long或者int）编码为固定大小进行存储，大小取决于最大的那个值所需要的bit位个数。优点是减少了存储空间，并且对编码后的数据能够提供随机访问的功能。
 

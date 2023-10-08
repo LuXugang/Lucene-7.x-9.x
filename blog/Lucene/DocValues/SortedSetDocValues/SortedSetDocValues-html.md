@@ -1,5 +1,13 @@
-# [SortedSetDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)
-SortedNumericDocValues的索引结构跟[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)几乎是一致的，所以本文不会赘述跟SortedDocValues相同部分的内容，只介绍不同的部分数据结构。两种DocValue的最常用的使用场景就是对搜索结果进行排序，使用SortedSetDocValues相比较SortedDocValues的优点在于，一篇文档中可以设置多个相同域名不同域值的SortedSetDocValuesField，而SortedDocValues在一篇文档中只允许有一个相同域名的域。因此我们可以在不更改现有索引的情况下，只修改搜索的条件（更改Sort对象）就可以获得不同的排序结果，在后面介绍facet的文章中会详细介绍SortedSetDocValues的应用。
+---
+title: SortedSetDocValues
+date: 2019-04-12 00:00:00
+tags: DocValues
+categories:
+- Lucene
+- DocValues
+---
+
+SortedNumericDocValues的索引结构跟[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)几乎是一致的，所以本文不会赘述跟SortedDocValues相同部分的内容，只介绍不同的部分数据结构。两种DocValue的最常用的使用场景就是对搜索结果进行排序，使用SortedSetDocValues相比较SortedDocValues的优点在于，一篇文档中可以设置多个相同域名不同域值的SortedSetDocValuesField，而SortedDocValues在一篇文档中只允许有一个相同域名的域。因此我们可以在不更改现有索引的情况下，只修改搜索的条件（更改Sort对象）就可以获得不同的排序结果，在后面介绍facet的文章中会详细介绍SortedSetDocValues的应用。
 # 数据结构
 ## dvd
 先给出SortedDocValues的.dvm文件的数据结构。
@@ -73,6 +81,4 @@ OrdsAddress数据段在.dvd文件的数据长度。
 ```
 OrdsAddressLength结合Offset，就可以确定OrdsAddress在.dvd文件中的数据区间。
 # 结语
-由于SortedSetDocValues与SortedDocValues的索引文件数据结构非常类似，所以本篇介绍篇幅很小。所以先了解[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)的数据结构后，那么SortedSetDocValues的数据结构就是一目了然的。
-
-[点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/DocValues/SortedSetDocValues/SortedSetDocValues.zip)Markdown文件
+由于SortedSetDocValues与SortedDocValues的索引文件数据结构非常类似，所以本篇介绍篇幅很小。所以先了解[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)的数据结构后，那么SortedSetDocValues的数据结构就是一目了然的。

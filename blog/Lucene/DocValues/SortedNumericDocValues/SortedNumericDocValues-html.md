@@ -1,5 +1,13 @@
-## [SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)
-SortedNumericDocValues的索引结构跟[NumericDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)几乎是一致的，所以本文不会赘述跟NumericDocValues相同部分的内容，只介绍不同的部分数据结构。两种DocValue的最常用的使用场景就是对搜索结果进行排序，使用SortedNumericDocValues相比较NumericDocValues的优点在于，一篇文档中可以设置多个相同域名不同域值的SortedNumericDocValuesField，而NumericDocValuesField在一篇文档中只允许有一个相同域名的域。因此我们可以在不更改现有索引的情况下，只修改搜索的条件（更改Sort对象）就可以获得不同的排序结果，在以后介绍facet时会详细介绍这部分内容。
+---
+title: SortedNumericDocValues
+date: 2019-04-10 00:00:00
+tags: DocValues
+categories:
+- Lucene
+- DocValues
+---
+
+SortedNumericDocValues的索引结构跟[NumericDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)几乎是一致的，所以本文不会赘述跟NumericDocValues相同部分的内容，只介绍不同的部分数据结构。两种DocValue的最常用的使用场景就是对搜索结果进行排序，使用SortedNumericDocValues相比较NumericDocValues的优点在于，一篇文档中可以设置多个相同域名不同域值的SortedNumericDocValuesField，而NumericDocValuesField在一篇文档中只允许有一个相同域名的域。因此我们可以在不更改现有索引的情况下，只修改搜索的条件（更改Sort对象）就可以获得不同的排序结果，在以后介绍facet时会详细介绍这部分内容。
 ## 数据结构
 ### dvd
 先给出NumericDocValues的.dvd文件的数据结构。
@@ -71,5 +79,3 @@ DocValueCount信息在.dvd文件中的数据长度。结合上面的Offset，在
 ```
 ## 结语
 由于SortedNumericDocValues与NumericDocValues的索引文件数据结构非常类似，所以本篇介绍篇幅很小。SortedNumericDocValues这个名词中的Sorted的含义只有在一篇文档中包含多个相同域名不同域值的情况下才有价值体现。在以后介绍SortedNumericDocValues的应用时，会详细介绍它跟NumericDocValues的区别，本篇文章只是介绍在.dvd、.dvm文件中的索引数据结构。
-
-[点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/DocValues/SortedNumericDocValues/SortedNumericDocValues.zip)Markdown文件

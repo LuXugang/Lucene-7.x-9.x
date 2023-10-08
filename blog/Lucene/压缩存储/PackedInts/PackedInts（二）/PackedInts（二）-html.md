@@ -1,6 +1,13 @@
-# [PackedInts（二）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)
+---
+title: PackedInts（二）
+date: 2019-12-18 00:00:00
+tags: [encode, decode,util]
+categories:
+- Lucene
+- yasuocunchu
+---
 
-&emsp;&emsp;本文承接[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)，继续介绍剩余的内容。
+&emsp;&emsp;本文承接[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)，继续介绍剩余的内容。
 
 ## 压缩实现
 
@@ -106,7 +113,7 @@
 - 48：Packed16ThreeBlocks
 - 随后先考虑是否能用Packed64SingleBlock\*（红框表示），最后才考虑使用Packed64
 
-&emsp;&emsp;在第250行的if语句判断中，如果bitsPerValues的值小于等于8，并且maxBitsPerValue大于等于8，那么就使用Direct8来处理，在文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)中我们知道，Direct\*的压缩实现是读写性能最好的，可以看出来acceptableOverheadRatio是空间换时间的设计思想，并且压缩实现的选择优先级如下所示：
+&emsp;&emsp;在第250行的if语句判断中，如果bitsPerValues的值小于等于8，并且maxBitsPerValue大于等于8，那么就使用Direct8来处理，在文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)中我们知道，Direct\*的压缩实现是读写性能最好的，可以看出来acceptableOverheadRatio是空间换时间的设计思想，并且压缩实现的选择优先级如下所示：
 
 ```java
     Direct* > Packed*ThreeBlocks > Packed64SingleBlock* > Packed64
@@ -139,16 +146,15 @@
 
 **acceptableOverheadRatio的值为0**
 
-&emsp;&emsp;没有任何额外的空间开销，虽然读写性能慢，但是因为使用了固定位数按位存储，并且没有填充bit（见[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)），所以有较高的压缩率。
+&emsp;&emsp;没有任何额外的空间开销，虽然读写性能慢，但是因为使用了固定位数按位存储，并且没有填充bit（见[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)），所以有较高的压缩率。
 
 ### Packed64的实现
 
-&emsp;&emsp;表4中的所有压缩实现，除了Packed64，其他的实现逻辑由于过于简单就不通过文章介绍了，而Packed64的实现核心是BulkOperation，BulkOperation中根据bitsPerValue从1到64的不同取值一共有64种不同的逻辑，但他们的实现原理是类似的，故感兴趣的同学可以看文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)来了解其中的一个实现。
+&emsp;&emsp;表4中的所有压缩实现，除了Packed64，其他的实现逻辑由于过于简单就不通过文章介绍了，而Packed64的实现核心是BulkOperation，BulkOperation中根据bitsPerValue从1到64的不同取值一共有64种不同的逻辑，但他们的实现原理是类似的，故感兴趣的同学可以看文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)来了解其中的一个实现。
 
 ## 结语
 
 &emsp;&emsp;无
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8/PackedInts（二）.zip)下载附件
-
 

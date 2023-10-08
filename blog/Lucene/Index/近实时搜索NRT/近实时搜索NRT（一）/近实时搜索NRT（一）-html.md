@@ -1,6 +1,14 @@
-# [近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 近实时搜索NRT（一）
+date: 2019-09-16 00:00:00
+tags: [NRT, Search]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;Lucene提供了近实时搜索NRT（near real time）的功能，它描述了索引信息发生改变后，不需要执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)操作或者关闭IndexWriter（调用IndexWriter.close()方法）就能使得这些更改的信息**很快（quickly）**变得可见。
+
+&emsp;&emsp;Lucene提供了近实时搜索NRT（near real time）的功能，它描述了索引信息发生改变后，不需要执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)操作或者关闭IndexWriter（调用IndexWriter.close()方法）就能使得这些更改的信息**很快（quickly）**变得可见。
 
 &emsp;&emsp;"很快"意味着不是马上变得可见，Lucene无法保证更改索引信息后，在**某个确定的时间**之后，使得最新的索引信息变得可见，这取决具体的业务。
 
@@ -8,7 +16,7 @@
 
 # DirectoryReader
 
-&emsp;&emsp;通过DirectoryReader，我们可以读取索引目录中已经提交（执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)操作）或者未提交（执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)操作）的段的信息，[IndexSearcher](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)通过DirectoryReader包含的信息来进行[查询](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)，它是一个抽象类，其类图如下所示，在下面的内容中会详细介绍DirectoryReader如何生成的：
+&emsp;&emsp;通过DirectoryReader，我们可以读取索引目录中已经提交（执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)操作）或者未提交（执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)操作）的段的信息，[IndexSearcher](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)通过DirectoryReader包含的信息来进行[查询](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)，它是一个抽象类，其类图如下所示，在下面的内容中会详细介绍DirectoryReader如何生成的：
 
 图1：
 
@@ -47,11 +55,11 @@
 
 &emsp;&emsp;**IndexCommit是什么**：
 
-- 执行一次提交操作（执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html))方法）后，这次提交包含的所有的段的信息用IndexCommit来描述，其中至少包含了两个信息，分别是[segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)文件跟[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)
+- 执行一次提交操作（执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）))方法）后，这次提交包含的所有的段的信息用IndexCommit来描述，其中至少包含了两个信息，分别是[segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/segments_N)文件跟[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)
 
 &emsp;&emsp;**如何获得IndexCommit**：
 
-- 在[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)的文章中，我们提到了一种索引删除策略SnapshotDeletionPolicy，在每次执行提交操作后，我们可以通过主动调用[SnapshotDeletionPolicy.snapshot()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/[SnapshotDeletionPolicy.java](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/SnapshotDeletionPolicy.java))来实现快照功能，而该方法的返回值就是IndexCommit
+- 在[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/文档提交之commit（二）)的文章中，我们提到了一种索引删除策略SnapshotDeletionPolicy，在每次执行提交操作后，我们可以通过主动调用[SnapshotDeletionPolicy.snapshot()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/[SnapshotDeletionPolicy.java](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/SnapshotDeletionPolicy.java))来实现快照功能，而该方法的返回值就是IndexCommit
 
 #### 获取segment_N文件
 
@@ -79,11 +87,11 @@ continue;
 &emsp;&emsp;**从上面的代码我们可以看出哪些信息**：
 
 - 信息一：在多线程下，当频繁的有修改索引信息的操作时，获取一个读取索引文件的操作可能会有较高的延迟（files跟files2一直无法相等）
-- 信息二：从图1的流程中可以看出，方法二的流程并没有同步操作，故即使在某一时候files跟files2相等，跳出图4的重试操作，有可能索引信息马上被别的线程修改了，故在不同步索引修改方法（见[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)）的前提下，不一定能获得最新的索引信息，该方法至少能保证获得调用方法二之前的索引信息
+- 信息二：从图1的流程中可以看出，方法二的流程并没有同步操作，故即使在某一时候files跟files2相等，跳出图4的重试操作，有可能索引信息马上被别的线程修改了，故在不同步索引修改方法（见[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)）的前提下，不一定能获得最新的索引信息，该方法至少能保证获得调用方法二之前的索引信息
 
 &emsp;&emsp;**如何根据文件集合files来获得最后一次提交的segment_N文件**：
 
-- 每次提交都会生成segment_N，其中N是一个递增的值，它描述了一个段的编号，即最新的提交对应的N值是最大的，Lucene通过遍历files中的每一个文件名，取出前缀为"segment"，并且段编号最大的文件，该文件即最后一次提交的segment_N文件，图5中，执行了两次提交操作，并采用索引删除策略NoDeletionPolicy（见[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)），故索引目录中保留了2个segment_N文件，并且最后一次提交的segment_N文件是segment_2
+- 每次提交都会生成segment_N，其中N是一个递增的值，它描述了一个段的编号，即最新的提交对应的N值是最大的，Lucene通过遍历files中的每一个文件名，取出前缀为"segment"，并且段编号最大的文件，该文件即最后一次提交的segment_N文件，图5中，执行了两次提交操作，并采用索引删除策略NoDeletionPolicy（见[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/文档提交之commit（二）)），故索引目录中保留了2个segment_N文件，并且最后一次提交的segment_N文件是segment_2
 
 图5：
 
@@ -109,7 +117,7 @@ private List<SegmentCommitInfo> segments = new ArrayList<>();
 
 [点击](http://www.amazingkoala.com.cn/uploads/lucene/index/近实时搜索NRT/近实时搜索NRT（一）/segment_n.html)查看大图
 
-&emsp;&emsp;图7中，两块黄色的框标注的内容即SegmentCommitInfo的信息，在读取segment_N阶段，先读取出SegmentCommitInfo的第一块数据，**然后根据第一块数据的中的SegName（该字段的含义见[segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)，生成segment_N的时机见[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)）从[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)（生成索引文件.si的时机见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）中读取出SegmentCommitInfo的第二块数据**，两块数据组成完整的SegmentCommitInfo的信息，在源码中，这些信息即SegmentCommitInfo类的[成员变量](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/SegmentCommitInfo.java)。
+&emsp;&emsp;图7中，两块黄色的框标注的内容即SegmentCommitInfo的信息，在读取segment_N阶段，先读取出SegmentCommitInfo的第一块数据，**然后根据第一块数据的中的SegName（该字段的含义见[segment_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/segments_N)，生成segment_N的时机见[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/文档提交之commit（二）)）从[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)（生成索引文件.si的时机见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)）中读取出SegmentCommitInfo的第二块数据**，两块数据组成完整的SegmentCommitInfo的信息，在源码中，这些信息即SegmentCommitInfo类的[成员变量](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/SegmentCommitInfo.java)。
 
 #### 获得StandardDirectoryReader
 
@@ -148,7 +156,6 @@ private List<SegmentCommitInfo> segments = new ArrayList<>();
 &emsp;&emsp;基于篇幅，剩余的内容在一篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/近实时搜索NRT/近实时搜索NRT（一）/近实时搜索NRT（一）.zip)下载附件
-
 
 
 

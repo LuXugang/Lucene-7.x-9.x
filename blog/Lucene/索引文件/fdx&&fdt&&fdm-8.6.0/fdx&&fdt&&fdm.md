@@ -1,4 +1,11 @@
-# [fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 8.6.0）
+---
+title: 索引文件之fdx&&fdt&&fdm（Lucene 8.6.0）
+date: 2020-10-13 00:00:00
+tags: [index, indexFile,fdx,fdt,fdm]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
 &emsp;&emsp;在索引阶段，如果某个域的属性中包含store，意味着该域的域值信息将被写入到索引文件fdx&&fdt&&fdm中，域的属性可以通过FieldType来设置，如下所示：
 
@@ -8,7 +15,7 @@
 
 &emsp;&emsp;图1中，域"content"跟域"title"的域值将被存储，即写入到索引文件fdx&&fdt&&fdm中，而域”attachment“则不会。
 
-&emsp;&emsp;在文章[索引文件之fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)中介绍了Lucene 7.5.0版本存储域值对应的索引文件，该版本中使用了两个索引文件.fdx、.fdt存储域值信息，而从Lucene 8.5.0版本开始进行了优化，最终用三个索引文件.fdx、fdt、fdm三个索引文件来存储域值信息，其优化的目的以及方式不会在本文中提及，随后在介绍生成这三个索引文件的生成过程的文章中再详细展开，并会跟Lucene 7.5.0版本进行对比，本文只对索引文件中的字段作介绍。
+&emsp;&emsp;在文章[索引文件之fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)中介绍了Lucene 7.5.0版本存储域值对应的索引文件，该版本中使用了两个索引文件.fdx、.fdt存储域值信息，而从Lucene 8.5.0版本开始进行了优化，最终用三个索引文件.fdx、fdt、fdm三个索引文件来存储域值信息，其优化的目的以及方式不会在本文中提及，随后在介绍生成这三个索引文件的生成过程的文章中再详细展开，并会跟Lucene 7.5.0版本进行对比，本文只对索引文件中的字段作介绍。
 
 # 数据结构
 
@@ -81,7 +88,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/7.png">
 
-&emsp;&emsp;使用PackedInt来存储所有的numStoredFields，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)可以看其中的一种压缩方式。
+&emsp;&emsp;使用PackedInt来存储所有的numStoredFields，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)可以看其中的一种压缩方式。
 
 #### DocLengths
 
@@ -105,7 +112,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/10.png">
 
-&emsp;&emsp;使用PackedInt来存储所有的域值信息长度，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)可以看其中的一种压缩方式。
+&emsp;&emsp;使用PackedInt来存储所有的域值信息长度，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)可以看其中的一种压缩方式。
 
 #### CompressedDocs
 
@@ -113,7 +120,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdx&&fdt&&fdm/11.png">
 
-&emsp;&emsp;CompressedDocs中使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法将域值信息压缩存储。域值信息包含如下内容，字段Doc的数量对应为一个chunk中包含的文档数量：
+&emsp;&emsp;CompressedDocs中使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/LZ4)算法将域值信息压缩存储。域值信息包含如下内容，字段Doc的数量对应为一个chunk中包含的文档数量：
 
 - 域的编号
 - 域值的类型：String、BinaryValue、Int、Float、Long、Double
@@ -144,7 +151,7 @@
 
 ### NumDocsBlock
 
-&emsp;&emsp;该字段中的数据使用了[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)进行压缩。
+&emsp;&emsp;该字段中的数据使用了[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)进行压缩。
 
 图14：
 

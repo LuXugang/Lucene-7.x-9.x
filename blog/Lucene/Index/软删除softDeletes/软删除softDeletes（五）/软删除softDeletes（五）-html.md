@@ -1,6 +1,13 @@
-# [软删除softDeletes（五）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 软删除softDeletes（五）（Lucene 8.4.0）
+date: 2020-07-08 00:00:00
+tags: [softDeletes, delete]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)中介绍了软删除在索引（index）阶段的相关内容，我们接着介绍在flush/commit阶段的内容
+&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/软删除softDeletes（二）)中介绍了软删除在索引（index）阶段的相关内容，我们接着介绍在flush/commit阶段的内容
 
 ## flush/commit
 
@@ -12,13 +19,13 @@
 
 [点击](http://www.amazingkoala.com.cn/uploads/lucene/index/软删除softDeletes/软删除softDeletes（五）/dwpt.html)查看大图
 
-&emsp;&emsp;上图中，流程点`将DWPT中收集的索引信息生成一个段newSegment`的介绍见文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)，注意的是，图1中的流程点基于版本为Lucene 7.5.0，但是软删除相关的处理时机点跟Lucene 8.4.0是一致的。
+&emsp;&emsp;上图中，流程点`将DWPT中收集的索引信息生成一个段newSegment`的介绍见文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)，注意的是，图1中的流程点基于版本为Lucene 7.5.0，但是软删除相关的处理时机点跟Lucene 8.4.0是一致的。
 
-&emsp;&emsp;在<font color=red>红框</font>标注的流程点`处理软删除文档`中，统计了满足某个条件的文档的数量softDelCountOnFlush，这个条件是：文档中包含了DocValues（NumericDocValuesField或BinaryDocValuesField）的信息，并且DocValues的域名跟软删除的域是相同的（文档也有可能同时满足软删除的条件）。满足该条件的文档都被会认为是软删除的，在文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)中的**第二个例子**介绍了这种情况。
+&emsp;&emsp;在<font color=red>红框</font>标注的流程点`处理软删除文档`中，统计了满足某个条件的文档的数量softDelCountOnFlush，这个条件是：文档中包含了DocValues（NumericDocValuesField或BinaryDocValuesField）的信息，并且DocValues的域名跟软删除的域是相同的（文档也有可能同时满足软删除的条件）。满足该条件的文档都被会认为是软删除的，在文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/软删除softDeletes（一）)中的**第二个例子**介绍了这种情况。
 
 &emsp;&emsp;**在<font color=red>红框</font>标注的流程点`处理软删除文档`中是如何找到所有满足这个条件的文档集合的：**
 
-&emsp;&emsp;在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)中，我们介绍了在索引阶段Lucene收集DocValues信息的过程，并且说到使用了[DocsWithFieldSet](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java)对象收集了文档号，同时介绍了DocsWithFieldSet收集的过程，即每一个DocValues域都有一个[DocsWithFieldSet](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java)对象，那么DocValues域的域名跟软删除的域如果相同的话，[DocsWithFieldSet](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java)对象中文档的数量会添加到softDelCountOnFlush中。
+&emsp;&emsp;在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)中，我们介绍了在索引阶段Lucene收集DocValues信息的过程，并且说到使用了[DocsWithFieldSet](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java)对象收集了文档号，同时介绍了DocsWithFieldSet收集的过程，即每一个DocValues域都有一个[DocsWithFieldSet](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java)对象，那么DocValues域的域名跟软删除的域如果相同的话，[DocsWithFieldSet](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/DocsWithFieldSet.java)对象中文档的数量会添加到softDelCountOnFlush中。
 
 
 &emsp;&emsp;接着在下图<font color=red>红框</font>标注的流程点`更新DocValues域`处理软删除的信息。
@@ -27,13 +34,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/软删除softDeletes/软删除softDeletes（五）/2.png">
 
-&emsp;&emsp;上文中，DWPT转化为一个段的时候，计算出了softDelCountOnFlush，但是它并不包含满足软删除条件的文档并且文档中不包含跟软删除有相同域名的DocValues信息，那么到了图2中会将这种文档的数量进行统计，统计结果会跟softDelCountOnFlush一起写入到SoftDelCount，而SoftDelCount最终会被写入到用于描述段的索引信息SegmentCommitInfo中，即下图<font color=red>红框</font>标注的字段，在文章[索引文件之segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)中我们知道，当执行了commit()操作后，一个段的索引信息SegmentCommitInfo将被写入到索引文件segments_N中：
+&emsp;&emsp;上文中，DWPT转化为一个段的时候，计算出了softDelCountOnFlush，但是它并不包含满足软删除条件的文档并且文档中不包含跟软删除有相同域名的DocValues信息，那么到了图2中会将这种文档的数量进行统计，统计结果会跟softDelCountOnFlush一起写入到SoftDelCount，而SoftDelCount最终会被写入到用于描述段的索引信息SegmentCommitInfo中，即下图<font color=red>红框</font>标注的字段，在文章[索引文件之segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)中我们知道，当执行了commit()操作后，一个段的索引信息SegmentCommitInfo将被写入到索引文件segments_N中：
 
 图3：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/软删除softDeletes/软删除softDeletes（五）/3.png">
 
-&emsp;&emsp;在执行图1流程点`处理软删除文档`之前，已经将TermNode的删除信息作用到了本段，故有些文档可能已经被硬删除了，如果这些文档同时满足上文中的条件，那么softDelCountOnFlush不会统计这篇文档，这里看出硬删除有更高的"删除等级"、这么做的目的也是为了能正确统计一个段中被删除（软删除和硬删除）的文档数量，因为在flush阶段，当一个段被作用了删除信息之后，会判断段中的文档是否都已经被删除了，如果满足会丢弃这个段，判断条件在文章[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)中的已经作出了介绍，这里简单的给出判断条件：
+&emsp;&emsp;在执行图1流程点`处理软删除文档`之前，已经将TermNode的删除信息作用到了本段，故有些文档可能已经被硬删除了，如果这些文档同时满足上文中的条件，那么softDelCountOnFlush不会统计这篇文档，这里看出硬删除有更高的"删除等级"、这么做的目的也是为了能正确统计一个段中被删除（软删除和硬删除）的文档数量，因为在flush阶段，当一个段被作用了删除信息之后，会判断段中的文档是否都已经被删除了，如果满足会丢弃这个段，判断条件在文章[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)中的已经作出了介绍，这里简单的给出判断条件：
 
 ```
 delCount + softDelCount == maxDoc
@@ -43,7 +50,7 @@ delCount + softDelCount == maxDoc
 
 ## 段的合并
 
-&emsp;&emsp;接着我们介绍在段的合并阶段，跟软删除相关的内容，在文章[执行段的合并（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1028/103.html)中我们介绍了下图中<font color=red>红框</font>标注的流程点`获取SegmentReader的集合MergeReader`，在这个流程点中，会对OneMerge（待合并的段的集合，见文章[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)）中的被标记为软删除的文档的总数进行统计，通过读取每个段中的SegmentCommitInfo中的softDelCount获取，即图3中的字段，注意的是，如果被标记为软删除的文档满足其他删除条件，那么这些文档不会被认为是软删除的，最后统计出的数值将作为新段的softDelCount：
+&emsp;&emsp;接着我们介绍在段的合并阶段，跟软删除相关的内容，在文章[执行段的合并（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1028/执行段的合并（三）)中我们介绍了下图中<font color=red>红框</font>标注的流程点`获取SegmentReader的集合MergeReader`，在这个流程点中，会对OneMerge（待合并的段的集合，见文章[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/LogMergePolicy)）中的被标记为软删除的文档的总数进行统计，通过读取每个段中的SegmentCommitInfo中的softDelCount获取，即图3中的字段，注意的是，如果被标记为软删除的文档满足其他删除条件，那么这些文档不会被认为是软删除的，最后统计出的数值将作为新段的softDelCount：
 
 图4：
 
@@ -53,7 +60,7 @@ delCount + softDelCount == maxDoc
 
 ## 段的合并策略SoftDeletesRetentionMergePolicy
 
-&emsp;&emsp;合并策略SoftDeletesRetentionMergePolicy是实现软删除机制最重要的一块，我们先看下源码中关于该策略的介绍，其他的合并策略见文章[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)、[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)：
+&emsp;&emsp;合并策略SoftDeletesRetentionMergePolicy是实现软删除机制最重要的一块，我们先看下源码中关于该策略的介绍，其他的合并策略见文章[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/LogMergePolicy)、[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)：
 
 ```text
 This MergePolicy allows to carry over soft deleted documents across merges. 
@@ -73,7 +80,7 @@ This MergePolicy allows to carry over soft deleted documents across merges.
 
 &emsp;&emsp;该段注释大意为：使用这个合并策略能使得被标记为软删除的文档在段的合并之后仍然被保留。
 
-&emsp;&emsp;在文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)中我们说到，在生成一个段后，段中被硬删除的文档用[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)描述、被软删除的文档用[索引文件.dvd、dvm](https://www.amazingkoala.com.cn/Lucene/DocValues/)描述，如果不使用SoftDeletesRetentionMergePolicy，当段被合并后，新的段中不会包含这些被删除的文档，而通过这个合并策略，可以使得被软删除的文档仍然存在与新的段中，但是文档必须满足两个条件，见下文第二段中的描述。
+&emsp;&emsp;在文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/软删除softDeletes（一）)中我们说到，在生成一个段后，段中被硬删除的文档用[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)描述、被软删除的文档用[索引文件.dvd、dvm](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)描述，如果不使用SoftDeletesRetentionMergePolicy，当段被合并后，新的段中不会包含这些被删除的文档，而通过这个合并策略，可以使得被软删除的文档仍然存在与新的段中，但是文档必须满足两个条件，见下文第二段中的描述。
 
 ### 第二段
 
@@ -81,7 +88,7 @@ This MergePolicy allows to carry over soft deleted documents across merges.
 The policy wraps the merge reader and marks documents as "live" that have a value in the soft delete field and match the provided query. 
 ```
 
-&emsp;&emsp;该段注释大意为：在封装merge reader（即上文图4中的MergeReader）时，使得那些被软删除的文档标记为live状态，即索引文件.liv中能找到这篇文档（如果找不到，说明被删除了，所以这个索引文件也能用来描述被硬删除的文档，见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)），不过这些文档必须同时满足下面两个条件：
+&emsp;&emsp;该段注释大意为：在封装merge reader（即上文图4中的MergeReader）时，使得那些被软删除的文档标记为live状态，即索引文件.liv中能找到这篇文档（如果找不到，说明被删除了，所以这个索引文件也能用来描述被硬删除的文档，见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)），不过这些文档必须同时满足下面两个条件：
 
 - 被软删除的文档中必须包含软删除的域对应的DocValues信息
 - 被软删除的文档必须满足Query的查询条件
@@ -111,7 +118,7 @@ The main purpose for this merge policy is to implement retention policies for do
 
 &emsp;&emsp;该段注释大意为：设计这个合并策略的主要目的就是为了实现保留策略（retention policies）。
 
-&emsp;&emsp;参考文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)中第三个例子，也可以直接查看这个 demo：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo8.4.0/src/main/java/io/softDeletes/HistoryRetention.java 。
+&emsp;&emsp;参考文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/软删除softDeletes（一）)中第三个例子，也可以直接查看这个 demo：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo8.4.0/src/main/java/io/softDeletes/HistoryRetention.java 。
 
 ### 第五段
 
@@ -166,7 +173,7 @@ Using this merge policy allows to control when soft deletes are claimed by merge
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/软删除softDeletes/软删除softDeletes（五）/8.png">
 
-&emsp;&emsp;只有段中有删除信息才有执行当前流程的必要性，删除信息包括软删除和硬删除，通过读取段中的liveDocs（FixedBitSet对象，见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)的介绍）信息判断段中是否有删除信息，liveDocs描述了在内存中段中的删除信息，对于图5中的第一个段，由于段中一共5篇文档，其中3篇文档被软删除的，对应的liveDocs如下所示：
+&emsp;&emsp;只有段中有删除信息才有执行当前流程的必要性，删除信息包括软删除和硬删除，通过读取段中的liveDocs（FixedBitSet对象，见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)的介绍）信息判断段中是否有删除信息，liveDocs描述了在内存中段中的删除信息，对于图5中的第一个段，由于段中一共5篇文档，其中3篇文档被软删除的，对应的liveDocs如下所示：
 
 图9：
 

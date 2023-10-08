@@ -1,6 +1,13 @@
-## [doc文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+---
+title: 索引文件之doc
+date: 2019-03-24 00:00:00
+tags: [index, indexFile, doc]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
-&emsp;&emsp;索引文件.doc中按块（block）的方式存放了每一个term的文档号、词频，并且保存skip data来实现块之间的快速跳转，本篇只介绍.doc文件的数据结构，其生成过程见文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)。
+&emsp;&emsp;索引文件.doc中按块（block）的方式存放了每一个term的文档号、词频，并且保存skip data来实现块之间的快速跳转，本篇只介绍.doc文件的数据结构，其生成过程见文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)。
 
 ## doc文件的数据结构
 
@@ -33,7 +40,7 @@ PackedDocDeltaBlock存放了128篇文档的文档号，计算相邻两个文档�
 PackedFreqBlock存放了term分别在128文档中的词频，利用PackedInts压缩存储。
 ```
 
-&emsp;&emsp;**这里注意是由于在每篇文档中的词频值无法保证递增，使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)只能压缩原始的词频值。**
+&emsp;&emsp;**这里注意是由于在每篇文档中的词频值无法保证递增，使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)只能压缩原始的词频值。**
 
 #### VIntBlocks && VIntBlock
 
@@ -61,7 +68,7 @@ term在当前文档中的词频。
 
 &emsp;&emsp;在每一层中，每3个数据块就会在上一层中添加一个索引，实现了对数级别的时间复杂度。
 
-&emsp;&emsp;关于跳表的详细介绍可以看文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)。
+&emsp;&emsp;关于跳表的详细介绍可以看文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)。
 
 ### SkipData
 

@@ -1,5 +1,13 @@
-# [Directory（下）](https://www.amazingkoala.com.cn/Lucene/Store/)
-&emsp;&emsp;在[Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)中，介绍了BaseDirectory类，它作为Directory的子类，该类及其子类实现了维护索引文件的所有操作，即`创建`、`打开`、`删除`、`读取`、`重命名`、`同步`(持久化索引文件至磁盘)、`校验和`（checksum computing）等等，而Directory的其他子类，不具备上述的维护索引文件的操作，而是封装了上述Directory类，提供更多高级功能。
+---
+title: Directory（下）
+date: 2019-06-15 00:00:00
+tags: [directory,mmap]
+categories:
+- Lucene
+- Store
+---
+
+&emsp;&emsp;在[Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)中，介绍了BaseDirectory类，它作为Directory的子类，该类及其子类实现了维护索引文件的所有操作，即`创建`、`打开`、`删除`、`读取`、`重命名`、`同步`(持久化索引文件至磁盘)、`校验和`（checksum computing）等等，而Directory的其他子类，不具备上述的维护索引文件的操作，而是封装了上述Directory类，提供更多高级功能。
 
 图1：
 
@@ -15,7 +23,7 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Store/Directory/Directory（下）/2.png">
 
 ### SleepingLockWrapper
-&emsp;&emsp;在文章[索引文件锁LockFactory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/62.html)中，索引目录同一时间只允许一个IndexWriter对象进行操作，此时另一个IndexWriter对象(不同的引用)操作该目录时会抛出LockObtainFailedException异常：
+&emsp;&emsp;在文章[索引文件锁LockFactory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/索引文件锁LockFactory)中，索引目录同一时间只允许一个IndexWriter对象进行操作，此时另一个IndexWriter对象(不同的引用)操作该目录时会抛出LockObtainFailedException异常：
 
 图3：
 
@@ -24,7 +32,7 @@
 &emsp;&emsp;在使用了SleepingLockWrapper后，会捕获LockObtainFailedException异常，同时等待1秒（默认值为1秒）后重试，如果在重试次数期间仍无法获得索引文件锁，那么抛出LockObtainFailedException异常。
 
 ### TrackingTmpOutputDirectoryWrapper
-&emsp;&emsp;该类用来记录新创建临时索引文件，即带有.tmp后缀的文件。在[两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)中可以知道，IndexWriter在调用addDocument()的方法时，flush()或者commit()前，就会生成[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)以及[.tvd、.tvx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/56.html)索引文件，而如果IndexWriter配置IndexSort，那么在上述期间内就只会生成临时的索引文件，TrackingTmpOutputDirectoryWrapper会记录这些临时索引文件，在后面介绍IndexWriter时会展开介绍：
+&emsp;&emsp;该类用来记录新创建临时索引文件，即带有.tmp后缀的文件。IndexWriter在调用addDocument()的方法时，flush()或者commit()前，就会生成[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)以及[.tvd、.tvx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/索引文件之tvx&&tvd)索引文件，而如果IndexWriter配置IndexSort，那么在上述期间内就只会生成临时的索引文件，TrackingTmpOutputDirectoryWrapper会记录这些临时索引文件，在后面介绍IndexWriter时会展开介绍：
 
 图4：
 
@@ -68,5 +76,4 @@ boolean doCache = (bytes <= maxMergeSizeBytes) && (bytes + cache.ramBytesUsed())
 &emsp;&emsp;该类仅用来读取复合文件(Compound File)，所以它仅支持`打开`、`读取`。比如当我们在初始化IndexWriter时，需要读取旧的索引文件，如果该索引文件使用了复合文件，那么就会调用Lucene50CompoundReader类中的方法来读取旧索引信息。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Store/Directory/Directory（下）/Directory（下）.zip)Markdown文件
-
 

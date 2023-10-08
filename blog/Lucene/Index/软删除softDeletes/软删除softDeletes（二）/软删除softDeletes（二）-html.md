@@ -1,12 +1,19 @@
-# [软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 软删除softDeletes（二）（Lucene 8.4.0）
+date: 2020-06-21 00:00:00
+tags: [softDeletes, delete]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)中我们介绍了软删除的一些应用，从本篇文章开始，将根据索引（index）、flush/commit、段的合并、搜索这几个不同的阶段来介绍跟软删除相关的内容。
+&emsp;&emsp;在文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/软删除softDeletes（一）)中我们介绍了软删除的一些应用，从本篇文章开始，将根据索引（index）、flush/commit、段的合并、搜索这几个不同的阶段来介绍跟软删除相关的内容。
 
 ## 索引（index）
 
-&emsp;&emsp;**阅读本小结内容必须掌握文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)中的知识点，故下文中出现的一些名词不会作详细的介绍**。
+&emsp;&emsp;**阅读本小结内容必须掌握文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)中的知识点，故下文中出现的一些名词不会作详细的介绍**。
 
-&emsp;&emsp;索引（index）这个阶段，即[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)的阶段，由于软删除属于删除操作，故对应的删除信息会被添加到全局的deleteQueue中，deleteQueue中存放了四种类型的删除信息，这四种删除信息用下图中的Node对象来描述：
+&emsp;&emsp;索引（index）这个阶段，即[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)的阶段，由于软删除属于删除操作，故对应的删除信息会被添加到全局的deleteQueue中，deleteQueue中存放了四种类型的删除信息，这四种删除信息用下图中的Node对象来描述：
 
 图1：
 
@@ -33,7 +40,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/软删除softDeletes/软删除softDeletes（二）/3.png">
 
-&emsp;&emsp;DocValuesUpdatesNode中包含了两个对象：next、item，其中next用来指向deleteQueue中下一个删除信息（见文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)），item（**NumericDocValuesUpdate对象**）中的type描述了使用NUMERIC类型的DocValues来描述被软删除的文档，item中的term描述了满足被软删除的文档的条件，即包含域名为"abc"、域值为"document3"的文档都会被软删除。
+&emsp;&emsp;DocValuesUpdatesNode中包含了两个对象：next、item，其中next用来指向deleteQueue中下一个删除信息（见文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)），item（**NumericDocValuesUpdate对象**）中的type描述了使用NUMERIC类型的DocValues来描述被软删除的文档，item中的term描述了满足被软删除的文档的条件，即包含域名为"abc"、域值为"document3"的文档都会被软删除。
 
 
 &emsp;&emsp;上述DocValuesUpdatesNode的信息我们可以看出，我们获得了满足软删除的条件，但是没有指出软删除的作用范围（作用域），例如在图2中，文档3也满足被软删除的条件，但是这篇文档是在第56行的软删除操作之后添加的，那么这次的软删除不能作用（apply）到这篇文档，即这次的软删除操作只能对文档1生效，故我们还需要**根据DocValuesUpdatesNode的信息**进一步完善删除信息，即添加软删除的作用范围，不同的删除信息在完善删除信息后用下列的容器来描述（**Lucene 7.5.0**）：
@@ -43,7 +50,7 @@
 - Map<String,LinkedHashMap<Term,NumericDocValuesUpdate>> numericUpdates：DocValuesUpdatesNode
 - Map<String,LinkedHashMap<Term,BinaryDocValuesUpdate>> binaryUpdate：DocValuesUpdatesNode
 
-&emsp;&emsp;BufferedUpdates类、deleteTerms、deleteQueries的内容在文章[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)中已经作出了介绍，不赘述。
+&emsp;&emsp;BufferedUpdates类、deleteTerms、deleteQueries的内容在文章[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)中已经作出了介绍，不赘述。
 
 &emsp;&emsp;如果DocValuesUpdatesNode中item中的type为NUMERIC，那么对应生成numericUpdates，如果item中的type为BINARY，那么对应生成binaryUpdate。
 
@@ -51,7 +58,7 @@
 
 &emsp;&emsp;numericUpdates容器的key描述的是图3中，item中的field的值，而容器的value则是又一个LinkedHashMap的容器，该容器的key为一个term，例如图3中的item的term的值，而value则是图3中的item。
 
-&emsp;&emsp;在文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)中我们说到，一个IndexWriter通过IndexWriterConfig配置只能设置一个软删除域，并且是个`不可变配置`，那么为什么numericUpdates使用Map存储，并且key为软删除域的值？
+&emsp;&emsp;在文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)中我们说到，一个IndexWriter通过IndexWriterConfig配置只能设置一个软删除域，并且是个`不可变配置`，那么为什么numericUpdates使用Map存储，并且key为软删除域的值？
 
 - 上文中我们说到，IndexWriter类中提供的updateBinaryDocValue( )、updateNumericDocValue( )、updateDocValues( )方法（这三个方法为**更新DocValues的操作**）对应生成的删除信息跟软删除操作softUpdateDocument( )、softUpdateDocuments( )一样都是用DocValuesUpdatesNode来描述，故也使用同一个numericUpdates来完善删除信息，所以numericUpdates容器的key不一定就是软删除的域。
 
@@ -75,7 +82,7 @@
 
 &emsp;&emsp;注释中讲述了使用LinkedHashMap结构的两个原因：
 
-- 原因一：在不同的term之间，即LinkedHashMap的不同的key，如果一篇文档中包含的term满足多个软删除操作中的term条件（见文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)），那么根据LinkedHashMap的插入有序的特点，这篇文档用最后一个软删除操作中的DocValues来描述该文档被软删除了
+- 原因一：在不同的term之间，即LinkedHashMap的不同的key，如果一篇文档中包含的term满足多个软删除操作中的term条件（见文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/软删除softDeletes（一）)），那么根据LinkedHashMap的插入有序的特点，这篇文档用最后一个软删除操作中的DocValues来描述该文档被软删除了
 - 原因二：在相同的term之间，如果多次调用的软删除中的term条件是一样的，那么可以进行去重，并且选取作用范围（作用域）最大的那个（下面的例子会介绍）
 
 &emsp;&emsp;我们继续用一个例子来介绍上述的原因一：

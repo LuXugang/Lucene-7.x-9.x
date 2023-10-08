@@ -1,6 +1,15 @@
+---
+title: IndexedDISI（二）（Lucene 8.4.0）
+date: 2020-05-14 00:00:00
+tags: [disi,docId,doc]
+categories:
+- Lucene
+- gongjulei
+---
+
 # [IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 8.4.0）
 
-&emsp;&emsp;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)（阅读本文中之前，需要该前置文章）中我们介绍了在Lucene7.5.0中IndexedDISI的实现原理， 本文基于Lucene 8.4.0，将介绍优化后的IndexedDISI，即使用查找表（lookup table）提高了查询性能。
+&emsp;&emsp;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)（阅读本文中之前，需要该前置文章）中我们介绍了在Lucene7.5.0中IndexedDISI的实现原理， 本文基于Lucene 8.4.0，将介绍优化后的IndexedDISI，即使用查找表（lookup table）提高了查询性能。
 
 &emsp;&emsp;我们先根据源码中的注释看下优化的目的与方式，也可以直接查看[IndexedDISI.java](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/codecs/lucene80/IndexedDISI.java)文件中的Javadoc：
 
@@ -21,8 +30,8 @@ To avoid O(n) lookup time complexity, with n being the number of documents, two 
 
 &emsp;&emsp;我们先看实现block之间跳转的查找表jumps数组，在jumps数组中，index跟offset作为一对（pair）来描述一个跳转信息：
 
-- offset：该值描述了block在字节流的起始读取位置，例如在生成[索引文件.dvd&&.dim](https://www.amazingkoala.com.cn/Lucene/DocValues/)中使用IndexedDISI存储文档号时，offset就描述了block在索引文件.dvd中的起始读取位置
-- index：block中第一个文档号的段内编号（见文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)）
+- offset：该值描述了block在字节流的起始读取位置，例如在生成[索引文件.dvd&&.dim](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)中使用IndexedDISI存储文档号时，offset就描述了block在索引文件.dvd中的起始读取位置
+- index：block中第一个文档号的段内编号（见文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)）
 
 ### 生成jumps
 
@@ -32,7 +41,7 @@ To avoid O(n) lookup time complexity, with n being the number of documents, two 
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/IndexedDISI/IndexedDISI（二）/2.png">
 
-&emsp;&emsp;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)我们说到，每个block用来描述**最多**2^16个文档号信息，例如第一个block中描述的文档号取值范围为[0, 2^16 - 1]，第二个block描述的文档号取值范围为[2^16, 2^17 - 1]，第三个block描述的文档号取值范围为[2^17, 2^18 - 1]，故图1中的文档号集合将会由3个block来存储如下所示：
+&emsp;&emsp;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)我们说到，每个block用来描述**最多**2^16个文档号信息，例如第一个block中描述的文档号取值范围为[0, 2^16 - 1]，第二个block描述的文档号取值范围为[2^16, 2^17 - 1]，第三个block描述的文档号取值范围为[2^17, 2^18 - 1]，故图1中的文档号集合将会由3个block来存储如下所示：
 
 图3：
 
@@ -44,7 +53,7 @@ To avoid O(n) lookup time complexity, with n being the number of documents, two 
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/IndexedDISI/IndexedDISI（二）/4.png">
 
-&emsp;&emsp;从图4可以看出，index描述的的确是block中第一个文档号的段内编号，例如在第三个block中，index的值为5003，意味着这个block中存储的第一个文档号的段内编是5003，至于为什么要存储index，我们将在系列文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)中作出解释。
+&emsp;&emsp;从图4可以看出，index描述的的确是block中第一个文档号的段内编号，例如在第三个block中，index的值为5003，意味着这个block中存储的第一个文档号的段内编是5003，至于为什么要存储index，我们将在系列文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvdl)中作出解释。
 
 ### 读取jumps
 
@@ -103,7 +112,7 @@ final int offset = jumpTable.readInt(inRangeBlockIndex*Integer.BYTES*2+Integer.B
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/IndexedDISI/IndexedDISI（二）/7.png">
 
-&emsp;&emsp;假设图6中的第一个block中存储了上述的文档号，其中图7中`文档号的数量`说明这个block的稠密度为DENSE（见文章p;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)），那么上述文档号在使用word存储后如下所示：
+&emsp;&emsp;假设图6中的第一个block中存储了上述的文档号，其中图7中`文档号的数量`说明这个block的稠密度为DENSE（见文章p;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)），那么上述文档号在使用word存储后如下所示：
 
 图8：
 

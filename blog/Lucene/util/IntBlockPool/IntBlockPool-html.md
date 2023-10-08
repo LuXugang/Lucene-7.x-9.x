@@ -1,4 +1,12 @@
-### [IntBlockPool类](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+---
+title: IntBlockPool
+date: 2018-12-09 00:00:00
+tags: [invertedIndex]
+categories:
+- Lucene
+- gongjulei
+---
+
 在索引阶段，使用IntBlockPool来存储term(域值)的信息，在MemoryIndex中，使用此类对term在文档中的位置、payload数据进行存储，它即MemoryIndex中的倒排表，它的数据就是用这个类的对象存储的。在介绍IntBlockPool类时，我们根据这个类在MemoryIndex中实际使用过程来讲解。
 
 ### 如何介绍IntBlockPool类

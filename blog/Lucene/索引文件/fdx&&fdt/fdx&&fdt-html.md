@@ -1,5 +1,13 @@
-# [fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
-&emsp;&emsp;当STORE.YES的域生成了[倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)以后，将文档的域值信息写入到.fdt（field data）、.fdx（field index）文件中。
+---
+title: 索引文件之fdx&&fdt
+date: 2019-03-01 00:00:00
+tags: [index, indexFile,fdx,fdt]
+categories:
+- Lucene
+- suoyinwenjian
+---
+
+&emsp;&emsp;当STORE.YES的域生成了[倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/倒排表（上）)以后，将文档的域值信息写入到.fdt（field data）、.fdx（field index）文件中。
 # 数据结构
 ## .fdt
 
@@ -65,7 +73,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/6.png">
 
-&emsp;&emsp;使用PackedInt来存储所有的numStoredFields，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)可以看其中的一种压缩方式。
+&emsp;&emsp;使用PackedInt来存储所有的numStoredFields，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)可以看其中的一种压缩方式。
 
 #### DocLengths
 
@@ -88,7 +96,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/9.png">
 
-&emsp;&emsp;使用PackedInt来存储所有的域值信息长度，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)可以看其中的一种压缩方式。
+&emsp;&emsp;使用PackedInt来存储所有的域值信息长度，这里不赘述了，[点击这里](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)可以看其中的一种压缩方式。
 
 #### CompressedDocs
 
@@ -96,7 +104,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/fdt&&fdx/10.png">
 
-&emsp;&emsp;CompressedDocs中使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法将域值信息压缩存储。域值信息包含如下内容，字段Doc的数量对应为一个chunk中包含的文档数量：
+&emsp;&emsp;CompressedDocs中使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/LZ4)算法将域值信息压缩存储。域值信息包含如下内容，字段Doc的数量对应为一个chunk中包含的文档数量：
 
 - 域的编号
 - 域值的类型：String、BinaryValue、Int、Float、Long、Double

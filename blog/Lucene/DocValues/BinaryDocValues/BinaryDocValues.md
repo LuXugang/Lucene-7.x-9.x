@@ -1,4 +1,11 @@
-# BinaryDocValues
+---
+title: BinaryDocValues
+date: 2019-04-12 00:00:00
+tags: DocValues
+categories:
+- Lucene
+- DocValues
+---
 
 &emsp;&emsp;BinaryDocValues同 SortedDocValues、SortedNumericDocValues一样，在实际应用中最多的场景用于提供给搜索结果一个排序规则。在搜索结果的排序阶段，实际是按照BinaryDocValuesFiled的域值根据字典序进行比较，而SortedDocValues则是比较域值对应的ord值来作比较，所以BinaryDocValues在排序上性能远不如SortedDocValues，当然BinaryDocValues最突出的优点对固定长度域值的索引最大化的优化，看完下面的介绍后就明白了。在后面的文章中会详细介绍BinaryDocValues的应用，在这里重点是讲述其生成的索引文件数据结构。
 
@@ -123,7 +130,7 @@
 
 #### Min、AvgInc、Length、BitsRequired
 
-&emsp;&emsp;图2中的TermsValue中所有域值都是连续存储，那么还需要增加TermsIndex信息来描述一个term的长度，才能在读取阶段分离出每一个term。而TermsIndex的信息会经过编码然后压缩存储，这四个字段是用于解码的参数，详细的介绍见文章[DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2020/1030/173.html)。
+&emsp;&emsp;图2中的TermsValue中所有域值都是连续存储，那么还需要增加TermsIndex信息来描述一个term的长度，才能在读取阶段分离出每一个term。而TermsIndex的信息会经过编码然后压缩存储，这四个字段是用于解码的参数，详细的介绍见文章[DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2020/1030/DirectMonotonicWriter&&Reader)。
 
 #### TermsIndexLength
 
@@ -135,7 +142,3 @@
 
 &emsp;&emsp;BinaryDocValues在处理域值时，不做跟ord值的映射，不做前缀存储，在特定场景下存储固定域值长度，域值长度较小时，查询域值速度优于SortedDocValues，排序性能接近SortedDocValues。
 这是DocValues类型的关于.dvd、.dvm文件构造的最后一篇文章，我们只有在了解每一个DocValues的构造原理后，才能结合实际应用，使用合适的DocValues类型。
-
-&emsp;&emsp;另外可以阅读文章[索引文件的生成（二十一）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/147.html)来深入理解没一个字段。
-
-[点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/DocValues/BinaryDocValues/BinaryDocValues.zip)附件

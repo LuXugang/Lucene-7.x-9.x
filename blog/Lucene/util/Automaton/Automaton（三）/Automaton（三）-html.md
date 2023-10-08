@@ -1,6 +1,6 @@
 # [Automaton（三）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 8.4.0）
 
-&emsp;&emsp;在文章[Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)中我们根据图1的例子生成了图2的转移图以及转移图对应在源码中的描述方式，即状态（state）、转移（transition）函数两个数组，如图3所示：
+&emsp;&emsp;在文章[Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/Automaton（二）)中我们根据图1的例子生成了图2的转移图以及转移图对应在源码中的描述方式，即状态（state）、转移（transition）函数两个数组，如图3所示：
 
 图1：
 
@@ -14,7 +14,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/Automaton/Automaton（三）/3.png">
 
-&emsp;&emsp;如果给定一个term，它的最后一个字符作为**输入字符**，随后在某个**状态**下，能根据某个**转移函数**找到下一个状态，并且该状态为可接受状态，那么term是被DFA接受的，其中输入字符、状态、转移函数、DFA的概念见文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)的介绍。
+&emsp;&emsp;如果给定一个term，它的最后一个字符作为**输入字符**，随后在某个**状态**下，能根据某个**转移函数**找到下一个状态，并且该状态为可接受状态，那么term是被DFA接受的，其中输入字符、状态、转移函数、DFA的概念见文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)的介绍。
 
 &emsp;&emsp;根据图3的两个数据结构，用肉眼已经可以判断出一个term能否被DFA接受，但是源码中基于这两个数组还会进一步处理，使得能更快速的判断term是否被DFS接受，处理的结果为生成一个新的transitions[ ]数组，使得根据**状态**、**输入字符**两个条件能在该数组中找到下一个状态。由于源码中该数组与图3中的数组名重名了，为了便于描述，下文将称呼这个新的transitions[ ]数组为newTransitions[ ]数组。
 

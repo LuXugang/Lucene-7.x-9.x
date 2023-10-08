@@ -1,8 +1,15 @@
-# [段内排序IndexSort](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.9.0）
+---
+title: IndexSort（一）（Lucene 8.9.0）
+date: 2021-09-15 00:00:00
+tags: [IndexSort, index]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;段内排序IndexSort是Lucene在索引（Indexing）阶段提供的一个功能，该功能使得在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)、[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)或者[NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)操作后，新生成的段其包含的文档是有序的，即在索引阶段实现了文档的排序。
+&emsp;&emsp;段内排序IndexSort是Lucene在索引（Indexing）阶段提供的一个功能，该功能使得在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)、[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)或者[NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/近实时搜索NRT（一）)操作后，新生成的段其包含的文档是有序的，即在索引阶段实现了文档的排序。
 
-&emsp;&emsp;在之前的一些文章中已经简单的介绍了IndexSort，例如在文章[构造IndexWriter对象（一） ](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)说到，通过在IndexWriter的配置信息中添加IndexSort信息来开启段内排序的功能；在文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)中提到了对文档进行段内排序的时机点；在文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中提到了在Search阶段，如何通过IndexSort实现高效（提前结束）收集满足查询条件的文档集合。
+&emsp;&emsp;在之前的一些文章中已经简单的介绍了IndexSort，例如在文章[构造IndexWriter对象（一） ](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)说到，通过在IndexWriter的配置信息中添加IndexSort信息来开启段内排序的功能；在文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)中提到了对文档进行段内排序的时机点；在文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)中提到了在Search阶段，如何通过IndexSort实现高效（提前结束）收集满足查询条件的文档集合。
 
 &emsp;&emsp;本系列文章将会详细介绍IndexSort在索引阶段相关的内容，以及它将如何影响索引文件的生成、段的合并、以及在查询阶段的用途。
 

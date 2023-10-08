@@ -1,10 +1,17 @@
-## [tim&&tip文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+---
+title: 索引文件之tim&&tip
+date: 2019-04-01 00:00:00
+tags: [index, indexFile,tim,tip]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
 &emsp;&emsp;.tim（TermDictionary）文件中存放了每一个term的TermStats，TermStats记录了包含该term的文档数量，term在这些文档中的词频总和；另外还存放了term的TermMetadata，TermMetadata记录了该term在.doc、.pos、.pay文件中的信息，这些信息即term在这些文件中的起始位置，即保存了指向这些文档的索引；还存放了term的Suffix，对于有部分相同前缀值的term，只需存放这些term不相同的后缀值，即Suffix。另外还存放了term所在域的信息等其他信息，下文中会详细介绍。
 
 &emsp;&emsp;.tip文件中存放了指向tim文件的索引来实现随机访问tim文件中的信息，并且.tip文件还能用来快速判断某个term是否存在。
 
-&emsp;&emsp;本文直接介绍了索引文件中每个字段的含义，其具体的生成过程见系列文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)。
+&emsp;&emsp;本文直接介绍了索引文件中每个字段的含义，其具体的生成过程见系列文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)。
 
 ## tim文件的数据结构
 
@@ -18,7 +25,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tim&&tip/2.png">
 
-&emsp;&emsp;NodeBlock有两种类型，如上图所示，第一种是 OuterNode，第二种是 InnerNode。这两种类型的NodeBlock在数据结构上有细微的差别（详情见[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)），我们先介绍OuterNode的数据，然后再介绍他们之间的差别以及为什么NodeBlock为什么需要两种类型。
+&emsp;&emsp;NodeBlock有两种类型，如上图所示，第一种是 OuterNode，第二种是 InnerNode。这两种类型的NodeBlock在数据结构上有细微的差别（详情见[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)），我们先介绍OuterNode的数据，然后再介绍他们之间的差别以及为什么NodeBlock为什么需要两种类型。
 
 图3：
 
@@ -199,6 +206,6 @@
 
 ## 结语
 
-&emsp;&emsp;tim、tip文件是索引文件中最复杂的实现，加上工作较忙，看了蛮久。如果朋友们想要阅读这部分源码，必须先熟悉[FST算法](http://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)，并且源码中BlockTreeTermsWriter.java中pushTerm(BytesRef text)方法在刚开始看时，始终不明白这段代码的意思，尴尬，遇到同样情况的朋友可以简单的理解为它就是为了统计相同前缀的term的个数是否达到25(minItemsInBlock)，另外tip文件的数据结构没有详细介绍，因为这一块跟FST算法紧紧关联，理解了FST算法就自然知道了FSTIndex，而在前面的文章中已经介绍了这个算法，大家可以先去了解下。
+&emsp;&emsp;tim、tip文件是索引文件中最复杂的实现，加上工作较忙，看了蛮久。如果朋友们想要阅读这部分源码，必须先熟悉[FST算法](http://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)，并且源码中BlockTreeTermsWriter.java中pushTerm(BytesRef text)方法在刚开始看时，始终不明白这段代码的意思，尴尬，遇到同样情况的朋友可以简单的理解为它就是为了统计相同前缀的term的个数是否达到25(minItemsInBlock)，另外tip文件的数据结构没有详细介绍，因为这一块跟FST算法紧紧关联，理解了FST算法就自然知道了FSTIndex，而在前面的文章中已经介绍了这个算法，大家可以先去了解下。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/tim&&tip.zip)Markdown文件

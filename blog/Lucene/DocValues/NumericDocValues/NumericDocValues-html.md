@@ -1,4 +1,12 @@
-# [NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)
+---
+title: NumericDocValues
+date: 2019-04-09 00:00:00
+tags: DocValues
+categories:
+- Lucene
+- DocValues
+---
+
 本篇文章只是介绍NumericDocValues在.dvd、.dvm文件中的数据结构，NumericDocValues的应用跟概念介绍不会在本篇文章中赘述，大家可以参考官方文档给出的介绍。.dvd、.dvm文件存放了所有DocValues的信息，所以如果在索引阶段，还添加了其他DocValues的Document，那么他们在.dvd、.dvm文件中的布局如下图：
 图1：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/DocValues/NumericDocValues/1.png">
@@ -64,7 +72,7 @@ FieldValues描述了域值信息。
 #### 单个block存储域值
 单个block存储方式又根据是否采用了 域值种类个数小于256的优化 生成两种数据结构。
 ##### 优化
-正如上文中的说明，优化后的域值存储方式，实际存储的是域值对应的编号，然后采用PackedInt对编号进行编码存储。PackedInt编码后的FieldValues格式在这里不赘述，在[BulkOperationPacked](http://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)中介绍了其中一种压缩方法。
+正如上文中的说明，优化后的域值存储方式，实际存储的是域值对应的编号，然后采用PackedInt对编号进行编码存储。PackedInt编码后的FieldValues格式在这里不赘述，在[BulkOperationPacked](http://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)中介绍了其中一种压缩方法。
 
 ##### 未优化
 未优化的域值存储方式，只能根据 (v - min) / gcd 公式将域值存放到FieldValues中, 其中v是待存储的域值，min为所有域值的最小值，上文中的预备知识介绍了为何使用 (v - min) / gcd 公式。同样的采用PackedInt对域值进行编码存储。
@@ -176,8 +184,5 @@ length为FieldValues在.dvd文件中的数据长度。
 ```
 在读取阶段，通过offset跟length就可以获得所有的FieldValues数据。
 # 结语
-NumericDocValues的索引文件数据结构相对SortedDocValues比较简单。之前介绍的[SortedDocValues（上）](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)的文章会在以后进行重写，内容保持跟本篇文章一致。
+NumericDocValues的索引文件数据结构相对SortedDocValues比较简单。之前介绍的[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)的文章会在以后进行重写，内容保持跟本篇文章一致。
 大家可以看我的源码注释来快速理解源码，地址在这里：https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/codecs/lucene70/Lucene70DocValuesConsumer.java
-
-[点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/DocValues/NumericDocValues/NumericDocValues.zip)Markdown文件
-

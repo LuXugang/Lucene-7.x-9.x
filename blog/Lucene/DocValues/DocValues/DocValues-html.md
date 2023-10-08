@@ -1,3 +1,12 @@
+---
+title: DocValues
+date: 2019-02-18 00:00:00
+tags: DocValues
+categories:
+- Lucene
+- DocValues
+---
+
 ## DocValues
 
 在搜索引擎中，我们通常都是对域名(field)构建倒排索引(inverted index)，实现了域值(Values)到文档(document)的映射，而DocValues则是构建了一个正向索引，实现文档到域值的映射。下面是官方给出的DocValues的介绍https://wiki.apache.org/solr/DocValues=
@@ -12,8 +21,8 @@
 3. Not for the risk-averse: The integration with Solr is very new and probably still has some exciting bugs!
 #### DocValues的类型
 DocValues目前主要有五种类型，随后的博客中会一一详细介绍
-1. [SORTED_SET](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/48.html)
-2. [SORTED_NUMERIC ](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/47.html)
-3. [NUMERIC](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)
-4. [SORTED](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)
-5. [BINARY](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html)
+1. [SORTED_SET](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/SortedSetDocValues)
+2. [SORTED_NUMERIC ](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/SortedNumericDocValues)
+3. [NUMERIC](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)
+4. [SORTED](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)
+5. [BINARY](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/BinaryDocValues)

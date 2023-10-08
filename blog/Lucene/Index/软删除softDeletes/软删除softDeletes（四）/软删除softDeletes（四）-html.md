@@ -1,6 +1,13 @@
-# [软删除softDeletes（四）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 软删除softDeletes（四）（Lucene 8.4.0）
+date: 2020-06-29 00:00:00
+tags: [softDeletes, delete]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/149.html)中我们说到，在Lucene 7.5.0版本中，使用了下面两个容器来存储软删除的删除信息、DocValues的更新信息：
+&emsp;&emsp;在文章[软删除softDeletes（二）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0621/软删除softDeletes（二）)中我们说到，在Lucene 7.5.0版本中，使用了下面两个容器来存储软删除的删除信息、DocValues的更新信息：
 
 - Map<String,LinkedHashMap<Term,NumericDocValuesUpdate>> numericUpdates：DocValuesUpdatesNode
 - Map<String,LinkedHashMap<Term,BinaryDocValuesUpdate>> binaryUpdate：DocValuesUpdatesNode
@@ -81,7 +88,7 @@
 
 &emsp;&emsp;图6中，由于图3的例子中，用相同的NumericDocValue来描述被删除的文档时，NumericDocValueFiled的域值都是"3"、那么正如上文中`第三段`讲的那样，只存储一次。
 
-&emsp;&emsp;最后我们在介绍下上文中`第二段`介绍的关于docUpTo为Integer.MAX_VALUE时的优化，在文章[软删除softDeletes（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/150.html)我们说到，存在一个全局的删除信息，当执行了主动flush后，这些删除信息将作用（apply）索引目录中已经存在的段中的文档，所以对应的FieldUpdatesBuffer中的docsUpTo永远是Integer.MAX_VALUE（上文中的sameDocUpTo），即作用对象是所有的文档，同样以图3为例，使用FieldUpdatesBuffer存储后如下所示：
+&emsp;&emsp;最后我们在介绍下上文中`第二段`介绍的关于docUpTo为Integer.MAX_VALUE时的优化，在文章[软删除softDeletes（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0624/软删除softDeletes（三）)我们说到，存在一个全局的删除信息，当执行了主动flush后，这些删除信息将作用（apply）索引目录中已经存在的段中的文档，所以对应的FieldUpdatesBuffer中的docsUpTo永远是Integer.MAX_VALUE（上文中的sameDocUpTo），即作用对象是所有的文档，同样以图3为例，使用FieldUpdatesBuffer存储后如下所示：
 
 图7：
 
@@ -94,5 +101,4 @@
 &emsp;&emsp;无
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/软删除softDeletes/软删除softDeletes（四）/软删除softDeletes（四）.zip)下载附件
-
 

@@ -1,6 +1,14 @@
-# [tvd&&tvx&&tvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 8.7.0）
+---
+title: 索引文件之tvd&&tvx&&tvm（Lucene 8.7.0）
+date: 2020-11-17 00:00:00
+tags: [index, indexFile,tvd,tvx,tvm]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
-&emsp;&emsp;在索引（Indexing）阶段，当某个域被设置为需要记录词向量（term vector）信息后，那么随后在[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段，该域对应的词向量将被写入到索引文件.tvd&&tvx&&tvm三个文件中。
+
+&emsp;&emsp;在索引（Indexing）阶段，当某个域被设置为需要记录词向量（term vector）信息后，那么随后在[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段，该域对应的词向量将被写入到索引文件.tvd&&tvx&&tvm三个文件中。
 
 图1：
 
@@ -56,7 +64,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvd&&tvx&&tvm/5.png">
 
-&emsp;&emsp;当包含多篇文档，那么需要记录每一篇文档中记录词向量的域的数量，然后**使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)存储**。
+&emsp;&emsp;当包含多篇文档，那么需要记录每一篇文档中记录词向量的域的数量，然后**使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)存储**。
 
 #### FieldNums
 
@@ -73,13 +81,13 @@
 &emsp;&emsp;token是一个组合值，并且大小是一个**字节**：
 
 - numDistinctFields：Chunk中记录词向量的域的种类
-- bitsRequired：存储每个域的编号（因为使用了[固定位数按位存储](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)）需要的bit数量
+- bitsRequired：存储每个域的编号（因为使用了[固定位数按位存储](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)）需要的bit数量
 - 左移5位描述了bitsRequired的值最多可以是31
 - 由于一个字节的低五位被用来描述bitsRequired，所以还剩余3个bit可以用来表示numDistinctFields，所以numDistinctFields的值小于等于7时可以跟bitsRequired使用一个字节存储。
 
 ###### FieldNum
 
-&emsp;&emsp;FieldNum即域的编号， 用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)存储。
+&emsp;&emsp;FieldNum即域的编号， 用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)存储。
 
 #####  (域的种类 - 1) > 7
 
@@ -101,7 +109,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvd&&tvx&&tvm/8.png">
 
-&emsp;&emsp;FieldNumOffs中存放了chunk中每一篇文档包含的所有域的编号的索引值**FieldNumIndex**，并且使用PackedInts存储。该索引其实就是fieldNums[ \]数组的下标值，fieldNums[ \]数组的数组元素是Chunk中的域的编号，数组长度是域的种类数。通过这种方式使得不直接存储域的编号，因为域的编号可能跨度很大，由于使用[固定位数按位存储](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)，每个域的编号占用的bit数量取决编号最大的，那会导致较大的存储空间，而存储下标值就缓解这个问题。
+&emsp;&emsp;FieldNumOffs中存放了chunk中每一篇文档包含的所有域的编号的索引值**FieldNumIndex**，并且使用PackedInts存储。该索引其实就是fieldNums[ \]数组的下标值，fieldNums[ \]数组的数组元素是Chunk中的域的编号，数组长度是域的种类数。通过这种方式使得不直接存储域的编号，因为域的编号可能跨度很大，由于使用[固定位数按位存储](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)，每个域的编号占用的bit数量取决编号最大的，那会导致较大的存储空间，而存储下标值就缓解这个问题。
 
 图9：
 
@@ -176,7 +184,7 @@
 
 ##### TermAndPayloads
 
-&emsp;&emsp;使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法存储每一篇文档的每一个域中的每一个term值跟payload(如果有的话)。
+&emsp;&emsp;使用[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/LZ4)算法存储每一篇文档的每一个域中的每一个term值跟payload(如果有的话)。
 
 ## 索引文件.tvd整体数据结构
 
@@ -190,7 +198,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvd&&tvx&&tvm/15.png">
 
-&emsp;&emsp;索引文件.tvx中的字段含义同[索引文件.fdx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)， 不赘述。
+&emsp;&emsp;索引文件.tvx中的字段含义同[索引文件.fdx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm-8.6.0)， 不赘述。
 
 ## 索引文件.tvm
 
@@ -198,14 +206,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/tvd&&tvx&&tvm/16.png">
 
-&emsp;&emsp;索引文件.tvm中的字段含义同[索引文件.fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)， 不赘述。
+&emsp;&emsp;索引文件.tvm中的字段含义同[索引文件.fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm-8.6.0)， 不赘述。
 
 ## 结语
 
 &emsp;&emsp;看完这篇文章后，如果感到一脸懵逼， 木有关系，在随后的文章将会详细介绍索引文件tvd&&tvx&&tvm的生成过程。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/tvd&&tvx&&tvm.zip)Markdown文件
-
 
 
 

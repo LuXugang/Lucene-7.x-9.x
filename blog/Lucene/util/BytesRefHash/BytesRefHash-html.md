@@ -1,4 +1,12 @@
-## [BytesRefHash](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+---
+title: BytesRefHash
+date: 2019-02-18 00:00:00
+tags: [BytesRef,index]
+categories:
+- Lucene
+- gongjulei
+---
+
 BytesRefHash类是专门为BytesRef对象作优化的一种类似hashMap的数据结构，该类的主要用途就是将所有的BytesRef对象存储到一个连续的存储空间中，并且使得能在查询阶段达到 0(1)的时间复杂度。
 ## BytesRefHash的一些变量
 #### byte[] [] buffers;

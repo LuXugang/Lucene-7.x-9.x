@@ -1,8 +1,17 @@
+---
+title: DirectMonotonicWriter&&Reader
+date: 2020-10-30 00:00:00
+tags: [encode, decode,util]
+categories:
+- Lucene
+- yasuocunchu
+---
+
 # [DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
 
 &emsp;&emsp;DirectMonotonicWriter类用来存储单调递增的整数序列（monotonically-increasing sequences of integers），使用了**先编码后压缩**的存储方式，DirectMonotonicReader类则是用来解码跟解压。
 
-&emsp;&emsp;每当处理1024个数据，将会执行编码跟压缩的操作，并生成两个block，分别用来存储编码元数据以及压缩的数据，我们以[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)为例：
+&emsp;&emsp;每当处理1024个数据，将会执行编码跟压缩的操作，并生成两个block，分别用来存储编码元数据以及压缩的数据，我们以[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)为例：
 
 图1：
 
@@ -68,7 +77,7 @@ for (int i = 0; i < bufferSize; ++i) {
 
 &emsp;&emsp;**为什么要缩放数据？**
 
-&emsp;&emsp;在后续的处理中，buffer数组中的每个元素都会使用**[固定位数](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)**的方式进行存储（否则就无法读取了），由于buffer数组中的元素是递增的，如果不进行缩放，每个元素占用的bit数量会按照数组中最大的元素所需的bit数量，会造成极大的存储浪费。
+&emsp;&emsp;在后续的处理中，buffer数组中的每个元素都会使用**[固定位数](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)**的方式进行存储（否则就无法读取了），由于buffer数组中的元素是递增的，如果不进行缩放，每个元素占用的bit数量会按照数组中最大的元素所需的bit数量，会造成极大的存储浪费。
 
 &emsp;&emsp;我们用一个例子来展示缩放的效果，完整demo见：https://github.com/LuXugang/Lucene-7.5.0/blob/master/python/DirectMonotonicTest/ReductionTest.py  ， 该例子使用Python实现了处理逻辑。
 
@@ -100,7 +109,7 @@ for (int i = 1; i < bufferSize; ++i) {
 
 #### 无符号处理
 
-&emsp;&emsp;在缩放数据后，buffer中的有些数据变成了负数，由于随后将会使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)存储，该方法只支持存储无符号的数值，故结合上一步中获得的最小值min，通过下面的方法使得所有的数值进行无符号处理。
+&emsp;&emsp;在缩放数据后，buffer中的有些数据变成了负数，由于随后将会使用[PackedInts](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)存储，该方法只支持存储无符号的数值，故结合上一步中获得的最小值min，通过下面的方法使得所有的数值进行无符号处理。
 
 ```java
  for (int i = 0; i < bufferSize; ++i) {
@@ -129,9 +138,9 @@ for (int i = 1; i < bufferSize; ++i) {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/压缩存储/DirectMonotonicWriter&&Reader/10.png">
 
-&emsp;&emsp;压缩存储的过程即为将buffer中的数据生成一个block，例如在[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)中就是生成一个图1中的NumDocBlock，另外由于每1024个数据就生成一个block，当生成多个block时，通过记录offset来描述每一个block的起始读取位置，offset即上文中说道的编码元数据之一。
+&emsp;&emsp;压缩存储的过程即为将buffer中的数据生成一个block，例如在[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)中就是生成一个图1中的NumDocBlock，另外由于每1024个数据就生成一个block，当生成多个block时，通过记录offset来描述每一个block的起始读取位置，offset即上文中说道的编码元数据之一。
 
-&emsp;&emsp;压缩方式使用[DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1223/120.html)实现，这里不赘述。
+&emsp;&emsp;压缩方式使用[DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1223/DirectWriter&&DirectReader)实现，这里不赘述。
 
 ### 元数据存储
 
@@ -147,10 +156,9 @@ for (int i = 1; i < bufferSize; ++i) {
 
 &emsp;&emsp;**哪种场景满足这种特殊情况？**
 
-&emsp;&emsp;在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)中，当生成一个chunk的条件都是因为达到了阈值maxDocsPerChunk，就能满足这种特殊情况，因为每个chunk中的文档数量要么都是128或者512。
+&emsp;&emsp;在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/索引文件的生成（二十四）之fdx&&fdt&&fdm)中，当生成一个chunk的条件都是因为达到了阈值maxDocsPerChunk，就能满足这种特殊情况，因为每个chunk中的文档数量要么都是128或者512。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8/DirectWriter&&DirectReader.zip)下载附件
-
 
 
 

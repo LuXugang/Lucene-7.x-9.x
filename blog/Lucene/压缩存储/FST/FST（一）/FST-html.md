@@ -1,4 +1,11 @@
-# [FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)Lucene 8.4.0
+---
+title: FST（一）
+date: 2019-02-20 00:00:00
+tags: [encode, decode,util,fst]
+categories:
+- Lucene
+- yasuocunchu
+---
 
 &emsp;&emsp;FST（Finite State Transducer）算法的概念在这篇博客中并不涉及，网上有太多的资料啦，写的都非常的不错。这里推荐这位网友的介绍：https://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/ 。如果链接失效了，可以看附件中的副本。本文中，我们基于一个例子来介绍在Lucene中如何构建FST。感谢网友**关新全**的分享，基于他的分享使得我在看源码的时候事半功倍，在此基础上，增加一些更加贴近源码的内容。同样的，关新全同学分享的文章在附件中。
 

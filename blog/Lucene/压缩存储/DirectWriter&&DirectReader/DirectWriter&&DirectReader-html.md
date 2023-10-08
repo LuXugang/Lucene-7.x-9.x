@@ -1,8 +1,17 @@
+---
+title: DirectWriter&&DirectReader
+date: 2019-12-23 00:00:00
+tags: [encode, decode,util]
+categories:
+- Lucene
+- yasuocunchu
+---
+
 # [DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
 
-&emsp;&emsp;**阅读本篇文章需要前置内容**：[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)，下文中会列出在文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)中涉及的代码，但是不会展开介绍。
+&emsp;&emsp;**阅读本篇文章需要前置内容**：[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)，下文中会列出在文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)中涉及的代码，但是不会展开介绍。
 
-&emsp;&emsp;DirectWriter&&DirectReader两个类用来处理long类型的数据集（数组类型），其中DirectWriter用来在写数据时使用[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)将long类型的数据转换成byte类型，而DirectReader则是将byte类型的数据恢复成long类型。使用byte类型数据存储的组件都可以使用DirectWriter&&DirectReader实现压缩存储，比如以字节为单位存储索引文件内容的[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)。
+&emsp;&emsp;DirectWriter&&DirectReader两个类用来处理long类型的数据集（数组类型），其中DirectWriter用来在写数据时使用[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)将long类型的数据转换成byte类型，而DirectReader则是将byte类型的数据恢复成long类型。使用byte类型数据存储的组件都可以使用DirectWriter&&DirectReader实现压缩存储，比如以字节为单位存储索引文件内容的[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)。
 
 
 
@@ -88,7 +97,7 @@ final static int SUPPORTED_BITS_PER_VALUE[] = new int[] {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/压缩存储/DirectWriter&&DirectReader/2.png">
 
-&emsp;&emsp;图2截取自[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)，bitPerValue为7时，相比较bitPerValue为8时需要执行额外的位移操作，如第31行代码所示。**更重要的是当处理相同数量的数值时，需要更多的遍历次数**，在文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)中，为了简化介绍BulkOperationPacked的原理，我们并没有介绍如何计算遍历次数，只是简单的将待处理的数据集数量作为遍历次数，即图8中第31行的values.length，在源码中，图1中的第8行代码应该是这样的：
+&emsp;&emsp;图2截取自[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)，bitPerValue为7时，相比较bitPerValue为8时需要执行额外的位移操作，如第31行代码所示。**更重要的是当处理相同数量的数值时，需要更多的遍历次数**，在文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/BulkOperationPacked)中，为了简化介绍BulkOperationPacked的原理，我们并没有介绍如何计算遍历次数，只是简单的将待处理的数据集数量作为遍历次数，即图8中第31行的values.length，在源码中，图1中的第8行代码应该是这样的：
 
 图3：
 
@@ -170,7 +179,5 @@ final static int SUPPORTED_BITS_PER_VALUE[] = new int[] {
 # 结语
 
 &emsp;&emsp;在应用方面，在索引阶段生成索引文件.dvm、dvd时，就使用这两个类来实现数据压缩。
-
-
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8/DirectWriter&&DirectReader.zip)下载附件

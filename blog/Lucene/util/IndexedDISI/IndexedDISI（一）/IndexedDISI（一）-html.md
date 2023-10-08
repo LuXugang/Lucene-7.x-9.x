@@ -1,6 +1,13 @@
-# [IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 8.4.0）
+---
+title: IndexedDISI（一）（Lucene 8.4.0）
+date: 2020-05-11 00:00:00
+tags: [disi,docId,doc]
+categories:
+- Lucene
+- gongjulei
+---
 
-&emsp;&emsp;IndexedDISI工具类在Lucene中用来存储[Norm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)/[DovValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)对应的文档号，其实现原理借鉴了roaring bitmaps（见文章[RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/98.html)），本文先通过介绍在Lucene7.5.0中的实现来理解其原理，接着会介绍在Lucene8.4.0中的优化实现。
+&emsp;&emsp;IndexedDISI工具类在Lucene中用来存储[Norm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)/[DovValues](https://www.amazingkoala.com.cn/Lucene/DocValues//2019/0218/DocValues/)对应的文档号，其实现原理借鉴了roaring bitmaps（见文章[RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/1008/RoaringDocIdSet)），本文先通过介绍在Lucene7.5.0中的实现来理解其原理，接着会介绍在Lucene8.4.0中的优化实现。
 
 ## IndexedDISI写入文档号
 
@@ -25,10 +32,10 @@ int block = docId >>> 16
 &emsp;&emsp;在一个block中，根据block中存储的文档号数量划分为三种稠密度：
 
 - ALL：block中存储的文档号数量为2^16个
-- DENSE：block中存储的文档号数量范围为 [4096, 2^16 - 1]，使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)存储文档号
+- DENSE：block中存储的文档号数量范围为 [4096, 2^16 - 1]，使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)存储文档号
 - SPARSE：block中存储的文档号数量范围为 [1, 4095]，使用short类型数组存储文档号
 
-&emsp;&emsp;存储文档号使用的数据结构根据稠密度各不相同，我们只介绍介绍DENSE跟SPARSE，至于为什么不介绍稠密度ALL，我们将在系列文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)中作出解释。
+&emsp;&emsp;存储文档号使用的数据结构根据稠密度各不相同，我们只介绍介绍DENSE跟SPARSE，至于为什么不介绍稠密度ALL，我们将在系列文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)中作出解释。
 
 #### DENSE
 
@@ -88,7 +95,7 @@ baseId = (blockId * 65536)
 
 &emsp;&emsp;我们接着介绍IndexedDISI读取文档号的过程，在介绍了其读取过程后就可以明白为什么从Lucene8.0.0版本开始，对IndexedDISI的写入进行了优化。
 
-&emsp;&emsp;在Lucene最常用的应用中，我们在[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)中会对满足查询条件的文档号进行排序，排序规则通常使用DocValues来实现，而包含DocValues信息的文档的文档号就使用IndexedDISI存储，故在排序过程中，先判断这个满足查询的文档号是否包含了DocValues信息，该过程即在IndexedDISI中读取文档号，判断是否存在这个文档号。
+&emsp;&emsp;在Lucene最常用的应用中，我们在[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)中会对满足查询条件的文档号进行排序，排序规则通常使用DocValues来实现，而包含DocValues信息的文档的文档号就使用IndexedDISI存储，故在排序过程中，先判断这个满足查询的文档号是否包含了DocValues信息，该过程即在IndexedDISI中读取文档号，判断是否存在这个文档号。
 
 &emsp;&emsp;判断一个文档号是否在IndexedDISI中可以简单的划分为两个步骤：
 
@@ -121,13 +128,13 @@ int block = docId >>> 16
 docId >>> 6
 ```
 
-&emsp;&emsp;注意的是此时docId是块内文档号，最后通过与操作就可以判断是否包含此文档号（看不懂？说明你没有看文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html) ）。
+&emsp;&emsp;注意的是此时docId是块内文档号，最后通过与操作就可以判断是否包含此文档号（看不懂？说明你没有看文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet) ）。
 
 &emsp;&emsp;在计算应该在第n个word的过程中，我们需要做一件事情，那就是必须知道当前查询的文档号它是IndexedDISI存储的第几个文档号（可能不包含当前查询的文档号），我们称之为 段内编号，基于上文中的存储方式，我们只能通过累加前n -1 个block中的文档数量来获得，意味着我们必须依次处理每一个block（通过累加读取block中的DocIdNumber字段的值段内编号），故时间复杂度为O(n)。
 
 &emsp;&emsp;**为什么要获得当前查询的文档号在block中的段内编号**
 
-&emsp;&emsp;因为如果block中有这个当前查询的文档号，那么我们还要取出DocValues的值，才能在Collector中进行排序比较，并且需要通过段内编号才能找到当前查询文档号对应的DocValues的值，这块内容的介绍将在系列文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)中作出解释。
+&emsp;&emsp;因为如果block中有这个当前查询的文档号，那么我们还要取出DocValues的值，才能在Collector中进行排序比较，并且需要通过段内编号才能找到当前查询文档号对应的DocValues的值，这块内容的介绍将在系列文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)中作出解释。
 
 #### SPARSE
 

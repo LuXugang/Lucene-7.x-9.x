@@ -1,8 +1,15 @@
-# [kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 8.6.0）
+---
+title: 索引文件之kdd&kdi&kdm（Lucene 8.6.0）
+date: 2020-10-27 00:00:00
+tags: [index, indexFile,kdd,kdi,kdm]
+categories:
+- Lucene
+- suoyinwenjian
+---
 
-&emsp;&emsp;从Lucene8.6.0开始，用于存储点数据（point value）的索引文件由原先的两个[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，改为三个索引文件kdd&kdi&kdm。由于生成kdd&kdi&kdm的过程基本上没有太大的变动，并且索引文件的数据结构中的字段也变化不大。故本文不会再详细介绍每一个字段的含义，即阅读本章前，最好先看下文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的数据结构，以及[索引文件dim&&dii的生成过程](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)以及[索引文件dim&&dii的读取过程](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)的系列文章，使得能理解优化的目的。当然在下文中，会结合一些[issues](https://issues.apache.org/jira/browse/LUCENE-9148)来简单的叙述下优化的目的。
+&emsp;&emsp;从Lucene8.6.0开始，用于存储点数据（point value）的索引文件由原先的两个[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)，改为三个索引文件kdd&kdi&kdm。由于生成kdd&kdi&kdm的过程基本上没有太大的变动，并且索引文件的数据结构中的字段也变化不大。故本文不会再详细介绍每一个字段的含义，即阅读本章前，最好先看下文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的数据结构，以及[索引文件dim&&dii的生成过程](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)以及[索引文件dim&&dii的读取过程](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)的系列文章，使得能理解优化的目的。当然在下文中，会结合一些[issues](https://issues.apache.org/jira/browse/LUCENE-9148)来简单的叙述下优化的目的。
 
-&emsp;&emsp;再次强调下，先阅读[索引文件dim&&dii的生成过程](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)以及[索引文件dim&&dii的读取过程](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)的系列文章，因为开始下笔写这篇文章的时候，我几乎忘光了之前写的这些东东，也就是相当于一片空白的重新复习了下这些系列文章， 发现看完后很容易的理解了（看来我的写作表达能力还阔以），哈哈😁。
+&emsp;&emsp;再次强调下，先阅读[索引文件dim&&dii的生成过程](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)以及[索引文件dim&&dii的读取过程](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)的系列文章，因为开始下笔写这篇文章的时候，我几乎忘光了之前写的这些东东，也就是相当于一片空白的重新复习了下这些系列文章， 发现看完后很容易的理解了（看来我的写作表达能力还阔以），哈哈😁。
 
 ## 索引文件的数据结构
 
@@ -32,7 +39,7 @@
 - 索引文件.kdi（index）中存储的是内部节点的数据
 - 索引文件.kdd（data）描述的是叶子节点的数据
 
-&emsp;&emsp;点数据的信息使用了Bkd-tree的树形结构存储，可以阅读文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)简单了解下bkd的概念。
+&emsp;&emsp;点数据的信息使用了Bkd-tree的树形结构存储，可以阅读文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/Bkd-Tree)简单了解下bkd的概念。
 
 
 &emsp;&emsp;为了便于介绍，我们以单个点数据域的数据结构来展开介绍。
@@ -43,7 +50,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/kdd&kdi&kdm/4.png">
 
-&emsp;&emsp;索引文件.kdd中存储了叶子节点的数据，其中字段LeafNodeData中包含的内容跟索引文件.dim中的LeafNodeData是相同的，如下图所示，详细的字段介绍见文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，这里不赘述。
+&emsp;&emsp;索引文件.kdd中存储了叶子节点的数据，其中字段LeafNodeData中包含的内容跟索引文件.dim中的LeafNodeData是相同的，如下图所示，详细的字段介绍见文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)，这里不赘述。
 
 图5：
 
@@ -55,7 +62,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/kdd&kdi&kdm/6.png">
 
-&emsp;&emsp;索引文件.kdi中存储了内部节点的数据，其中字段PackedIndexValue中包含的内容跟索引文件.dim中的PackedIndexValue是相同的，如下图所示，详细的字段介绍见文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，这里不赘述。
+&emsp;&emsp;索引文件.kdi中存储了内部节点的数据，其中字段PackedIndexValue中包含的内容跟索引文件.dim中的PackedIndexValue是相同的，如下图所示，详细的字段介绍见文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)，这里不赘述。
 
 图7：
 
@@ -67,7 +74,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/索引文件/kdd&kdi&kdm/8.png">
 
-&emsp;&emsp;索引文件.kdm中存储的是元数据，即描述点数据域的数据的信息，图8中，除了<font color=red>红框</font>标注的几个字段，其他字段跟索引文件.dim中的BKD中的字段是相同的，如下图所示，详细的字段介绍见文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，这里不赘述。
+&emsp;&emsp;索引文件.kdm中存储的是元数据，即描述点数据域的数据的信息，图8中，除了<font color=red>红框</font>标注的几个字段，其他字段跟索引文件.dim中的BKD中的字段是相同的，如下图所示，详细的字段介绍见文章[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件dim&&dii)，这里不赘述。
 
 图9：
 
@@ -156,7 +163,7 @@
 
 &emsp;&emsp;图16中，如果使用off-heap，那么会把文件指针指向图14的PackedIndexValue字段的起始读取位置，随后在**搜索阶段**，根据搜索条件中的点数据域，再读取出该域对应的PackedIndexValue的数据，否则在**生成DirectoryReader阶段**就将**所有段**中的**所有点数据域**的PackedIndexValue读取到内存中。
 
-&emsp;&emsp;图16中第220行，使用offHeap取决于使用哪种[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)，例如使用MMapDirectory则会使用off-heap。
+&emsp;&emsp;图16中第220行，使用offHeap取决于使用哪种[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)，例如使用MMapDirectory则会使用off-heap。
 
 ### 只使用off-heap
 
@@ -183,5 +190,4 @@
 &emsp;&emsp;无
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/kdd&kdi&kdm.zip)附件
-
 

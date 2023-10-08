@@ -1,6 +1,13 @@
-# [SIMD](https://www.amazingkoala.com.cn/Lucene/Codecs/)（Lucene 8.7.0）
+---
+title: SIMD（Lucene 8.7.0）
+date: 2021-01-15 00:00:00
+tags: [Codecs, simd]
+categories:
+- Lucene
+- Codecs
+---
 
-&emsp;&emsp;从Lucene 8.4.0开始，在写入/读取倒排信息时，即写入/读取[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)时，通过巧妙的编码方式（下文中展开）使得[C2编译器](http://openjdk.java.net/groups/hotspot/docs/HotSpotGlossary.html)能生成SIMD（Single Instruction Multiple Data）指令，从而提高了写入/读取速度。
+&emsp;&emsp;从Lucene 8.4.0开始，在写入/读取倒排信息时，即写入/读取[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)时，通过巧妙的编码方式（下文中展开）使得[C2编译器](http://openjdk.java.net/groups/hotspot/docs/HotSpotGlossary.html)能生成SIMD（Single Instruction Multiple Data）指令，从而提高了写入/读取速度。
 
 ## SIMD（Single Instruction Multiple Data）
 
@@ -98,9 +105,9 @@ public class SIMDTest {
 
 ### 倒排表信息的压缩
 
-&emsp;&emsp;倒排表信息即索引文件[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中的内容，其中索引文件.doc中的文档号、词频信息，索引文件.pos中位置信息，索引文件.pay中的payload、偏移信息都会在压缩后再写入到索引文件中。
+&emsp;&emsp;倒排表信息即索引文件[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)中的内容，其中索引文件.doc中的文档号、词频信息，索引文件.pos中位置信息，索引文件.pay中的payload、偏移信息都会在压缩后再写入到索引文件中。
 
-&emsp;&emsp;其压缩的核心思想就是bitPacking，也就是在文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)中提到的`固定位数按位存储`的方式，通过bitPacking对128个long类型的整数进行压缩处理。
+&emsp;&emsp;其压缩的核心思想就是bitPacking，也就是在文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)中提到的`固定位数按位存储`的方式，通过bitPacking对128个long类型的整数进行压缩处理。
 
 &emsp;&emsp;`固定位数按位存储`描述的是对于一组待处理的数据集合，每一个数据都用固定数量的bit存储，我们称之为bitsPerValue，并且bitsPerValue的大小取决于数据集合中的最大值所需要的bit数量，如果有以下的数据集合：
 

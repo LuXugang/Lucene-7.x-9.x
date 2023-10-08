@@ -1,4 +1,10 @@
-# [Changes](https://www.amazingkoala.com.cn/Lucene/2019/1205/115.html)（Lucene 8.7.0）
+---
+title: Changes（Lucene 8.7.0）
+date: 2020-11-06 00:00:00
+tags: Changes
+categories:
+- Lucene
+---
 
 &emsp;&emsp;2020年11月3号，Lucene发布了最新的版本8.7.0，本篇文章将会对[Change Log](https://lucene.apache.org/core/8_7_0/changes/Changes.html#v8.7.0.optimizations)中几个变更展开介绍下。
 
@@ -10,9 +16,9 @@
 Indexing with an index sort is now faster by not compressing temporary representations of the data. 
 ```
 
-&emsp;&emsp;上文大意为：当设置了段内排序[IndexSort](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)后，索引（Indexing）的速度比以前更快了，因为不再压缩临时的数据。
+&emsp;&emsp;上文大意为：当设置了段内排序[IndexSort](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)后，索引（Indexing）的速度比以前更快了，因为不再压缩临时的数据。
 
-&emsp;&emsp;这里的`temporary representations of the data`指的是存储域的域值，它最终存储到[索引文件.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)中。在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)中我们说到，在添加每篇文档的过程中，当生成一个chunk时，域值会被压缩处理并写入到chunk中。如下所示：
+&emsp;&emsp;这里的`temporary representations of the data`指的是存储域的域值，它最终存储到[索引文件.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)中。在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/索引文件的生成（二十四）之fdx&&fdt&&fdm)中我们说到，在添加每篇文档的过程中，当生成一个chunk时，域值会被压缩处理并写入到chunk中。如下所示：
 
 图1：
 
@@ -39,7 +45,7 @@ We noticed some indexing rate regressions in Elasticsearch after upgrading to a 
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Changes/8-7-0/3.png">
 
-&emsp;&emsp;如果不知道maxDocsPerChunk的作用，请阅读文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)。
+&emsp;&emsp;如果不知道maxDocsPerChunk的作用，请阅读文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/索引文件的生成（二十四）之fdx&&fdt&&fdm)。
 
 &emsp;&emsp;最终在flush阶段，生成新的索引文件.fdt时，就使用默认的codec，生成过程就跟文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)一致了。
 
@@ -49,10 +55,10 @@ We noticed some indexing rate regressions in Elasticsearch after upgrading to a 
 
 ## [LUCENE-9484](http://issues.apache.org/jira/browse/LUCENE-9484)
 
-&emsp;&emsp;在文章[构造IndexWriter对象（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1114/107.html)中我们知道，IndexWriter对象可以通过IndexSort实现段内的排序，使得随后生成的段都是段内有序的，并且具有相同的排序规则。另外IndexWriter在构造期间，如果索引目录中已经存在一些段，我们称之为旧段，如果这些段的排序规则跟IndexWriter中配置的不一致，那么会导致IndexWriter对象初始化失败。在Lucene 8.7.0之前， 我们需要根据IndexWriter中的IndexSort的排序规则对旧段重新排序才可以，降低了用户体验。当前issue中正是解决了这个问题。通过SortingCodecReader类封装旧段对应的reader，然后利用IndexWriter中的addIndex方法即可。使用SortingCodecReader类时，通过制定了旧段对应的reader跟IndexWriter中的IndexSort排序规则，Lucene会对reader进行重排。
+&emsp;&emsp;在文章[构造IndexWriter对象（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1114/构造IndexWriter对象（二）)中我们知道，IndexWriter对象可以通过IndexSort实现段内的排序，使得随后生成的段都是段内有序的，并且具有相同的排序规则。另外IndexWriter在构造期间，如果索引目录中已经存在一些段，我们称之为旧段，如果这些段的排序规则跟IndexWriter中配置的不一致，那么会导致IndexWriter对象初始化失败。在Lucene 8.7.0之前， 我们需要根据IndexWriter中的IndexSort的排序规则对旧段重新排序才可以，降低了用户体验。当前issue中正是解决了这个问题。通过SortingCodecReader类封装旧段对应的reader，然后利用IndexWriter中的addIndex方法即可。使用SortingCodecReader类时，通过制定了旧段对应的reader跟IndexWriter中的IndexSort排序规则，Lucene会对reader进行重排。
 
 ## [LUCENE-8962](http://issues.apache.org/jira/browse/LUCENE-8962)
 
-&emsp;&emsp;在多线程执行索引（Indexing）的过程中，当某个线程执行了flush( \)、commit( \)操作或者getReader( \)实现NRT操作时，会使得所有的线程将对应的[DWPT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)执行flush，可能导致生成许多的小段（small segments）。在文章[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/)中我们说到，当存在多个段时，搜索的过程为依次（单线程执行搜索操作）遍历每一个段，最后对每个段的结果进行合并。大佬[Michael McCandless](https://www.linkedin.com/in/mikemccand/)提出了一个讨论，是否能在commit(\)、getReader( \)的方法返回前就能将这些小段进行合并，使得减少搜索期间遍历的段的数量，降低查询时间。
+&emsp;&emsp;在多线程执行索引（Indexing）的过程中，当某个线程执行了flush( \)、commit( \)操作或者getReader( \)实现NRT操作时，会使得所有的线程将对应的[DWPT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（中）)执行flush，可能导致生成许多的小段（small segments）。在文章[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/查询原理（三）)中我们说到，当存在多个段时，搜索的过程为依次（单线程执行搜索操作）遍历每一个段，最后对每个段的结果进行合并。大佬[Michael McCandless](https://www.linkedin.com/in/mikemccand/)提出了一个讨论，是否能在commit(\)、getReader( \)的方法返回前就能将这些小段进行合并，使得减少搜索期间遍历的段的数量，降低查询时间。
 
 &emsp;&emsp;故在从Lucene 8.6.0开始（Lucene 8.7.0中进行了优化），通过构造IndexWriter期间指定的配置项maxFullFlushMergeWaitMillis来实现在commit( \)跟getReader( \)调用期间实现对一些小段的合并。注意的是，这里的执行段的合并会阻塞commit( \)跟getReader( \)这两个方法，故通过maxFullFlushMergeWaitMillis来指定超时时间。如果在超时时间内没有完成小段的合并，则commit( \)跟getReader( \)继续执行，在这两个方法返回后，可能还存在多个小段。 maxFullFlushMergeWaitMillis的默认值为0，表示不会在commit( \)跟getReader( \)的调用期间执行小段的合并。

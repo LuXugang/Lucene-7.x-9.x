@@ -1,4 +1,12 @@
-# [Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+---
+title: Bkd-Tree
+date: 2019-04-22 00:00:00
+tags: [bkd,index,point]
+categories:
+- Lucene
+- gongjulei
+---
+
 Bkd-Tree作为一种基于K-D-B-tree的索引结构，用来对多维度的点数据(multi-dimensional point data)集进行索引。Bkd-Tree跟K-D-B-tree的理论部分在本篇文章中不详细介绍，对应的两篇论文在附件中，感兴趣的朋友可以自行下载阅读。本篇文章中主要介绍Bkd-Tree在Lucene中的实现，即生成树的过程。
 
 # 预备知识
@@ -24,7 +32,7 @@ docIDs[ ]数组在PointValuesWriter.java中定义，数组下标是点数据的�
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/BKD/3.png">
 
 ## int ord[ ]数组
-ord数组的数组元素为numPoints，下面的一句话很重要：ord数组中的元素是有序的，排序规则**不是**按照numPoints的值，而是按照numPoints对应的点数据的值。这里ord数组的用法跟[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)中的sortedValues[]数组是一样的用法。例如根据图2中的点数据，如果我们按照第三个维度的值，即"99"、"23"、"12"来描述点数据的大小关系，那么ord数组如下图所示：
+ord数组的数组元素为numPoints，下面的一句话很重要：ord数组中的元素是有序的，排序规则**不是**按照numPoints的值，而是按照numPoints对应的点数据的值。这里ord数组的用法跟[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)中的sortedValues[]数组是一样的用法。例如根据图2中的点数据，如果我们按照第三个维度的值，即"99"、"23"、"12"来描述点数据的大小关系，那么ord数组如下图所示：
 图4：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/BKD/4.png">
 
