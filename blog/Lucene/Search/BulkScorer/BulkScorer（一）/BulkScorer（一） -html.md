@@ -1,4 +1,11 @@
-# [BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 9.6.0）
+---
+title: BulkScorer（一）（Lucene 9.6.0）
+date: 2023-07-07 00:00:00
+tags: [bulkScorer]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;本篇文章介绍在查询阶段，[BulkScorer](https://github.com/apache/lucene/blob/f527eb3b12df6d052d1b6dd107b56ab705a95ab1/lucene/core/src/java/org/apache/lucene/search/BulkScorer.java)相关的知识点，在查询流程中的流程点如下<font color="red">红框</font>所示：
 
@@ -8,7 +15,7 @@
 
 ## 父类BulkScorer
 
-&emsp;&emsp;BulkScorer类的定位是一个对满足查询条件的所有文档号进行收集的最初入口。在执行完该类的方法后（见[方法一](###方法一)），Lucene就完成了一个段中文档号的收集工作。我们仅关注下BulkScorer类中下面的两个方法，如下所示：
+&emsp;&emsp;BulkScorer类的定位是一个对满足查询条件的所有文档号进行收集的最初入口。在执行完该类的方法一后，Lucene就完成了一个段中文档号的收集工作。我们仅关注下BulkScorer类中下面的两个方法，如下所示：
 
 ### 方法一
 
@@ -20,13 +27,13 @@
 
 #### acceptDocs
 
-&emsp;&emsp;`acceptDocs`是一个基于[位图](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)实现，用来描述被删除的文档号信息的对象。由于在Lucene中执行删除文档操作时，并不会去修改现有的索引文件，而是额外的在名为[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)的索引文件中记录被删除的文档号。
+&emsp;&emsp;`acceptDocs`是一个基于[位图](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)实现，用来描述被删除的文档号信息的对象。由于在Lucene中执行删除文档操作时，并不会去修改现有的索引文件，而是额外的在名为[.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)的索引文件中记录被删除的文档号。
 
 &emsp;&emsp;也就说，在方法一中依次处理满足查询条件的文档号时，有些文档号对应的文档尽管是满足查询条件的，但是它已经是被标记为删除的，故需要通过`acceptDocs`进行过滤。
 
 #### collector
 
-&emsp;&emsp;满足查询条件的文档号会使用`collector`进行收集，在`collector`中会对文档号进行排序等操作，详细内容见[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)。另外`collector`是`LeafCollector`对象，说的是对某个段进行收集。
+&emsp;&emsp;满足查询条件的文档号会使用`collector`进行收集，在`collector`中会对文档号进行排序等操作，详细内容见[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)。另外`collector`是`LeafCollector`对象，说的是对某个段进行收集。
 
 #### min、max
 
@@ -50,7 +57,7 @@
 
 ### DefaultBulkScorer
 
-&emsp;&emsp;DefaultBulkScorer子类中实现图2中[方法一](###方法一)的流程图如下所示：
+&emsp;&emsp;DefaultBulkScorer子类中实现图2中方法一的流程图如下所示：
 
 图5：
 
@@ -82,7 +89,7 @@
 
 &emsp;&emsp;该方法体现出DISI是具有状态的，它返回DISI当前的状态值，即目前遍历到的文档号。
 
-&emsp;&emsp;注释中说到，如果在调用[nextDoc()](######方法二（DISI）)或者[advance(int)](######方法三（DISI）)方法前就调用当前方法，会返回-1，意思是DISI的最初的状态值是-1，也就是文档号为-1，当然了，该值不是一个合法的文档号。另外如果遍历完所有的文档号，那么当前方法会返回一个`NO_MORE_DOCS`作为结束标志，该值即Integer.MAX\_VALUE。
+&emsp;&emsp;注释中说到，如果在调用`nextDoc()`或者`advance(int)`方法前就调用当前方法，会返回-1，意思是DISI的最初的状态值是-1，也就是文档号为-1，当然了，该值不是一个合法的文档号。另外如果遍历完所有的文档号，那么当前方法会返回一个`NO_MORE_DOCS`作为结束标志，该值即Integer.MAX\_VALUE。
 
 图11：
 
@@ -94,7 +101,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/BulkScorer/BulkScorer（一）/8.png"  width="800">
 
-&emsp;&emsp;该方法会基于[docID()](######方法一（DISI）)中的文档号（当前状态值），返回在集合中排在它后面，下一个位置的文档号，随后将状态值更新为该位置的文档号。
+&emsp;&emsp;该方法会基于`docID()`中的文档号（当前状态值），返回在集合中排在它后面，下一个位置的文档号，随后将状态值更新为该位置的文档号。
 
 &emsp;&emsp;如果DISI当前的状态值已经是集合中的最后一个文档号，那么调用该方法会返回`NO_MORE_DOCS`，并且将状态值更新为`NO_MORE_DOCS`。注意的是，不应该在这种情况下继续调用该方法，否则会导致不可预测行为。
 
@@ -135,7 +142,7 @@
 1. 减少数据集的规模
 2. 收集到足够的结果后，提前退出
 
-&emsp;&emsp;这里的第二点在图5的`collector收集docId`中实现，见[Collector（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0815/85.html)。第一点则是通过可以实现Skip Docs的**DISI对象competitiveIterator**结合图6 Scorer中获取的scorerIterator，将这两个DISI对象组合成一个**新的DISI对象filteredIterator**来实现`减少数据集的规模`。
+&emsp;&emsp;这里的第二点在图5的`collector收集docId`中实现，见[Collector（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0815/Collector（四）)。第一点则是通过可以实现Skip Docs的**DISI对象competitiveIterator**结合图6 Scorer中获取的scorerIterator，将这两个DISI对象组合成一个**新的DISI对象filteredIterator**来实现`减少数据集的规模`。
 
 &emsp;&emsp;**注意点：只有在获取TopN的查询中，才有可能获取到实现Skip Docs的DISI对象competitiveIterator**
 
@@ -143,7 +150,7 @@
 
 &emsp;&emsp;**在收集了TopN篇文档号**，随后继续遍历scorerIterator时，如果根据排序规则，可以添加到TopN中时，就会尝试获取/更新competitiveIterator，通过competitiveIterator实现skip docs。
 
-&emsp;&emsp;目前Lucene中有基于BKD树（[LUCENE-9280](https://issues.apache.org/jira/browse/LUCENE-9280)）以及基于倒排（[LUCENE-10633](https://issues.apache.org/jira/browse/LUCENE-10633)）来获得competitiveIterator。见文章[查询TopN的优化之NumericDocValues（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/193.html)、[查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0629/195.html)了解基于BKD树获取competitiveIterator。
+&emsp;&emsp;目前Lucene中有基于BKD树（[LUCENE-9280](https://issues.apache.org/jira/browse/LUCENE-9280)）以及基于倒排（[LUCENE-10633](https://issues.apache.org/jira/browse/LUCENE-10633)）来获得competitiveIterator。见文章[查询TopN的优化之NumericDocValues（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/查询TopN的优化之NumericDocValues（一）)、[查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0629/查询TopN的优化之NumericDocValues（二）)了解基于BKD树获取competitiveIterator。
 
 &emsp;&emsp;下面的例子中，**主要是表达优化思想，并不是真实的实现逻辑**：
 
@@ -169,11 +176,11 @@
 
 ###### 二阶段遍历
 
-&emsp;&emsp;二阶段遍历在大部分查询场景中不会出现，在此流程点如果二阶段遍历为空，则认为是满足条件的。在文章[二阶段遍历（TwoPhaseIterator）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/156.html)中详细的介绍了为什么要使用二阶段遍历，以及给出了某个场景作为例子。这里就不展开介绍了。
+&emsp;&emsp;二阶段遍历在大部分查询场景中不会出现，在此流程点如果二阶段遍历为空，则认为是满足条件的。在文章[二阶段遍历（TwoPhaseIterator）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0723/RangeField（一）)中详细的介绍了为什么要使用二阶段遍历，以及给出了某个场景作为例子。这里就不展开介绍了。
 
 ##### collector收集docId
 
-&emsp;&emsp;在系列文章[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)中介绍常见的几个Collector，这里就不赘述了。
+&emsp;&emsp;在系列文章[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)中介绍常见的几个Collector，这里就不赘述了。
 
 
 ## 结语

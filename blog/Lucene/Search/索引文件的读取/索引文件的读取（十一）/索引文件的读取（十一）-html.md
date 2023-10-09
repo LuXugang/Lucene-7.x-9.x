@@ -1,6 +1,13 @@
-# [索引文件的读取（十一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（十一）之tim&&tip（Lucene 8.4.0）
+date: 2020-08-19 00:00:00
+tags: [index,tim,tip]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;在上一篇文章[索引文件的读取（十）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0812/161.html)中我们遗留了一个问题：
+&emsp;&emsp;在上一篇文章[索引文件的读取（十）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0812/索引文件的读取（十）之tim&&tip)中我们遗留了一个问题：
 
 &emsp;&emsp;**为什么要根据是否达到阈值使用不同的处理方式：**
 
@@ -15,7 +22,7 @@
 
 ### 未达到阈值
 
-&emsp;&emsp;未达到阈值的情况下，会根据每个term从[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)中获取包含这个term的文档号集合，并且用一个long类型的数组docBuffer\[ \]来存储文档号集合。**注意的是，数组docBuffer\[ \]实际上只会存储一个block（见文章[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)）中的文档号集合，当这个block中的文档号信息读取结束后，会载入下一个block的文档号信息，并写入到数组docBuffer[ ]中，这里为了便于描述，我们假设数组docBuffer[ ]中存储了所有的文档号**。
+&emsp;&emsp;未达到阈值的情况下，会根据每个term从[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)中获取包含这个term的文档号集合，并且用一个long类型的数组docBuffer\[ \]来存储文档号集合。**注意的是，数组docBuffer\[ \]实际上只会存储一个block（见文章[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)）中的文档号集合，当这个block中的文档号信息读取结束后，会载入下一个block的文档号信息，并写入到数组docBuffer[ ]中，这里为了便于描述，我们假设数组docBuffer[ ]中存储了所有的文档号**。
 
 &emsp;&emsp;接着使用一个优先级队列[DisiPriorityQueue](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/search/DisiPriorityQueue.java)来存储每个term对应的**正在被读取**的文档号，该队列的排序规则为比较文档号的大小，在执行了排序后，堆顶元素的文档号是最小的，通过排序，更新term对应**正在被读取**的文档号，直到所有term对应的正在被读取的文档号为Integer.MAX_VALUE，最终文档号按照从小到大的顺序都被取出，我们这里通过一个例子简单介绍下该原理。
 
@@ -105,7 +112,7 @@
 
 ### 达到阈值
 
-&emsp;&emsp;达到阈值的情况下，在文章[索引文件的读取（十）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0812/161.html)中我们说到，所有term对应的文档号总是优先使用数组存储（数组中可能会有重复的文档号），当达到某个阈值后，会使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)存储，如果最终使用数组存储，那么在收集结束后对数组进行排序、去重操作后就能获取满足查询条件的文档号集合即可，我们详细的介绍下使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)存储时，如何收集以及读取文档号。
+&emsp;&emsp;达到阈值的情况下，在文章[索引文件的读取（十）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0812/索引文件的读取（十）之tim&&tip)中我们说到，所有term对应的文档号总是优先使用数组存储（数组中可能会有重复的文档号），当达到某个阈值后，会使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)存储，如果最终使用数组存储，那么在收集结束后对数组进行排序、去重操作后就能获取满足查询条件的文档号集合即可，我们详细的介绍下使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)存储时，如何收集以及读取文档号。
 
 &emsp;&emsp;为了便于描述我们还是以图1的例子为例，每个term对应的文档号集合如下所示：
 
@@ -115,7 +122,7 @@
 
 #### 构造FixedBitSet对象
 
-&emsp;&emsp;我们首先了解下FixedBitSet是如何存储文档号的，这块内容在文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)已经介绍过了，我们这里再简单的说明下：该对象中包含一个long类型的数组bits[ ]，其中每一个数组元素，即一个long类型的值，使用该值的每个bit用来代表一篇文档号，那么一个long类型的值可以用来描述64篇文档号，故bits[ ]数组的第一个数组元素描述的是文档号0~63，第二个数组元素描述的是文档号64~127，以此类推。
+&emsp;&emsp;我们首先了解下FixedBitSet是如何存储文档号的，这块内容在文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)已经介绍过了，我们这里再简单的说明下：该对象中包含一个long类型的数组bits[ ]，其中每一个数组元素，即一个long类型的值，使用该值的每个bit用来代表一篇文档号，那么一个long类型的值可以用来描述64篇文档号，故bits[ ]数组的第一个数组元素描述的是文档号0~63，第二个数组元素描述的是文档号64~127，以此类推。
 
 &emsp;&emsp;例如我们有以下的文档号，用bits[ ]数组存储后如下所示：
 
@@ -177,8 +184,8 @@ public int nextSetBit(int target) {
 
 &emsp;&emsp;**为什么未达到阈值使用BooleanQuery的方式做文档号的收集**
 
-- 最多只有16个（默认阈值BOOLEAN_REWRITE_TERM_COUNT_THRESHOLD，见文章[索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/160.html)）的term的文档信息作为DisiPriorityQueue的元素进行堆的排序，内存开销，排序开销很低
-- 避免匹配了少量term仍可能会占用较大内存存储文档号的问题，例如term对应的文档号的数值差值很大，使用FixedBitSet存储会有无用的内存开销，内存开销取决于段中的文档总数，而docBuffer\[ \]的数组是固定，大小为一个block（[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)中的block）中包含的文档数量，默认值为128，
+- 最多只有16个（默认阈值BOOLEAN_REWRITE_TERM_COUNT_THRESHOLD，见文章[索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/索引文件的读取（九）之tim&&tip)）的term的文档信息作为DisiPriorityQueue的元素进行堆的排序，内存开销，排序开销很低
+- 避免匹配了少量term仍可能会占用较大内存存储文档号的问题，例如term对应的文档号的数值差值很大，使用FixedBitSet存储会有无用的内存开销，内存开销取决于段中的文档总数，而docBuffer\[ \]的数组是固定，大小为一个block（[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)中的block）中包含的文档数量，默认值为128，
 
 &emsp;&emsp;**为什么达到阈值后不使用BooleanQuery的方式做文档号的收集**
 
@@ -186,7 +193,7 @@ public int nextSetBit(int target) {
 - 每个term都会生成一个TermQuery作为BooleanQuery的子查询，导致更容易抛出TooManyClauses的异常，BooleanQuery所能包含的子查询数量是有上限限制的，取决于BooleanQuery中的maxClauseCount参数，默认值为1024
 - 当满足查询的term的数量较大时，通过FixedBitSet对象只记录文档号相比通过BooleanQuery的方式（使用PostingsEnum对象存储，每个term都有自己的PostingsEnum对象）会占用更少的内存，在获取到满足查询的文档号集合之前（堆排序），PostingsEnum对象会常驻内存，它至少包含了文档号的信息以及其他信息（在以后介绍索引文件.doc的读取的文章中会展开介绍），而在TermRangeQuery中，我们只关心文档号，使用FixedBitSet对象存储文档号的期间，也会获取每一个term对应的PostingsEnum对象，但当获取了term对应的文档号集合之后，该对象能及时的释放。
 
-&emsp;&emsp;在执行TermRangeQuery时，获取满足查询的文档号的时机点是不同的，取决于满足查询的term数量是否达到阈值，时机点如下图所示，该流程图的介绍见系列文章[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)：
+&emsp;&emsp;在执行TermRangeQuery时，获取满足查询的文档号的时机点是不同的，取决于满足查询的term数量是否达到阈值，时机点如下图所示，该流程图的介绍见系列文章[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)：
 
 图19：
 

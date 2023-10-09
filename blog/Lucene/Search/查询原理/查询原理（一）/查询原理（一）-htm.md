@@ -1,4 +1,11 @@
-# [查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: 查询原理（一）
+date: 2019-08-20 00:00:00
+tags: [search,query]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;从本篇文章开始介绍Lucene查询阶段的内容，由于Lucene提供了几十种不同方式的查询，但其核心的查询逻辑是一致的，该系列的文章通过Query的其中的一个子类BooleanQuery，同时也是作者在实际业务中最常使用的，来介绍Lucene的查询原理。
 
@@ -22,7 +29,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（一）/1.png">
 
-&emsp;&emsp;图1中的TermQuery描述的是，我们想要找出包含**域名（FieldName）为“content”，域值（FieldValue）中包含“a”的域（Field）**的文档。
+&emsp;&emsp;图1中的TermQuery描述的是，我们想要找出包含**域名（FieldName）为“content”，域值（FieldValue）中包含“a”的域（Field） **的文档。
 
 &emsp;&emsp;该查询方式的demo见：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/query/TermQueryTest.java。
 
@@ -109,7 +116,7 @@
 - maxEdits：编辑距离的最大编辑值
 - prefixLength：模糊匹配到的term的至少跟图8中的域值"god"有两个相同的前缀值，即term的前缀要以"go"开头
 - maxExpansions：在maxEidts跟prefixLength条件下，可能匹配到很多个term，但是只允许处理最多20个term
-- transpositions：该值在本篇文档中不做介绍，需要了解[确定型有穷自动机](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)的知识
+- transpositions：该值在本篇文档中不做介绍，需要了解[确定型有穷自动机](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)的知识
 
 &emsp;&emsp;图8中的查询会匹配**文档0、文档1**。
 
@@ -216,7 +223,7 @@
 
 &emsp;&emsp;图18中的查询会匹配**文档1、文档2、文档3**。
 
-&emsp;&emsp;在后面的文章中会详细介绍TermRangeQuery，对这个查询方法感兴趣的同学可以先看[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)，它通过确定型有穷自动机的机制来找到查询条件范围内的所有term。
+&emsp;&emsp;在后面的文章中会详细介绍TermRangeQuery，对这个查询方法感兴趣的同学可以先看[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)，它通过确定型有穷自动机的机制来找到查询条件范围内的所有term。
 
 &emsp;&emsp;该查询方式的demo见：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/query/TermRangeQueryTest.java。
 
@@ -249,7 +256,7 @@
 
 &emsp;&emsp;故图20中的查询会匹配**文档1**。
 
-&emsp;&emsp;在后面的文章中会详细介绍PointRangeQuery的查询过程，对这个查询方法感兴趣的同学可以先看[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)以及[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，这两篇文章介绍了在索引阶段如何存储数值类型的索引信息。
+&emsp;&emsp;在后面的文章中会详细介绍PointRangeQuery的查询过程，对这个查询方法感兴趣的同学可以先看[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/Bkd-Tree)以及[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，这两篇文章介绍了在索引阶段如何存储数值类型的索引信息。
 
 &emsp;&emsp;该查询方式的demo见：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/query/PointRangeQueryTest.java。
 
@@ -258,7 +265,6 @@
 &emsp;&emsp;无
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/查询原理/查询原理（一）/查询原理（一）.zip)下载附件
-
 
 
 

@@ -1,6 +1,13 @@
-# [查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.9.0）
+---
+title: 查询TopN的优化之NumericDocValues（一）（Lucene 8.9.0）
+date: 2021-06-29 00:00:00
+tags: [topN,query,optimization,NumericDocValues]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;在上一篇[文章](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/193.html)的结尾，我们总结了使用NumericDocValues优化查询TopN的原理：假设查询TopN的排序规则为按照正排值从小大小的顺序，即正排值越小，优先级越高。故在开启优化后，当收集器收到一个文档号，先根据文档号从正排索引中拿到正排值，在**满足某些条件**后，根据正排值，通过查询BKD树获取所有小于该正排值的文档集合，该文档集合用于**生成一个新的[迭代器](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)**。随后每次传入到收集器的文档号将会从新的迭代器中获取，达到所谓的skip non-competitive documents的效果。
+&emsp;&emsp;在上一篇[文章](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/查询TopN的优化之NumericDocValues（一）)的结尾，我们总结了使用NumericDocValues优化查询TopN的原理：假设查询TopN的排序规则为按照正排值从小大小的顺序，即正排值越小，优先级越高。故在开启优化后，当收集器收到一个文档号，先根据文档号从正排索引中拿到正排值，在**满足某些条件**后，根据正排值，通过查询BKD树获取所有小于该正排值的文档集合，该文档集合用于**生成一个新的[迭代器](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/DocIdSet)**。随后每次传入到收集器的文档号将会从新的迭代器中获取，达到所谓的skip non-competitive documents的效果。
 
 &emsp;&emsp;上文的描述中，我们需要对两个问题进一步展开介绍：
 
@@ -18,13 +25,13 @@
 
 ### 条件二：是否允许使用PointValues来优化
 
-&emsp;&emsp;在上一[文章](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/193.html)中说过，开启优化的其中一点是需要显示指定开启优化。在显示指定后，对应代码中一个布尔类型的enableSkipping会被置为true。
+&emsp;&emsp;在上一[文章](https://www.amazingkoala.com.cn/Lucene/Search/2021/0621/查询TopN的优化之NumericDocValues（一）)中说过，开启优化的其中一点是需要显示指定开启优化。在显示指定后，对应代码中一个布尔类型的enableSkipping会被置为true。
 
 ### 条件三：Collector是否已经处理了totalHitsThreshold个文档号
 
-&emsp;&emsp;totalHitsThreshold是创建实现TopN的Collector（[TopFieldCollector](https://github.com/apache/lucene/blob/main/lucene/core/src/java/org/apache/lucene/search/TopFieldCollector.java)类的create方法）时，允许用户指定的一个int类型参数。totalHitsThreshold描述的是Collector至少处理了totalHitsThreshold个文档号后才会开启优化。本文介绍的优化是其中一种。另外还有基于[IndexSort]()优化会在后续的文章中介绍。
+&emsp;&emsp;totalHitsThreshold是创建实现TopN的Collector（[TopFieldCollector](https://github.com/apache/lucene/blob/main/lucene/core/src/java/org/apache/lucene/search/TopFieldCollector.java)类的create方法）时，允许用户指定的一个int类型参数。totalHitsThreshold描述的是Collector至少处理了totalHitsThreshold个文档号后才会开启优化。本文介绍的优化是其中一种。另外还有基于IndexSort优化会在后续的文章中介绍。
 
-&emsp;&emsp;在[Lucene 7.2.0](https://issues.apache.org/jira/browse/LUCENE-8059)之后，查询TopN首次引入了允许提前结束Collector收集文档号的优化（见文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)），即在已经收集到了**全局**最具competitive的N个文档号，Collector不用再处理剩余的文档号。这个优化会导致一个用户体验的问题，有些用户使用的场景需要记录hit count ，即命中的文档数量（满足用户设置的查询条件的文档数量），提前退出会导致**没法将所有满足查询条件的文档号**传入到Collector，使得Collector中的totalHits（传入到Collector的文档号数量）的值总是小于等于hit count的，最终使得用户无法通过Collector获得精确的（accurate）hit count。
+&emsp;&emsp;在[Lucene 7.2.0](https://issues.apache.org/jira/browse/LUCENE-8059)之后，查询TopN首次引入了允许提前结束Collector收集文档号的优化（见文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)），即在已经收集到了**全局**最具competitive的N个文档号，Collector不用再处理剩余的文档号。这个优化会导致一个用户体验的问题，有些用户使用的场景需要记录hit count ，即命中的文档数量（满足用户设置的查询条件的文档数量），提前退出会导致**没法将所有满足查询条件的文档号**传入到Collector，使得Collector中的totalHits（传入到Collector的文档号数量）的值总是小于等于hit count的，最终使得用户无法通过Collector获得精确的（accurate）hit count。
 
 &emsp;&emsp;所以在这次优化中同时增加了一个用户可以配置的布尔参数trackTotalHits，如果参数为true，那么当Collector已经收集到了TopN的文档号，并且即使这N个文档号**已经是全局最具competitive的集合**，Collector仍然继续收集其他的文档号（只统计totalHits），最终使得totalHits的数量能等于hit count。
 
@@ -46,7 +53,7 @@ updateCounter > 256 && (updateCounter & 0x1f) != 0x1f
 
 &emsp;&emsp;如果当前的排序规则是从小到大的升序，那么条件一中提到的queue中的堆顶元素，即堆中竞争力最低的（weakest competitive ）的正排值，它就是堆中的最大值，我们称之为maxValueAsBytes。估算的逻辑为从BKD树中统计出比maxValueAsBytes小的正排值的数量estimatedNumberOfMatches，注意的是estimatedNumberOfMatches是一个估算值。
 
-&emsp;&emsp;统计estimatedNumberOfMatches的逻辑就是深度遍历BKD树，其详细遍历过程见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)的介绍，我们通过一个例子简单的概述下。
+&emsp;&emsp;统计estimatedNumberOfMatches的逻辑就是深度遍历BKD树，其详细遍历过程见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)的介绍，我们通过一个例子简单的概述下。
 
 ##### 例子
 
@@ -58,7 +65,7 @@ updateCounter > 256 && (updateCounter & 0x1f) != 0x1f
 
 ###### 访问根节点
 
-&emsp;&emsp;maxValueAsBytes与根节点的关系是CELL_CROSSES_QUERY（见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)的介绍），那么依次访问根节点的左右子节点：节点一、节点八。
+&emsp;&emsp;maxValueAsBytes与根节点的关系是CELL_CROSSES_QUERY（见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)的介绍），那么依次访问根节点的左右子节点：节点一、节点八。
 
 ###### 访问节点一
 
@@ -86,7 +93,7 @@ updateCounter > 256 && (updateCounter & 0x1f) != 0x1f
 
 #### 如何设定阈值
 
-&emsp;&emsp;阈值threshold的计算基于当前迭代器的开销值iteratorCost（见文章[迭代器](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)中关于开销cost的介绍），如果获取了新的迭代器，那么iteratorCost会被更新为新的迭代器的开销值：
+&emsp;&emsp;阈值threshold的计算基于当前迭代器的开销值iteratorCost（见文章[迭代器](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/DocIdSet)中关于开销cost的介绍），如果获取了新的迭代器，那么iteratorCost会被更新为新的迭代器的开销值：
 
 ```java
     final long threshold = iteratorCost >>> 3;
@@ -96,7 +103,7 @@ updateCounter > 256 && (updateCounter & 0x1f) != 0x1f
 
 ## 问题二：如何生成一个新的迭代器
 
-&emsp;&emsp;当问题一中所有条件都满足后，那么随后将根据maxValueAsBytes再次遍历BDK树，这次的遍历将精确的获取所有大于maxValueAsBytes的正排值对应的文档号。在遍历的过程中，使用[文档号收集器](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)获取一个文档集合，并用这个集合生成一个新的迭代器。随后下一次传给Collector收集器的文档号将会从新的迭代器中获取。
+&emsp;&emsp;当问题一中所有条件都满足后，那么随后将根据maxValueAsBytes再次遍历BDK树，这次的遍历将精确的获取所有大于maxValueAsBytes的正排值对应的文档号。在遍历的过程中，使用[文档号收集器](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/DocIdSet)获取一个文档集合，并用这个集合生成一个新的迭代器。随后下一次传给Collector收集器的文档号将会从新的迭代器中获取。
 
 ## 一些其他细节
 

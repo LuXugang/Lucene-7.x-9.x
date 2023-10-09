@@ -1,6 +1,13 @@
-# [BulkScorer（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 9.6.0）
+---
+title: BulkScorer（二）（Lucene 9.6.0）
+date: 2023-07-24 00:00:00
+tags: [bulkScorer]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本篇文章我们继续介绍BulkScorer的其他子类，下图为BulkScorer主要的几个子类，其中`DefaultBulkScorer`的介绍可以见文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)：
+&emsp;&emsp;本篇文章我们继续介绍BulkScorer的其他子类，下图为BulkScorer主要的几个子类，其中`DefaultBulkScorer`的介绍可以见文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)：
 
 图1：
 
@@ -10,13 +17,13 @@
 
 ### 实现逻辑
 
-&emsp;&emsp;ReqExclBulkScorer中包含了两个成员，一个是名为`req`的BulkScorer对象，另一个是名为`excl`的[DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)对象，它包含了在查询条件中指定的不需要返回的文档号集合（MUST_NOT）。
+&emsp;&emsp;ReqExclBulkScorer中包含了两个成员，一个是名为`req`的BulkScorer对象，另一个是名为`excl`的[DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)对象，它包含了在查询条件中指定的不需要返回的文档号集合（MUST_NOT）。
 
 图2：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/BulkScorer/BulkScorer（二）/2.png">
 
-&emsp;&emsp;在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)中我们说到，BulkScorer的score()方法描述的是对某个文档号区间进行遍历，期间过滤掉被删除的文档号，最后使用[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)收集文档号。在子类ReqExclBulkScorer的实现中，则是根据`excl`中的文档号将`req`的文档号集合划分为一个或多个更小的集合。
+&emsp;&emsp;在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)中我们说到，BulkScorer的score()方法描述的是对某个文档号区间进行遍历，期间过滤掉被删除的文档号，最后使用[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)收集文档号。在子类ReqExclBulkScorer的实现中，则是根据`excl`中的文档号将`req`的文档号集合划分为一个或多个更小的集合。
 
 图3：
 

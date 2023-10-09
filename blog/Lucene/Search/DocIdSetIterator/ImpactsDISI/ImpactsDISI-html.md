@@ -1,6 +1,13 @@
-# [ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 9.6.0）
+---
+title: ImpactsDISI（Lucene 9.6.0）
+date: 2023-08-04 00:00:00
+tags: [impact,disi]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)中，我们介绍了抽象类DocIdSetIterator类，而ImpactsDISI是DocIdSetIterator的其中一种实现，当排序规则为文档打分值时，使得在查询TopN遍历文档时，可以跳过那些不具备竞争力的文档。
+&emsp;&emsp;在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)中，我们介绍了抽象类DocIdSetIterator类，而ImpactsDISI是DocIdSetIterator的其中一种实现，当排序规则为文档打分值时，使得在查询TopN遍历文档时，可以跳过那些不具备竞争力的文档。
 
 图1：
 
@@ -12,9 +19,9 @@
 
 ### Impact 
 
-&emsp;&emsp;文章[索引文件的读取（十二）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)中详细的介绍了其概念，本文中我们只简单介绍提下Impact中几个重要的内容。
+&emsp;&emsp;文章[索引文件的读取（十二）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)中详细的介绍了其概念，本文中我们只简单介绍提下Impact中几个重要的内容。
 
-&emsp;&emsp;Impact是Lucene中的一个类，在**生成索引阶段**，某个term在一篇文档中的词频freq和[标准化值](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)(normalization values)norm会使用Impact对象记录，并且写入到[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)中。
+&emsp;&emsp;Impact是Lucene中的一个类，在**生成索引阶段**，某个term在一篇文档中的词频freq和[标准化值](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)(normalization values)norm会使用Impact对象记录，并且写入到[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件之doc)中。
 
 图2：
 
@@ -43,7 +50,7 @@
 
 ### 跳表
 
-&emsp;&emsp;文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)、[索引文件的生成（四）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/124.html)详细介绍了Lucene中跳表的构建过程以及读取过程，本文中不再赘述。Lucene中通过分块（block）、分层（level）的方式对文档号构建跳表。
+&emsp;&emsp;文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)、[索引文件的生成（四）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/索引文件的生成（四）之跳表SkipList)详细介绍了Lucene中跳表的构建过程以及读取过程，本文中不再赘述。Lucene中通过分块（block）、分层（level）的方式对文档号构建跳表。
 
 图5：
 
@@ -61,7 +68,7 @@
 
 ### ImpactsDISI的文档遍历
 
-&emsp;&emsp;ImpactsDISI作为[DocIdSetIterator]((https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html))的子类，其核心为如何实现图7中的抽象方法advance(int target)方法，该方法描述都是从满足查询条件的文档号集合中找到**下一个大于等于**target的文档号。
+&emsp;&emsp;ImpactsDISI作为[DocIdSetIterator]((https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）))的子类，其核心为如何实现图7中的抽象方法advance(int target)方法，该方法描述都是从满足查询条件的文档号集合中找到**下一个大于等于**target的文档号。
 
 &emsp;&emsp;如果target的值为3，并且有下面两个文档号集合：
 
@@ -99,13 +106,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/ImpactsDISI/9.png"  width="">
 
-&emsp;&emsp;我们先介绍下`根据target更新block`。它描述的是下一个进行遍历的block。在文章[索引文件的生成（四）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/124.html)中介绍的哨兵数组skipDoc记录了每一层当前遍历的block，使得可以快速定位target属于某个block。
+&emsp;&emsp;我们先介绍下`根据target更新block`。它描述的是下一个进行遍历的block。在文章[索引文件的生成（四）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/索引文件的生成（四）之跳表SkipList)中介绍的哨兵数组skipDoc记录了每一层当前遍历的block，使得可以快速定位target属于某个block。
 
 &emsp;&emsp;在level=0层，每128篇文档号就生成一个block，即图6中的SkipDatum。注意的是每个SkipDatum中<font color="Black">impacts</font>的<font color="orange">Impact</font>数量是**小于等于**128个，意味着如果这个block的maxScore大于minCompetitiveScorer，说明**至少包含**一篇文档是具有竞争力的，那么这个block中的所有文档我们都需要处理才能明确知道哪些文档是具有竞争力的，所以这种情况下就不能进行skip。
 
 **为什么每个SkipDatum的<font color="Black">impacts</font>的<font color="orange">Impact</font>数量是小于等于128个?**
 
-&emsp;&emsp;首先一个block中的文档数量为128个，另外在索引阶段我们不需要记录某个term在这128篇文档中的Impact信息，即freq和norm。因为**我们记录Impact的目的是为了在查询阶段能计算出block的maxScore值**，根据上文中介绍的[打分公式](###打分公式)，如果某个term在两篇文档中的norm相同，那么只需要记录freq较大的Impact（详细的例子见[索引文件的读取（十二）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)）。
+&emsp;&emsp;首先一个block中的文档数量为128个，另外在索引阶段我们不需要记录某个term在这128篇文档中的Impact信息，即freq和norm。因为**我们记录Impact的目的是为了在查询阶段能计算出block的maxScore值**，根据上文中介绍的打分公式，如果某个term在两篇文档中的norm相同，那么只需要记录freq较大的Impact（详细的例子见[索引文件的读取（十二）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)）。
 
 &emsp;&emsp;如果当前target跟上一个target不在同一个block中，那么就需要`更新block`。否则就直接返回当前target，因为它对应的文档打分值有可能是具有竞争力的。
 

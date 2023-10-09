@@ -1,6 +1,6 @@
 ---
 title: SortedDocValues
-date: 2019-02- 00:00:00
+date: 2019-02-19 00:00:00
 tags: DocValues
 categories:
 - Lucene

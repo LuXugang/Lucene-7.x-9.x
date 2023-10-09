@@ -1,6 +1,15 @@
+---
+title: 索引文件的读取（十）之tim&&tip（Lucene 8.4.0）
+date: 2020-08-12 00:00:00
+tags: [index,tim,tip]
+categories:
+- Lucene
+- Search
+---
+
 # [索引文件的读取（十）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
 
-&emsp;&emsp;本文承接文章[索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/160.html)，继续介绍剩余的流程点，先给出流程图：
+&emsp;&emsp;本文承接文章[索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/索引文件的读取（九）之tim&&tip)，继续介绍剩余的流程点，先给出流程图：
 
 ## 获取满足TermRangeQuery查询条件的term集合的流程图
 
@@ -14,11 +23,11 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十）/2.png">
 
-&emsp;&emsp;在文章[索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/160.html)中我们说到，在查询期间，满足查询条件的term数量**未达到**阈值（默认值16）跟**达到**阈值后的处理方式是不同的。
+&emsp;&emsp;在文章[索引文件的读取（九）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0810/索引文件的读取（九）之tim&&tip)中我们说到，在查询期间，满足查询条件的term数量**未达到**阈值（默认值16）跟**达到**阈值后的处理方式是不同的。
 
 #### 未达到阈值
 
-&emsp;&emsp;当满足查询条件的term数量**未达到**阈值（默认值16），会将TermRangeQuery转变为BooleanQuery，其中每个term生成一个TermQuery，作为BooleanQuery的子查询，并且TermQuery之间的关系为[SHOULD](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/25.html)，其后续的查询过程可以阅读[查询原理](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)系列文章，不过在文章[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)中，我们只是简单的介绍TermContext对象（Lucene 7.5.0）中包含的信息，这里我们详细的介绍下TermContext中的信息是在**何时生成**、**如何获取**、**为什么要获取**。
+&emsp;&emsp;当满足查询条件的term数量**未达到**阈值（默认值16），会将TermRangeQuery转变为BooleanQuery，其中每个term生成一个TermQuery，作为BooleanQuery的子查询，并且TermQuery之间的关系为[SHOULD](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/BooleanQuery)，其后续的查询过程可以阅读[查询原理](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)系列文章，不过在文章[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)中，我们只是简单的介绍TermContext对象（Lucene 7.5.0）中包含的信息，这里我们详细的介绍下TermContext中的信息是在**何时生成**、**如何获取**、**为什么要获取**。
 
 ##### 何时生成
 
@@ -62,7 +71,7 @@
 
 ##### 收集文档号
 
-&emsp;&emsp;基于满足查询条件的文档数量，会使用不同的数据结构存储，首先通过下面的公式计算出阈值，在收集的过程中，**总是先用一个数组收集文档号**，当文档数量超过阈值后，再改为使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)存储：
+&emsp;&emsp;基于满足查询条件的文档数量，会使用不同的数据结构存储，首先通过下面的公式计算出阈值，在收集的过程中，**总是先用一个数组收集文档号**，当文档数量超过阈值后，再改为使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)存储：
 
 ```java
 threshold = maxDoc >>> 7
@@ -73,9 +82,9 @@ threshold = maxDoc >>> 7
 ```text
 For ridiculously small sets, we'll just use a sorted int[], maxDoc >>> 7 is a good value if you want to save memory, lower values such as maxDoc >>> 11 should provide faster building but at the expense of using a full bitset even for quite sparse data
 ```
-&emsp;&emsp;注释大意：如果阈值设置的太小，并且文档数量稀疏（比如说文档号的值跨度很大，但是文档数量很少）的情况下可能会造成使用一个全量的[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)存储，会造成内存的浪费，全量的概念、内存浪费的原因在阅读[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)就能明白，这里不赘述，阈值设置的太大，那么可能会用数组来存储，但是收集的性能没有FixedBitSet高，原因见下文。
+&emsp;&emsp;注释大意：如果阈值设置的太小，并且文档数量稀疏（比如说文档号的值跨度很大，但是文档数量很少）的情况下可能会造成使用一个全量的[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)存储，会造成内存的浪费，全量的概念、内存浪费的原因在阅读[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)就能明白，这里不赘述，阈值设置的太大，那么可能会用数组来存储，但是收集的性能没有FixedBitSet高，原因见下文。
 
-&emsp;&emsp;使用数组在收集的文档号过程中，是可能收集到重复的文档号，处理办法为在收集结束后，对数组先进行排序，然后去重，最后输出的数组中的数组元素是有序并且唯一（去重）的，如果使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)就不会有这个困扰，收集到相同的文档号后只会对bit位重复赋值为1而已，并且不需要排序操作。
+&emsp;&emsp;使用数组在收集的文档号过程中，是可能收集到重复的文档号，处理办法为在收集结束后，对数组先进行排序，然后去重，最后输出的数组中的数组元素是有序并且唯一（去重）的，如果使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)就不会有这个困扰，收集到相同的文档号后只会对bit位重复赋值为1而已，并且不需要排序操作。
 
 #### 疑问
 
@@ -93,5 +102,4 @@ For ridiculously small sets, we'll just use a sorted int[], maxDoc >>> 7 is a go
 &emsp;&emsp;无
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/索引文件的读取（十）/索引文件的读取（十）.zip)下载附件
-
 

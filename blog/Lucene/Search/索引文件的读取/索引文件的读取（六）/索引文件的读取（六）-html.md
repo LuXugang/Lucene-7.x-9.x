@@ -1,6 +1,13 @@
-# [索引文件的读取（六）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（六）之dvd&&dvm（Lucene 8.4.0）
+date: 2020-07-15 00:00:00
+tags: [index,dvd,dvm]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文接着介绍索引文件.dvd、.dvm之BinaryDocValues的读取，它同SortedValues一样，其中一个用途用于对查询结果的进行排序，在搜索阶段，当获取了满足查询条件的文档号之后，它会交给[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)实现收集功能，并且在收集过程中实现文档的排序，我们通过一个例子来介绍如何实现排序。
+&emsp;&emsp;本文接着介绍索引文件.dvd、.dvm之BinaryDocValues的读取，它同SortedValues一样，其中一个用途用于对查询结果的进行排序，在搜索阶段，当获取了满足查询条件的文档号之后，它会交给[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)实现收集功能，并且在收集过程中实现文档的排序，我们通过一个例子来介绍如何实现排序。
 
 ## 通过索引文件.dvd、.dvm之BinaryDocValues获取排序关系的流程图
 
@@ -16,7 +23,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（六）/2.png">
 
-&emsp;&emsp;图2的流程跟SortedDocValues是一致的，本文不赘述这几个流程点的内容，详细过程见文章[引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)。
+&emsp;&emsp;图2的流程跟SortedDocValues是一致的，本文不赘述这几个流程点的内容，详细过程见文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/索引文件的读取（五）之dvd&&dvm)。
 
 ### 根据index从TermsIndex中获取startOffset
 
@@ -38,7 +45,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（六）/5.png">
 
-&emsp;&emsp;在文章[索引文件的生成（二十一）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/147.html)中我们知道，在TermsIndex中相邻两个address的差值就是term的长度，故只需要获得段内编号index + 1和段内编号index对应的两个address，它们的差值就是段内编号index对应的域值的长度。
+&emsp;&emsp;在文章[索引文件的生成（二十一）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/索引文件的生成（二十一）之dvm&&dvd)中我们知道，在TermsIndex中相邻两个address的差值就是term的长度，故只需要获得段内编号index + 1和段内编号index对应的两个address，它们的差值就是段内编号index对应的域值的长度。
 
 ### 根据length跟startOffset从TermsValues中获取域值
 
@@ -70,7 +77,7 @@
 
 ### 判断DocValues中是否包含某个域值
 
-&emsp;&emsp;BinaryDocValues无法判断DocValues中是否包含某个域值，而SortedDocValues通过TermsIndex字段，则可以实现，并且可以实现DocValues的范围查询（见文章[引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)）。
+&emsp;&emsp;BinaryDocValues无法判断DocValues中是否包含某个域值，而SortedDocValues通过TermsIndex字段，则可以实现，并且可以实现DocValues的范围查询（见文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/索引文件的读取（五）之dvd&&dvm)）。
 
 ### 存储性能
 

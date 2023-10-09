@@ -1,5 +1,14 @@
+---
+title: 文档号合并（SHOULD）
+date: 2018-12-17 00:00:00
+tags: [SHOULD, booleanQuery]
+categories:
+- Lucene
+- Search
+---
+
 ## 多个SHOULD的Query的文档号合并
-本篇文章通过一个例子介绍如何对满足搜索要求的文档进行合并（筛选），详细的合并过程可以看我的源码注释，GitHub地址是：https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/search/BooleanScorer.java。
+本篇文章通过一个例子介绍如何对满足搜索要求的文档进行合并（筛选），详细的合并过程可以看我的源码注释，GitHub地址是： https://github.com/luxugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/search/BooleanScorer.java。
 ## 例子
 添加10篇文档到索引中。如下图：
 图1：

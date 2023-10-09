@@ -1,8 +1,15 @@
-# [索引文件的读取（五）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（五）之dvd&&dvm（Lucene 8.4.0）
+date: 2020-07-14 00:00:00
+tags: [index,dvd,dvm]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本篇文章开始介绍索引文件.dvm&&dvd的读取，阅读本系列文章建议先看下文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)、[索引文件的生成（十九）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0531/145.html)、[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)、[IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)，了解写入的过程能快的理解读取的逻辑。
+&emsp;&emsp;本篇文章开始介绍索引文件.dvm&&dvd的读取，阅读本系列文章建议先看下文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)、[索引文件的生成（十九）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0531/索引文件的生成（十九）之dvm&&dvd)、[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)、[IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/[IndexedDISI（二）)，了解写入的过程能快的理解读取的逻辑。
 
-&emsp;&emsp;DocValues的其中一个用途用于对查询结果的进行排序，在搜索阶段，当获取了满足查询条件的文档号之后，它会交给[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)实现收集功能，并且在收集过程中实现文档的排序。本文先介绍在使用SortedDocValues或者SortedSetDocValues的情况下，如何获取文档之间的排序关系，而通过读取索引文件.dvm&&dvd的过程即获取排序关系的过程：
+&emsp;&emsp;DocValues的其中一个用途用于对查询结果的进行排序，在搜索阶段，当获取了满足查询条件的文档号之后，它会交给[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)实现收集功能，并且在收集过程中实现文档的排序。本文先介绍在使用SortedDocValues或者SortedSetDocValues的情况下，如何获取文档之间的排序关系，而通过读取索引文件.dvm&&dvd的过程即获取排序关系的过程：
 
 ## 通过索引文件.dvd、.dvm之SortedDocValues、SortedSetDocValues获取排序关系的流程图
 
@@ -42,17 +49,17 @@
 
 &emsp;&emsp;**如何判断DocIdData中是否包含该文档号**
 
-&emsp;&emsp;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)、[IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)中我们介绍了详细的读取过程，这里不赘述。
+&emsp;&emsp;在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)、[IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/IndexedDISI（二）)中我们介绍了详细的读取过程，这里不赘述。
 
 #### DocIdData中包含该文档号
 
-&emsp;&emsp;如果包含，那么返回一个段内编号index，index的概念在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)中已经介绍过了，我们这里再次说明下：
+&emsp;&emsp;如果包含，那么返回一个段内编号index，index的概念在文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)中已经介绍过了，我们这里再次说明下：
 
 ```text
 段内编号index：index是一个从0开始递增的值，index的值描述的是在生成索引文件.dvd阶段，依次处理的第index个文档号。
 ```
 
-&emsp;&emsp;index实际上跟currentValue\[ \]数组的下标值是同一个意思，见文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)的介绍。
+&emsp;&emsp;index实际上跟currentValue\[ \]数组的下标值是同一个意思，见文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)的介绍。
 
 #### DocIdData中不包含该文档号
 
@@ -64,7 +71,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（五）/6.png">
 
-&emsp;&emsp;Ords即图4中索引文件.dvd的Ords字段的信息，Ords的写入过程见文章[索引文件的生成（十九）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0531/145.html)，这里可以简单的将Ords理解为一个数组，其中数组下标为上文中的index、数组元素为ord值（具有相同用于排序的DocValues域值的文档对应的ord值是相同的），其中ord描述了文档之间的排序关系，如果是递增排序，那么ord越小，文档排序越靠前，如果某篇文档不包含当前用于排序的DocValues，那么上文中的missingOrd就作为这篇文档的ord值参与排序。至于为什么ord值描述了文档文档之间的排序关系，相信在读完文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)之后能明白。
+&emsp;&emsp;Ords即图4中索引文件.dvd的Ords字段的信息，Ords的写入过程见文章[索引文件的生成（十九）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0531/索引文件的生成（十九）之dvm&&dvd)，这里可以简单的将Ords理解为一个数组，其中数组下标为上文中的index、数组元素为ord值（具有相同用于排序的DocValues域值的文档对应的ord值是相同的），其中ord描述了文档之间的排序关系，如果是递增排序，那么ord越小，文档排序越靠前，如果某篇文档不包含当前用于排序的DocValues，那么上文中的missingOrd就作为这篇文档的ord值参与排序。至于为什么ord值描述了文档文档之间的排序关系，相信在读完文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)之后能明白。
 
 &emsp;&emsp;从上文的内容可以看出，如果用SortedValues/SortedSetValues来排序， 并不是比较SortedValues/SortedSetValues对应的域值的字典序，而是在生成索引文件.dvd阶段将域值映射为一个ord值，通过比较int类型的ord值就能得出排序关系，性能上明显是大于字典序的比较方式，特别是较长的域值。当然ord值的用途不仅仅如此，下文中我们会继续介绍其他的用途。
 
@@ -89,7 +96,7 @@
 - 步骤二：根据address的值，找到Block在索引文件.dvd中的起始位置
 - 步骤三：依次读取Block中的每一个域值，并且判断该域值对应的ord值是否为我们期望的ord，如果不是，那么读取下一个域值，直到找到我们期望的ord
 
-&emsp;&emsp;在步骤三中，相邻term的前缀存储，即如果需要读取第n个域值的完整值，需要知道第n-1个域值的完整值，故Block中第一个域值存储的是完整的域值（见文章[SortedDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)的介绍）。
+&emsp;&emsp;在步骤三中，相邻term的前缀存储，即如果需要读取第n个域值的完整值，需要知道第n-1个域值的完整值，故Block中第一个域值存储的是完整的域值（见文章[SortedDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)的介绍）。
 
 &emsp;&emsp;至此流程点介绍完毕，可以看出，根据文档号我们能获得用于排序的DocValues的域值以及文档的排序关系，注意到的是索引文件.dvd中的TermsIndex在上文中没有涉及，我们接下来介绍该字段的用途。
 
@@ -119,7 +126,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（五）/11.png">
 
-&emsp;&emsp;在生成索引文件.dvd的TermsIndex期间，每处理1024个域值，就生成一个PrefixValue，它描述的是在区间\[0, 1023\]的ord值对应的域值都小于PrefixValue（字典序，详细的介绍见文章[索引文件的生成（二十）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0602/146.html)）。
+&emsp;&emsp;在生成索引文件.dvd的TermsIndex期间，每处理1024个域值，就生成一个PrefixValue，它描述的是在区间\[0, 1023\]的ord值对应的域值都小于PrefixValue（字典序，详细的介绍见文章[索引文件的生成（二十）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0602/索引文件的生成（二十）之dvm&&dvd)）。
 
 &emsp;&emsp;如果判断SortedDocValues是否包含某个域值，分为以下的步骤：
 
@@ -141,7 +148,7 @@
 
 &emsp;&emsp;尽管本文中没有对SortedSetDocValues进行额外的介绍，实际上原理跟SortDocValue是一致的，故不赘述。
 
-[点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/索引文件的读取（四）/索引文件的读取（四）.zip)下载附件
+[点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/索引文件的读取（五）/索引文件的读取（五）.zip)下载附件
 
 
 

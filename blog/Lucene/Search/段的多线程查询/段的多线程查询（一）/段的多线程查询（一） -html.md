@@ -1,3 +1,13 @@
+---
+title: 段的多线程查询（一）（Lucene 9.6.0）
+date: 2023-06-26 00:00:00
+tags: [search, multiThread]
+categories:
+- Lucene
+- Search
+---
+
+
 # [段的多线程查询（一）](https://www.amazingkoala.com.cn/Lucene/Search/)(Lucene 9.6.0)
 
 &emsp;&emsp;前段时间有个朋友问到我：对多个段进行查询时，为什么在定义IndexSearcher时使用了[Executor](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executors.html)后，相比较单个线程轮询方式查询相同的多个段，查询速度并没有提升，有时候还下降了？本篇文章会介绍多线程查询中的一些知识点，给与大家在解决性能问题时提供一些思路。
@@ -8,7 +18,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/段的多线程查询/段的多线程查询（一）/1.png" align = "left"  width="600">
 
-&emsp;&emsp;图1中的[查询流程图](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)中，如果未使用多线程，那么Lucene将依次处理每一个段，否则每个线程会负责查询某个段，并在所有线程执行结束后对结果进行合并。
+&emsp;&emsp;图1中的[查询流程图](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)中，如果未使用多线程，那么Lucene将依次处理每一个段，否则每个线程会负责查询某个段，并在所有线程执行结束后对结果进行合并。
 
 ## Slice
 
@@ -42,7 +52,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/段的多线程查询/段的多线程查询（一）/3.png" align = "left">
 
-&emsp;&emsp;这个例子中，索引文件内有9个段，一共658000篇文档。查询条件是获取Top 1000的文档号，分别使用多线程跟单线程，查看[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)中分别处理的文档数量，如下所示：
+&emsp;&emsp;这个例子中，索引文件内有9个段，一共658000篇文档。查询条件是获取Top 1000的文档号，分别使用多线程跟单线程，查看[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)中分别处理的文档数量，如下所示：
 
 图4：
 
@@ -60,7 +70,7 @@
 
 #### early termination的实现原理
 
-&emsp;&emsp;因为篇幅原因就不在本文中展开了，简单的提一下。尽管每个Collector的实现原理各不相同，但early termination的核心内容都是通过调整[DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)来减少后续待处理的文档集合的大小，比如在`TopScoreDocCollector`中，当收集了TopN篇文档后并且确定剩余的文档不具备竞争力后，就会将DISI调整为空的DISI，即`DocIdSetIterator.empty()`。
+&emsp;&emsp;因为篇幅原因就不在本文中展开了，简单的提一下。尽管每个Collector的实现原理各不相同，但early termination的核心内容都是通过调整[DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/DocIdSet)来减少后续待处理的文档集合的大小，比如在`TopScoreDocCollector`中，当收集了TopN篇文档后并且确定剩余的文档不具备竞争力后，就会将DISI调整为空的DISI，即`DocIdSetIterator.empty()`。
 
 ## 合并Slice的查询结果
 

@@ -1,4 +1,12 @@
-# BooleanQuery介绍
+---
+title: BooleanQuery
+date: 2018-12-11 00:00:00
+tags: [query]
+categories:
+- Lucene
+- Search
+---
+
 BooleanQuery常用来对实现多个Query子类对象的进行组合，这些Query子类对象会组成一个Cluase实现组合查询。每一个Query都有四种可选，分别描述了匹配的文档需要满足的要求，定义在 BooleanClause类中，如下：
 ```java
 public static enum Occur {

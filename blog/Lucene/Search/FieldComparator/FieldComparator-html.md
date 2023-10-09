@@ -1,4 +1,11 @@
-# FieldComparator && LeafFieldComparator
+---
+title: FieldComparator&&LeafFieldComparator
+date: 2019-04-15 00:00:00
+tags: [FieldComparator,LeafFieldComparator]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;当满足搜索要求的文档被TopFieldCollector收集后，我们可以通过FieldComparator类来对这些结果（文档document）进行排序，并同时可以实现TopN的筛选。
 
@@ -16,13 +23,13 @@
 
 ## STRING
 
-&emsp;&emsp;根据String类型数据，即字符串对应的ord值(int类型)进行排序，ord越小越靠前(ord值的概念在[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)有详细介绍)。
+&emsp;&emsp;根据String类型数据，即字符串对应的ord值(int类型)进行排序，ord越小越靠前(ord值的概念在[SortedDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)有详细介绍)。
 
 ## STRING_VAL
 
 &emsp;&emsp;根据String类型数据，即字符串进行排序，上文的STRING通过对应的ord进行排序，而在STRING_VAL则是按照字典序逐个比较字符串的每一个字符。
 
-&emsp;&emsp;通常情况下排序速度没有STRING快。比如只使用了[BinaryDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html)的情况下，就只能使用这种排序类型，因为BinaryDocValues没有为String类型的域值设置ord值。
+&emsp;&emsp;通常情况下排序速度没有STRING快。比如只使用了[BinaryDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/BinaryDocValues)的情况下，就只能使用这种排序类型，因为BinaryDocValues没有为String类型的域值设置ord值。
 
 ## INT
 
@@ -86,7 +93,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/FieldComparator/5.png"> 
 
-&emsp;&emsp;根据文档号取出对应的BinaryDocValuesField的域值，将域值存放到value中。如何根据文档号取出域值在这里不赘述，如果你已经看过了[BinaryDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html)这篇文章，那么就知道过程啦。
+&emsp;&emsp;根据文档号取出对应的BinaryDocValuesField的域值，将域值存放到value中。如何根据文档号取出域值在这里不赘述，如果你已经看过了[BinaryDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/BinaryDocValues)这篇文章，那么就知道过程啦。
 
 ### 设置bottom
 

@@ -1,4 +1,11 @@
-# [Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: Collector（一）
+date: 2019-08-12 00:00:00
+tags: [collector,indexSort]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;在搜索阶段，每当Lucene找到一个满足查询条件的文档（Document），便会将该文档的文档号（docId）交给Collector，并在Collector中对收集的文档号集合进行排序（sorting）、过滤（filtering）或者用户自定义的操作。
 

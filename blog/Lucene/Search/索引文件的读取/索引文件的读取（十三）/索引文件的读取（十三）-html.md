@@ -1,6 +1,13 @@
-# [索引文件的读取（十三）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（十三）之doc&&pos&&pay（Lucene 8.4.0）
+date: 2020-09-11 00:00:00
+tags: [index,pos,doc,pay]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接文章[索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)，继续介绍剩余的内容。索引文件.doc、.pos、.pay的读取过程相比索引文件.tim&&.tip较为简单，核心部分为如何通过读取这三个索引文件，**生成一个PostingsEnum对象**，该对象中描述了term在一篇文档中的词频frequency、位置position、在文档中的[偏移offset](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)、[负载payload](https://github.com/luxugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/AnalyzerTest/PayloadAnalyzer.java)以及该文档的文档号docId，其中docId和frequency通过[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)获得、position通过[索引文件.pos](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)获得、offset和payload通过[索引文件.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)获得。
+&emsp;&emsp;本文承接文章[索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)，继续介绍剩余的内容。索引文件.doc、.pos、.pay的读取过程相比索引文件.tim&&.tip较为简单，核心部分为如何通过读取这三个索引文件，**生成一个PostingsEnum对象**，该对象中描述了term在一篇文档中的词频frequency、位置position、在文档中的[偏移offset](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/倒排表（上）)、[负载payload](https://github.com/luxugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/AnalyzerTest/PayloadAnalyzer.java)以及该文档的文档号docId，其中docId和frequency通过[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)获得、position通过[索引文件.pos](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)获得、offset和payload通过[索引文件.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)获得。
 
 ## PostingsEnum
 
@@ -33,7 +40,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十三）/3.png">
 
-&emsp;&emsp;本文中我们不展开ScoreMode的详细介绍，我们仅仅看下图3中<font color=red>红框</font>标注的TOP_SCORES，该值影响了上文中PostingsEnum子类的选择，该注释源码大意为：在搜索阶段，不会匹配所有满足查询条件的文档，会跳过那些不具竞争力的文档。其原理就是利用了索引文件.doc中的[Impacts字段](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)实现的，这里简单提下，在以后介绍[WAND（weak and）算法](https://issues.apache.org/jira/browse/LUCENE-4100?jql=text%20~%20%22WAND%22)时候再详细介绍。
+&emsp;&emsp;本文中我们不展开ScoreMode的详细介绍，我们仅仅看下图3中<font color=red>红框</font>标注的TOP_SCORES，该值影响了上文中PostingsEnum子类的选择，该注释源码大意为：在搜索阶段，不会匹配所有满足查询条件的文档，会跳过那些不具竞争力的文档。其原理就是利用了索引文件.doc中的[Impacts字段](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)实现的，这里简单提下，在以后介绍[WAND（weak and）算法](https://issues.apache.org/jira/browse/LUCENE-4100?jql=text%20~%20%22WAND%22)时候再详细介绍。
 
 ### 选择PostingsEnum的实现类
 
@@ -41,13 +48,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十三）/4.png">
 
-&emsp;&emsp;图4的流程图描述了如何根据Flag跟打分模式选择PostingsEnum的实现类。`是否有跳表信息`的判断依据为：如果包含term的文档数量小于128，即一个block的大小，那么在生成索引文件.doc阶段就不会有跳表信息（不懂？见文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)）;在读取阶段由于是先读取索引文件.tim，故通过该索引文件中的DocFreq字段来获取包含term的文档数量，如下图红框标注的字段：
+&emsp;&emsp;图4的流程图描述了如何根据Flag跟打分模式选择PostingsEnum的实现类。`是否有跳表信息`的判断依据为：如果包含term的文档数量小于128，即一个block的大小，那么在生成索引文件.doc阶段就不会有跳表信息（不懂？见文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)）;在读取阶段由于是先读取索引文件.tim，故通过该索引文件中的DocFreq字段来获取包含term的文档数量，如下图红框标注的字段：
 
 图5：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十三）/5.png">
 
-&emsp;&emsp;图5索引文件.tim的字段介绍以及生成过程可以分别阅读文章[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)。
+&emsp;&emsp;图5索引文件.tim的字段介绍以及生成过程可以分别阅读文章[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)。
 
 ### PostingsEnum中的信息
 
@@ -83,11 +90,11 @@
 
 **如何读取一个block中的信息**
 
-&emsp;&emsp;为了便于描述，我们不考虑**没有生成跳表**以及**不满128条信息的block（见文章[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)中VIntBlocks的介绍）**的读取，只介绍生成跳表后的读取方式。
+&emsp;&emsp;为了便于描述，我们不考虑**没有生成跳表**以及**不满128条信息的block（见文章[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)中VIntBlocks的介绍）**的读取，只介绍生成跳表后的读取方式。
 
-&emsp;&emsp;在读取了跳表SkipList之后（读取过程见文章[索引文件的生成（四）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/124.html)），我们就获得了一个SkipDatum的信息。
+&emsp;&emsp;在读取了跳表SkipList之后（读取过程见文章[索引文件的生成（四）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/索引文件的生成（四）之跳表SkipList)），我们就获得了一个SkipDatum的信息。
 
-&emsp;&emsp;这里需要简单说明下，在生成跳表SkipList的过程中，在第0层中每当处理skipInterval（默认值为128）篇文档就生成一个SkipDatum，另外每生成skipMultiplier（默认值为8）个SkipDatum就在上一层，即第1层，生成一个SkipDatum。注意的是第1层的该SkipDatum中包含的指针信息是指向第0层中最后一个SKipDatum的**结束读取位置**，同时意味着指针信息指向了第0层的最后一个SkipDatum的下一个**待写入**的SkipDatum的**起始读取位置**，如果不了解这段描述，请阅读文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)。
+&emsp;&emsp;这里需要简单说明下，在生成跳表SkipList的过程中，在第0层中每当处理skipInterval（默认值为128）篇文档就生成一个SkipDatum，另外每生成skipMultiplier（默认值为8）个SkipDatum就在上一层，即第1层，生成一个SkipDatum。注意的是第1层的该SkipDatum中包含的指针信息是指向第0层中最后一个SKipDatum的**结束读取位置**，同时意味着指针信息指向了第0层的最后一个SkipDatum的下一个**待写入**的SkipDatum的**起始读取位置**，如果不了解这段描述，请阅读文章[索引文件的生成（三）之跳表SkipList](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)。
 
 &emsp;&emsp;**那么此时问题来了，在读取阶段，最高层的第一个跳表是如何读取的；term的第一个docId信息、frequency信息、position信息、offset信息、payload信息是如何获得的呢**？
 
@@ -97,7 +104,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十三）/6.png">
 
-&emsp;&emsp;在SkipDatum字段包含的信息中，DocFPSkip描述了存储docId跟frequency的block在索引文件.doc中的起始读取位置，PosFPSkip描述了存储position的block在索引文件.pos中的起始读取位置，PosBlockOffset描述了block中的块内偏移（不明白的话，请阅读文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)、[索引文件的生成（二）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)）剩余的字段同理，下文中会进一步介绍，最终读取后的信息写入到上文提到的各种集合中：
+&emsp;&emsp;在SkipDatum字段包含的信息中，DocFPSkip描述了存储docId跟frequency的block在索引文件.doc中的起始读取位置，PosFPSkip描述了存储position的block在索引文件.pos中的起始读取位置，PosBlockOffset描述了block中的块内偏移（不明白的话，请阅读文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)、[索引文件的生成（二）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/索引文件的生成（二）之doc&&pay&&pos)）剩余的字段同理，下文中会进一步介绍，最终读取后的信息写入到上文提到的各种集合中：
 
 图7：
 
@@ -141,7 +148,7 @@
 
 #### impactData信息
 
-&emsp;&emsp;最后剩余读取impactData信息就相对简单了，在源码中，用二维数组impactData\[ ] \[ ]、impactDataLength\[ ]来描述所有层的Impacts信息（Impacts的概念见文章[索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)）、图6中，先读取ImpactLength字段，确定Impacts字段的读取区间，然后将Impacts字段的信息写入到这两个数组中，这两个数组跟存储payload信息的两个数组用法一致，不赘述。
+&emsp;&emsp;最后剩余读取impactData信息就相对简单了，在源码中，用二维数组impactData\[ ] \[ ]、impactDataLength\[ ]来描述所有层的Impacts信息（Impacts的概念见文章[索引文件的读取（十二）之doc&&pos&&pay](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)）、图6中，先读取ImpactLength字段，确定Impacts字段的读取区间，然后将Impacts字段的信息写入到这两个数组中，这两个数组跟存储payload信息的两个数组用法一致，不赘述。
 
 ## 结语
 

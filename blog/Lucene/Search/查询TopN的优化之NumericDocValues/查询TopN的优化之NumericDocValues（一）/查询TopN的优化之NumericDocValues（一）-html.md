@@ -1,6 +1,14 @@
-# [查询TopN的优化之NumericDocValues（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.9.0）
+---
+title: 查询TopN的优化之NumericDocValues（一）（Lucene 8.9.0）
+date: 2019-08-20 00:00:00
+tags: [topN,query,optimization,NumericDocValues]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;在索引阶段，我们可以在每一篇文档中添加一条或多条DocValues信息（正排），使得在查询阶段，当收集器[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)收集到满足查询条件的文档号后，可以根据文档号找到对应的正排信息，并依据正排信息对查询结果进行排序。
+
+&emsp;&emsp;在索引阶段，我们可以在每一篇文档中添加一条或多条DocValues信息（正排），使得在查询阶段，当收集器[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)收集到满足查询条件的文档号后，可以根据文档号找到对应的正排信息，并依据正排信息对查询结果进行排序。
 
 图1：
 
@@ -24,7 +32,7 @@
 
 ### 获取迭代器
 
-&emsp;&emsp;获取迭代器描述的是从倒排信息中或者存储数值类型的[BKD树](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中找到满足查询条件的文档号集合，该集合用于生一个迭代器。随后迭代器会按照文档号从小到大的顺序（在设置了段的排序IndexSort后，顺序可能会发生变化，见文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中的**预备知识**的介绍）依次取出每一个文档号，并将文档号送到收集器Collector中。
+&emsp;&emsp;获取迭代器描述的是从倒排信息中或者存储数值类型的[BKD树](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中找到满足查询条件的文档号集合，该集合用于生一个迭代器。随后迭代器会按照文档号从小到大的顺序（在设置了段的排序IndexSort后，顺序可能会发生变化，见文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)中的**预备知识**的介绍）依次取出每一个文档号，并将文档号送到收集器Collector中。
 
 #### 收集器处理文档
 
@@ -32,7 +40,7 @@
 
 ### 问题
 
-&emsp;&emsp;上文介绍的查询模块设计会存在这个问题（为了便于介绍，我们暂时不考虑设置了段排序的情况）：假设我们有10000篇文档号，排序方式为按照**正排值升序**，并且文档0中的正排值为0，文档1中的正排值为1，剩余的9998篇文档的正排值都大于1。如果我们只要Top2的结果，那么很明显，最好的期望的处理方式应该是收集器Collector在处理完文档0跟文档1后就不再处理剩余的其他文档了。然而在优化之前，由于依次传入到收集器Collector的文档号是从小到大是**有序的**，但是文档号对应的正排值是**无法保证有序的**，意味着收集器Collector只有处理完所有的文档号才能实现正确的Top2。在文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/)中详细介绍了优化前利用NumericDocValues获取TopN的过程，可以先行阅读下。
+&emsp;&emsp;上文介绍的查询模块设计会存在这个问题（为了便于介绍，我们暂时不考虑设置了段排序的情况）：假设我们有10000篇文档号，排序方式为按照**正排值升序**，并且文档0中的正排值为0，文档1中的正排值为1，剩余的9998篇文档的正排值都大于1。如果我们只要Top2的结果，那么很明显，最好的期望的处理方式应该是收集器Collector在处理完文档0跟文档1后就不再处理剩余的其他文档了。然而在优化之前，由于依次传入到收集器Collector的文档号是从小到大是**有序的**，但是文档号对应的正排值是**无法保证有序的**，意味着收集器Collector只有处理完所有的文档号才能实现正确的Top2。在文章[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)中详细介绍了优化前利用NumericDocValues获取TopN的过程，可以先行阅读下。
 
 ## 查询TopN的性能（优化后）
 
@@ -76,7 +84,7 @@
 
 &emsp;&emsp;其优化过程可以用一句话来概括：**利用PointValues实现正排信息的排序，通过PointValues更新迭代器，最新的迭代器中的文档对应的正排信息都是有竞争力的（competitive）**。
 
-&emsp;&emsp;正如上文**开启优化**中介绍的那样，需要在文档中增加一个与NumericDocValues相同域名的PointValues。因为从存储NumericDocValues的数据结构中可以看出，正排信息的值以及对应的文档号在[索引文件.dvd、.dvm](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)中是按照文档号从小到大存储的，而在PointValues中，在生成一棵BKD树过程期间，节点划分前先会对点数据进行排序，然后根据中位数，将点数据集合划分为两块，用于构建左右子节点（见文章[索引文件的生成（九）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)的介绍），故最终生成的BKD树的所有叶子节点从左到右是按照点数据有序存储的。
+&emsp;&emsp;正如上文**开启优化**中介绍的那样，需要在文档中增加一个与NumericDocValues相同域名的PointValues。因为从存储NumericDocValues的数据结构中可以看出，正排信息的值以及对应的文档号在[索引文件.dvd、.dvm](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)中是按照文档号从小到大存储的，而在PointValues中，在生成一棵BKD树过程期间，节点划分前先会对点数据进行排序，然后根据中位数，将点数据集合划分为两块，用于构建左右子节点（见文章[索引文件的生成（九）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)的介绍），故最终生成的BKD树的所有叶子节点从左到右是按照点数据有序存储的。
 
 &emsp;&emsp;我们假设查询TopN的排序规则为按照正排值从小大小的顺序，即正排值越小，优先级越高。故在开启优化后，当收集器收到一个文档号，先根据文档号从正排索引中拿到正排值，在满足某些条件后，根据正排值，通过查询BKD树获取所有小于该正排值的文档集合，该文档集合用于生成一个新的迭代器。随后每次传入到收集器的文档号将会从新的迭代器中获取，达到所谓的skip non-competitive documents的效果。
 

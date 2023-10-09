@@ -1,6 +1,13 @@
-# [Collector（四）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: Collector（四）
+date: 2019-08-15 00:00:00
+tags: [collector,indexSort]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)，继续介绍其他的收集器。
+&emsp;&emsp;本文承接[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)，继续介绍其他的收集器。
 
 &emsp;&emsp;图1是Lucene常用的几个Collector：
 
@@ -52,7 +59,7 @@
 
 &emsp;&emsp;使用优先级队列PriorityQueue来存放满足搜索条件的文档信息（**文档信息至少包含了文档打分score以及文档号docId**），分数最低的文档信息位于堆顶，堆的大小默认为段中的文档总数（用户也可以指定堆的大小，即用户期望的返回结果TopN的N值）。
 
-&emsp;&emsp;如果堆没有满，那么将文档号交给FieldComparator，FieldComparator的概念在[FieldComparator](https://www.amazingkoala.com.cn/Lucene/Search/2019/0415/50.html)的文章中介绍了，不赘述，它用来描述文档间的排序关系（**从代码层面讲，通过FieldComparator实现了优先级队列[PriorityQueue的lessThan()](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/search/FieldValueHitQueue.java)方法**），接着添加文档信息到堆中。
+&emsp;&emsp;如果堆没有满，那么将文档号交给FieldComparator，FieldComparator的概念在[FieldComparator](https://www.amazingkoala.com.cn/Lucene/Search/2019/0415/FieldComparator&&LeafFieldComparator)的文章中介绍了，不赘述，它用来描述文档间的排序关系（**从代码层面讲，通过FieldComparator实现了优先级队列[PriorityQueue的lessThan()](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/search/FieldValueHitQueue.java)方法**），接着添加文档信息到堆中。
 
 #### 设置bottom值
 
@@ -76,7 +83,7 @@
     canEarlyStopComparing == true && canEarlyTerminate == false
 ```
 
-- canEarlyStopComparing：该值描述了是否可以提前结束域比较，在[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)我们提到，当索引期间通过[IndexWriterConfig.setIndexSort(Sort sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置的排序规则与搜索期间提供的排序规则一致时，Collector收到的文档集合已经是有序的，在堆已满的情况下，后面处理的文档号就没有比较的必要性了，那么canEarlyStopComparing的值会被true，每次获取一个段的信息时设置canEarlyStopComparing，即调用getLeafCollector(LeafReaderContext context) 时候设置（见[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)）。
+- canEarlyStopComparing：该值描述了是否可以提前结束域比较，在[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)我们提到，当索引期间通过[IndexWriterConfig.setIndexSort(Sort sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置的排序规则与搜索期间提供的排序规则一致时，Collector收到的文档集合已经是有序的，在堆已满的情况下，后面处理的文档号就没有比较的必要性了，那么canEarlyStopComparing的值会被true，每次获取一个段的信息时设置canEarlyStopComparing，即调用getLeafCollector(LeafReaderContext context) 时候设置（见[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)）。
 - canEarlyTerminate：该值描述了是否可以提前结束Collector的收集工作，canEarlyTerminate设置为true需要满足下面的条件：
 
 ```text
@@ -127,7 +134,7 @@ trackTotalHits == false && trackMaxScore == false && canEarlyStopComparing
 
 ### PagingFieldCollector
 
-&emsp;&emsp;PagingFieldCollector同[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)中的PagingTopScoreDocCollector一样，相对于SimpleFieldCollector实现了分页功能，分页功能的介绍见[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)，不赘述，collect(int doc)的流程图是相似的，并且用红圈标记出不同处。
+&emsp;&emsp;PagingFieldCollector同[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)中的PagingTopScoreDocCollector一样，相对于SimpleFieldCollector实现了分页功能，分页功能的介绍见[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)，不赘述，collect(int doc)的流程图是相似的，并且用红圈标记出不同处。
 
 &emsp;&emsp;PagingFieldCollector的collect(int doc)方法的流程图：
 
@@ -146,7 +153,7 @@ trackTotalHits == false && trackMaxScore == false && canEarlyStopComparing
 ```
 
 - topCmp：该值描述的当前文档与FileComparator的top值进行比较后的值，top值描述的是之前所有分页搜索的结果中最差的文档，在初始化PagingFieldCollector对象时需要用户提供该值（通过上一次的查询结果就能获得），并设置top的值。如果topCmp > 0，说明当前文档比最差的文档好（competitive），必定该篇文档已经在前面某次分页搜索中被收集过了。
-- afterDoc：该值描述的是之前所有分页搜索的结果中最差的文档的文档号，在[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)中我们说到，如果域比较无法区得出排序结果，由于文档号是唯一的，所以再根据文档号进行比较，文档号大的比文档号小的差（uncompetitive），所以在topCmp == 0 情况下，如果当前文档号小于等于afterDoc，必定该篇文档已经在前面某次分页搜索中被收集过了。
+- afterDoc：该值描述的是之前所有分页搜索的结果中最差的文档的文档号，在[Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)中我们说到，如果域比较无法区得出排序结果，由于文档号是唯一的，所以再根据文档号进行比较，文档号大的比文档号小的差（uncompetitive），所以在topCmp == 0 情况下，如果当前文档号小于等于afterDoc，必定该篇文档已经在前面某次分页搜索中被收集过了。
 
 # 结语
 

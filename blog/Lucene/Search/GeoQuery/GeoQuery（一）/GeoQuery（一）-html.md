@@ -1,4 +1,11 @@
-# [GeoQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.8.0）
+---
+title: GeoQuery（一）（Lucene 8.8.0）
+date: 2021-08-17 00:00:00
+tags: [geo,query,dim,dii]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;本系列文章将介绍下Elasticsearch中提供的几个[地理查询](https://www.elastic.co/guide/en/elasticsearch/reference/7.13/geo-queries.html)（Geo Query）在Lucene层的相关内容。Elasticsearch 7.13版本中提供了以下的Geo Queries：
 
@@ -35,7 +42,7 @@
 
 #### 索引（indexing）和搜索（search）点数据
 
-&emsp;&emsp;在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中介绍了Lucene中点数据对应的索引数据结构，以及在文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)中通过一个例子简单的介绍了如何对点数据集合进行划分，并用于生成一棵BKD树，以及在系列文章[索引文件的生成（八）~（十四）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)中详细的介绍了生成[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的过程，最后在系列文章[索引文件的读取（一）~（四）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)中介绍了[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的读取过程，即点数据的搜索过程。
+&emsp;&emsp;在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中介绍了Lucene中点数据对应的索引数据结构，以及在文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/Bkd-Tree)中通过一个例子简单的介绍了如何对点数据集合进行划分，并用于生成一棵BKD树，以及在系列文章[索引文件的生成（八）~（十四）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)中详细的介绍了生成[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的过程，最后在系列文章[索引文件的读取（一）~（四）](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)中介绍了[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的读取过程，即点数据的搜索过程。
 
 &emsp;&emsp;如果阅读过上述的文章，那么相信能非常容易理解GeoQuery在Lucene中的实现。
 

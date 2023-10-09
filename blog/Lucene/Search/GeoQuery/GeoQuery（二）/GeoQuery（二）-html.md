@@ -1,6 +1,15 @@
+---
+title: GeoQuery（二）（Lucene 8.8.0）
+date: 2021-09-02 00:00:00
+tags: [geo,query,dim,dii]
+categories:
+- Lucene
+- Search
+---
+
 # [GeoQuery（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.8.0）
 
-&emsp;&emsp;在上一篇文章[GeoQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/198.html)中，我们基于下面的例子介绍了在GeoHash编码在Elasticsearch中的部分实现，我们继续介绍其剩余内容。
+&emsp;&emsp;在上一篇文章[GeoQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0817/GeoQuery（一）)中，我们基于下面的例子介绍了在GeoHash编码在Elasticsearch中的部分实现，我们继续介绍其剩余内容。
 
 ```java
 latitude：32

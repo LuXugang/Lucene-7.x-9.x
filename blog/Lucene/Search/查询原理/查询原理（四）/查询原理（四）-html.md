@@ -1,6 +1,13 @@
-# [查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: 查询原理（四）
+date: 2019-08-27 00:00:00
+tags: [search,query]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/88.html)，继续介绍查询原理。
+&emsp;&emsp;本文承接[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/查询原理（三）)，继续介绍查询原理。
 
 # 查询原理流程图
 
@@ -10,7 +17,7 @@
 
 [点击](http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（三）/查询原理流程图.html)查看大图
 
-&emsp;&emsp;图2、图3是BooleanQuery的查询实例，在[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/88.html)中我们根据这个例子介绍了`生成BulkScorer`的流程点，本篇文章根据这个例子，继续介绍图1中剩余的流程点。
+&emsp;&emsp;图2、图3是BooleanQuery的查询实例，在[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/查询原理（三）)中我们根据这个例子介绍了`生成BulkScorer`的流程点，本篇文章根据这个例子，继续介绍图1中剩余的流程点。
 
 图2：
 
@@ -22,7 +29,7 @@
 
 ## Collector处理查询结果
 
-&emsp;&emsp;在[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/88.html)文章中的`生成BulkScorer`流程点，我们获得了每一个子查询对应的文档号跟词频，见图4，结合[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)文章中的`生成Weight`流程点，我们就可以在当前流程点获得满足查询条件（图3）的文档集合及对应的文档打分值。
+&emsp;&emsp;在[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/查询原理（三）)文章中的`生成BulkScorer`流程点，我们获得了每一个子查询对应的文档号跟词频，见图4，结合[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)文章中的`生成Weight`流程点，我们就可以在当前流程点获得满足查询条件（图3）的文档集合及对应的文档打分值。
 
 图4：
 
@@ -103,12 +110,12 @@ static class Bucket {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（四）/10.png">
 
-- Idf、boost、avgdl、docCount、docFreq：这些值在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)中计算SimWeight时获得，不赘述
+- Idf、boost、avgdl、docCount、docFreq：这些值在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)中计算SimWeight时获得，不赘述
 - freq：子查询条件中的域值在文档（正在计算打分的文档）中的词频，即图4中的freqBuffer数组的数组元素
 - $k_1$、b：BM25模型的两个调节因子，这两个值都是经验参数，默认值为$k_1$ = 1.2、b = 0.75。$k_1$值用来控制非线性的词频标准化（non-linear term frequency normalization）对打分的影响，b值用来控制文档长度对打分的影响
 - norm：该值描述的是文档长度对打分的影响，满足同一种查询的多篇文档， 会因为norm值的不同而影响打分值
-  - cache数组：在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)文章中，我们简单的提了一下cache生成的时机是在`生成Weight`的流程中，下面详细介绍该数组。
-    - cache数组的数组下标[normValue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0828/164.html)描述的是文档长度值，这是一个标准化后的值（下文会介绍），在Lucene中，用域值的个数来描述文档长度，例如图3中的子查询1，它查询的条件是域名为"content"，域值为"h"的文档，那么对于文档0，文档长度值为域名为"content"，term为"h"在文档0中的个数，即2；cache数组的数组元素即norm值
+  - cache数组：在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)文章中，我们简单的提了一下cache生成的时机是在`生成Weight`的流程中，下面详细介绍该数组。
+    - cache数组的数组下标[normValue](https://www.amazingkoala.com.cn/Lucene/Index/2020/0828/索引文件的生成（二十二）之nvd&&nvm)描述的是文档长度值，这是一个标准化后的值（下文会介绍），在Lucene中，用域值的个数来描述文档长度，例如图3中的子查询1，它查询的条件是域名为"content"，域值为"h"的文档，那么对于文档0，文档长度值为域名为"content"，term为"h"在文档0中的个数，即2；cache数组的数组元素即norm值
     - 上文说到域值的个数来描述文档长度，但是他们两个的值不总是相等，域值的个数通过标准化（normalization）后来描述文档长度，标准化的过程是将文档的长度控制在[1，255]的区间中，跟归一化的目的是类似的，为了平衡小文档相跟大文档的对打分公式的影响，标准化的计算方式不在本文中介绍，感兴趣的可以看https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java中的 intToByte4(int)方法，该方法的返回值与0XFF执行与操作后就得到标准化后的文档长度值
     - 根据标准化后的文档长度值（取值范围为[1，255]）就可以计算出norm中dl的值，dl为文档长度值对应的打分值，同样两者之间的计算方法不在本文中介绍，感兴趣可以看https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/SmallFloat.java中的byte4ToInt(byte)方法，图11给出了文档长度值跟dl之间的映射关系
 
@@ -129,9 +136,8 @@ static class Bucket {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（四）/13.jpg">
 
-&emsp;&emsp;图10中的normValue根据文档号从[索引文件.nvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)中获得，图14中用红框标识了一篇文档的文档号及其对应的normValue。
+&emsp;&emsp;图10中的normValue根据文档号从[索引文件.nvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)中获得，图14中用红框标识了一篇文档的文档号及其对应的normValue。
 
-&emsp;&emsp;读取索引文件的过程不展开介绍，本人不想介绍的原因是，只要了解索引文件的数据结构（见[索引文件数据结构](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/) ）是如何生成的，自然就明白如何读取索引文件~~
 
 图14：
 
@@ -143,11 +149,11 @@ static class Bucket {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（四）/15.png">
 
-&emsp;&emsp;处理Buck数组的过程就是找出所有满足图3中minShouldMatch的文档，然后分别将文档号交给[Collector收集器](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)处理
+&emsp;&emsp;处理Buck数组的过程就是找出所有满足图3中minShouldMatch的文档，然后分别将文档号交给[Collector收集器](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)处理
 
-&emsp;&emsp;**某个遍历区间**内的生成Bucket数组的过程在[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/26.html)的文章中已经介绍，不过注意的是，在那篇文档中，没有考虑文档的打分值，故Bucket数组只介绍了freq。由于那篇中没有类似图3中的子查询4，所以遍历区间为[0，2147483647]。
+&emsp;&emsp;**某个遍历区间**内的生成Bucket数组的过程在[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/文档号合并（SHOULD）)的文章中已经介绍，不过注意的是，在那篇文档中，没有考虑文档的打分值，故Bucket数组只介绍了freq。由于那篇中没有类似图3中的子查询4，所以遍历区间为[0，2147483647]。
 
-&emsp;&emsp;对于本篇文章中图2、图3的例子，在遍历区间为[0，3)对应生成的Bucket数组如下所示，相比较[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/26.html)中的内容，我们增加每篇文档的打分值，列出遍历区间为[0，3)的Bucket数组：
+&emsp;&emsp;对于本篇文章中图2、图3的例子，在遍历区间为\[0，3)对应生成的Bucket数组如下所示，相比较[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/文档号合并（SHOULD）)中的内容，我们增加每篇文档的打分值，列出遍历区间为[0，3)的Bucket数组：
 
 ##### 遍历区间[0，3)
 
@@ -166,7 +172,6 @@ static class Bucket {
 &emsp;&emsp;另外对于多线程的情况，图1中的`合并查询结果`流程也留到下一篇文章中介绍。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/查询原理/查询原理（四）/查询原理（四）.zip)下载附件
-
 
 
 

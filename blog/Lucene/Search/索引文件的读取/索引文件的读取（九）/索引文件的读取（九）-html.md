@@ -1,6 +1,13 @@
-# [索引文件的读取（九）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（九）之tim&&tip（Lucene 8.4.0）
+date: 2020-08-10 00:00:00
+tags: [index,tim,tip]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接文章[索引文件的读取（八）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0805/159.html)，继续介绍剩余的流程点，先给出流程图：
+&emsp;&emsp;本文承接文章[索引文件的读取（八）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0805/索引文件的读取（八）之tim&&tip)，继续介绍剩余的流程点，先给出流程图：
 
 ## 获取满足TermRangeQuery查询条件的term集合的流程图
 
@@ -44,7 +51,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（九）/6.png">
 
-&emsp;&emsp;根据ord值判断段中是否存在某个term，ord描述了term之间的大小关系，在文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)中我们介绍了ord跟term的内容，这里不赘述。
+&emsp;&emsp;根据ord值判断段中是否存在某个term，ord描述了term之间的大小关系，在文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/索引文件的读取（五）之dvd&&dvm)中我们介绍了ord跟term的内容，这里不赘述。
 
 ##### 获取当前term 的ord值
 
@@ -64,13 +71,13 @@
 
 #### IntersectTermsEnum
 
-&emsp;&emsp;在获取迭代器IntersectTermsEnum的过程中，即在IntersectTermsEnum的构造函数中，本篇文章中我们只关心其中的一个逻辑，那就是初始化IntersectTermsEnumFrame对象，它用来描述段中第一个term所在的NodeBlock（见文章[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)）的信息，生成该对象的过程即读取[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)的过程：
+&emsp;&emsp;在获取迭代器IntersectTermsEnum的过程中，即在IntersectTermsEnum的构造函数中，本篇文章中我们只关心其中的一个逻辑，那就是初始化IntersectTermsEnumFrame对象，它用来描述段中第一个term所在的NodeBlock（见文章[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)）的信息，生成该对象的过程即读取[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)的过程：
 
 图9：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（九）/9.png">
 
-&emsp;&emsp;在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)中我们说到，索引文件.tim&&.tip中的RootCodeLength跟RootCodeValue字段会用于生成FiledReader对象，在构造该对象期间，会根据这两个字段计算出long类型的rootBlockFP，它就是前缀为"\[ \]"的PendingBlock合并信息（见文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)），当rootBLockFP执行右移两个bit的操作后，就获得了fp，它指向了段中第一个term所属的NodeBlock在索引文件.tim中的起始读取位置，随后读取NodeBlock中的信息，这些信息用于生成IntersectTermsEnumFrame对象。
+&emsp;&emsp;在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)中我们说到，索引文件.tim&&.tip中的RootCodeLength跟RootCodeValue字段会用于生成FiledReader对象，在构造该对象期间，会根据这两个字段计算出long类型的rootBlockFP，它就是前缀为"\[ \]"的PendingBlock合并信息（见文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)），当rootBLockFP执行右移两个bit的操作后，就获得了fp，它指向了段中第一个term所属的NodeBlock在索引文件.tim中的起始读取位置，随后读取NodeBlock中的信息，这些信息用于生成IntersectTermsEnumFrame对象。
 
 ### 获取Term并判断是否满足查询条件
 
@@ -90,7 +97,7 @@
 
 &emsp;&emsp;当读取到类型一的数据结构时，意味着term的信息都在**当前NodeBlock**中，当读取到类型二的数据结构，意味着term信息在**其他NodeBlock**中，**注意的是：Length字段是一个组合编码，该字段最后一个bit为0时说明Suffix为类型一，为1时候Suffix为类型二**。
 
-&emsp;&emsp;在文章[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)中已经给出了例子，我们这里再次列出：
+&emsp;&emsp;在文章[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)中已经给出了例子，我们这里再次列出：
 
 图12：
 
@@ -100,13 +107,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（九）/13.png">
 
-&emsp;&emsp;图13中可以看出，前缀为"ab"的信息在另一个NodeBlock中，至于为什么会分布在另一个NodeBlock中，见文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)的介绍。
+&emsp;&emsp;图13中可以看出，前缀为"ab"的信息在另一个NodeBlock中，至于为什么会分布在另一个NodeBlock中，见文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)的介绍。
 
 #### 判断term是否满足查询条件
 
 &emsp;&emsp;判断的逻辑用一句话可以总结：**在DFA（Deterministic Finite Automaton）中，如果term的每个字符（label）能根据转移函数从当前状态转移到下一个状态，并且要求字符的当前状态为前一个字符的下一个状态，并且最后一个字符对应的下一个状态为可接受状态，那么term满足查询条件**。
 
-&emsp;&emsp;上述逻辑的例子在文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)中已经介绍，不赘述。
+&emsp;&emsp;上述逻辑的例子在文章[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)中已经介绍，不赘述。
 
 &emsp;&emsp;到这里，我们应该会提出这样的疑问，既然知道了TermRangeQuery的查询范围minValue、maxValue，为什么不直接通过简单的字符比较来判断term是否满足查询条件，简单的字符比较例如[FutureArrays.compareUnsigned](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/util/FutureArrays.java)方法，从最高位的字符开始按照字典序进行比较，这块内容将在下一篇文章中展开。
 
@@ -120,7 +127,7 @@
 
 #### 未达到阈值
 
-&emsp;&emsp;term的数量不大于16，那么TermRangeQuery转变为BooleanQuery，其中每个term生成TermQuery，作为BooleanQuery的子查询，并且TermQuery之间的关系为[SHOULD](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/25.html)。
+&emsp;&emsp;term的数量不大于16，那么TermRangeQuery转变为BooleanQuery，其中每个term生成TermQuery，作为BooleanQuery的子查询，并且TermQuery之间的关系为[SHOULD](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/BooleanQuery)。
 
 #### 达到阈值
 

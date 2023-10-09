@@ -1,6 +1,13 @@
-# [查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: 查询原理（二）
+date: 2019-08-21 00:00:00
+tags: [search,query]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;在[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)的文章中，我们介绍了几种常用查询方式的使用方法，从本篇文章开始，通过BooleanQuery来介绍查询原理。
+&emsp;&emsp;在[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)的文章中，我们介绍了几种常用查询方式的使用方法，从本篇文章开始，通过BooleanQuery来介绍查询原理。
 
 # 查询原理流程图
 
@@ -14,9 +21,9 @@
 
 &emsp;&emsp;根据用户提供的不同参数IndexSearcher类提供了多种search( )方法：
 
-- 分页参数：当用户提供了上一次查询的ScoreDoc对象就可以实现分页查询的功能，该内容的实现方式已经在[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)中介绍，不赘述
-- 排序参数：用户通过提供[Sort](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/84.html)参数使得查询结果按照自定义的规则进行排序，默认使用[TopFieldCollector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0815/85.html)对满足查询条件的结果进行排序。
-- Collector参数：用户通过提供Collector收集器来自定义处理那些满足查询条件的文档的方法，如果不提供，那么默认使用[TopFieldCollector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0815/85.html)或者[TopScoreDocCollector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)，如果用户提供了Sort参数，那么使用前者，反之使用后者
+- 分页参数：当用户提供了上一次查询的ScoreDoc对象就可以实现分页查询的功能，该内容的实现方式已经在[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)中介绍，不赘述
+- 排序参数：用户通过提供[Sort](https://www.amazingkoala.com.cn/Lucene/Search/2019/0814/Collector（三）)参数使得查询结果按照自定义的规则进行排序，默认使用[TopFieldCollector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0815/Collector（四）)对满足查询条件的结果进行排序。
+- Collector参数：用户通过提供Collector收集器来自定义处理那些满足查询条件的文档的方法，如果不提供，那么默认使用[TopFieldCollector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0815/Collector（四）)或者[TopScoreDocCollector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（四）)，如果用户提供了Sort参数，那么使用前者，反之使用后者
 - TopN参数：用户通过提供该参数用来描述期望获得的查询结果的最大个数
 
 &emsp;&emsp;至于使用上述不同的参数对应哪些不同的search( )就不详细展开了，感兴趣的同学可以结合上述的参数介绍及源码中的几个[search( )](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/search/IndexSearcher.java)方法，相信很容易能理解。
@@ -31,7 +38,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（二）/2.png">
 
-&emsp;&emsp;图3中定义了一个PrefixQuery（前缀查询，见[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)），它描述了满足条件的文档必须包含一个域名为"content"，域值中包含前缀为"go"的term的域，相比较TermQuery，这个查询没有**显示的**在用户使用的接口层面（api level）描述我们要查询具体哪个term，我们称之为这不是一个“最终”的Query，故需要通过重写Query来完善成一个新的Query，先找到以"go"为前缀的所有term集合，然后根据这些term重新生成一个Query对象，具体过程在下文中展开。
+&emsp;&emsp;图3中定义了一个PrefixQuery（前缀查询，见[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)），它描述了满足条件的文档必须包含一个域名为"content"，域值中包含前缀为"go"的term的域，相比较TermQuery，这个查询没有**显示的**在用户使用的接口层面（api level）描述我们要查询具体哪个term，我们称之为这不是一个“最终”的Query，故需要通过重写Query来完善成一个新的Query，先找到以"go"为前缀的所有term集合，然后根据这些term重新生成一个Query对象，具体过程在下文中展开。
 
 图3：
 
@@ -39,7 +46,7 @@
 
 &emsp;&emsp;**注意的是上述的介绍只是描述了重写Query的其中一个目的。**
 
-&emsp;&emsp;根据[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)中介绍的9种Query，我们分别来讲解这些Query的重写过程。
+&emsp;&emsp;根据[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)中介绍的9种Query，我们分别来讲解这些Query的重写过程。
 
 ### TermQuery
 
@@ -51,13 +58,13 @@
 
 ### BooleanQuery
 
-&emsp;&emsp;BooleanQuery的重写过程在[BooleanQuery](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/25.html)的文章中介绍，不赘述。
+&emsp;&emsp;BooleanQuery的重写过程在[BooleanQuery](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/BooleanQuery)的文章中介绍，不赘述。
 
 ### PhraseQuery
 
 &emsp;&emsp;PhraseQuery的重写会生成以下两种新的Query：
 
-- TermQuery：图4中的PhraseQuery，它只有一个域名为“content”，域值为"quick"的term，这种PhraseQuery可以被重写为TermQuery，TermQuery是所有的查询性能最好的查询方式（性能好到Lucene认为这种查询方式都不需要使用缓存机制，见[LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/2019/0506/57.html)），可见这次的重写是一个完善的过程
+- TermQuery：图4中的PhraseQuery，它只有一个域名为“content”，域值为"quick"的term，这种PhraseQuery可以被重写为TermQuery，TermQuery是所有的查询性能最好的查询方式（性能好到Lucene认为这种查询方式都不需要使用缓存机制，见[LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/2019/0506/LRUQueryCache)），可见这次的重写是一个完善的过程
 
 图4：
 
@@ -97,7 +104,7 @@
 
 &emsp;&emsp;图9中我们使用BooleanQuery对图7中的内容进行查询。
 
-&emsp;&emsp;图8中TermRangeQuery在重写的过程中，会先找到"bc" ~ "gc"之间的所有term（查找方式见[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/51.html)），这些term即"bcd"、"ga"、"gc"，然后将他们生成对应的TermQuery，并用BooleanQuery进行封装，所以图8中的TermRangeQuery相当于图9中的BooleanQuery。
+&emsp;&emsp;图8中TermRangeQuery在重写的过程中，会先找到"bc" ~ "gc"之间的所有term（查找方式见[Automaton](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0417/Automaton)），这些term即"bcd"、"ga"、"gc"，然后将他们生成对应的TermQuery，并用BooleanQuery进行封装，所以图8中的TermRangeQuery相当于图9中的BooleanQuery。
 
 &emsp;&emsp;不得不提的是，TermRangeQuery最终重写后的Query对象不仅仅如此，生成BooleanQuery只是其中最重要，最关键的一步，本篇文章中我们只需要了解到这个程度即可，因为在后面的文章会详细介绍TermRangeQuery。
 
@@ -184,7 +191,7 @@
 
 ##### avgdl
 
-&emsp;&emsp;avgdl（average document length，即图17中打分公式第二部分中参数K中的avgdl变量）描述的是平均每篇文档（一个段中的文档）的长度，并且使用域名为"content"的term的个数来描述平均每篇文档的长度。
+&emsp;&emsp;avgdl（average document length，即图17中打分公式第二部分中参数K中的avgdl变量）描述的是平均每篇文档（一个段中的文档）的长度，并且使用平均每篇文档中包含域名为"content"的term的数量作为平均每篇文档的长度。
 
 &emsp;&emsp;例如图7中的文档3，在使用空格分词器（WhitespaceAnalyzer）的情况下，域名为"content"，域值为"a c e"的域，在分词后，文档3中就包含了3个域名为"content"的term，这三个term分别是"a"、"c"、"e"。
 
@@ -223,7 +230,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（二）/18.png">
 
-&emsp;&emsp;图18中描述的是TermContext中包含的几个重要的信息，**其中红框标注表示生成Weight阶段需要用到的值**，这些信息通过读取索引文件[.tip、tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)中的内容获得，其读取过程不再这里赘述（因为太复杂~），不过会在以后的文章中介绍，而每个变量的含义都在[.tip、tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)中详细介绍了，不赘述。
+&emsp;&emsp;图18中描述的是TermContext中包含的几个重要的信息，**其中红框标注表示生成Weight阶段需要用到的值**，这些信息通过读取索引文件[.tip、tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)中的内容获得，其读取过程不再这里赘述（因为太复杂~），不过会在以后的文章中介绍，而每个变量的含义都在[.tip、tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)中详细介绍了，不赘述。
 
 &emsp;&emsp;图19中是索引文件.tim的数据结构：
 
@@ -256,15 +263,14 @@
 &emsp;&emsp;**问题二：生成的Weight有什么不同：**
 
 - 由于不需要对文档进行打分，所以不需要用到TermContext，即TermContext为null，同时也不需要SimWeight，这两个信息都是为文档打分准备的
-- 如果设置了查询缓存（queryCache，默认开启），那么在不对文档打分的前提下，我们还可以使用查询缓存机制，当然使用缓存机制的前提是有要求的，感兴趣的同学可以看[LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/2019/0506/57.html)
+- 如果设置了查询缓存（queryCache，默认开启），那么在不对文档打分的前提下，我们还可以使用查询缓存机制，当然使用缓存机制的前提是有要求的，感兴趣的同学可以看[LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/2019/0506/LRUQueryCache)
 
 
 # 结语
 
-&emsp;&emsp;基于篇幅，本篇只介绍了图1中的三个流程点`执行IndexSearcher的search()方法`、`重写Query`、`生成Weight`，从本文的内容可以看出，想要深入了解查询逻辑的前提是熟悉[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)的数据结构。
+&emsp;&emsp;基于篇幅，本篇只介绍了图1中的三个流程点`执行IndexSearcher的search()方法`、`重写Query`、`生成Weight`，从本文的内容可以看出，想要深入了解查询逻辑的前提索引文件的数据结构。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/查询原理/查询原理（二）/查询原理（二）.zip)下载附件
-
 
 
 

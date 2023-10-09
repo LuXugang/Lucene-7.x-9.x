@@ -1,6 +1,13 @@
-# [查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: 查询原理（三）
+date: 2019-08-23 00:00:00
+tags: [search,query]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)，继续介绍查询原理。
+&emsp;&emsp;本文承接[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)，继续介绍查询原理。
 
 # 查询原理流程图
 
@@ -44,7 +51,7 @@ public IndexSearcher(IndexReader r, ExecutorService executor) {
 
 &emsp;&emsp;该流程点将会获得查询对应的文档和词频，这些信息被封装在BulkScorer中。
 
-&emsp;&emsp;如图5所示，不同的查询方式（见[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)）有不一样BulkScorer对象（通过装饰者模式层层包装BulkScorer来实现多样的BulkScorer），在本篇文章中只根据图6、图7的中的BooleanQuery对应的BulkScorer展开介绍，其生成的BulkScorer对象为ReqExclBulkScorer。
+&emsp;&emsp;如图5所示，不同的查询方式（见[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)）有不一样BulkScorer对象（通过装饰者模式层层包装BulkScorer来实现多样的BulkScorer），在本篇文章中只根据图6、图7的中的BooleanQuery对应的BulkScorer展开介绍，其生成的BulkScorer对象为ReqExclBulkScorer。
 
 &emsp;&emsp;图5中是BulkScorer的类图：
 
@@ -60,7 +67,7 @@ public IndexSearcher(IndexReader r, ExecutorService executor) {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（三）/7.png">
 
-&emsp;&emsp;注意的是本文中的例子跟[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/86.html)中的BooleanQuery例子是不同的。
+&emsp;&emsp;注意的是本文中的例子跟[查询原理（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0820/查询原理（一）)中的BooleanQuery例子是不同的。
 
 ### ReqExclBulkScorer
 
@@ -130,15 +137,15 @@ public IndexSearcher(IndexReader r, ExecutorService executor) {
 
 &emsp;&emsp;在图15中，结合图6，描述的是域值"h"在文档3中的词频是2。
 
-&emsp;&emsp;docDeltaBuffer、freqBuffer数组的信息是通过读取索引文件[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)获得的。
+&emsp;&emsp;docDeltaBuffer、freqBuffer数组的信息是通过读取索引文件[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)获得的。
 
 图16
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（三）/16.png">
 
-&emsp;&emsp;docDeltaBuffer、freqBuffer数组的信息要么分别从图16中红框标注的PackedDocDeltaBlock跟PackedFreqBlock中获取，要么分别从DocDelta跟Freq获得，其选择方式和读取索引文件[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)的过程不在本篇文章中介绍，本人不想介绍的原因是，只要了解索引文件的数据结构（见[索引文件数据结构](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/) ）是如何生成的，自然就明白如何读取索引文件~~
+&emsp;&emsp;docDeltaBuffer、freqBuffer数组的信息要么分别从图16中红框标注的PackedDocDeltaBlock跟PackedFreqBlock中获取，要么分别从DocDelta跟Freq获得，其选择方式和读取索引文件[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)的过程不在本篇文章中介绍
 
-&emsp;&emsp;在[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)文章中我们提到，文档号使用差值存储，所以实际在搜索阶段，我们获得的docDeltaBuffer数组中的数组元素都是差值，还是以图7中的子查询1为例，它获得真正的docDeltaBuffer数组如下所示：
+&emsp;&emsp;在[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)文章中我们提到，文档号使用差值存储，所以实际在搜索阶段，我们获得的docDeltaBuffer数组中的数组元素都是差值，还是以图7中的子查询1为例，它获得真正的docDeltaBuffer数组如下所示：
 
 图17
 
@@ -151,11 +158,11 @@ public IndexSearcher(IndexReader r, ExecutorService executor) {
 
 - 压缩数据，减少内存/磁盘占用
 
-&emsp;&emsp;[去重编码(dedupAndEncode)](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0130/29.html)的文章中详细介绍了差值存储，感兴趣的可以了解下。
+&emsp;&emsp;[去重编码(dedupAndEncode)](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0130/去重编码)的文章中详细介绍了差值存储，感兴趣的可以了解下。
 
 ### 关于BulkScorer
 
-&emsp;&emsp;在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/87.html)的文章中我们提到，在生成Weight的阶段，除了文档号跟term在文档中的词频这两个参数，我们已经获得了计算文档打分的其他条件，而在生成BulkScorer的过程中，我们获得了每一个子查询对应的文档号跟词频，所以在图1的`生成Weight`跟`生成BulkScorer`两个流程后，我们获得了一个段中文档打分需要的所有条件。
+&emsp;&emsp;在[查询原理（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)的文章中我们提到，在生成Weight的阶段，除了文档号跟term在文档中的词频这两个参数，我们已经获得了计算文档打分的其他条件，而在生成BulkScorer的过程中，我们获得了每一个子查询对应的文档号跟词频，所以在图1的`生成Weight`跟`生成BulkScorer`两个流程后，我们获得了一个段中文档打分需要的所有条件。
 
 &emsp;&emsp;最后给出完整ReqExclBulkScorer包含的主要信息：
 
@@ -168,7 +175,6 @@ public IndexSearcher(IndexReader r, ExecutorService executor) {
 &emsp;&emsp;本篇文章中我们只介绍了在生成BulkScorer的过程中，我们获得了每一个子查询对应的文档号跟词频，实际上还有几个重要的内容没有讲述，这些内容用来描述在`Collector处理查询结果`的流程中如何对每一个子查询的文档号进行遍历筛选（即上文中为介绍的 next、cost的信息），基于篇幅，这些内容在下一篇文章中展开介绍。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/查询原理/查询原理（三）/查询原理（三）.zip)下载附件
-
 
 
 

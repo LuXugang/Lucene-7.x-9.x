@@ -1,4 +1,11 @@
-# [IndexSortSortedNumericDocValuesRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search)（Lucene 9.0.0）
+---
+title: IndexSortSortedNumericDocValuesRangeQuery （一）（Lucene 9.0.0）
+date: 2022-03-14 00:00:00
+tags: [query,IndexSortSortedNumericDocValuesRangeQuery]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;我们先通过IndexSortSortedNumericDocValuesRangeQuery类的注释了解下这个Query。
 
@@ -6,7 +13,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/IndexSortSortedNumericDocValuesRangeQuery/IndexSortSortedNumericDocValuesRangeQuery（一）/1.png">
 
-&emsp;&emsp;图1中<font color=red>红框</font>标注的注释说到，范围查询可以通过利用[Index Sort](https://www.amazingkoala.com.cn/Lucene/Index/2021/0915/201.html)来提高查询效率。如果查询条件的域field正好是用于段内排序的域，那么就可以通过二分法找到满足查询条件的两个文档号。这两个文档号分别作为一个**区间**的上下界，满足查询条件的文档号肯定都在这个区间内。
+&emsp;&emsp;图1中<font color=red>红框</font>标注的注释说到，范围查询可以通过利用[Index Sort](https://www.amazingkoala.com.cn/Lucene/Index/2021/0915/IndexSort)来提高查询效率。如果查询条件的域field正好是用于段内排序的域，那么就可以通过二分法找到满足查询条件的两个文档号。这两个文档号分别作为一个**区间**的上下界，满足查询条件的文档号肯定都在这个区间内。
 
 &emsp;&emsp;对于<font color=red>红框</font>注释有两个细节需要注意：
 
@@ -18,8 +25,8 @@
 &emsp;&emsp;图1中<font color=blue>蓝框</font>标注的注释说到，只有同时满足下面的条件才能实现这种优化执行策略（optimized execution strategy）：
 
 - 条件一：索引是有序的，第一个排序规则对应的field必须跟查询条件的域相同
-- 条件二：范围查询条件的域必须是[SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/47.html)或者[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)
-- 条件三：段中每一篇文档中**最多**只能包含一个[SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/47.html)或者[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)
+- 条件二：范围查询条件的域必须是[SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/SortedNumericDocValues)或者[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)
+- 条件三：段中每一篇文档中**最多**只能包含一个[SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/SortedNumericDocValues)或者[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)
 
 &emsp;&emsp;条件三的限制换个说话就是：一篇文档中要么不包含SortedNumericDocValues或者NumericDocValues，要么**只能**包含一个。具体原因在下文中说明。
 
@@ -31,7 +38,7 @@
 
 &emsp;&emsp;<font color=gray>灰框</font>标注的例子中可以看出，代码66行的LongPoint.newRangeQuery即fallbackQuery，它的查询条件跟代码67行的IndexSortSortedNumericDocValuesRangeQuery是一样的。
 
-&emsp;&emsp;从这个例子也可以看出，fallbackQuery跟IndexSortSortedNumericDocValuesRangeQuery的查询条件保持一致需要使用者自己来保证，意味着用户想要自己编写一个效率较高的数值范围查询有较高的学习成本，他至少要了解并且在索引阶段写入[SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/47.html)或者[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)，还要了解各种数值类型范围查询，比如[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/196.html)，[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)等等。所以社区已经开始着手开发一些"sugar"域跟Query（见[LUCENE-10162](https://issues.apache.org/jira/browse/LUCENE-10162)），使得用户能简单透明的使用数值类型的范围查询，让Lucene来帮助用户生成一个高效的Query。
+&emsp;&emsp;从这个例子也可以看出，fallbackQuery跟IndexSortSortedNumericDocValuesRangeQuery的查询条件保持一致需要使用者自己来保证，意味着用户想要自己编写一个效率较高的数值范围查询有较高的学习成本，他至少要了解并且在索引阶段写入[SortedNumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0410/SortedNumericDocValues)或者[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)，还要了解各种数值类型范围查询，比如[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/IndexOrDocValuesQuery)，[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/PointRangeQuery（一）)等等。所以社区已经开始着手开发一些"sugar"域跟Query（见[LUCENE-10162](https://issues.apache.org/jira/browse/LUCENE-10162)），使得用户能简单透明的使用数值类型的范围查询，让Lucene来帮助用户生成一个高效的Query。
 
 &emsp;&emsp;我们看下Elasticsearch 8.0的NumberFieldMapper类中是如何生成一个高效的数值类型范围查询Query的，以Mapping类型为int的字段为例：
 
@@ -39,15 +46,15 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/IndexSortSortedNumericDocValuesRangeQuery/IndexSortSortedNumericDocValuesRangeQuery（一）/2.png">
 
-&emsp;&emsp;图2描述了生成一个用于int类型的字段的范围查询的过程：首先通过IntPoint.newRangeQuery生成一个[PointRangeQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)，我们称之为indexQuery；如果该字段开启了DocValues，那么通过SortedNumericDocValuesField.newSlowRangeQuery生成一个DocValues的范围查询，我们称之为dvQuery, 然后将indexQuery跟dvQuery封装为一个[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/196.html)；最后如果分片的索引根据查询域排序了，那么进一步将[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/196.html)封装为IndexSortSortedNumericDocValuesRangeQuery，此时[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/196.html)即上文中的fallbackQuery。
+&emsp;&emsp;图2描述了生成一个用于int类型的字段的范围查询的过程：首先通过IntPoint.newRangeQuery生成一个[PointRangeQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/PointRangeQuery（一）)，我们称之为indexQuery；如果该字段开启了DocValues，那么通过SortedNumericDocValuesField.newSlowRangeQuery生成一个DocValues的范围查询，我们称之为dvQuery, 然后将indexQuery跟dvQuery封装为一个[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/IndexOrDocValuesQuery)；最后如果分片的索引根据查询域排序了，那么进一步将[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/IndexOrDocValuesQuery)封装为IndexSortSortedNumericDocValuesRangeQuery，此时[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/IndexOrDocValuesQuery)即上文中的fallbackQuery。
 
-&emsp;&emsp;在文章[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/196.html)中详细的介绍了这个Query，本文中我们简单的提一下：IndexOrDocValuesQuery既利用了倒排中根据term快速获取满足查询条件的文档号集合能力，又利用了正排中根据文档号能快速check是否存在某个term的能力。使得IndexOrDocValuesQuery不管作为leader iterator还是follow iterator都能获得不错的读取性能。
+&emsp;&emsp;在文章[IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/2021/0701/IndexOrDocValuesQuery)中详细的介绍了这个Query，本文中我们简单的提一下：IndexOrDocValuesQuery既利用了倒排中根据term快速获取满足查询条件的文档号集合能力，又利用了正排中根据文档号能快速check是否存在某个term的能力。使得IndexOrDocValuesQuery不管作为leader iterator还是follow iterator都能获得不错的读取性能。
 
 &emsp;&emsp;回到图2中构造过程，的确需要相当大的学习成本才能构造成一个高效的Query。[LUCENE-10162](https://issues.apache.org/jira/browse/LUCENE-10162)的目标在于期望用户通过编写类似IntField.NumericRangeQuery(String field, long lowerValue, long upperValue)这种方式就可以获得图2中的Query。
 
 ## 利用IndexSort实现高效查询
 
-&emsp;&emsp;不管是哪种Query的实现，其需要解决的最重要的核心问题是这个Query如何提供一个[迭代器DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/194.html)，迭代器中包含了满足查询条件的文档号集合，以及定义了读取这些文档号的方式。查询性能取决于迭代器的实现方式。
+&emsp;&emsp;不管是哪种Query的实现，其需要解决的最重要的核心问题是这个Query如何提供一个[迭代器DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/gongjulei/2021/0623/DocIdSet)，迭代器中包含了满足查询条件的文档号集合，以及定义了读取这些文档号的方式。查询性能取决于迭代器的实现方式。
 
 ### BoundedDocSetIdIterator
 

@@ -1,4 +1,11 @@
-# [IndexOrDocValuesQuery](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.9.0）
+---
+title: IndexOrDocValuesQuery（Lucene 8.9.0）
+date: 2021-07-10 00:00:00
+tags: [IndexOrDocValuesQuery,query]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;本篇文章介绍下Lucene中用于优化范围（数值类型point或者term类型）查询的Query：IndexOrDocValuesQuery。
 
@@ -6,15 +13,15 @@
 
 ## 求交集的问题
 
-&emsp;&emsp;在文章[多个MUST的Query的文档号合并](https://www.amazingkoala.com.cn/Lucene/Search/2018/1218/27.html)中我们说到，执行一个由多个子Query组成，并且它们的关系为MUST的BooleanQuery时，其过程是先根据每个子Query获取一个**有序的文档号集合**，然后基于**开销最小的子Query**对应的文档号集合（我们称这个集合为leader iteration，其他的集合成为follow iteration）依次遍历这个集合，每次取出一个该集合中的文档号后，去其他集合中判断是否存在该文档号，当所有集合都存在相同的文档号，那么该文档号满足查询条件。
+&emsp;&emsp;在文章[多个MUST的Query的文档号合并](https://www.amazingkoala.com.cn/Lucene/Search/2018/1218/文档号合并（MUST）)中我们说到，执行一个由多个子Query组成，并且它们的关系为MUST的BooleanQuery时，其过程是先根据每个子Query获取一个**有序的文档号集合**，然后基于**开销最小的子Query**对应的文档号集合（我们称这个集合为leader iteration，其他的集合成为follow iteration）依次遍历这个集合，每次取出一个该集合中的文档号后，去其他集合中判断是否存在该文档号，当所有集合都存在相同的文档号，那么该文档号满足查询条件。
 
 ### 如何计算Query的开销
 
 &emsp;&emsp;基于不同类型的Query，计算方式各不相同，但大部分情况下描述的是满足Query条件的文档数量。
 
-&emsp;&emsp;例如在文章[查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0629/195.html)中介绍了查询BKD树的开销的方法（见该文章中`如何估算新的迭代器中的文档号数量`的介绍）。
+&emsp;&emsp;例如在文章[查询TopN的优化之NumericDocValues（二）](https://www.amazingkoala.com.cn/Lucene/Search/2021/0629/查询TopN的优化之NumericDocValues（二）)中介绍了查询BKD树的开销的方法（见该文章中`如何估算新的迭代器中的文档号数量`的介绍）。
 
-&emsp;&emsp;例如在TermQuery中，该查询的开销为包含term的文档数量，而该值保存在[索引文件.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)中，如下图所示：
+&emsp;&emsp;例如在TermQuery中，该查询的开销为包含term的文档数量，而该值保存在[索引文件.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)中，如下图所示：
 
 图3：
 
@@ -32,9 +39,9 @@
 &emsp;&emsp;[BLOG](https://www.elastic.co/cn/blog/better-query-planning-for-range-queries-in-elasticsearch)中首先给出了一个解决的方向，或者说给出了一个查询计划（query plan）的设计方式：
 
 - 遍历所有的文档号：使用倒排（term或者point）
-  - 由于在DocValues的数据结构中，正排值是按照文档号顺序先后存储的，如果通过正排值获取包含它的所有的文档号，其时间复杂度是线性的，相当的慢。比如说如果10篇文档中包含相同的正排值，那么通过这个正排值找到包含它的文档号集合需要查找5次。而在倒排中，包含某个term的所有文档号是集中存储的（见文章[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[索引文件.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)介绍）
+  - 由于在DocValues的数据结构中，正排值是按照文档号顺序先后存储的，如果通过正排值获取包含它的所有的文档号，其时间复杂度是线性的，相当的慢。比如说如果10篇文档中包含相同的正排值，那么通过这个正排值找到包含它的文档号集合需要查找5次。而在倒排中，包含某个term的所有文档号是集中存储的（见文章[索引文件之doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[索引文件.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)介绍）
 - 匹配指定的文档号：使用正排
-  - 正排能根据文档号随机访问正排值（见文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)的介绍），能解决问题一跟二。points对应的BKD树是按照值（点数据）有序存储的，根据文档号查找是否存在某个值意味着需要先根据该值找到包含该值的文档号集合，即会出现上文中提到的问题二
+  - 正排能根据文档号随机访问正排值（见文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/索引文件的读取（五）之dvd&&dvm)的介绍），能解决问题一跟二。points对应的BKD树是按照值（点数据）有序存储的，根据文档号查找是否存在某个值意味着需要先根据该值找到包含该值的文档号集合，即会出现上文中提到的问题二
 
 ## IndexOrDocValuesQuery
 

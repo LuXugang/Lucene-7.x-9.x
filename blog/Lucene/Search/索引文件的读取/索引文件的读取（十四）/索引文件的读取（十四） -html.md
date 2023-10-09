@@ -1,6 +1,13 @@
-# [索引文件的读取（十四）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.6.0）
+---
+title: 索引文件的读取（十四）之fdx&&fdt&&fdm（Lucene 8.4.0）
+date: 2020-11-02 00:00:00
+tags: [index,fdx,fdt,fdm]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;在前几篇索引文件的读取的系列文章中，我们介绍[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)的读取时机点时说到，在生成[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)对象期间，会生成[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)对象，该对象中的StoredFieldsReader信息描述了[索引文件fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)中所有域的索引信息，故我们从本篇文章开始介绍索引文件fdx&&fdt&&fdm的读取。
+&emsp;&emsp;在前几篇索引文件的读取的系列文章中，我们介绍[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)的读取时机点时说到，在生成[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)对象期间，会生成[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)对象，该对象中的StoredFieldsReader信息描述了[索引文件fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)中所有域的索引信息，故我们从本篇文章开始介绍索引文件fdx&&fdt&&fdm的读取。
 
 ## StoredFieldsReader
 
@@ -26,7 +33,7 @@
 
 #### off-heap
 
-&emsp;&emsp;在Lucene 8.5.0之前，描述存储域的索引文件为.fdx、.fdt，它们的数据结构完整介绍可以见文章[索引文件之fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)，本文中中我们暂时只给出索引文件.fdx来介绍"off-heap"：
+&emsp;&emsp;在Lucene 8.5.0之前，描述存储域的索引文件为.fdx、.fdt，它们的数据结构完整介绍可以见文章[索引文件之fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)，本文中中我们暂时只给出索引文件.fdx来介绍"off-heap"：
 
 图3：
 
@@ -34,13 +41,13 @@
 
 &emsp;&emsp;在Lucene 8.5.0之前，图3中**所有的Block**会在生成StandardDirectoryReader阶段就**全部读取到内存**中，注意的是图3中的DocBases对应图2中NumDocs，命名不同而已，描述的内容是一致。
 
-&emsp;&emsp;此次优化的详细内容可以见这个issue的介绍：https://issues.apache.org/jira/browse/LUCENE-9147 。在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)中我们提到，索引文件.tip的读取也是用了off-heap，并且在Lucene 8.0.0就早早实现了，为什么在Lucene 8.5.0之后才将存储域的索引文件的读取使用off-heap呢？原因有两点，直接贴出issue原文：
+&emsp;&emsp;此次优化的详细内容可以见这个issue的介绍：https://issues.apache.org/jira/browse/LUCENE-9147 。在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)中我们提到，索引文件.tip的读取也是用了off-heap，并且在Lucene 8.0.0就早早实现了，为什么在Lucene 8.5.0之后才将存储域的索引文件的读取使用off-heap呢？原因有两点，直接贴出issue原文：
 
 图4：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十四）/4.png">
 
-&emsp;&emsp;图4的大意就是，在terms index（索引文件.tip）使用了off-heap之后，存储域（stored fields）的索引文件变成了占用内存的大头，但是它没有terms index那样对性能有很大的影响（见文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)）。
+&emsp;&emsp;图4的大意就是，在terms index（索引文件.tip）使用了off-heap之后，存储域（stored fields）的索引文件变成了占用内存的大头，但是它没有terms index那样对性能有很大的影响（见文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)）。
 
 图5：
 
@@ -80,7 +87,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（十四）/10.png">
 
-&emsp;&emsp;在生成[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)对象期间，通过获取每个段中的文档数量，会初始化一个int类型的starts[ \]数组，随后根据这个数据就可以计算出某个全局文档号属于哪一个段。通过读取[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)中的<font color=Red>segSize</font>字段来获取每个段中的文档数量，如下所示：
+&emsp;&emsp;在生成[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)对象期间，通过获取每个段中的文档数量，会初始化一个int类型的starts[ \]数组，随后根据这个数据就可以计算出某个全局文档号属于哪一个段。通过读取[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)中的<font color=Red>segSize</font>字段来获取每个段中的文档数量，如下所示：
 
 图11：
 

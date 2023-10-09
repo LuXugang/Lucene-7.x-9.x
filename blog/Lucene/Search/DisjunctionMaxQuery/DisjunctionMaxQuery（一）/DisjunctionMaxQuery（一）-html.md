@@ -1,4 +1,11 @@
-# [DisjunctionMaxQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.9.0）
+---
+title: DisjunctionMaxQuery（Lucene 8.9.0）
+date: 2021-08-04 00:00:00
+tags: [DisjunctionMaxQuery,query]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;本系列的内容将会先介绍DisjunctionMaxQuery在Lucene中的实现原理，随后再介绍在Elasticsearch中的应用。我们先直接通过图1中DisjunctionMaxQuery的注释跟图2的构造函数来简单了解下这个Query的功能：
 

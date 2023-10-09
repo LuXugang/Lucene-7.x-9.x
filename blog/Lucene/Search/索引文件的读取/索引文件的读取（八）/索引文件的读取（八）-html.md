@@ -1,6 +1,13 @@
-# [索引文件的读取（八）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（八）之tim&&tip（Lucene 8.4.0）
+date: 2020-08-05 00:00:00
+tags: [index,tim,tip]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)，继续介绍剩余的流程点，先给出流程图：
+&emsp;&emsp;本文承接文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)，继续介绍剩余的流程点，先给出流程图：
 
 ## 获取满足TermRangeQuery查询条件的term集合的流程图
 
@@ -27,7 +34,7 @@
 
 ##### OFF_HEAP
 
-&emsp;&emsp;无论索引文件.tip是以何种方式打开（见文章[Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)），总是使用时才从磁盘读取（lazy load），但是这个参数未考虑索引文件.tip的打开方式，使用off-heap如果不结合合适的打开方式在I/O方面的性能表现不一，见下文中关于AUTO中的介绍。
+&emsp;&emsp;无论索引文件.tip是以何种方式打开（见文章[Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)），总是使用时才从磁盘读取（lazy load），但是这个参数未考虑索引文件.tip的打开方式，使用off-heap如果不结合合适的打开方式在I/O方面的性能表现不一，见下文中关于AUTO中的介绍。
 
 ##### ON_HEAP
 
@@ -66,7 +73,7 @@ this.docCount != this.sumDocFreq
 
 ##### AUTO
 
-&emsp;&emsp;该参数实际是对参数OPTIMIZE_UPDATES_OFF_HEAP对应的模式加强，即在按照参数OPTIMIZE_UPDATES_OFF_HEAP的逻辑选择使用off-heap后，还需要满足索引文件.tip是使用[MMapDirectory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)的方式打开的的条件才能使用off-heap，原因是使用内存映射I/O比[FileChannel.open](https://docs.oracle.com/javase/8/docs/api/java/nio/channels/FileChannel.html)有更好的读写性能：
+&emsp;&emsp;该参数实际是对参数OPTIMIZE_UPDATES_OFF_HEAP对应的模式加强，即在按照参数OPTIMIZE_UPDATES_OFF_HEAP的逻辑选择使用off-heap后，还需要满足索引文件.tip是使用[MMapDirectory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)的方式打开的的条件才能使用off-heap，原因是使用内存映射I/O比[FileChannel.open](https://docs.oracle.com/javase/8/docs/api/java/nio/channels/FileChannel.html)有更好的读写性能：
 
 图5：
 
@@ -80,7 +87,7 @@ this.docCount != this.sumDocFreq
 
 #### 初始化FST
 
-&emsp;&emsp;我们在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)中简单的说明了下在off-heap跟on-heap不同导入模式下存储FST的主要信息的数据结构，这里为了加深理解，我们贴出代码来进一步介绍，这两种模式在代码中使用了不同逻辑实现了init()方法。
+&emsp;&emsp;我们在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)中简单的说明了下在off-heap跟on-heap不同导入模式下存储FST的主要信息的数据结构，这里为了加深理解，我们贴出代码来进一步介绍，这两种模式在代码中使用了不同逻辑实现了init()方法。
 
 ##### on-heap
 
@@ -94,7 +101,7 @@ this.docCount != this.sumDocFreq
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（八）/7.png">
 
-&emsp;&emsp;当大于1G时，使用BytesStore对象存储，否则使用byte\[ \] bytesArray存储存储，BytesStore跟bytesArray在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/158.html)已经介绍过了，不赘述。
+&emsp;&emsp;当大于1G时，使用BytesStore对象存储，否则使用byte\[ \] bytesArray存储存储，BytesStore跟bytesArray在文章[索引文件的读取（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Search/2020/0804/索引文件的读取（七）之tim&&tip)已经介绍过了，不赘述。
 
 ##### off-heap
 

@@ -1,6 +1,13 @@
-# [查询原理（五）终](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: 查询原理（五）终
+date: 2019-08-20 00:00:00
+tags: [search,query]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/89.html)，继续介绍查询原理。
+&emsp;&emsp;本文承接[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/查询原理（四）)，继续介绍查询原理。
 
 # 查询原理流程图
 
@@ -16,7 +23,7 @@
 
 # 遗留问题
 
-&emsp;&emsp;在介绍这个遗留问题前，我们先说下在[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/88.html)的文章中，我们在介绍ReqExclBulkScorer时，有两个信息没有介绍，即cost、next，这两个信息用来选择哪些子查询进行处理。
+&emsp;&emsp;在介绍这个遗留问题前，我们先说下在[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/查询原理（三）)的文章中，我们在介绍ReqExclBulkScorer时，有两个信息没有介绍，即cost、next，这两个信息用来选择哪些子查询进行处理。
 
 图2：
 
@@ -27,9 +34,9 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（五）终/3.png">
 
 - cost：该值描述的是满足子查询的文档个数，例如图3中的子查询3，因为docDeltaBuffer数组有7个数组元素（数组元素为满足子查询的文档号），故它的cost值为7
-- next：该值描述的是下一次处理的文档号，每当处理一篇文档，即更新到**Bucket数组**（见[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/89.html)），那么next被更新为下一个要处理的文档号，next的值是 一个递增值
+- next：该值描述的是下一次处理的文档号，每当处理一篇文档，即更新到**Bucket数组**（见[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/查询原理（四）)），那么next被更新为下一个要处理的文档号，next的值是 一个递增值
 
-&emsp;&emsp;在[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/89.html)的文章中，我们介绍了单线程下的查询原理的所有流程点，但还有一个很重要的逻辑没有介绍，那就是我们并没有介绍在还有未处理的子查询的情况下，如何选择哪个子查询进行处理，这个逻辑实际是个优化的过程，可能可以减少**遍历区间**（见[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/89.html)）的处理，下面将填补这个坑。
+&emsp;&emsp;在[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/查询原理（四）)的文章中，我们介绍了单线程下的查询原理的所有流程点，但还有一个很重要的逻辑没有介绍，那就是我们并没有介绍在还有未处理的子查询的情况下，如何选择哪个子查询进行处理，这个逻辑实际是个优化的过程，可能可以减少**遍历区间**（见[查询原理（四）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/查询原理（四）)）的处理，下面将填补这个坑。
 
 &emsp;&emsp;上文的描述可以拆分两个问题，以图3为例：
 
@@ -48,7 +55,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（五）终/4.png">
 
-- 图4中描述了这么一个结论：如果BooleanQuery有n个子查询，它们之间为[BooleanClause.Occur.SHOULD](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/25.html)的关系，并且minShouldMatch为m，那么BooleanQuery的开销最少可以是( numScores - minShouldMatch + 1)个子查询的开销和，也就说在某些情况下我们不用遍历所有子查询对应的文档集合
+- 图4中描述了这么一个结论：如果BooleanQuery有n个子查询，它们之间为[BooleanClause.Occur.SHOULD](https://www.amazingkoala.com.cn/Lucene/Search/2018/1211/BooleanQuery)的关系，并且minShouldMatch为m，那么BooleanQuery的开销最少可以是( numScores - minShouldMatch + 1)个子查询的开销和，也就说在某些情况下我们不用遍历所有子查询对应的文档集合
   - numScores：子查询的个数n
   - minShouldMatch：文档必须同时满足BooleanQuery中的至少m个子查询的查询条件
 
@@ -73,7 +80,7 @@
 
 [点击](http://www.amazingkoala.com.cn/uploads/lucene/Search/查询原理/查询原理（五）终/推导.html)查看大图
 
-&emsp;&emsp;在图5中，最后推导出BooleanQuery的总开销为 n-m+1个查询的开销，所以在Lucene中，它使用优先级队列head（大小为n-m+1）、tail（大小为m - 1）来存放子查询的信息（即[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/88.html)中的BulkScorerAndDoc），优先级队列的排序规则如下：
+&emsp;&emsp;在图5中，最后推导出BooleanQuery的总开销为 n-m+1个查询的开销，所以在Lucene中，它使用优先级队列head（大小为n-m+1）、tail（大小为m - 1）来存放子查询的信息（即[查询原理（三）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0823/查询原理（三）)中的BulkScorerAndDoc），优先级队列的排序规则如下：
 
 - head：按照cost升序
 - tail：按照next升序
@@ -84,6 +91,6 @@
 
 # 结语
 
-&emsp;&emsp;至此，BooleanQuery的其中一种组合模式介绍完毕，其他的组合方式在后面不会详细展开，只介绍文档合并的逻辑，比如[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/26.html)、[文档号合并（MUST）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1218/27.html)。
+&emsp;&emsp;至此，BooleanQuery的其中一种组合模式介绍完毕，其他的组合方式在后面不会详细展开，只介绍文档合并的逻辑，比如[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/文档号合并（SHOULD）)、[文档号合并（MUST）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1218/文档号合并（MUST）)。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/查询原理/查询原理（五）终/查询原理（五）终.zip)下载附件

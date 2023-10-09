@@ -1,12 +1,17 @@
-# [索引文件的读取（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（二）之dim&&dii（Lucene 8.4.0）
+date: 2020-04-28 00:00:00
+tags: [index,dim,dii]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)继续介绍剩余的内容，下面先给出读取索引文件.dim&&dii的流程图：
+&emsp;&emsp;本文承接[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)继续介绍剩余的内容，下面先给出读取索引文件.dim&&dii的流程图：
 
 图1：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（二）/1.png">
-
-[点击]()查看大图
 
 ## 读取索引文件.dim&&dii
 
@@ -22,15 +27,15 @@
 
 - 条件一：包含当前点数据域的文档数量docCount必须等于段中的文档数量
 
-&emsp;&emsp;包含当前点数据域的文档数量可以通过[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的字段获得，如下<font color=Red>红框</font>所示所示：
+&emsp;&emsp;包含当前点数据域的文档数量可以通过[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的字段获得，如下<font color=Red>红框</font>所示所示：
 
 图3：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（二）/3.png">
 
-&emsp;&emsp;上图中各个字段的含义见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)。
+&emsp;&emsp;上图中各个字段的含义见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)。
 
-&emsp;&emsp;段中的文档数量通过reader.maxDoc()获取，即读取[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)中的SegSize字段，如下<font color=Red>红框</font>所示所示：
+&emsp;&emsp;段中的文档数量通过reader.maxDoc()获取，即读取[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)中的SegSize字段，如下<font color=Red>红框</font>所示所示：
 
 图4：
 
@@ -39,11 +44,11 @@
 &emsp;&emsp;**满足条件一意味着，段中的每篇文档中至少有一个点数据域，这些点数据域对应的域名就是当前流程处理的域**。
 
 
-- 条件二：BKD树中点数据的数值范围与查询条件的数值范围的边界关系为CELL_INSIDE_QUERY（见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)的介绍），即查询条件的数值范围包含节点中的所有点数据
+- 条件二：BKD树中点数据的数值范围与查询条件的数值范围的边界关系为CELL_INSIDE_QUERY（见文章[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)的介绍），即查询条件的数值范围包含节点中的所有点数据
 
 &emsp;&emsp;**如何通过reader.maxDoc()方法获得足查询条件的文档号集合：**
 
-&emsp;&emsp;由于满足了条件一，那么在后续的Search过程中，只需要从0开始遍历到reader.maxDoc()的值作为文档号传给[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)即可。
+&emsp;&emsp;由于满足了条件一，那么在后续的Search过程中，只需要从0开始遍历到reader.maxDoc()的值作为文档号传给[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)即可。
 
 ### 反向收集文档号信息
 
@@ -66,7 +71,7 @@
 
 - 条件二：包含当前点数据域的文档数量docCount必须等于BKD树中的点数据数量pointCount
 
-&emsp;&emsp;包含当前点数据域的文档数量docCount跟BKD树中的点数据数量pointCount可以通过[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的字段获得，如下<font color=Red>红框</font>所示所示：
+&emsp;&emsp;包含当前点数据域的文档数量docCount跟BKD树中的点数据数量pointCount可以通过[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的字段获得，如下<font color=Red>红框</font>所示所示：
 
 图6：
 

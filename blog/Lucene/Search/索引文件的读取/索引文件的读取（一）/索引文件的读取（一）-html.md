@@ -1,12 +1,19 @@
-# [索引文件的读取（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（一）之dim&&dii（Lucene 8.4.0）
+date: 2020-04-27 00:00:00
+tags: [index,dim,dii]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本系列的文章会通过例子来介绍索引文件的读取，本篇文章先介绍[索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的读取，为了便于理解，请先阅读[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)至[索引文件的生成（十四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0424/134.html)的文章。
+&emsp;&emsp;本系列的文章会通过例子来介绍索引文件的读取，本篇文章先介绍[索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的读取，为了便于理解，请先阅读[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)至[索引文件的生成（十四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0424/索引文件的生成（十四）之dim&&dii)的文章。
 
-&emsp;&emsp;在生成[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)期间，会生成PointsReader（PointsReader为抽象类，实现的子类就是Lucene60PointsReader对象），它用来描述**某个段**中的点数据信息，下面先列出该对象包含的部分信息：
+&emsp;&emsp;在生成[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)期间，会生成PointsReader（PointsReader为抽象类，实现的子类就是Lucene60PointsReader对象），它用来描述**某个段**中的点数据信息，下面先列出该对象包含的部分信息：
 
 - final Map<Integer,BKDReader> readers = new HashMap<\>();
 
-&emsp;&emsp;在上述的Map对象中，存放的是不同域名的点数据信息，key为[域的编号](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)（FieldNumber），value为域对应的点数据信息，通过读取索引文件.dii来初始化readers对象，BKDReader中包含的主要信息如下所示：
+&emsp;&emsp;在上述的Map对象中，存放的是不同域名的点数据信息，key为[域的编号](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/索引文件之fnm)（FieldNumber），value为域对应的点数据信息，通过读取索引文件.dii来初始化readers对象，BKDReader中包含的主要信息如下所示：
 
 - numDataDims：点数据的维度数量
 - maxPointsInLeafNode：每个叶子节点中的最多包含的点数据数量
@@ -59,7 +66,7 @@ public enum Relation {
   }
 ```
 
-&emsp;&emsp;在[索引文件的生成（十一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0410/131.html)文章中我们提到，在生成BKD树的过程中，每生成一个内部节点，该节点的父节点会分别提供给子节点两个值：minPackedValue、maxPackedValue。
+&emsp;&emsp;在[索引文件的生成（十一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0410/索引文件的生成（十一）之dim&&dii)文章中我们提到，在生成BKD树的过程中，每生成一个内部节点，该节点的父节点会分别提供给子节点两个值：minPackedValue、maxPackedValue。
 
 - minPackedValue：内部节点中每个维度的最小值
 - maxPackedValue：内部节点中每个维度的最大值
@@ -72,7 +79,7 @@ public enum Relation {
 {5, 7}, {5, 8}, {4, 6} -> {4, 3} -> {3, 4} -> {7, 11} -> {8, 9} -> {6, 7}
 ```
 
-&emsp;&emsp;那么根节点中的minPackedValue、maxPackedValue（根节点中如何获得minPackedValue、maxPackedValue见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)）如下所示：
+&emsp;&emsp;那么根节点中的minPackedValue、maxPackedValue（根节点中如何获得minPackedValue、maxPackedValue见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)）如下所示：
 
 ```text
 minPackedValue：{3, 3}

@@ -1,14 +1,21 @@
-# [索引文件的读取（七）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: 索引文件的读取（七）之tim&&tip（Lucene 8.4.0）
+date: 2020-08-04 00:00:00
+tags: [index,tim,tip]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本篇文章开始介绍[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)的读取，通过TermRangeQuery的例子来介绍如何从索引文件.tim&&.tip中获取满足查询条件的所有term。
+&emsp;&emsp;本篇文章开始介绍[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)的读取，通过TermRangeQuery的例子来介绍如何从索引文件.tim&&.tip中获取满足查询条件的所有term。
 
-&emsp;&emsp;为了便于介绍，使用了文章[Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)中提供的例子：
+&emsp;&emsp;为了便于介绍，使用了文章[Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/Automaton（二）)中提供的例子：
 
 图1：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（七）/1.png">
 
-&emsp;&emsp;结合图1的例子，获取满足查询条件（第79行代码）的所有term的过程可以简单的用一句话来描述：**根据域名"content"，从索引文件.tim&&.tip中获取该域对应的term集合，随后遍历集合中的每一个term，使用DFA（见文章[Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/157.html)）筛选出满足条件的term**，流程图如下所示：
+&emsp;&emsp;结合图1的例子，获取满足查询条件（第79行代码）的所有term的过程可以简单的用一句话来描述：**根据域名"content"，从索引文件.tim&&.tip中获取该域对应的term集合，随后遍历集合中的每一个term，使用DFA（见文章[Automaton（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0727/Automaton（二）)）筛选出满足条件的term**，流程图如下所示：
 
 ## 获取满足TermRangeQuery查询条件的term集合的流程图
 
@@ -22,7 +29,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（七）/3.png">
 
-&emsp;&emsp;在介绍BlockTreeTermsReader的概念或者说包含的信息之前，我们先简单的介绍下该对象的生成时机点，在生成[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)对象期间，会生成[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)对象，该对象中的FieldsProducer信息描述了[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中所有域的索引信息，而BlockTreeTermsReader作为FieldsProducer信息的成员之一，作为[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)在内存中的描述方式。
+&emsp;&emsp;在介绍BlockTreeTermsReader的概念或者说包含的信息之前，我们先简单的介绍下该对象的生成时机点，在生成[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)对象期间，会生成[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)对象，该对象中的FieldsProducer信息描述了[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)中所有域的索引信息，而BlockTreeTermsReader作为FieldsProducer信息的成员之一，作为[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)在内存中的描述方式。
 
 &emsp;&emsp;BlockTreeTermsReader对象中，最重要也是我们唯一关心的信息就是一个名为fieldMap的Map容器，定义如下所示：
 
@@ -50,7 +57,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（七）/6.png">
 
-&emsp;&emsp;图6中，除了FieldNumber字段，其他字段都会被写入到FIeldReader对象中，简单了解这些字段的介绍可以看文章[索引文件之tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)，详细了解这些字段的生成过程可以阅读文章[索引文件的生成（五）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)、[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)以及[索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/127.html)。
+&emsp;&emsp;图6中，除了FieldNumber字段，其他字段都会被写入到FIeldReader对象中，简单了解这些字段的介绍可以看文章[索引文件之tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)，详细了解这些字段的生成过程可以阅读文章[索引文件的生成（五）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/索引文件的生成（五）之tim&&tip)、[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)以及[索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/索引文件的生成（七）之tim&&tip)。
 
 ##### IndexStartFP
 
@@ -60,24 +67,24 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（七）/7.png">
 
-&emsp;&emsp;FSTIndex字段描述了该域的第一个**读取**NodeBlock对应的FST信息，介绍见文章[索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/127.html)。
+&emsp;&emsp;FSTIndex字段描述了该域的第一个**读取**NodeBlock对应的FST信息，介绍见文章[索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/索引文件的生成（七）之tim&&tip)。
 
 #### FieldReader
 
-&emsp;&emsp;在生成FieldReader对象的过程中，我们着重关心[FST](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)的导入模式（load Mode），目前有两种模式可选择：
+&emsp;&emsp;在生成FieldReader对象的过程中，我们着重关心[FST](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)的导入模式（load Mode），目前有两种模式可选择：
 
 - off-heap：该模式可以简单理解为使用时载入，载入动作为磁盘I/O操作，只将需要使用的信息读入到内存中
 - on-heap：该模式为一次性载入，直接将所有信息读入内存
 
-&emsp;&emsp;在文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)中我们说到，在合并了PendingBlock之后，会生成一个FST，其中第一个PendingBlock中的prefix将作为FST的inputValue，合并的信息作为FST的outValue。
+&emsp;&emsp;在文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)中我们说到，在合并了PendingBlock之后，会生成一个FST，其中第一个PendingBlock中的prefix将作为FST的inputValue，合并的信息作为FST的outValue。
 
-&emsp;&emsp;通过图7中的FSTIndex中的信息来生成FST，该字段的结构如下所示，各个字段的含义在文章[索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/127.html)已经介绍，不赘述：
+&emsp;&emsp;通过图7中的FSTIndex中的信息来生成FST，该字段的结构如下所示，各个字段的含义在文章[索引文件的生成（七）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0117/索引文件的生成（七）之tim&&tip)已经介绍，不赘述：
 
 图8：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/索引文件的读取/索引文件的读取（七）/8.png">
 
-&emsp;&emsp;图8中bytes字段记录了FST的主要信息，意味着这个字段占用的字节是最大的，它包含的信息就是在文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)中，文章结尾最终生成的current[ ]数组。
+&emsp;&emsp;图8中bytes字段记录了FST的主要信息，意味着这个字段占用的字节是最大的，它包含的信息就是在文章[FST（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)中，文章结尾最终生成的current[ ]数组。
 
 ##### off-heap
 
@@ -115,7 +122,6 @@
 &emsp;&emsp;至此，图1的流程点`BlockTreeTermsReader`介绍结束，基于篇幅，剩余的内容将在下一篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/索引文件的读取（七）/索引文件的读取（七）.zip)下载附件
-
 
 
 

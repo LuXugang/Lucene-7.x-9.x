@@ -1,4 +1,11 @@
-# [block-max WAND（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: block-max WAND（一）（Lucene 8.4.0）
+date: 2020-09-16 00:00:00
+tags: [optimization, search, wand]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;从Lucene 8.0.0开始，Lucene新增了block-max WAND（Weak AND）算法，用于优化TopN的查询。该算法的引入可谓是一波三折，可以查看作者[Adrien Grand](https://www.elastic.co/cn/blog/author/adrien-grand)对该算法的介绍：https://www.elastic.co/cn/blog/faster-retrieval-of-top-hits-in-elasticsearch-with-block-max-wand，下文中将围绕这篇博客展开介绍。
 
@@ -27,7 +34,7 @@
 
 &emsp;&emsp;表一中，Score1描述的是域名为"author"、域值为"lily"对应的文档打分值，同理Score2，最终文档的打分值为Score1跟Score2的和值。
 
-&emsp;&emsp;结合图1跟表一可知，当我们处理到文档3，已经获得了Top3的搜索结果，即文档1、文档2、文档3。然而在Lucene 8.0.0之前，需要对所有满足图1的查询条件的文档进行打分，然后在Collector中使用根据score排序的优先级队列来维护Top3（见文章[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)）。
+&emsp;&emsp;结合图1跟表一可知，当我们处理到文档3，已经获得了Top3的搜索结果，即文档1、文档2、文档3。然而在Lucene 8.0.0之前，需要对所有满足图1的查询条件的文档进行打分，然后在Collector中使用根据score排序的优先级队列来维护Top3（见文章[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)）。
 
 &emsp;&emsp;通过上文的描述我们可以知道， 在查询过程中，一些打分值很低的文档号也被处理了，那有没有什么方式可以使得尽量跳过那些打分值较低的文档。
 
@@ -89,7 +96,7 @@ Stefan didn't only describe the algorithm. A couple days before the conference, 
 - (c1 AND (c2..cn|msm=m-1)) ：第一块部分描述了满足BooleanQuery查询要求的文档，如果**满足**子查询c1，那么必须（AND）至少满足c2..cn中任意m-1个子查询
 -  (!c1 AND (c2..cn|msm=m))：第二块部分描述了满足BooleanQuery查询要求的文档，如果**不满足**子查询c1，那么必须（AND）至少满足c2..cn中任意m个子查询
 	- 根据两块部分的组合关系（OR），**BooleanQuery的开销cost是这两部分的开销和**
-- 假设子查询c1，c2，... cn是按照cost（上文中已经介绍，即满足子查询的文档数量）**升序排序**的，那么对于第一块部分(c1 AND (c2..cn|msm=m-1)) ，由于c1的cost最小，并且必须满足c1的查询条件，那么我们只需要遍历满足ci的文档集合即可（见文章[文档号合并（MUST）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1218/27.html)），**所以第一块部分的开销就是c1的开销**
+- 假设子查询c1，c2，... cn是按照cost（上文中已经介绍，即满足子查询的文档数量）**升序排序**的，那么对于第一块部分(c1 AND (c2..cn|msm=m-1)) ，由于c1的cost最小，并且必须满足c1的查询条件，那么我们只需要遍历满足ci的文档集合即可（见文章[文档号合并（MUST）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1218/文档号合并（MUST）)），**所以第一块部分的开销就是c1的开销**
 - 对于第二块部分(!c1 AND (c2..cn|msm=m))，它可以转化为一个包含 n -1 个子查询c2，... cn且minShouldMatch为m的**子BooleanQuery**，所以它又可以转化为(c2 AND (c3..cn|msm=m-1)) OR (!c2 AND (c3..cn|msm=m))
 - 完整的类推如下所示：
 

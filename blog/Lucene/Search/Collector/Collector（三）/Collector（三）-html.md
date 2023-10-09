@@ -1,6 +1,13 @@
-# [Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: Collector（三）
+date: 2019-08-14 00:00:00
+tags: [collector,indexSort]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)，继续介绍其他的收集器。
+&emsp;&emsp;本文承接[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)，继续介绍其他的收集器。
 
 &emsp;&emsp;图1是Lucene常用的几个Collector：
 
@@ -13,7 +20,7 @@
 
 ## TopFieldCollector
 
-&emsp;&emsp;在[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)的文章中，我们介绍了TopScoreDocCollector收集器以及它的两个子类SimpleTopScoreDocCollector、PagingTopScoreDocCollector，它们的排序规则是"先打分，后文档号"，TopFieldCollector的排序规则是“先域比较（[FieldComparator](https://www.amazingkoala.com.cn/Lucene/Search/2019/0415/50.html)），后文档号”。
+&emsp;&emsp;在[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)的文章中，我们介绍了TopScoreDocCollector收集器以及它的两个子类SimpleTopScoreDocCollector、PagingTopScoreDocCollector，它们的排序规则是"先打分，后文档号"，TopFieldCollector的排序规则是“先域比较（[FieldComparator](https://www.amazingkoala.com.cn/Lucene/Search/2019/0415/FieldComparator&&LeafFieldComparator)），后文档号”。
 
 - 先域比较（FieldComparator）：根据文档（Document）中的排序域（SortField）的域值进行排序。
 - 后文档号：由于文档号是唯一的，所以当无法通过域比较获得顺序关系时，可以再通过文档的文档号进行排序，文档号越小，排名越靠前（competitive）
@@ -106,9 +113,9 @@
 
 &emsp;&emsp;在初始化IndexWriter对象时，我们需要提供一个IndexWriterConfig对象作为构造IndexWriter对象的参数，IndexWriterConfig提供了一个[setIndexSort(Sort sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)的方法，该方法用来在索引期间按照参数Sort对象提供的排序规则对一个段内的文档进行排序，如果该排序规则跟搜索期间提供的排序规则（例如图3的排序规则）是一样的，那么很明显Collector收到的那些满足搜索条件的文档集合已经是有序的（因为Collecter依次收到的文档号是从小到大有序的，而这个顺序描述了文档之间的顺序关系，下文会详细介绍）。
 
-&emsp;&emsp;**以下是一段进阶知识，需要看过[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)以及[文档提交之flush](https://www.amazingkoala.com.cn/Lucene/Index/)系列文章才能理解，看不懂可以跳过**：
+&emsp;&emsp;**以下是一段进阶知识，需要看过[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)以及[文档提交之flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)系列文章才能理解，看不懂可以跳过**：
 
-- 我们以图2作为例子，在单线程下（为了便于理解），如果不设置索引期间的排序**或者**该排序跟搜索期间的排序规则不一致，文档0~文档4对应的文档号分别是：0、1、2、3，**Lucene会按照处理文档的顺序，分配一个从0开始递增的段内文档号，即[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)中的numDocsInRAM ，这是文档在一个段内的真实文档号**，如果在索引期间设置了排序规则如下所示：
+- 我们以图2作为例子，在单线程下（为了便于理解），如果不设置索引期间的排序**或者**该排序跟搜索期间的排序规则不一致，文档0~文档4对应的文档号分别是：0、1、2、3，**Lucene会按照处理文档的顺序，分配一个从0开始递增的段内文档号，即[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)中的numDocsInRAM ，这是文档在一个段内的真实文档号**，如果在索引期间设置了排序规则如下所示：
 
 &emsp;&emsp;**索引期间**，图7
 
@@ -132,12 +139,11 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Collector/Collector（三）/10.png">
 
-&emsp;&emsp;图10中通过数组实现的映射关系即**Sorter.DocMap对象sortMap**，在flush阶段，生成sortMap（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）。
+&emsp;&emsp;图10中通过数组实现的映射关系即**Sorter.DocMap对象sortMap**，在flush阶段，生成sortMap（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)）。
 
 # 结语
 
-&emsp;&emsp;TopFieldCollector相比较[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)中TopScoreDocCollector，尽管他们都是TopDocsCollector的子类，由于存在**索引期间**的排序机制，使得TopFieldCollector的collect(int doc)的流程更加复杂，当然带来了更好的查询性能，至于如何能提高查询性能，由于篇幅原因，会在下一篇介绍图6的collect(int doc)的流程中展开介绍。
+&emsp;&emsp;TopFieldCollector相比较[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/Collector（二）)中TopScoreDocCollector，尽管他们都是TopDocsCollector的子类，由于存在**索引期间**的排序机制，使得TopFieldCollector的collect(int doc)的流程更加复杂，当然带来了更好的查询性能，至于如何能提高查询性能，由于篇幅原因，会在下一篇介绍图6的collect(int doc)的流程中展开介绍。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/Collector/Collector（三）/Collector（三）.zip)下载附件
-
 
