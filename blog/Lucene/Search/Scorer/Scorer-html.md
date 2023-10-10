@@ -1,12 +1,19 @@
-# [Scorer](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 9.6.0）
+---
+title: Scorer（Lucene 9.6.0）
+date: 2023-08-14 00:00:00
+tags: [scorer,impact]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;阅读文本之前，建议先看下文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)，有助于理解。先直接给出Scorer在Lucene中的注释：
+&emsp;&emsp;阅读文本之前，建议先看下文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/ImpactsDISI)，有助于理解。先直接给出Scorer在Lucene中的注释：
 
 图1：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/1.png"  width="">
 
-&emsp;&emsp;图1中的注释已经几乎不能完全用于理解Scorer类，因为这个类经过十几年的迭代，注释却没有保持更新，甚至部分描述还不准确。例如<font color="red">红框</font>标注的注释说到：使用给定的[Similarity](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/89.html)对文档进行打分。由于在早期Scorer的构造函数的参数中需要提供Similarity对象，但在十年前提交的[LUCENE-2876](https://issues.apache.org/jira/browse/LUCENE-2876)中移除了该参数。该[PR merge](https://github.com/apache/lucene/pull/12494)后会更新这些注释。见旧版的Scorer类：
+&emsp;&emsp;图1中的注释已经几乎不能完全用于理解Scorer类，因为这个类经过十几年的迭代，注释却没有保持更新，甚至部分描述还不准确。例如<font color="red">红框</font>标注的注释说到：使用给定的[Similarity](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/查询原理（四）)对文档进行打分。由于在早期Scorer的构造函数的参数中需要提供Similarity对象，但在十年前提交的[LUCENE-2876](https://issues.apache.org/jira/browse/LUCENE-2876)中移除了该参数。该[PR merge](https://github.com/apache/lucene/pull/12494)后会更新这些注释。见旧版的Scorer类：
 
 图2：
 
@@ -28,9 +35,9 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/4.png"  width="">
 
-&emsp;&emsp;Scorer的Iterator()方法说的是，它能提供一个文档号迭代器，即[DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)对象。
+&emsp;&emsp;Scorer的Iterator()方法说的是，它能提供一个文档号迭代器，即[DocIdSetIterator](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)对象。
 
-&emsp;&emsp;DocIdSetIterator中包含了满足查询条件（部分实现可能不满足查询条件，比如DocValuesIterator，下文会介绍）的文档号集合，以及遍历这些文档号的方式。在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)中介绍了DocIdSetIterator的概念，并且在文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)中介绍了DocIdSetIterator的一种实现方式，并且说到ImpactsDISI可以利用[Impact](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)信息来实现特殊的文档号遍历方式。
+&emsp;&emsp;DocIdSetIterator中包含了满足查询条件（部分实现可能不满足查询条件，比如DocValuesIterator，下文会介绍）的文档号集合，以及遍历这些文档号的方式。在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)中介绍了DocIdSetIterator的概念，并且在文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/ImpactsDISI)中介绍了DocIdSetIterator的一种实现方式，并且说到ImpactsDISI可以利用[Impact](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/Impact)信息来实现特殊的文档号遍历方式。
 
 ### 方法二
 
@@ -40,13 +47,13 @@
 
 &emsp;&emsp;通过这个方法可以看出，Scorer对象中含有状态值，即当前正在进行打分的文档号。
 
-&emsp;&emsp;我们在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/207.html)也提到了DocIdSetIterator对象也含有状态值。没错，Scorer对象中的状态值在很多子类实现中就是DocIdSetIterator对象中的状态值。下图是Scorer的TermScorer的部分实现：
+&emsp;&emsp;我们在文章[BulkScorer（一）](https://www.amazingkoala.com.cn/Lucene/Search/2023/0707/BulkScorer（一）)也提到了DocIdSetIterator对象也含有状态值。没错，Scorer对象中的状态值在很多子类实现中就是DocIdSetIterator对象中的状态值。下图是Scorer的TermScorer的部分实现：
 
 图6：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/6.png"  width="">
 
-&emsp;&emsp;图6中，从第39行的代码可以看出，Iterator跟postingEnum是同一个对象，第68、59行代码分别是上文中[方法一](###方法一)、[方法二](###方法二)的实现。
+&emsp;&emsp;图6中，从第39行的代码可以看出，Iterator跟postingEnum是同一个对象，第68、59行代码分别是上文中方法一、方法二的实现。
 
 ### 方法三
 
@@ -56,7 +63,7 @@
 
 &emsp;&emsp;该方法用于通知Scorer对象，目前已收集到的文档中最小的打分值（历史最低打分值）。
 
-&emsp;&emsp;通常在执行TopN查询并且使用文档打分值作为排序规则时会调用该方法。比如我们在收集器[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)中收集到N篇文档后，可以通过一个排序规则为打分值的优先级队列获取堆中最小的打分值minCompetitiveScore，意思是后续的文档的打分值只有大于minCompetitiveScore才是具有竞争力的。此时收集器就会通过调用该方法通知Scorer对象：目前具有竞争力的文档的打分值必须大于minCompetitiveScore。使得一些Scorer的子类可以基于这个minCompetitiveScore实现优化。优化的方向其实就是对满足查询条件的待遍历的文档号集合进行"瘦身"，跳过掉那些打分值小于等于minCompetitiveScore的文档号，或者说筛选出高于minCompetitiveScore的文档号集合。
+&emsp;&emsp;通常在执行TopN查询并且使用文档打分值作为排序规则时会调用该方法。比如我们在收集器[Collector](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/Collector（一）)中收集到N篇文档后，可以通过一个排序规则为打分值的优先级队列获取堆中最小的打分值minCompetitiveScore，意思是后续的文档的打分值只有大于minCompetitiveScore才是具有竞争力的。此时收集器就会通过调用该方法通知Scorer对象：目前具有竞争力的文档的打分值必须大于minCompetitiveScore。使得一些Scorer的子类可以基于这个minCompetitiveScore实现优化。优化的方向其实就是对满足查询条件的待遍历的文档号集合进行"瘦身"，跳过掉那些打分值小于等于minCompetitiveScore的文档号，或者说筛选出高于minCompetitiveScore的文档号集合。
 
 &emsp;&emsp;我们还是以TermScorer为例，对于该方法的实现逻辑如下所示：
 
@@ -64,7 +71,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/8.png"  width="800">
 
-&emsp;&emsp;图8中，TermScorer对象将minCompetitiveScore信息告知了ImpactsDISI对象。至于ImpactsDISI如何基于minCompetitiveScore实现文档号集合的"瘦身"，见文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)。
+&emsp;&emsp;图8中，TermScorer对象将minCompetitiveScore信息告知了ImpactsDISI对象。至于ImpactsDISI如何基于minCompetitiveScore实现文档号集合的"瘦身"，见文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/ImpactsDISI)。
 
 ### 方法四
 
@@ -72,7 +79,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/9.png"  width="800">
 
-&emsp;&emsp;上文的[方法二](###方法二)中描述的是当前正在进行打分的文档号，那么调用方法四就是对这篇文档进行打分。
+&emsp;&emsp;上文的方法二中描述的是当前正在进行打分的文档号，那么调用方法四就是对这篇文档进行打分。
 
 &emsp;&emsp;下图是TermScorer中的实现方式：
 
@@ -80,7 +87,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/10.png"  width="800">
 
-&emsp;&emsp;图10中，`docScorer`是封装了Similarity的LeafSimScorer对象，只需要提供文档号（可以根据文档号获取到[标准化值](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)）以及在这篇文档中的词频就可以进行打分（见文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)中关于打分公式的介绍）。
+&emsp;&emsp;图10中，`docScorer`是封装了Similarity的LeafSimScorer对象，只需要提供文档号（可以根据文档号获取到[标准化值](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)）以及在这篇文档中的词频就可以进行打分（见文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/ImpactsDISI)中关于打分公式的介绍）。
 
 ### 方法五
 
@@ -116,7 +123,7 @@
 
 &emsp;&emsp;代码第44行，使用NumericDocValuesField.newSlowSetQuery进行查询，查询条件是代码43行中包含数值至少包含2或者3的文档。
 
-&emsp;&emsp;由于文档中只使用了[DocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)，因此不支持通过term（即例子中的2跟3两个数值）查询文档号，因此对于NumericDocValuesField.newSlowSetQuery，**只能遍历所有的文档**，随后每处理一篇文档就使用TwoPhaseIterator中的matches方法判断文档中是否包含2、3这两个正排值中的一个。下面给出matches的实现方式：
+&emsp;&emsp;由于文档中只使用了[DocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)，因此不支持通过term（即例子中的2跟3两个数值）查询文档号，因此对于NumericDocValuesField.newSlowSetQuery，**只能遍历所有的文档**，随后每处理一篇文档就使用TwoPhaseIterator中的matches方法判断文档中是否包含2、3这两个正排值中的一个。下面给出matches的实现方式：
 
 图15：
 
@@ -134,10 +141,10 @@
 
 &emsp;&emsp;注释中说到调用该方法能到达文档号target所在的block，目的是获取到打分信息。
 
-&emsp;&emsp;该方法跟[方法八](###方法八)一样都是为了实现[block-max WAND](https://www.amazingkoala.com.cn/Lucene/Search/2020/0916/167.html)算法在[LUCENE-8135](https://issues.apache.org/jira/browse/LUCENE-8135)中出现的。尽管在本篇文章发布之前还未全部完成block-max WAND算法的介绍，但我们可以通过文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)了解该方法以及[方法八](###方法八)，在本篇文章中，只概述下这两个方法：
+&emsp;&emsp;该方法跟方法八一样都是为了实现[block-max WAND](https://www.amazingkoala.com.cn/Lucene/Search/2020/0916/block-max WAND（一）)算法在[LUCENE-8135](https://issues.apache.org/jira/browse/LUCENE-8135)中出现的。尽管在本篇文章发布之前还未全部完成block-max WAND算法的介绍，但我们可以通过文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/ImpactsDISI)了解该方法以及方法八，在本篇文章中，只概述下这两个方法：
 
-- 文档号在[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/165.html)中是按block进行划分存储的，默认每128篇文档号作为一个block，`advanceShallow`方法中会通过[跳表](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/124.html)找到target所在block
-- 当跳到所在block后，就可以通过调用[方法八 getMaxScore](###方法八)计算该block中所有文档中最大的打分值。至于为什么要获取maxScore，以及计算方式，请查看文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/209.html)
+- 文档号在[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/Search/2020/0904/索引文件的读取（十二）之doc&&pos&&pay)中是按block进行划分存储的，默认每128篇文档号作为一个block，`advanceShallow`方法中会通过[跳表](https://www.amazingkoala.com.cn/Lucene/Index/2020/0106/索引文件的生成（四）之跳表SkipList)找到target所在block
+- 当跳到所在block后，就可以通过调用方法八 getMaxScore计算该block中所有文档中最大的打分值。至于为什么要获取maxScore，以及计算方式，请查看文章[ImpactsDISI](https://www.amazingkoala.com.cn/Lucene/Search/2023/0804/ImpactsDISI)
 
 ### 方法八
 
@@ -145,14 +152,14 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Scorer/17.png"  width="">
 
-&emsp;&emsp;见[方法七](###方法七)中的介绍。
+&emsp;&emsp;见方法七中的介绍。
 
 ## 结语
 
 &emsp;&emsp;至此，图3中的所有方法除了 `getChildren`和`getWeight`方法都已经介绍完毕。可以看出Scorer类型提供下面的功能：
 
 - 对文档进行打分
-  - 打分逻辑取决于不同子类中定义的[Similarity](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/89.html)对象
+  - 打分逻辑取决于不同子类中定义的[Similarity](https://www.amazingkoala.com.cn/Lucene/Search/2019/0827/查询原理（四）)对象
 - 提供用于遍历的文档号集合
   - 该集合在大部分实现中是一个满足查询条件的文档号集合，如果不是，那么会额外提供一个TwoPhaseIterator实现准确匹配
 - 记录历史最低打分值，用于doc skip

@@ -1,6 +1,13 @@
-# [构造IndexWriter对象（五）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 构造IndexWriter对象（五）
+date: 2019-11-26 00:00:00
+tags: [indexWriter]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/109.html)，继续介绍调用IndexWriter的构造函数的流程。
+&emsp;&emsp;本文承接[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/构造IndexWriter对象（四）)，继续介绍调用IndexWriter的构造函数的流程。
 
 # 调用IndexWriter的构造函数的流程图
 
@@ -24,7 +31,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（五）/3.png">
 
-&emsp;&emsp;由于StandardDirectoryReader为空，那么就从索引目录中初始化一个新SegmentInfos对象（见[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)），即通过找到索引目录中的segments_N文件读取索引信息。
+&emsp;&emsp;由于StandardDirectoryReader为空，那么就从索引目录中初始化一个新SegmentInfos对象（见[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)），即通过找到索引目录中的segments_N文件读取索引信息。
 
 &emsp;&emsp;**当索引目录中有多个segments_N文件时该如何选择**：
 
@@ -36,7 +43,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（五）/4.png">
 
-&emsp;&emsp;在[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/109.html)文章中我们说到，图2中StandardDirectoryReader为空的情况分为下面两种：
+&emsp;&emsp;在[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/构造IndexWriter对象（四）)文章中我们说到，图2中StandardDirectoryReader为空的情况分为下面两种：
 
 - 用户没有设置IndexCommit
 - 用户设置了IndexCommit，但是IndexCommit中没有StandardDirectoryReader对象的信息
@@ -73,7 +80,7 @@ if (commit.getDirectory() != directoryOrig) {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（五）/7.png">
 
-&emsp;&emsp;对一个已经初始化的SegmentInfos进行更新操作必然需要更新version，version的概念在[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)的文章中介绍，这里不赘述。
+&emsp;&emsp;对一个已经初始化的SegmentInfos进行更新操作必然需要更新version，version的概念在[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)的文章中介绍，这里不赘述。
 
 &emsp;&emsp;至此，我们介绍完了分别在CREATE、APPEND、CREATE_AND_APPEND模式下的执行流程，接着我们根据图1介绍剩余的流程点。
 
@@ -83,7 +90,7 @@ if (commit.getDirectory() != directoryOrig) {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（五）/8.png">
 
-&emsp;&emsp;如果设置了IndexSort，那么在生成一个段的过程中，Lucene会根据用户提供的排序规则对段内的文档进行排序，关于IndexSort的详细介绍见文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)， 如果用户通过[IndexWriterConfig.setIndexSort(Sort sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置了IndexSort配置，那么需要对参数Sort进行合法性检查，检查逻辑如下所示：
+&emsp;&emsp;如果设置了IndexSort，那么在生成一个段的过程中，Lucene会根据用户提供的排序规则对段内的文档进行排序，关于IndexSort的详细介绍见文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)， 如果用户通过[IndexWriterConfig.setIndexSort(Sort sort)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置了IndexSort配置，那么需要对参数Sort进行合法性检查，检查逻辑如下所示：
 
 ### 检查IndexSort合法性的流程图
 
@@ -121,7 +128,7 @@ if (commit.getDirectory() != directoryOrig) {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（五）/13.png">
 
-&emsp;&emsp;如果通过图11的[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)中的IndexSort字段来判断出段中没有排序规则，那么需要判断生成该段的Lucene版本号，代码如下：
+&emsp;&emsp;如果通过图11的[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)中的IndexSort字段来判断出段中没有排序规则，那么需要判断生成该段的Lucene版本号，代码如下：
 
 ```java
 if (segmentIndexSort == null && info.info.getVersion().onOrAfter(Version.LUCENE_6_5_0)){

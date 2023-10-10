@@ -1,19 +1,27 @@
+---
+title: 文档的增删改（二）
+date: 2019-06-28 00:00:00
+tags: [document]
+categories:
+- Lucene
+- Index
+---
+
 # [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（中）
 
-&emsp;&emsp;在[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)中，我们介绍了应用示例并给出了流程图，本篇文章承接上文，就流程图的每个流程点展开介绍，如果篇幅过长又得拖到下一篇文档啦😅。
+&emsp;&emsp;在[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)中，我们介绍了应用示例并给出了流程图，本篇文章承接上文，就流程图的每个流程点展开介绍。
 
 # 预备知识
 &emsp;&emsp;在介绍流程点前需要了解以下几个知识点，下文使用到的名称都是源码中的类名。
 
 ## DocumentsWriterPerThread
-&emsp;&emsp;该类实现了将文档转化为索引文件的所有需要的功能，如果你之前看过[两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)，这篇文章中描述了一篇文档转化为索引文件的过程的第一个阶段，而这个过程的入口即DocumentsWriterPerThread提供的processDocument( )方法。
 
 &emsp;&emsp;DocumentsWriterPerThread在处理完文档后，会收集到以下的数据，注意的这只是部分数据，并且是跟本篇文章相关的，而其他数据以及DocumentsWriterPerThread提供的其他方法(功能)则会在后面介绍flush的文章中进一步展开：
 
 - numDocs：DocumentsWriterPerThread处理的文档个数，上文中我们知道，IndexWriter可以一次添加一篇或多篇文档，而这一次的添加操作实际由DocumentsWriterPerThread完成，用numDocs来记录处理的文档个数
-- IndexByteUsed（索引信息总量）：DocumentsWriterPerThread处理的文档转化为索引文件后占用的内存大小，这里的IndexByteUsed至少包含了生成[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)需要的内存大小
+- IndexByteUsed（索引信息总量）：DocumentsWriterPerThread处理的文档转化为索引文件后占用的内存大小，这里的IndexByteUsed至少包含了生成[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt/)需要的内存大小
 
-&emsp;&emsp;**DocumentsWriterPerThread在下文中简称DWPT，源码中也是这么干的**😁。
+&emsp;&emsp;**DocumentsWriterPerThread在下文中简称DWPT**。
 
 
 ## DocumentsWriterPerThreadPool、ThreadState

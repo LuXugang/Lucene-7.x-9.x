@@ -1,6 +1,13 @@
-# [文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 文档提交之commit（二）
+date: 2019-09-09 00:00:00
+tags: [flush,commit]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本篇文章承接[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)，继续介绍文档提交之commit的剩余流程点。
+&emsp;&emsp;本篇文章承接[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)，继续介绍文档提交之commit的剩余流程点。
 
 # 文档提交之commit的整体流程图
 
@@ -16,7 +23,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档提交/文档提交之commit（二）/2.png">
 
-&emsp;&emsp;在[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)中，我们介绍了图1的`执行同步磁盘工作`的流程点，在这个流程点中，最重要的一个任务是保证所有的索引文件被持久化到磁盘上，另外还需要生成一个pending_segments_N文件，其中N描述了当前索引目录中索引文件的被提交的最新的一个迭代数（generation），这是一个从数值1开始递增的值，例如我们第一次执行两阶段提交之第一阶段后，会生成pending_segments_1，第二次执行两阶段提交之第一阶段后，会生成pending_segments_2，以此类推，由于图1的两个同步机制，使得N在临界区内递增，所以更新并获得N值的实现很简单：
+&emsp;&emsp;在[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)中，我们介绍了图1的`执行同步磁盘工作`的流程点，在这个流程点中，最重要的一个任务是保证所有的索引文件被持久化到磁盘上，另外还需要生成一个pending_segments_N文件，其中N描述了当前索引目录中索引文件的被提交的最新的一个迭代数（generation），这是一个从数值1开始递增的值，例如我们第一次执行两阶段提交之第一阶段后，会生成pending_segments_1，第二次执行两阶段提交之第一阶段后，会生成pending_segments_2，以此类推，由于图1的两个同步机制，使得N在临界区内递增，所以更新并获得N值的实现很简单：
 
 ```java
 private long getNextPendingGeneration() {
@@ -30,13 +37,13 @@ private long getNextPendingGeneration() {
 
 &emsp;&emsp;**pending_segments_N文件是什么**：
 
-- pending_segments_N就是[segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)文件，在当前流程点`生成新的Segment_N文件`只是简单的将pending_segments_N重命名为segments_N，最后再次同步磁盘，保证重命名正确被执行
+- pending_segments_N就是[segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)文件，在当前流程点`生成新的Segment_N文件`只是简单的将pending_segments_N重命名为segments_N，最后再次同步磁盘，保证重命名正确被执行
 
 ## 执行检查点(checkPoint)工作
 
 &emsp;&emsp;在这个流程中，顺序执行以下的操作：
 
-- 操作一：增加这次提交对应的索引文件的计数引用（计数引用的概念见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)）
+- 操作一：增加这次提交对应的索引文件的计数引用（计数引用的概念见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)）
 - 操作二：执行索引删除策略（IndexDeletionPolicy）
 - 操作三：减少被删除的提交对应的索引文件的计数引用
 
@@ -58,7 +65,7 @@ private long getNextPendingGeneration() {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档提交/文档提交之commit（二）/4.png">
 
-&emsp;&emsp;使用这种索引删除策略的优点在于，配合segments_N文件和commitUserData（见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)）我们可以将索引信息恢复到任意一个提交状态；缺点在于索引目录需要保留大量的索引文件，特别是多线程下执行flush()操作较多的场景下，如果你看过[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)的系列文章，索引文件的数量与DPWT对象的个数成正比。
+&emsp;&emsp;使用这种索引删除策略的优点在于，配合segments_N文件和commitUserData（见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)）我们可以将索引信息恢复到任意一个提交状态；缺点在于索引目录需要保留大量的索引文件，特别是多线程下执行flush()操作较多的场景下，如果你看过[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)的系列文章，索引文件的数量与DPWT对象的个数成正比。
 
 #### KeepOnlyLastCommitDeletionPolicy
 
@@ -117,13 +124,13 @@ private long getNextPendingGeneration() {
 
 &emsp;&emsp;上述例子的demo看这里：https://github.com/LuXugang/Lucene-7.5.0/tree/master/LuceneDemo/src/main/java/lucene/index/IndexDeletePolicyTest.java。
 
-&emsp;&emsp;最后，对于PersistentSnapshotDeletionPolicy策略，**生成跟删除快照**都有磁盘同步操作（见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)关于同步磁盘的介绍），这是需要注意的地方。
+&emsp;&emsp;最后，对于PersistentSnapshotDeletionPolicy策略，**生成跟删除快照**都有磁盘同步操作（见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)关于同步磁盘的介绍），这是需要注意的地方。
 
 ## 操作一：增加这次提交对应的索引文件的计数引用
 
 &emsp;&emsp;在操作二中，我们了解到，有些索引删除策略会删除上一个提交，删除提交的过程实质是减少该提交对应的索引文件的计数引用，为了防止本次提交对应的索引文件被误删，所以需要增加这次提交对应的索引文件的计数引用。
 
-&emsp;&emsp;**在[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)中，我们已经增加了新的提交对应的索引文件的计数引用（图1中，二阶段提交之第一阶段的`更新索引文件的计数引用`），为什么这里还要增加**：
+&emsp;&emsp;**在[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)中，我们已经增加了新的提交对应的索引文件的计数引用（图1中，二阶段提交之第一阶段的`更新索引文件的计数引用`），为什么这里还要增加**：
 
 - 二阶段提交之第一阶段的`更新索引文件的计数引用`目的是防止执行段合并的其他线程导致索引文件被删除，操作一中的更新操作对应的是**操作二**中的情况，两次的更新操作目的不一样。
 
@@ -143,7 +150,7 @@ private long getNextPendingGeneration() {
     private List<SegmentCommitInfo> rollbackSegments; 
 ```
 
-&emsp;&emsp;该流程将pendingCommit（见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)）中最重要的信息备份到rollbackSegments中。
+&emsp;&emsp;该流程将pendingCommit（见[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)）中最重要的信息备份到rollbackSegments中。
 
 ## 更新索引文件的计数引用
 
@@ -157,10 +164,6 @@ private long getNextPendingGeneration() {
 
 ## 尝试段合并
 
-&emsp;&emsp;每一次索引发生变化，都会尝试判断是否需要执行段的合并操作，其判断条件依据不同的合并策略而有所不同，合并策略的文章可以看这里：[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)、[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)。
-
-# 结语
-
-&emsp;&emsp;至此我们介绍完了文档提交之commit的整体流程图，由于最复杂的部分跟flush()操作是一样的，所以相比较[文档提交之flush](https://www.amazingkoala.com.cn/Lucene/Index/)的8篇系列文章，只用2篇文档就搞定了。在下一篇文章中，将会介绍commit()跟flush()的区别，这也是面试官经常会问的内容。
+&emsp;&emsp;每一次索引发生变化，都会尝试判断是否需要执行段的合并操作，其判断条件依据不同的合并策略而有所不同，合并策略的文章可以看这里：[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/LogMergePolicy)、[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/文档提交/文档提交之commit（二）/文档提交之commit（二）.zip)下载附件

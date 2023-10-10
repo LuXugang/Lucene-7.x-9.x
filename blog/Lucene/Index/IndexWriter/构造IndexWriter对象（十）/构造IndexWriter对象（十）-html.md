@@ -1,6 +1,13 @@
-# [构造IndexWriter对象（十）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 构造IndexWriter对象（十）
+date: 2019-12-10 00:00:00
+tags: [indexWriter]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)，继续介绍调用IndexWriter的构造函数的流程。
+&emsp;&emsp;本文承接[构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/构造IndexWriter对象（九）)，继续介绍调用IndexWriter的构造函数的流程。
 
 # 调用IndexWriter的构造函数的流程图
 
@@ -22,7 +29,7 @@
 
 #### 执行检查点（checkPoint）工作
 
-&emsp;&emsp;在上一篇文章中，我们简单提了一下该流程点，其中checkPoint的作用及其逻辑在文章[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)已经介绍，不赘述，我们关注问题是为什么在当前流程点还要执行checkPoint的工作，这也是上一篇文章遗留的问题。
+&emsp;&emsp;在上一篇文章中，我们简单提了一下该流程点，其中checkPoint的作用及其逻辑在文章[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/构造IndexWriter对象（八）)已经介绍，不赘述，我们关注问题是为什么在当前流程点还要执行checkPoint的工作，这也是上一篇文章遗留的问题。
 
 **为什么这里还要执行一次checkPoint的工作**：
 
@@ -62,7 +69,7 @@ Always protect the incoming segmentInfos since sometime it may not be the most r
 
 [点击](http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（十）/segments_2.html)查看大图
 
-&emsp;&emsp;图6中，根据SegmentCommitInfo的SegName字段获得对应的[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)。
+&emsp;&emsp;图6中，根据SegmentCommitInfo的SegName字段获得对应的[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)。
 
 &emsp;&emsp;我们顺便给出segments_1包含的索引信息，在后面的流程中会用到：
 

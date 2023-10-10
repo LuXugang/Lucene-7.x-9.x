@@ -1,6 +1,13 @@
-# [构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 构造IndexWriter对象（四）
+date: 2019-11-25 00:00:00
+tags: [indexWriter]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)，继续介绍调用IndexWriter的构造函数的流程。
+&emsp;&emsp;本文承接[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)，继续介绍调用IndexWriter的构造函数的流程。
 
 # 调用IndexWriter的构造函数的流程图
 
@@ -24,7 +31,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（四）/3.png">
 
-&emsp;&emsp;在图1的流程点`获取IndexCommit对应的StandardDirectoryReader`，如果用户通过[IndexWriterConfig.setIndexCommit(IndexCommit commit)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置了IndexCommit，那么Lucene会尝试根据该IndexCommit获得一个[StandardDirectoryReader]([SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html))，它描述了IndexCommit中包含的索引信息（主要是SegmentInfos对象的信息，见[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)关于SegmentInfos对象的介绍）。
+&emsp;&emsp;在图1的流程点`获取IndexCommit对应的StandardDirectoryReader`，如果用户通过[IndexWriterConfig.setIndexCommit(IndexCommit commit)](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)设置了IndexCommit，那么Lucene会尝试根据该IndexCommit获得一个[StandardDirectoryReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)，它描述了IndexCommit中包含的索引信息（主要是SegmentInfos对象的信息，见[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)关于SegmentInfos对象的介绍）。
 
 &emsp;&emsp;StandardDirectoryReader为空的情况有两种：
 
@@ -60,7 +67,7 @@
 &emsp;&emsp;CommitPoint对象生成点有两处：
 
 - 生成IndexFileDeleter对象期间：这个时机点即图1中的流程点`生成对IndexFileDeleter`，故我们这里先暂时不展开
-- 执行commit()操作期间：图7是执行IndexWriter.commit()的两阶段提交的流程图，并且红框标注的流程点为CommitPoint对象生成的时机，该流程点的具体介绍可以看[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)
+- 执行commit()操作期间：图7是执行IndexWriter.commit()的两阶段提交的流程图，并且红框标注的流程点为CommitPoint对象生成的时机，该流程点的具体介绍可以看[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/文档提交之commit（二）)
 
 图7：
 
@@ -74,7 +81,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（四）/8.png">
 
-&emsp;&emsp;根据图8可以看出，它封装了另一个IndexCommit对象（见图7的红色标注的流程在文章[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)中的介绍），实际上该对象就是 CommitPoint。
+&emsp;&emsp;根据图8可以看出，它封装了另一个IndexCommit对象（见图7的红色标注的流程在文章[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/文档提交之commit（二）)中的介绍），实际上该对象就是 CommitPoint。
 
 &emsp;&emsp;至于它实现了哪些额外的功能，在后面的流程中会展开介绍，这里我们只需要知道它同CommitPoint一样，无法提供StandardDirectoryReader对象。
 
@@ -100,7 +107,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（四）/11.png">
 
-&emsp;&emsp;在文章[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)中我们介绍`执行CREATE模式下的工作`时说到，该模式下初始化一个新的SegmentInfos对象时，它不包含任何的索引信息，而在APPEND模式下，则是用StandardDirectoryReader中的索引信息来初始化一个新的SegmentInfos对象，即所谓的"追加"。
+&emsp;&emsp;在文章[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)中我们介绍`执行CREATE模式下的工作`时说到，该模式下初始化一个新的SegmentInfos对象时，它不包含任何的索引信息，而在APPEND模式下，则是用StandardDirectoryReader中的索引信息来初始化一个新的SegmentInfos对象，即所谓的"追加"。
 
 #### 获得回滚（rollback）信息
 
@@ -112,7 +119,7 @@
 
 **为什么要执行这个检查**：
 
-&emsp;&emsp;我们首先根据下面两张图来介绍下SegmentInfos对象跟[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)、[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)以及其他[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)的关系：
+&emsp;&emsp;我们首先根据下面两张图来介绍下SegmentInfos对象跟[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)、[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)以及其他索引文件的关系：
 
 图14：
 
@@ -124,11 +131,11 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（四）/15.png">
 
-&emsp;&emsp;SegmentInfos对象是索引文件segments_N和索引文件.si在内存中的表示，图14中的提交中包含了两个段，即以\_0跟\_1开头的两个段，所以索引文件segments_1中有两个SegmentCommitInfo字段，接着根据SegmentCommitInfo中的SegName字段，该字段的值描述的是该段对应的所有索引文件的前缀值（见文章[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)中的介绍），即\_0，那么就可以在索引目录中找到 索引文件\_0.si，而在 索引文件\_0.si的Files字段（图15中红框标注）中存储了其他索引文件的名字，同样地根据这些索引文件的名字在索引目录中读取到所有的索引信息。
+&emsp;&emsp;SegmentInfos对象是索引文件segments_N和索引文件.si在内存中的表示，图14中的提交中包含了两个段，即以\_0跟\_1开头的两个段，所以索引文件segments_1中有两个SegmentCommitInfo字段，接着根据SegmentCommitInfo中的SegName字段，该字段的值描述的是该段对应的所有索引文件的前缀值（见文章[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)中的介绍），即\_0，那么就可以在索引目录中找到 索引文件\_0.si，而在 索引文件\_0.si的Files字段（图15中红框标注）中存储了其他索引文件的名字，同样地根据这些索引文件的名字在索引目录中读取到所有的索引信息。
 
 &emsp;&emsp;另外图15中SegmentCommitInfo中的两个字段FieldInfosFies、UpdatesFiles也是存储了索引文件的名字，当一个段中的DocValues发生变更时，变更的信息也用索引文件描述，并且索引文件的名字存储在这两个字段里。
 
-&emsp;&emsp;从上文的描述可以看出，尽管我们通过IndexCommit可以获得SegmentInfos信息，但是该对象只是描述了它对应的索引文件有哪些，并不具有这些索引文件真正的数据，故可能在获得IndexCommit之后，索引又发生了变化，例如又出现了新的提交，那么根据**默认的索引删除策略**（见[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/92.html)中关于`执行检查点(checkPoint)工作`d的介绍），segments_1文件就会被删除，当执行回滚操作时就无法获得真正的索引数据。如果出现在这个情况，那么在当前流程点会抛出如下的异常：
+&emsp;&emsp;从上文的描述可以看出，尽管我们通过IndexCommit可以获得SegmentInfos信息，但是该对象只是描述了它对应的索引文件有哪些，并不具有这些索引文件真正的数据，故可能在获得IndexCommit之后，索引又发生了变化，例如又出现了新的提交，那么根据**默认的索引删除策略**（见[文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0909/文档提交之commit（二）)中关于`执行检查点(checkPoint)工作`d的介绍），segments_1文件就会被删除，当执行回滚操作时就无法获得真正的索引数据。如果出现在这个情况，那么在当前流程点会抛出如下的异常：
 
 ```java
           throw new IllegalArgumentException("the provided reader is stale: its prior commit file \"" + segmentInfos.getSegmentsFileName() + "\" is missing from index");
@@ -146,7 +153,7 @@
 
 **为什么StandardDirectoryReader中可能没有IndexWriter对象**：
 
-&emsp;&emsp;在[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/)系列文章中我们说到可以通过下面四种open()方法获得一个StandardDirectoryReader，其中：
+&emsp;&emsp;在[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)系列文章中我们说到可以通过下面四种open()方法获得一个StandardDirectoryReader，其中：
 
 - 方法一：DirectoryReader.open(final Directory directory)
 - 方法二：DirectoryReader.open(final IndexCommit indexCommit)
@@ -171,11 +178,11 @@
 
 &emsp;&emsp;处理的时机点在后面的流程中，到时候再介绍。
 
-&emsp;&emsp;另外图16中两个同步的内容即version、counter、generation，在[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)文章中介绍了这三个值，这里不赘述。
+&emsp;&emsp;另外图16中两个同步的内容即version、counter、generation，在[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)文章中介绍了这三个值，这里不赘述。
 
 #### 设置回滚
 
-&emsp;&emsp;该流程跟[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)文章中的中的`设置回滚`是相同的意思，将流程点`获得回滚（rollback）信息`的信息更新到rollbackSegments。
+&emsp;&emsp;该流程跟[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/构造IndexWriter对象（三）)文章中的中的`设置回滚`是相同的意思，将流程点`获得回滚（rollback）信息`的信息更新到rollbackSegments。
 
 &emsp;&emsp;在设置回滚后，下一次commit前出现任何的错误，都可以回到当前设置的回滚状态，如果某次提交成功了，那么rollbackSegment会被重新设置该次提交。
 
@@ -184,7 +191,6 @@
 &emsp;&emsp;基于篇幅，剩余的内容将在下篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/IndexWriter/构造IndexWriter对象（四）/构造IndexWriter对象（四）.zip)下载附件
-
 
 
 

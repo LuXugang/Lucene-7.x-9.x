@@ -1,6 +1,13 @@
-# [LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/)
+---
+title: LRUQueryCache
+date: 2019-05-06 00:00:00
+tags: [LRU,cache]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp; LRUQueryCache用来对一个Query查询的结果进行缓存，缓存的内容仅仅是文档号集，由于不会缓存文档的打分（Score），所以只有不需要打分的收集器（Collector）才可以使用LRUQueryCache，比如说TotalHitCountCollector收集器，另外缓存的文档号集使用BitDocIdSet对象进行存储，在BitDocIdSet中实际使用了[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)对象进行存储。
+&emsp;&emsp; LRUQueryCache用来对一个Query查询的结果进行缓存，缓存的内容仅仅是文档号集，由于不会缓存文档的打分（Score），所以只有不需要打分的收集器（Collector）才可以使用LRUQueryCache，比如说TotalHitCountCollector收集器，另外缓存的文档号集使用BitDocIdSet对象进行存储，在BitDocIdSet中实际使用了[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)对象进行存储。
 
 &emsp;&emsp;即使使用了不需要打分的收集器，也不一定对所有的查询结果进行缓存，有诸多苛刻的条件，在下文中会详细介绍。
 
@@ -33,14 +40,14 @@
 有些Query不需要缓存：
 
 - TermQuery：TermQuery作为最常用的Query，源码中给出不需要缓存的理由是这种查询已经足够快(plenty fast)了。
-- MatchAllDocsQuery：此Query是获得IndexReader中的所有文档号，在不使用cache的情况下获取所有结果的逻辑是从0开始遍历到IndexReader中的最大的文档号(因为每一篇文档都是满足要求的)，如果缓存这个结果的话，由于使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)存储了cache，在生成缓存的过程中需要编码，并且读取cache还需要解码，查询性能肯定是相比较大的。
+- MatchAllDocsQuery：此Query是获得IndexReader中的所有文档号，在不使用cache的情况下获取所有结果的逻辑是从0开始遍历到IndexReader中的最大的文档号(因为每一篇文档都是满足要求的)，如果缓存这个结果的话，由于使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)存储了cache，在生成缓存的过程中需要编码，并且读取cache还需要解码，查询性能肯定是相比较大的。
 - MatchNoDocsQuery：此Query不会匹配任何文档，所以没有缓存的必要
 - BooleanQuery：BooleanQuery中没有任何子Query是不用缓存的
 - DisjunctionMaxQuery：DisjunctionMaxQuery中没有任何子Query是不用缓存的
 
 满足了Query条件后，会将当前Query（Query对象的HashCode）添加到LRU算法中，并且当前Query为cache中最近最新使用，为了后面执行LRU算法做准备。
 ### 索引文件条件
-根据当前的索引文件条件决定是否允许缓存，比如说存放[DocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/33.html)的[.dvm、.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/)文件在更新后，那么就不允许缓存。
+根据当前的索引文件条件决定是否允许缓存，比如说存放[DocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)的[.dvm、.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)文件在更新后，那么就不允许缓存。
 ### 段（Segment）条件
 即使满足Query条件、索引文件条件，还要考虑当前段中的条件，条件跟当前段中包含的文档数量相关：
 - 最坏的情况下缓存所有子IndexReader中所有的文档号需要的内存量（worstCaseRamUsage）、目前最大可使用的内存量（totalRamAvailable：），这个值即上文中的maxRamBytesUsed，当满足(worstCaseRamUsage * 5) < totalRamAvailable时就允许缓存
@@ -72,7 +79,7 @@
 - 5：其他类型的Query
 
 ### 执行查询，保存结果
-当满足允许增加缓存条件后，就可以执行一次常规的查询，获得查询结果后，即文档号集，存放到[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)，即缓存。
+当满足允许增加缓存条件后，就可以执行一次常规的查询，获得查询结果后，即文档号集，存放到[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)，即缓存。
 ## 执行LRU?
 图7：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/LRUQueryCache/7.png">

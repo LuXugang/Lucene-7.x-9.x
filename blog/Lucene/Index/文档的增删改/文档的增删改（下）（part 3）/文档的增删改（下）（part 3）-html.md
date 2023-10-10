@@ -1,6 +1,13 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 3）
+---
+title: 文档的增删改（五）
+date: 2019-07-09 00:00:00
+tags: [document]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)、[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)、[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)、[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)继续介绍文档的增删改，是文档的增删改系列的最后一篇文章，另外下文中如果出现未展开介绍的变量名，说明在先前的文章中已经给出介绍，不赘述。
+&emsp;&emsp;本文承接[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)、[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)、[文档的增删改（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/文档的增删改（三）)、[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)继续介绍文档的增删改，是文档的增删改系列的最后一篇文章，另外下文中如果出现未展开介绍的变量名，说明在先前的文章中已经给出介绍，不赘述。
 
 # 预备知识
 
@@ -14,7 +21,7 @@
 private final List<DocumentsWriterPerThread> fullFlushBuffer = new ArrayList<>();
 ```
 
-&emsp;&emsp;当全局flush触发时，意味着该flush之前所有添加的文档都在该flush的作用范围内，那么需要将DWPTP中所有持有DWPT对象引用，并且DWPT的私有变量numDocsInRAM 需要大于 0（numDocsInRAM 的概念在[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)已介绍），即该DWPT处理过文档的所有ThreadState置为flushPending，他们所持有的DWPT随后将其收集到的索引信息各自生成一个段，在此之前DWPT先存放到fullFlushBuffer链表中。
+&emsp;&emsp;当全局flush触发时，意味着该flush之前所有添加的文档都在该flush的作用范围内，那么需要将DWPTP中所有持有DWPT对象引用，并且DWPT的私有变量numDocsInRAM 需要大于 0（numDocsInRAM 的概念在[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)已介绍），即该DWPT处理过文档的所有ThreadState置为flushPending，他们所持有的DWPT随后将其收集到的索引信息各自生成一个段，在此之前DWPT先存放到fullFlushBuffer链表中。
 
 ### blockedFlushes
 
@@ -32,7 +39,7 @@ private final Queue<BlockedFlush> blockedFlushes = new LinkedList<>();
   }
 ```
 
-&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)的文章中我们知道，一个线程总是从DWPTP中获得一个ThreadState，然后执行添加/更新文档的操作，当成功获得ThreadState，该线程就获得了ThreadState的锁，直到处理完文档后才会释放锁。如果在处理文档期间（未释放锁），有其他线程触发了全局的flush，并且ThreadState中持有的DWPT对象达到了flush的条件（见[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)中介绍ThreadState失去DWPT引用的章节），那么该DWPT会被添加到blockedFlushes中，并且在blockedFlushes中的DWPT`优先`fullFlushBuffer中的所有DWPT去执行doFlush( )(每个DWPT中收集的索引信息生成索引文件，或者说生成一个段)。
+&emsp;&emsp;在[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)的文章中我们知道，一个线程总是从DWPTP中获得一个ThreadState，然后执行添加/更新文档的操作，当成功获得ThreadState，该线程就获得了ThreadState的锁，直到处理完文档后才会释放锁。如果在处理文档期间（未释放锁），有其他线程触发了全局的flush，并且ThreadState中持有的DWPT对象达到了flush的条件（见[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)中介绍ThreadState失去DWPT引用的章节），那么该DWPT会被添加到blockedFlushes中，并且在blockedFlushes中的DWPT`优先`fullFlushBuffer中的所有DWPT去执行doFlush( )(每个DWPT中收集的索引信息生成索引文件，或者说生成一个段)。
 
 &emsp;&emsp;为什么blockedFlushes中的DWPT优先执行doFlush( )，这个问题可以拆分两个小问题：
 
@@ -49,7 +56,7 @@ private final Queue<BlockedFlush> blockedFlushes = new LinkedList<>();
 private final IdentityHashMap<DocumentsWriterPerThread, Long> flushingWriters = new IdentityHashMap<>();
 ```
 
-&emsp;&emsp;flushingWriters容器的key为DWPT的引用，value为DWPT收集的索引信息占用的内存大小，flushingWriters中元素的个数描述了当前待flush的DWPT的个数，所有元素的value的和值描述了当前内存中的flushBytes（flushBytes的概念在[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)已经介绍）。
+&emsp;&emsp;flushingWriters容器的key为DWPT的引用，value为DWPT收集的索引信息占用的内存大小，flushingWriters中元素的个数描述了当前待flush的DWPT的个数，所有元素的value的和值描述了当前内存中的flushBytes（flushBytes的概念在[文档的增删改（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/文档的增删改（三）)已经介绍）。
 
 ### flushQueue
 
@@ -77,7 +84,7 @@ private final Queue<DocumentsWriterPerThread> flushQueue = new LinkedList<>();
 
 # 文档的增删改流程图
 
-&emsp;&emsp;我们继续介绍最后的 删除文档的`处理删除信息`与添加/更新文档的`处理文档后的工作`的流程点，添加/更新文档的`处理删除信息`的内容已经在[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)介绍了。
+&emsp;&emsp;我们继续介绍最后的 删除文档的`处理删除信息`与添加/更新文档的`处理文档后的工作`的流程点，添加/更新文档的`处理删除信息`的内容已经在[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)介绍了。
 
 图1：
 
@@ -98,7 +105,7 @@ private final Queue<DocumentsWriterPerThread> flushQueue = new LinkedList<>();
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档的增删改/文档的增删改（下）（part 3）/3.png">
 
-&emsp;&emsp;在[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)中我们已经介绍了如何将一个删除信息添加到DeleteQueue中，故这里不赘述。
+&emsp;&emsp;在[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)中我们已经介绍了如何将一个删除信息添加到DeleteQueue中，故这里不赘述。
 
 ### 执行flush策略，设置flushDeletes
 
@@ -147,7 +154,7 @@ private final Queue<DocumentsWriterPerThread> flushQueue = new LinkedList<>();
 
 &emsp;&emsp;如果当前的ThreadState没有被置为flushPending(内存索引未达到ramBufferSizeMB前ThreadState都是flushPending为false的状态)，那么需要执行flush策略，目前Lucene7.5.0中有且仅有一种flush策略：FlushByRamOrCountsPolicy。用户可以实现自己的flush策略并通过IndexWriterConfig自定义设置。
 
-&emsp;&emsp;flush策略用来判断执行完增删改的操作后，是否要执行flush，这里的介绍是对[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)的补充：
+&emsp;&emsp;flush策略用来判断执行完增删改的操作后，是否要执行flush，这里的介绍是对[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)的补充：
 
 - 添加操作：如果设置了flushOnDocCount，那么判断DWPT处理的文档个数是否达到maxBufferedDocs，满足条件则将ThreadState置为flushPending，否则判断activeBytes与deleteRamByteUsed的和值是否达到ramBufferSizeMB，如果达到阈值，那么从DWPTP中找到一个持有DWPT，并且该DWPT收集的索引信息量最大的ThreadState，将其置为flushPending。
 - 删除操作：判断deleteRamByteUsed是否达到ramBufferSizeMB，满足条件则另flushDeletes为true

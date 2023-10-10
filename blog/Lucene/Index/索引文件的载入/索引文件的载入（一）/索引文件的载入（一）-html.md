@@ -1,25 +1,32 @@
-# [索引文件的载入（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0、8.6.0、8.7.0）
+---
+title: 索引文件的载入（一）之fdx&&fdt&&fdm（Lucene 8.4.0、8.6.0、8.7.0）
+date: 2021-02-18 00:00:00
+tags: [search,index,fdt,fdm,fdx]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)中，我们介绍了SegmentReader对象，它用于描述一个段中的索引信息，并且说到SegmentReader对象中包含了一个SegmentCoreReaders对象。
+&emsp;&emsp;在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)中，我们介绍了SegmentReader对象，它用于描述一个段中的索引信息，并且说到SegmentReader对象中包含了一个SegmentCoreReaders对象。
 
 图1：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的载入/索引文件的载入（一）/1.png">
 
-&emsp;&emsp;图1中，<font color=blue>蓝框</font>标注的两个对象用于描述DocValues的索引信息，而<font color=red>红框</font>标注的SegmentCoreReader则描述了下面的索引信息，注意的是在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)中是基于Lucene 7.5.0的：
+&emsp;&emsp;图1中，<font color=blue>蓝框</font>标注的两个对象用于描述DocValues的索引信息，而<font color=red>红框</font>标注的SegmentCoreReader则描述了下面的索引信息，注意的是在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)中是基于Lucene 7.5.0的：
 
 表一：
 
 | 对象               | 描述                                                         |
 | :----------------- | :----------------------------------------------------------- |
-| StoredFieldsReader | 从[索引文件fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)中读取存储域的索引信息 |
-| FieldsProducer     | 从[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中读取域的倒排信息 |
-| TermVectorsReader  | 从[索引文件tvx&&tvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/56.html)读取词向量的索引信息（用于高亮优化查询） |
-| PointsReader       | 从[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中读取域值为数值类型的索引信息 |
-| NormsProducer      | 从[索引文件nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)中读取域的打分信息（作为对文档进行打分的参数） |
-| FieldInfos         | 从[索引文件fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)读取域的信息 |
+| StoredFieldsReader | 从[索引文件fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)中读取存储域的索引信息 |
+| FieldsProducer     | 从[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)中读取域的倒排信息 |
+| TermVectorsReader  | 从[索引文件tvx&&tvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/索引文件之tvx&&tvd)读取词向量的索引信息（用于高亮优化查询） |
+| PointsReader       | 从[索引文件dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中读取域值为数值类型的索引信息 |
+| NormsProducer      | 从[索引文件nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)中读取域的打分信息（作为对文档进行打分的参数） |
+| FieldInfos         | 从[索引文件fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/索引文件之fnm)读取域的信息 |
 
-&emsp;&emsp;在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)中，并没有对每一种索引文件进行详细的读取过程的介绍，故`索引文件的载入`的系列文章对此将详细的展开。
+&emsp;&emsp;在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)中，并没有对每一种索引文件进行详细的读取过程的介绍，故`索引文件的载入`的系列文章对此将详细的展开。
 
 &emsp;&emsp;该系列文章将要介绍的内容可以概述为这么一句话：**在初始化一个读取索引信息的reader期间，索引文件如何被读取（载入）**。由于只是初始化一个reader，而不是处于一个查询阶段，所以只有**部分索引文件的信息**会被载入到内存中。
 
@@ -41,7 +48,7 @@
 
 &emsp;&emsp;**为什么图3中第98行处又载入了索引文件.fnm，在图2中不是已经载入过了吗？**
 
-&emsp;&emsp;图3跟图2中载入的索引信息是不相同的，他们的区别在于索引文件.fnm的版本不同。这两个索引文件的区别在文章[构造IndexWriter对象](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)中介绍流程点`更新SegmentInfos的metaData`中详细介绍了，不赘述。
+&emsp;&emsp;图3跟图2中载入的索引信息是不相同的，他们的区别在于索引文件.fnm的版本不同。这两个索引文件的区别在文章[构造IndexWriter对象](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/构造IndexWriter对象（九）)中介绍流程点`更新SegmentInfos的metaData`中详细介绍了，不赘述。
 
 &emsp;&emsp;由于会依赖之前写过的跟索引文件的数据结构相关的文章，而那些文章又是依赖不同的Lucene版本，故注意版本区分。
 
@@ -51,7 +58,7 @@
 
 ## 索引文件fdx&&fdt&&fdm的载入（Lucene 8.6.0）
 
-&emsp;&emsp;描述存储域的[索引文件fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)的载入顺序依次如下所示：
+&emsp;&emsp;描述存储域的[索引文件fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)的载入顺序依次如下所示：
 
 ```text
 .fdt --> .fdm --> fdx --> .fdt
@@ -111,7 +118,7 @@
 
 &emsp;&emsp;至此可以看出，对于描述存储域的索引文件fdx&&fdt&&fdm，除了索引文件.fdt的Chunk字段，其他索引文件的所有字段都会被读取到内存中。
 
-&emsp;&emsp;对于索引文件fdx&&fdt&&fdm详细的读取过程可以阅读系列文章[索引文件的读取（十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/174.html)，该系列的文章介绍了索引文件.fdt的Chunk字段的读取方式。
+&emsp;&emsp;对于索引文件fdx&&fdt&&fdm详细的读取过程可以阅读系列文章[索引文件的读取（十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Search/2020/1102/索引文件的读取（十四）之fdx&&fdt&&fdm)，该系列的文章介绍了索引文件.fdt的Chunk字段的读取方式。
 
 ## 结语
 

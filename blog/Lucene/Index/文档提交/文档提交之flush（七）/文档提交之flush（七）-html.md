@@ -1,7 +1,13 @@
-# [文档提交之flush（七）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 文档提交之flush（七）
+date: 2019-08-07 00:00:00
+tags: [flush,commit]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)，继续依次介绍每一个流程点。
-
+&emsp;&emsp;本文承接[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)，继续依次介绍每一个流程点。
 
 
 # 文档提交之flush的整体流程图
@@ -14,18 +20,18 @@
 
 ## Set&lt;FrozenBufferedUpdates&gt; update
 
-&emsp;&emsp;update中存放的是FrozenBufferedUpdates的集合，在[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)中FrozenBufferedUpdates获得nextGen的值之后，它会被添加到update容器中，在FrozenBufferedUpdates中的删除信息作用到段之后，从update中移除。
+&emsp;&emsp;update中存放的是FrozenBufferedUpdates的集合，在[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)中FrozenBufferedUpdates获得nextGen的值之后，它会被添加到update容器中，在FrozenBufferedUpdates中的删除信息作用到段之后，从update中移除。
 
 # IndexWriter处理事件
 
-&emsp;&emsp;在[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)中我们介绍了`IndexWriter处理事件`流程中的几种事件类型，下面仅介绍`发布生成的段中的处理删除信息事件`。
+&emsp;&emsp;在[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)中我们介绍了`IndexWriter处理事件`流程中的几种事件类型，下面仅介绍`发布生成的段中的处理删除信息事件`。
 
 ## 处理删除信息
 
 &emsp;&emsp;根据作用（apply）的目标段，处理删除信息划分为两种处理方式：
 
-- 全局FrozenBufferedUpdates：根据全局FrozenBufferedUpdates内的nextGen（见[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)）值，其删除信息将要作用到所有比该nextGen值小的段
-- 段内FrozenBufferedUpdates：在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)中我们提到，在生成索引文件的过程中，我们只处理了部分满足删除信息，即只处理了满足删除信息TermArrayNode、TermNode（见[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)）的段内部分文档，而如果段内FrozenBufferedUpdates还存在删除信息QueryArrayNode、DocValuesUpdatesNode，那么在当前流程中需要找出所有剩余的满足删除的文档
+- 全局FrozenBufferedUpdates：根据全局FrozenBufferedUpdates内的nextGen（见[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)）值，其删除信息将要作用到所有比该nextGen值小的段
+- 段内FrozenBufferedUpdates：在[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)中我们提到，在生成索引文件的过程中，我们只处理了部分满足删除信息，即只处理了满足删除信息TermArrayNode、TermNode（见[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)）的段内部分文档，而如果段内FrozenBufferedUpdates还存在删除信息QueryArrayNode、DocValuesUpdatesNode，那么在当前流程中需要找出所有剩余的满足删除的文档
 
 ## 处理删除信息的流程图
 
@@ -75,7 +81,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档提交/文档提交之flush（七）/5.png">
 
-&emsp;&emsp;在[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)中我们了解到，描述新生成的段以及旧段的索引信息SegmentCommitInfo都存放在IndexWriter的全局变量SegmentInfos中，此流程从SegmentInfos找到那些将要被作用删除信息的段的集合，根据当前处理的FrozenBufferedUpdates是全局还是段内，获取的方式有点区别：
+&emsp;&emsp;在[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)中我们了解到，描述新生成的段以及旧段的索引信息SegmentCommitInfo都存放在IndexWriter的全局变量SegmentInfos中，此流程从SegmentInfos找到那些将要被作用删除信息的段的集合，根据当前处理的FrozenBufferedUpdates是全局还是段内，获取的方式有点区别：
 
 - 全局FrozenBufferedUpdates：取出SegmentInfos中所有的SegmentCommitInfo
 - 段内FrozenBufferedUpdates：只取出段对应的SegmentCommitInfo
@@ -102,7 +108,7 @@
 
 - delGen：delGen即当前FrozenBufferedUpdates的nextGen
 
-&emsp;&emsp;首先保证bufferedDeletesGen <= delGen，上文中我们提到的，根据全局FrozenBufferedUpdates内的nextGen（见[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)）值，即delGen，其删除信息将要作用到所有比该nextGen（delGen）值小的段，其中`等号"="`考虑是段内的FrozenBufferedUpdates的delGen跟此段的delGen是相等的情况。
+&emsp;&emsp;首先保证bufferedDeletesGen <= delGen，上文中我们提到的，根据全局FrozenBufferedUpdates内的nextGen（见[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/文档提交之flush（六）)）值，即delGen，其删除信息将要作用到所有比该nextGen（delGen）值小的段，其中`等号"="`考虑是段内的FrozenBufferedUpdates的delGen跟此段的delGen是相等的情况。
 
 - alreadySeenSegments：这个变量在下文会介绍，因为得结合下文中的内容，所以稍安勿躁
 
@@ -113,7 +119,7 @@
 
 &emsp;&emsp;**为什么要增加段集合中的所有索引文件计数引用**：
 
-- 索引目录中一个段对应的所有索引文件，在生成[复合索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0710/73.html)时，非复合索引文件会被删除，除了这个场景，比如在执行了段合并后，合并前的旧段对应的索引文件也需要被删除，其删除的机制即`计数引用`，一个段被其他对象有N次引用时，其索引文件对应的计数引用为N，当该段没有被任何对象引用后，那么就可以删除该段对应的索引文件
+- 索引目录中一个段对应的所有索引文件，在生成[复合索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0710/索引文件之cfs&&cfe)时，非复合索引文件会被删除，除了这个场景，比如在执行了段合并后，合并前的旧段对应的索引文件也需要被删除，其删除的机制即`计数引用`，一个段被其他对象有N次引用时，其索引文件对应的计数引用为N，当该段没有被任何对象引用后，那么就可以删除该段对应的索引文件
 - 在当前的流程点我们需要引用段，而此时有可能其他线程正在合并此段，为了防止合并后，段的引用计数为0，即其索引文件的引用计数为0，我们这里需要增加计数引用，防止索引文件被删除
 
 ### 处理删除信息
@@ -122,7 +128,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档提交/文档提交之flush（七）/7.png">
 
-&emsp;&emsp;图7中，处理TermDeletes即处理删除信息TermArrayNode、TermNode；处理QueryDeletes即处理删除信息QueryArrayNode；处理DocValuesUpdates即处理删除信息DocValuesUpdatesNode。其删除信息的介绍看[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)。
+&emsp;&emsp;图7中，处理TermDeletes即处理删除信息TermArrayNode、TermNode；处理QueryDeletes即处理删除信息QueryArrayNode；处理DocValuesUpdates即处理删除信息DocValuesUpdatesNode。其删除信息的介绍看[文档的增删改（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/文档的增删改（四）)。
 
 &emsp;&emsp;上文中我们获得了SegmentReader，该值使得我们能获得段中的索引信息，包括文档的信息：
 
@@ -130,9 +136,9 @@
 - 处理QueryDeletes：该处理逻辑跟Lucene查询阶段，通过一个Query查找出所有文档的逻辑是一样的，在这里我们暂时不介绍，在介绍Lucene的查询时会详细展开
 - 处理DocValuesUpdates：该处理在后面介绍软删除的文章会展开介绍
 
-&emsp;&emsp;尽管我们没有对上述几个处理逻辑进行展开介绍，但这三个流程最终的目的就是找出满足删除要求的文档号，通过[ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)对象暂存TermDeletes、QueryDeletes生成的删除信息以及DocValuesUpdates生成的更新信息。最后在图1的流程点`更新ReaderPool`中将删除信息以及更新信息生成索引文件。
+&emsp;&emsp;尽管我们没有对上述几个处理逻辑进行展开介绍，但这三个流程最终的目的就是找出满足删除要求的文档号，通过[ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/ReaderPool（一）)对象暂存TermDeletes、QueryDeletes生成的删除信息以及DocValuesUpdates生成的更新信息。最后在图1的流程点`更新ReaderPool`中将删除信息以及更新信息生成索引文件。
 
-&emsp;&emsp;如果图2中处理的是段内FrozenBufferedUpdates，那么是不用处理`处理TermDeletes`的，因为删除信息TermArrayNode、TermNode在生成索引文件[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)阶段就被处理了（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)）。
+&emsp;&emsp;如果图2中处理的是段内FrozenBufferedUpdates，那么是不用处理`处理TermDeletes`的，因为删除信息TermArrayNode、TermNode在生成索引文件[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)阶段就被处理了（见[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)）。
 
 ### 处理完删除信息后的工作
 
@@ -143,7 +149,7 @@
 &emsp;&emsp;在处理完删除信息后，我们需要以下的工作：
 
 - 减少段集合中的所有索引文件计数引用：我们不再需要引用段，故减少段对应的索引文件的计数引用，如果计数值为0，那么删除这些索引文件，同时说明该段被合并了
-- 判断是否至少有一个段发生了变化：`变化`描述的是在上面的流程中，段中的一个或多个文档被标记为删除，那么我们需要另IndexWriter中的一个全局变量maybeMerge为true，maybeMerge描述的是需要进行尝试段合并操作，在执行完主动flush后，会尝试进行段合并，段的合并策略以及合并计划可以看[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)、[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)、[MergeScheduler](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/60.html)
+- 判断是否至少有一个段发生了变化：`变化`描述的是在上面的流程中，段中的一个或多个文档被标记为删除，那么我们需要另IndexWriter中的一个全局变量maybeMerge为true，maybeMerge描述的是需要进行尝试段合并操作，在执行完主动flush后，会尝试进行段合并，段的合并策略以及合并计划可以看[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/LogMergePolicy)、[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)、[MergeScheduler](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/MergeScheduler)
 - 判断是否有些段中的文档都被标记为删除：在上面的流程中，有可能一个或多个段中所有的文档都被值为删除，那么我们需要丢弃这些段
 
 ### 再次处理DocValuesUpdates
@@ -192,7 +198,6 @@
 &emsp;&emsp;基于篇幅，图1中剩余流程点留到下一篇文章介绍。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/文档提交/文档提交之flush（七）/文档提交之flush（七）.zip)下载附件
-
 
 
 

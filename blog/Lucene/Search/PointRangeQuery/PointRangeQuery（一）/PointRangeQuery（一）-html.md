@@ -1,4 +1,11 @@
-# [PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.11.0）
+---
+title: PointRangeQuery（一）（Lucene 8.11.0）
+date: 2021-11-22 00:00:00
+tags: [query,rangeQuery,point,dim,dii]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;该系列文章开始介绍数值类型的范围查询PointRangeQuery，该类数据在Lucene中被称为点数据Point Value。
 
@@ -10,13 +17,13 @@
 
 ## 相关文章
 
-&emsp;&emsp;在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)、[索引文件之kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)中介绍了存储点数据对应的索引文件；在文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)到[索引文件的生成（十四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0424/134.html)以及[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/135.html)到[索引文件的读取（四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0506/138.html)中分别介绍了索引文件的生成、读取过程。另外在文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)中介绍存储点数据使用的数据结构以及通过一个例子概述了生成一颗BKD树的过程。
+&emsp;&emsp;在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)、[索引文件之kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/索引文件之kdd&kdi&kdm)中介绍了存储点数据对应的索引文件；在文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)到[索引文件的生成（十四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0424/索引文件的生成（十四）之dim&&dii)以及[索引文件的读取（一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0427/索引文件的读取（一）之dim&&dii)到[索引文件的读取（四）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Search/2020/0506/索引文件的读取（四）之dim&&dii)中分别介绍了索引文件的生成、读取过程。另外在文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/Bkd-Tree)中介绍存储点数据使用的数据结构以及通过一个例子概述了生成一颗BKD树的过程。
 
 ## Relation
 
 ### MinPackedValue、MaxPackedValue
 
-&emsp;&emsp;在一个段Segment中，所有的点数据按照**点数据域**（Point Field，即图1中的oneDim、twoDim、threeDim）进行划分，对于某个点数据域，在[索引文件.kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)中会存储下面两个字段MinPackedValue、MaxPackedValue：
+&emsp;&emsp;在一个段Segment中，所有的点数据按照**点数据域**（Point Field，即图1中的oneDim、twoDim、threeDim）进行划分，对于某个点数据域，在[索引文件.kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/索引文件之kdd&kdi&kdm)中会存储下面两个字段MinPackedValue、MaxPackedValue：
 
 图2：
 
@@ -93,7 +100,7 @@ upperValue = {7, 5}
 
 ### 基于Relation访问节点
 
-&emsp;&emsp;在文章[索引文件的生成（十一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0410/131.html)中我们说到，在生成BKD树的过程中，每次生成一个内部节点（inner node），都需要计算这个节点对应的MinPackedValue、MaxPackedValue，他们描述了这个内部节点对应的所有叶子节点（leave node）中的点数据都在MinPackedValue、MaxPackedValue对应的矩形内。
+&emsp;&emsp;在文章[索引文件的生成（十一）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0410/索引文件的生成（十一）之dim&&dii)中我们说到，在生成BKD树的过程中，每次生成一个内部节点（inner node），都需要计算这个节点对应的MinPackedValue、MaxPackedValue，他们描述了这个内部节点对应的所有叶子节点（leave node）中的点数据都在MinPackedValue、MaxPackedValue对应的矩形内。
 
 &emsp;&emsp;那么当我们从根节点开始深度遍历后，查询条件跟每一个内部节点的MinPackedValue、MaxPackedValue在计算Relation后，会采取不同的方式访问其子节点。
 
@@ -114,19 +121,19 @@ upperValue = {7, 5}
 
 #### 条件一
 
-&emsp;&emsp;如果[索引文件.kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)中的DocCount字段的值跟**段中的文档数量segSize**相同，那么满足条件一：段中每一篇文档都包含某个域的点数据。
+&emsp;&emsp;如果[索引文件.kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/索引文件之kdd&kdi&kdm)中的DocCount字段的值跟**段中的文档数量segSize**相同，那么满足条件一：段中每一篇文档都包含某个域的点数据。
 
 图10：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/PointRangeQuery/PointRangeQuery（一）/10.png">
 
-&emsp;&emsp;在生成索引文件.kdm期间，会使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)来收集文档号，FixedBitSet使用类似bitmap原理存储文档号，所以它不会重复存储相同的文档号。DocCount字段描述的是包含某个点数据域的文档数量，所以即使一篇文档中定义了多个相同域名的点数据域，对于DocCount只会执行+1操作。
+&emsp;&emsp;在生成索引文件.kdm期间，会使用[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)来收集文档号，FixedBitSet使用类似bitmap原理存储文档号，所以它不会重复存储相同的文档号。DocCount字段描述的是包含某个点数据域的文档数量，所以即使一篇文档中定义了多个相同域名的点数据域，对于DocCount只会执行+1操作。
 
 图11：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/PointRangeQuery/PointRangeQuery（一）/11.png">
 
-&emsp;&emsp;另外，段中的文档号数量segSize通过[索引文件.si](https://www.amazingkoala.com.cn/Lucene/Search/2020/0428/136.html)获得，在代码中可以通过reader.maxDoc()方法获得。
+&emsp;&emsp;另外，段中的文档号数量segSize通过[索引文件.si](https://www.amazingkoala.com.cn/Lucene/Search/2020/0428/索引文件的读取（二）之dim&&dii)获得，在代码中可以通过reader.maxDoc()方法获得。
 
 #### 条件二
 
@@ -142,7 +149,7 @@ upperValue = {7, 5}
   - 同策略一中的条件一，不赘述
 
 - 条件二：每篇文档中只包含一个某个点数据域的点数据
-  - 如果[索引文件.kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)中的PointCount字段（见图10）的值跟DocCount相同，那么满足条件二
+  - 如果[索引文件.kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/索引文件之kdd&kdi&kdm)中的PointCount字段（见图10）的值跟DocCount相同，那么满足条件二
   - PointCount字段描述的是所有文档中的所有某个点数据的点数据的数量，比如一篇文档中定义了3个相同域名的点数据域，对于PointCount会执行+3操作，而DocCount只会执行+1操作
   
 - 条件三：满足查询条件的点数据数量（估算值cost，下一篇文章中会介绍cost的计算方式）占段中的文档数量的一半以上（> 50%）

@@ -1,4 +1,11 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（上）
+---
+title: 文档的增删改（一）
+date: 2019-06-26 00:00:00
+tags: [document]
+categories:
+- Lucene
+- Index
+---
 
 &emsp;&emsp;在Lucene中，可以对文档（Document）进行添加（增）、删除（删）、更新（改）的操作，而每一种操作各自又有多个功能的扩展。
 
@@ -15,7 +22,7 @@
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/%E6%96%87%E6%A1%A3%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9/%E6%96%87%E6%A1%A3%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%EF%BC%88%E4%B8%8A%EF%BC%89/2.png">
 
 &emsp;&emsp;Lucene允许通过IndexWriter对象添加一篇文档或者多篇文档。
-- 添加一篇文档：图1中，我们添加了一篇文档，该文档中包含三个域，分别是[DocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/)域"author"、[存储域](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)"content"、[点数据](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)域"coordinate"
+- 添加一篇文档：图1中，我们添加了一篇文档，该文档中包含三个域，分别是[DocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)域"author"、[存储域](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)"content"、[点数据](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)域"coordinate"
 - 添加多篇文档：图2中，我们添加了两篇文档
 
 ## 删除文档
@@ -121,7 +128,6 @@
 &emsp;&emsp;本章节介绍了文档增删改的应用及其流程图，由于流程图的每一个步骤展开介绍会使得本篇文章篇幅过大，故在下一篇文章中介绍。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Index/%E6%96%87%E6%A1%A3%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9/%E6%96%87%E6%A1%A3%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%EF%BC%88%E4%B8%8A%EF%BC%89/%E6%96%87%E6%A1%A3%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%EF%BC%88%E4%B8%8A%EF%BC%89.zip)附件
-
 
 
 

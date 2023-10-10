@@ -1,6 +1,13 @@
-# [PointRangeQuery（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.11.0）
+---
+title: PointRangeQuery（二）（Lucene 8.11.0）
+date: 2021-11-28 00:00:00
+tags: [query,rangeQuery,point,dim,dii]
+categories:
+- Lucene
+- Search
+---
 
-&emsp;&emsp;本文承接[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)，继续介绍数值类型的范围查询PointRangeQuery。
+&emsp;&emsp;本文承接[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/PointRangeQuery（一）)，继续介绍数值类型的范围查询PointRangeQuery。
 
 ## 节点访问规则IntersectVisitor
 
@@ -14,7 +21,7 @@
 
 ### 访问内部节点
 
-&emsp;&emsp;正如图1中compare(..)方法中的注释说到，这个方法用来判断查询条件跟当前访问的内部节点之间的Relation（见[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)的介绍），决策出如何进一步处理该内部节点的子节点。我们先介绍下PointRangeQuery中如何实现**compare(...)**，随后在**访问叶子节点**时小结中介绍如何根据Relation作出访问子节点的策略。
+&emsp;&emsp;正如图1中compare(..)方法中的注释说到，这个方法用来判断查询条件跟当前访问的内部节点之间的Relation（见[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/PointRangeQuery（一）)的介绍），决策出如何进一步处理该内部节点的子节点。我们先介绍下PointRangeQuery中如何实现**compare(...)**，随后在**访问叶子节点**时小结中介绍如何根据Relation作出访问子节点的策略。
 
 #### PointRangeQuery中计算Relation的实现
 
@@ -56,7 +63,7 @@
 
 #### compare(...)方法的实现
 
-&emsp;&emsp;在文章[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/202.html)中说到，收集文档号集合有不同的策略，对于策略一由于不用遍历BKD树，所以不需要实现这个方法。而策略二跟策略三对compare(...)方法的实现有着少些的区别。
+&emsp;&emsp;在文章[PointRangeQuery（一）](https://www.amazingkoala.com.cn/Lucene/Search/2021/1122/PointRangeQuery（一）)中说到，收集文档号集合有不同的策略，对于策略一由于不用遍历BKD树，所以不需要实现这个方法。而策略二跟策略三对compare(...)方法的实现有着少些的区别。
 
 ##### 策略三
 

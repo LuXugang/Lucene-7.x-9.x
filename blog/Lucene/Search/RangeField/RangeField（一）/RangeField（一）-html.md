@@ -1,4 +1,11 @@
-# [RangeField（一）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 8.4.0）
+---
+title: RangeField（一）（Lucene 8.4.0）
+date: 2020-07-23 00:00:00
+tags: [range,field,point,dim,dii]
+categories:
+- Lucene
+- Search
+---
 
 &emsp;&emsp;本文将介绍Lucene中提供的范围域（RangeField），以及基于该域实现的范围查询。
 
@@ -50,9 +57,9 @@
 
 ### 域值编码（encode）
 
-&emsp;&emsp;以图3为例，域名为"level"，域值为两个int类型数组min1、max1，Lucene中所有数值类型的域值都会被重新编码为一个字节数组，并且该字节数组可以用于排序，同时字节数组之间的排序关系跟对应数值之间的排序关系是一致的，编码的过程在文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)中已经介绍过了，不赘述。
+&emsp;&emsp;以图3为例，域名为"level"，域值为两个int类型数组min1、max1，Lucene中所有数值类型的域值都会被重新编码为一个字节数组，并且该字节数组可以用于排序，同时字节数组之间的排序关系跟对应数值之间的排序关系是一致的，编码的过程在文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)中已经介绍过了，不赘述。
 
-&emsp;&emsp;域值在转化为字节数组后，其写入到索引文件的过程跟使用BinaryDocValues是一致的，写入跟读取BinaryDocValues的过程分别见文章[索引文件的生成（二十一）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/147.html)跟[索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)的介绍。
+&emsp;&emsp;域值在转化为字节数组后，其写入到索引文件的过程跟使用BinaryDocValues是一致的，写入跟读取BinaryDocValues的过程分别见文章[索引文件的生成（二十一）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0605/索引文件的生成（二十一）之dvm&&dvd)跟[索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/索引文件的读取（六）之dvd&&dvm)的介绍。
 
 ### 范围查询
 
@@ -90,7 +97,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/9.png">
 
-&emsp;&emsp;图9中查询条件为两个TermQuery的组合，在系列文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)中我们知道，通过域名"author"跟域值能直接在索引文件中准确的定位到满足条件的文档号，那么上图中的这种查询就能获得一个DocIdSetIterator对象，并且它包含的文档号不是所谓的approximation，故就不要两阶段遍历的处理方式了。
+&emsp;&emsp;图9中查询条件为两个TermQuery的组合，在系列文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)中我们知道，通过域名"author"跟域值能直接在索引文件中准确的定位到满足条件的文档号，那么上图中的这种查询就能获得一个DocIdSetIterator对象，并且它包含的文档号不是所谓的approximation，故就不要两阶段遍历的处理方式了。
 
 #### 两阶段遍历的第一个阶段
 
@@ -104,13 +111,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/11.png">
 
-&emsp;&emsp;DocIdData字段在内存中用IndexedDISI来描述，而[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)是继承DocIdSetIterator的子类，如下所示，故流程点`文档集合`中的文档集合即上文中我们提到的DocIdSetIterator对象中的文档集合，随后开始每一个文档号，执行两阶段遍历的第一个阶段。
+&emsp;&emsp;DocIdData字段在内存中用IndexedDISI来描述，而[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)是继承DocIdSetIterator的子类，如下所示，故流程点`文档集合`中的文档集合即上文中我们提到的DocIdSetIterator对象中的文档集合，随后开始每一个文档号，执行两阶段遍历的第一个阶段。
 
 图12：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/12.png">
 
-&emsp;&emsp;另外读取图10的DocIdData字段的过程可以阅读文章[引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/154.html)，而如何从IndexedDISI获取文档号可以阅读文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)、[IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/141.html)。
+&emsp;&emsp;另外读取图10的DocIdData字段的过程可以阅读文章[索引文件的读取（五）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0714/索引文件的读取（五）之dvd&&dvm)，而如何从IndexedDISI获取文档号可以阅读文章[IndexedDISI（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)、[IndexedDISI（二）](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0514/IndexedDISI（二）)。
 
 #### 根据文档号取出域值
 
@@ -118,7 +125,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/RangeField/RangeField（一）/13.png">
 
-&emsp;&emsp;从IndexedDISI中获取了一个文档号之后，我们需要根据这个文档号找到对应的域值，以图3为例，即域名"level"对应的域值，在文章[索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/155.html)中我们详细的介绍了如何根据文档号从图10的索引文件中找到对应的域值，这里不赘述。
+&emsp;&emsp;从IndexedDISI中获取了一个文档号之后，我们需要根据这个文档号找到对应的域值，以图3为例，即域名"level"对应的域值，在文章[索引文件的读取（六）之dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Search/2020/0715/索引文件的读取（六）之dvd&&dvm)中我们详细的介绍了如何根据文档号从图10的索引文件中找到对应的域值，这里不赘述。
 
 #### 两阶段遍历的第二个阶段
 
@@ -170,5 +177,4 @@
 &emsp;&emsp;在下一篇文章中，我们将介绍IntRange、DoubleRange、FloatRange类中跟范围域相关的内容。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Search/RangeField/RangeField（一）.zip)下载附件
-
 

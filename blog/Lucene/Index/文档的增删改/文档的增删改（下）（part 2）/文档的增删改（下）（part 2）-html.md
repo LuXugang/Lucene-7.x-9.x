@@ -1,6 +1,13 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 2）
+---
+title: 文档的增删改（四）
+date: 2019-07-04 00:00:00
+tags: [document]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)、[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)、[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)继续介绍文档的增删改，为了能深入理解，还是得先介绍下几个预备知识。
+&emsp;&emsp;本文承接[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)、[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)、[文档的增删改（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/文档的增删改（三）)继续介绍文档的增删改，为了能深入理解，还是得先介绍下几个预备知识。
 
 # 预备知识
 
@@ -17,7 +24,7 @@ static class Node<T> {
 
 &emsp;&emsp;多个Node对象通过next实现了队列结构，其中item为队列中某个结点(Node)的删除信息，每当DWPT处理一个删除信息，就会将该删除信息作为一个item加入到队列中，即deleteQueue。
 
-&emsp;&emsp;在[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)我们已经介绍了删除的几种方式，其删除信息会生成不同的Node子类：
+&emsp;&emsp;在[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)我们已经介绍了删除的几种方式，其删除信息会生成不同的Node子类：
 
 图1：
 
@@ -60,7 +67,7 @@ static class DeleteSlice {
 
 &emsp;&emsp;DeleteSlice中的sliceHead、sliceTail指向deleteQueue中的Node结点。
 
-&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)中我们知道，每一个执行添加/更新操作的线程会先从DWPTP获得一个ThreadState，如果ThreadState中没有持有DWPT的对象引用，那么需要生成一个新的DWPT对象让其持有，并且每一个DWPT对象中都拥有一个私有的DeleteSlice对象，并且在初始化DeleteSlice对象，会让DeleteSlice对象的sliceHead、sliceTail同时指向tail指向的deleteQueue对象中的Node结点，即最新的一个删除操作，DeleteSlice类的构造函数如下，其中参数currentTail为tail：
+&emsp;&emsp;在[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)中我们知道，每一个执行添加/更新操作的线程会先从DWPTP获得一个ThreadState，如果ThreadState中没有持有DWPT的对象引用，那么需要生成一个新的DWPT对象让其持有，并且每一个DWPT对象中都拥有一个私有的DeleteSlice对象，并且在初始化DeleteSlice对象，会让DeleteSlice对象的sliceHead、sliceTail同时指向tail指向的deleteQueue对象中的Node结点，即最新的一个删除操作，DeleteSlice类的构造函数如下，其中参数currentTail为tail：
 
 ```java
 DeleteSlice(Node<?> currentTail) {
@@ -137,7 +144,7 @@ DeleteSlice(Node<?> currentTail) {
 - Map<String,LinkedHashMap<Term,NumericDocValuesUpdate>> numericUpdates：暂不作介绍
 - Map<String,LinkedHashMap<Term,BinaryDocValuesUpdate>> binaryUpdate：暂不作介绍
 
-&emsp;&emsp;numericUpdates、binaryUpdate的介绍 见文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/148.html)。
+&emsp;&emsp;numericUpdates、binaryUpdate的介绍 见文章[软删除softDeletes（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0616/软删除softDeletes（一）)。
 
 &emsp;&emsp;在deleteTerms中，该Map的key为Term，表示包含该Term的文档都会被删除，value为一个哨兵值，描述了该删除操作的作用范围，即只能作用于文档号小于哨兵值的文档，这里需要补充一个概念：
 
@@ -147,7 +154,7 @@ DeleteSlice(Node<?> currentTail) {
 
 &emsp;&emsp;哨兵值怎么用：
 
-- 在deleteTerms中：在DWPT将索引信息生成索引文件`期间`，利用[倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)中的信息找到包含该Term的所有文档的文档号，文档号小于哨兵值的文档都会删除，当然所谓的""删除""其实是将被删除的文档号从文档号集合（docId Set，0 ~ (numDocsInRAM - 1)的文档号集合）中剔除，在处理完所有的删除(比如下文中的deleteQueries)后，该集合会生成[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)
+- 在deleteTerms中：在DWPT将索引信息生成索引文件`期间`，利用[倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/倒排表（上）)中的信息找到包含该Term的所有文档的文档号，文档号小于哨兵值的文档都会删除，当然所谓的""删除""其实是将被删除的文档号从文档号集合（docId Set，0 ~ (numDocsInRAM - 1)的文档号集合）中剔除，在处理完所有的删除(比如下文中的deleteQueries)后，该集合会生成[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)
 - 在deleteQueries中：在DWPT将索引信息生成索引文件`之后`，通过查询的方式找出满足删除要求的文档号，然后从文档号集合中剔除这些文档号
 
 &emsp;&emsp;处理被删除的文档号的详细过程在介绍flush时会详细展开。
@@ -172,7 +179,7 @@ DeleteSlice(Node<?> currentTail) {
 
 # 文档的增删改流程图
 
-&emsp;&emsp;在[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)的文章中，我们给出了文档的增删改流程图，我们紧接[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)，继续介绍剩余的两个流程点：处理删除信息、处理文档后的工作。
+&emsp;&emsp;在[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)的文章中，我们给出了文档的增删改流程图，我们紧接[文档的增删改（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/文档的增删改（三）)，继续介绍剩余的两个流程点：处理删除信息、处理文档后的工作。
 
 图11：
 

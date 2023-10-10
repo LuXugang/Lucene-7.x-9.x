@@ -1,4 +1,11 @@
-# [构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 构造IndexWriter对象（三）
+date: 2019-11-18 00:00:00
+tags: [indexWriter]
+categories:
+- Lucene
+- Index
+---
 
 &emsp;&emsp;构造一个IndexWriter对象的流程总体分为下面三个部分：
 
@@ -6,7 +13,7 @@
 - 设置IndexWriter的配置信息IndexWriterConfig
 - 调用IndexWriter的构造函数
 
-&emsp;&emsp;大家可以查看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)、[构造IndexWriter对象（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1114/107.html)来了解前两部分的内容，我们接着继续介绍最后一个部分，即调用IndexWriter的构造函数。
+&emsp;&emsp;大家可以查看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)、[构造IndexWriter对象（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1114/构造IndexWriter对象（二）)来了解前两部分的内容，我们接着继续介绍最后一个部分，即调用IndexWriter的构造函数。
 
 &emsp;&emsp;IndexWriter类有且仅有一个有参构造函数，如下所示：
 
@@ -32,7 +39,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 &emsp;&emsp;该流程为Lucene使用索引文件锁对索引文件所在的目录进行加锁，使得同一时间总是只有一个IndexWriter对象可以更改索引文件，即保证单进程内(single in-process)多个不同IndexWriter对象互斥更改（多线程持有相同引用的IndexWriter对象视为一个IndexWriter不会受制于LockFactory，而是受制于对象锁（synchronized(IndexWriter)）、多进程内(multi-processes)多个对象互斥更改。
 
-&emsp;&emsp;更多关于索引文件锁的介绍可以看文章[索引文件锁LockFactory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/62.html)。
+&emsp;&emsp;更多关于索引文件锁的介绍可以看文章[索引文件锁LockFactory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/索引文件锁LockFactory)。
 
 ## 获取封装后的Directory
 
@@ -40,7 +47,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/3.png">
 
-&emsp;&emsp;该流程中我们需要对Directory通过[LockValidatingDirectoryWrapper](https://www.amazingkoala.com.cn/Lucene/Store/2019/0615/67.html)对象进行再次封装， 使得在对索引目录中的文件进行任意形式的具有"破坏性"（destructive）的文件系统操作（filesystem operation）前尽可能（best-effort）确保索引文件锁是有效的（valid）。
+&emsp;&emsp;该流程中我们需要对Directory通过[LockValidatingDirectoryWrapper](https://www.amazingkoala.com.cn/Lucene/Store/2019/0615/Directory（下）)对象进行再次封装， 使得在对索引目录中的文件进行任意形式的具有"破坏性"（destructive）的文件系统操作（filesystem operation）前尽可能（best-effort）确保索引文件锁是有效的（valid）。
 
 &emsp;&emsp;索引目录中的"破坏性"的文件系统操作包含下面几个内容：
 
@@ -59,7 +66,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 &emsp;&emsp;如果IndexWriter的配置信息IndexWriterConfig设置了IndexCommit配置，那么我们需要获得描述IndexCommit中包含的信息的对象，即StandardDirectoryReader，生成StandardDirectoryReader的目的在后面的流程中会展开介绍，这里只要知道它的生成时机即可。
 
-&emsp;&emsp;IndexCommit的介绍可以查看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)，而StandardDirectoryReader的介绍可以查看[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)、[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)系列文章，这里不赘述。
+&emsp;&emsp;IndexCommit的介绍可以查看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)，而StandardDirectoryReader的介绍可以查看[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)、[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)系列文章，这里不赘述。
 
 ## 根据不同的OpenMode执行对应的工作
 
@@ -67,7 +74,7 @@ public IndexWriter(Directory d, IndexWriterConfig conf) throws IOException {
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（三）/5.png">
 
-&emsp;&emsp;从图5中可以看出，尽管Lucene提供了三种索引目录的打开模式，但实际上只有CREATE跟APPEND两种打开模式的逻辑，三种模式的介绍可以看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)，这里不赘述。
+&emsp;&emsp;从图5中可以看出，尽管Lucene提供了三种索引目录的打开模式，但实际上只有CREATE跟APPEND两种打开模式的逻辑，三种模式的介绍可以看文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)，这里不赘述。
 
 &emsp;&emsp;在源码中，使用一个布尔值indexExists来描述图5中的流程点`索引目录中是否已经存在旧的索引？`，如果存在，那么indexExists的值为true，反之为false。indexExists在后面的流程中会被用到。
 
@@ -114,7 +121,7 @@ if (config.getIndexCommit() != null) {
 
 &emsp;&emsp;**SegmentInfos是什么：**
 
-- SegmentInfos对象是[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)以及[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)在内存中的描述，可以看文章[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)中关于流程点`获得所有段的信息集合SegmentInfos`的介绍，这里不赘述
+- SegmentInfos对象是[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)以及[索引文件.si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)在内存中的描述，可以看文章[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)中关于流程点`获得所有段的信息集合SegmentInfos`的介绍，这里不赘述
 
 #### 同步SegmentInfos的部分信息
 
@@ -125,7 +132,7 @@ if (config.getIndexCommit() != null) {
 &emsp;&emsp;如果索引目录中已经存在旧的索引，那么indexExists的值为true，那么我们先需要获得旧的索引中的最后一次提交commit中的SegmentInfos中的三个信息，即version、counter、generation：
 
 - version：该值用来描述SegmentInfos发生改变的次数，即索引信息发生改变的次数
-- counter：它跟下划线“\_”作为一个组合值，用来描述下一次生成（[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)、[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)操作）的新段对应的索引文件的前缀值，下图中"\_4"、"\_5"的4、5即为counter值，该值为一个从0开始的递增值
+- counter：它跟下划线“\_”作为一个组合值，用来描述下一次生成（[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)、[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)操作）的新段对应的索引文件的前缀值，下图中"\_4"、"\_5"的4、5即为counter值，该值为一个从0开始的递增值
 
 图10：
 
@@ -133,7 +140,7 @@ if (config.getIndexCommit() != null) {
 
 - generation：用来描述执行提交操作后生成的segments_N文件的N值，图10中，generation的值为2
 
-&emsp;&emsp;上述三个信息在[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)中的位置如下所示：
+&emsp;&emsp;上述三个信息在[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)中的位置如下所示：
 
 图11：
 
@@ -171,7 +178,7 @@ private List<SegmentCommitInfo> rollbackSegments;
 
 &emsp;&emsp;**为什么要记录SegmentInfos的变化：**
 
-- 通过version判断SegmentInfos如果没有发生变化，那么在复用StandardDirectoryReader时可以极大的提高性能，至于为什么能提高性能，以及如何提高性能，在[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)的系列文章中已经介绍，不赘述
+- 通过version判断SegmentInfos如果没有发生变化，那么在复用StandardDirectoryReader时可以极大的提高性能，至于为什么能提高性能，以及如何提高性能，在[近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)的系列文章中已经介绍，不赘述
 
 # 结语
 

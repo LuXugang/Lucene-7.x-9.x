@@ -1,11 +1,18 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 1）
+---
+title: 文档的增删改（三）
+date: 2019-07-01 00:00:00
+tags: [document]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)、[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)、继续介绍文档的增删改，为了能深入理解，还是得先介绍下几个预备知识。
+&emsp;&emsp;本文承接[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)、[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)、继续介绍文档的增删改，为了能深入理解，还是得先介绍下几个预备知识。
 
 # 预备知识
 
 ## DocumentsWriterStallControl
-&emsp;&emsp;在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)我们知道，多线程（持有相同的IndexWriter对象的引用）执行添加/更新操作时，每个线程都会获取一个ThreadState，每次执行完一次添加/更新的后，如果持有的DWPT对象收集的索引信息没有达到flush的要求，该索引信息的大小会被累加到activeBytes，否则会被累加到flushBytes中，并且执行flush操作，这种方式即 添加/更新和flush为并行操作。
+&emsp;&emsp;在[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)我们知道，多线程（持有相同的IndexWriter对象的引用）执行添加/更新操作时，每个线程都会获取一个ThreadState，每次执行完一次添加/更新的后，如果持有的DWPT对象收集的索引信息没有达到flush的要求，该索引信息的大小会被累加到activeBytes，否则会被累加到flushBytes中，并且执行flush操作，这种方式即 添加/更新和flush为并行操作。
 
 &emsp;&emsp;并行操作即某些ThreadState执行添加/更新，而其他ThreadState执行flush，故可能会存在 添加/更新的速度一直快于flush的情况，导致内存中堆积索引信息，那么很容 易出现OOM的错误。所以DocumentsWriterStallControl类就是用来通过阻塞添加/更新的操作来保证写入(indexing)的健康度(This class used to block incoming indexing threads if flushing significantly slower than indexing to ensure the healthiness)
 
@@ -24,7 +31,7 @@
 
 # 文档的增删改流程图
 
-&emsp;&emsp;在[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)的文章中，我们给出了文档的增删改流程图，这篇文章对该流程图的每一个流程点进行介绍，由于当文档跟多文档的增删改流程是雷同的，故下文中只介绍单文档的增删改流程图：
+&emsp;&emsp;在[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)的文章中，我们给出了文档的增删改流程图，这篇文章对该流程图的每一个流程点进行介绍，由于当文档跟多文档的增删改流程是雷同的，故下文中只介绍单文档的增删改流程图：
 
 图1：
 
@@ -38,7 +45,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档的增删改/文档的增删改（下）（part 1）/2.png">
 
-&emsp;&emsp;在[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)中我们知道，updateDocument( )、softUpdateDocument( )的操作分为`删除`跟`添加`，其中`添加`的逻辑跟addDocument( )是一致，故这三种方法使用相同的流程先处理文档的`添加`操作，而不同点在于处理`删除`的操作，下文会详细介绍。
+&emsp;&emsp;在[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)中我们知道，updateDocument( )、softUpdateDocument( )的操作分为`删除`跟`添加`，其中`添加`的逻辑跟addDocument( )是一致，故这三种方法使用相同的流程先处理文档的`添加`操作，而不同点在于处理`删除`的操作，下文会详细介绍。
 
 ## 处理文档前的工作
 
@@ -112,7 +119,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/文档的增删改/文档的增删改（下）（part 1）/10.png">
 
-&emsp;&emsp;在该流程点，我们先获得一个ThreadState，然后开始处理文档的操作，获得ThreadState的流程在[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)已经介绍，不赘述。而处理文档的逻辑则在文章[两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/61.html)中已经介绍。在这篇文档中，详细的介绍了收集并生成.fdx、fdt、.tvd、tvm的过程，其他索引文件信息的收集流程会在随后介绍两阶段生成索引文件之第二阶段中详细展开，总之当处理文档（Document）的流程结束后，DWPT就收集到了所有的索引信息，基于这些信息生成索引文件。
+&emsp;&emsp;在该流程点，我们先获得一个ThreadState，然后开始处理文档的操作，获得ThreadState的流程在[文档的增删改（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/文档的增删改（二）)已经介绍，不赘述。而处理文档的逻辑则在文章[两阶段生成索引文件之第一阶段](https://www.amazingkoala.com.cn/Lucene/Index/2019/0521/两阶段生成索引文件之第一阶段)中已经介绍。在这篇文档中，详细的介绍了收集并生成.fdx、fdt、.tvd、tvm的过程，其他索引文件信息的收集流程会在随后介绍两阶段生成索引文件之第二阶段中详细展开，总之当处理文档（Document）的流程结束后，DWPT就收集到了所有的索引信息，基于这些信息生成索引文件。
 
 # 结语
 

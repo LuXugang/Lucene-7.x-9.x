@@ -1,6 +1,13 @@
-# [构造IndexWriter对象（九）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 构造IndexWriter对象（九）
+date: 2019-12-05 00:00:00
+tags: [indexWriter]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)，继续介绍调用IndexWriter的构造函数的流程。
+&emsp;&emsp;本文承接[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/构造IndexWriter对象（八）)，继续介绍调用IndexWriter的构造函数的流程。
 
 # 调用IndexWriter的构造函数的流程图
 
@@ -29,9 +36,9 @@
 &emsp;&emsp;我们先介绍下需要更新SegmentInfos的哪些metaData：
 
 - generation：该值该值是一个迭代编号（generation number），用来命名下一次commit()生成的segments_N的N值
-- nextWriteDelGen：该值是一个迭代编号，用来命名一个段的下一次生成的[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)
-- nextWriteFieldInfosGen：该值是一个迭代编号，用来命名一个段的下一次生成的[索引文件.fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)
-- nextWriteDocValuesGen：该值是一个迭代编号，用来命名一个段的下一次生成的[索引文件.dvm&&.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/)
+- nextWriteDelGen：该值是一个迭代编号，用来命名一个段的下一次生成的[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)
+- nextWriteFieldInfosGen：该值是一个迭代编号，用来命名一个段的下一次生成的[索引文件.fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/索引文件之fnm)
+- nextWriteDocValuesGen：该值是一个迭代编号，用来命名一个段的下一次生成的[索引文件.dvm&&.dvd](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)
 
 &emsp;&emsp;我们通过下面的例子来介绍上面的metaData的用途，图4的例子使用的索引删除策略为NoDeletionPolicy，完整的demo见：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/index/InflateGenerationTest.java 。
 
@@ -117,7 +124,7 @@ Set all gens beyond what we currently see in the directory, to avoid double-writ
 
 &emsp;&emsp;作者无法列出所有的不优雅的文件，只介绍某些我们可以通过代码演示的文件，并且会给出对应的demo：
 
-- pending_segments_N文件：在[文档提交之commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)系列文章中，我们知道执行IndexWriter.commit()是一个两阶段提交的过程，如果在二阶段提交的第一阶段成功执行后，即生成了pending_segments_N文件，IndexWriter无法执行二阶段提交的第二阶段，比如操作系统/物理机 崩溃或者断电，那么在索引目录中就会存在pending_segments_N文件，我们可以通过这个demo来演示：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/index/UnGracefulIndexFilesTest1.java 
+- pending_segments_N文件：在[文档提交之commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/文档提交之commit（一）)系列文章中，我们知道执行IndexWriter.commit()是一个两阶段提交的过程，如果在二阶段提交的第一阶段成功执行后，即生成了pending_segments_N文件，IndexWriter无法执行二阶段提交的第二阶段，比如操作系统/物理机 崩溃或者断电，那么在索引目录中就会存在pending_segments_N文件，我们可以通过这个demo来演示：https://github.com/LuXugang/Lucene-7.5.0/blob/master/LuceneDemo/src/main/java/lucene/index/UnGracefulIndexFilesTest1.java 
 
 &emsp;&emsp;该demo运行结束后，索引目录中的文件如下所示：
 
@@ -161,7 +168,7 @@ On windows, a file delete can fail because there is still an open file handle ag
 
 **索引目录中哪些索引文件的计数会为0呢：**：
 
-&emsp;&emsp;我们在文章[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)中说道，在图17的流程中，会根据索引目录中的segments_N文件，找到对应的所有索引文件，然后增加了这些索引文件的计数，所以他们是不会被删除的，即下面用红框标注的流程点：
+&emsp;&emsp;我们在文章[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/构造IndexWriter对象（八）)中说道，在图17的流程中，会根据索引目录中的segments_N文件，找到对应的所有索引文件，然后增加了这些索引文件的计数，所以他们是不会被删除的，即下面用红框标注的流程点：
 
 图17：
 
@@ -170,7 +177,7 @@ On windows, a file delete can fail because there is still an open file handle ag
 &emsp;&emsp;除去segments_N对应的索引文件，那么此时索引目录中还剩下两种类型的索引文件：
 
 - “不优雅”的索引文件：这些文件的计数肯定为0
-- 通过NRT生成的索引文件（见文章[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)）：这些索引文件是有效的索引信息，不能被删除，这也是解释为什么我们需要执行图17中用蓝色标注的流程点，在这两个流程点中，通过NRT生成的索引文件会被增加计数，故不会被删除
+- 通过NRT生成的索引文件（见文章[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/构造IndexWriter对象（八）)）：这些索引文件是有效的索引信息，不能被删除，这也是解释为什么我们需要执行图17中用蓝色标注的流程点，在这两个流程点中，通过NRT生成的索引文件会被增加计数，故不会被删除
 
 #### 执行索引删除策略
 
@@ -186,7 +193,7 @@ On windows, a file delete can fail because there is still an open file handle ag
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/IndexWriter/构造IndexWriter对象（九）/19.png">
 
-&emsp;&emsp;这里的流程点的逻辑跟图17中蓝色标注的流程点是一致的，具体的执行流程在[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/113.html)已介绍，不赘述。
+&emsp;&emsp;这里的流程点的逻辑跟图17中蓝色标注的流程点是一致的，具体的执行流程在[构造IndexWriter对象（八）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1203/构造IndexWriter对象（八）)已介绍，不赘述。
 
 **为什么这里还要执行一次checkPoint的工作**：
 
