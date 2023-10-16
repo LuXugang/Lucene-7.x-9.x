@@ -1,6 +1,13 @@
-# [索引文件的生成（七）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 索引文件的生成（七）之tim&&tip
+date: 2020-01-17 00:00:00
+tags: [tim,tip]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)继续介绍剩余的内容，下面先给出生成索引文件.tim、.tip的流程图。
+&emsp;&emsp;本文承接[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)继续介绍剩余的内容，下面先给出生成索引文件.tim、.tip的流程图。
 
 ## 生成索引文件.tim、.tip的流程图
 
@@ -14,7 +21,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（七）/2.png">
 
-&emsp;&emsp;执行到该流程，我们需要将当前term的一些信息（图1中的IntBlockTermState，见文章[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)）的汇总到所属域的信息中（这里先提一下的是，这些信息在后面使用FieldMetaData封装），图2中出现的字段的含义如下：
+&emsp;&emsp;执行到该流程，我们需要将当前term的一些信息（图1中的IntBlockTermState，见文章[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/索引文件的生成（五）之tim&&tip)）的汇总到所属域的信息中（这里先提一下的是，这些信息在后面使用FieldMetaData封装），图2中出现的字段的含义如下：
 
 - sumDocFreq：包含当前域的所有term的文档数量总和，注意的是当前域可能有多个term在同一文档中
 - sumTotalTermFreq：当前域的所有term在所有文档中出现的次数总和
@@ -48,7 +55,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（七）/5.png">
 
-&emsp;&emsp;当前域的所有term处理结束后，那么将term栈中剩余未处理的PendingEntry生成NodeBlock（见文章[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)）。
+&emsp;&emsp;当前域的所有term处理结束后，那么将term栈中剩余未处理的PendingEntry生成NodeBlock（见文章[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)）。
 
 ### 记录当前域的信息在.tip文件中的起始位置indexStartFP
 
@@ -68,13 +75,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（七）/8.png">
 
-&emsp;&emsp;在图5的流程中，当前域的所有term处理结束后，term栈中剩余未处理的PendingEntry会被处理为NodeBlock，最终只会生成一个PendingBlock（没明白？见文章[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)），并且PendingBlock中的index信息，即FST信息将会被写入到FSTIndex中，数据结构如下：
+&emsp;&emsp;在图5的流程中，当前域的所有term处理结束后，term栈中剩余未处理的PendingEntry会被处理为NodeBlock，最终只会生成一个PendingBlock（没明白？见文章[索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)），并且PendingBlock中的index信息，即FST信息将会被写入到FSTIndex中，数据结构如下：
 
 图9：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（七）/9.png">
 
-&emsp;&emsp;在文章[FST算法（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)中我们说到，inputValues跟outputValues作为输入将被用于生成FST，在那篇文章的例子中，inputValues数组中每一个数组元素inputValue都不是"[ ]"，如果inputValues数组中第一个inputvalue为"[ ]"，由于它不能生成node，那么这种情况将被特殊处理，"[ ]"对应的outputValue将使用图9中的emptyOutputBtes字段存储，同时使用emptyLen字段描述emptyOutputBtes占用的字节数，在源码中，这种特殊情况被称为"empty string"、"empty input"。
+&emsp;&emsp;在文章[FST算法（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)中我们说到，inputValues跟outputValues作为输入将被用于生成FST，在那篇文章的例子中，inputValues数组中每一个数组元素inputValue都不是"[ ]"，如果inputValues数组中第一个inputvalue为"[ ]"，由于它不能生成node，那么这种情况将被特殊处理，"[ ]"对应的outputValue将使用图9中的emptyOutputBtes字段存储，同时使用emptyLen字段描述emptyOutputBtes占用的字节数，在源码中，这种特殊情况被称为"empty string"、"empty input"。
 
 #### 标志位
 
@@ -82,7 +89,7 @@
 
 #### inputType
 
-&emsp;&emsp;inputType可选值有三个，分别描述了label（lable的概念见文章[FST算法（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)）占用的字节数量：
+&emsp;&emsp;inputType可选值有三个，分别描述了label（lable的概念见文章[FST算法（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)）占用的字节数量：
 
 图10：
 
@@ -94,7 +101,7 @@
 
 #### startNode
 
-&emsp;&emsp;该字段描述的是在读取FST阶段，current数组中第一个读取的位置，在文章[FST算法（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)的例子中，startNode的值为40。
+&emsp;&emsp;该字段描述的是在读取FST阶段，current数组中第一个读取的位置，在文章[FST算法（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)的例子中，startNode的值为40。
 
 #### numBytes
 
@@ -102,7 +109,7 @@
 
 #### bytes
 
-&emsp;&emsp;该字段描述的是current数组中所有元素，也就是在文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/126.html)中所有PendingBlock中的prefix（除了prefix为"[ ]"的信息，它使用emptyOutputBytes存储）对应的FST的inputValue。
+&emsp;&emsp;该字段描述的是current数组中所有元素，也就是在文章[索引文件的生成（六）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0115/索引文件的生成（六）之tim&&tip)中所有PendingBlock中的prefix（除了prefix为"[ ]"的信息，它使用emptyOutputBytes存储）对应的FST的inputValue。
 
 
 ### 生成FieldMetaData
@@ -113,7 +120,7 @@
 
 &emsp;&emsp;由于Lucene的处理逻辑是先处理所有的域，最后把这些域的信息写入一次性到索引文件.tip中，故在处理完一个域后，要将该域的信息通过FieldMetaData来存储下，当所有的域处理结束后，遍历所有的FieldMetaData，将这些信息依次到索引文件.tip中，故有了图7中的数据结构，FieldMetaData中只有一个信息需要介绍下，其他信息可以自行看源码中https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java 的内部类FieldMetaData：
 
-- docCount：该值描述的是包含当前域的文档号数量，以图3为例，三篇文档都包含了域名为"content"的文档，所以docCount = 3，该值是在生成索引文件.doc、pos、pay（见文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)）的过程中统计的，统计的时机点如下图<font color=Red>红框</font>标注的流程点：
+- docCount：该值描述的是包含当前域的文档号数量，以图3为例，三篇文档都包含了域名为"content"的文档，所以docCount = 3，该值是在生成索引文件.doc、pos、pay（见文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)）的过程中统计的，统计的时机点如下图<font color=Red>红框</font>标注的流程点：
 
 图12：
 

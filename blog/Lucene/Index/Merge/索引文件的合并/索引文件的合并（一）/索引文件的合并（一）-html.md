@@ -1,6 +1,13 @@
-# [索引文件的合并（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.7.0）
+---
+title: 索引文件的合并（一）之fdx&&fdt&&fdm（Lucene 8.7.0）
+date: 2020-11-30 00:00:00
+tags: [merge,fdx,fdt,fdm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;从本篇文章开始介绍索引文件合并的过程，其中[合并策略](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)、[合并调度](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/60.html)在之前的文章中已经介绍，没有阅读过这些文章并不会影响对本篇文章的理解。
+&emsp;&emsp;从本篇文章开始介绍索引文件合并的过程，其中[合并策略](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)、[合并调度](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/MergeScheduler)在之前的文章中已经介绍，没有阅读过这些文章并不会影响对本篇文章的理解。
 
 &emsp;&emsp;由于本篇文章是索引文件的合并的开篇文章，故我们先给出各类索引文件合并的先后顺序，如下所示：
 
@@ -14,7 +21,7 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/2.png">
 
-&emsp;&emsp;图2中的流程图是执行段的合并的完整流程，其介绍可以阅读系列文章[执行段的合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/101.html)。在<font color=red>红框</font>标注的流程点`执行索引文件的合并`中会调用图1中的第96行的merge( )方法，开始索引文件的合并。我们先介绍索引文件fdx&&fdt&&fdm的合并。
+&emsp;&emsp;图2中的流程图是执行段的合并的完整流程，其介绍可以阅读系列文章[执行段的合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/执行段的合并（一）)。在<font color=red>红框</font>标注的流程点`执行索引文件的合并`中会调用图1中的第96行的merge( )方法，开始索引文件的合并。我们先介绍索引文件fdx&&fdt&&fdm的合并。
 
 ## 索引文件fdx&&fdt&&fdm的合并流程图
 
@@ -44,14 +51,14 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/6.png">
 
-- 图6中MergeState的构造函数的参数之一是每个待合并的段对应的SegmentReader（CodecReader的实现类）的集合，而在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)中我们知道，SegmentReader中有一个SegmentCoreReaders对象，它包含了段中所有索引文件对应的reader：
+- 图6中MergeState的构造函数的参数之一是每个待合并的段对应的SegmentReader（CodecReader的实现类）的集合，而在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)中我们知道，SegmentReader中有一个SegmentCoreReaders对象，它包含了段中所有索引文件对应的reader：
 
-  - StoredFieldsReader：从[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)中读取存储域的索引信息
-  - FieldsProducer：从[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中读取域的索引信息
-  - TermVectorsReader：从[索引文件之tvd&&tvx&&tvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1117/178.html)读取词向量的索引信息
-  - PointsReader：从[索引文件之kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/172.html)中读取域值为数值类型的索引信息
-  - NormsProducer：从[索引文件nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)中读取域的打分信息
-  - FieldInfos：从[索引文件fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/64.html)读取域的信息
+  - StoredFieldsReader：从[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)中读取存储域的索引信息
+  - FieldsProducer：从[索引文件tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[索引文件doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[索引文件pos&&pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)中读取域的索引信息
+  - TermVectorsReader：从[索引文件之tvd&&tvx&&tvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1117/索引文件之tvd&&tvx&&tvm)读取词向量的索引信息
+  - PointsReader：从[索引文件之kdd&kdi&kdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1027/索引文件之kdd&kdi&kdm)中读取域值为数值类型的索引信息
+  - NormsProducer：从[索引文件nvd&&nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)中读取域的打分信息
+  - FieldInfos：从[索引文件fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0606/索引文件之fnm)读取域的信息
 
 - 所以图5中MergeState对象中所有索引文件对应的''reader''信息都是通过深拷贝从SegmentCoreReaders对象中获取的
 
@@ -71,13 +78,13 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的合并/索引文件的合并（一）/8.png">
 
-&emsp;&emsp;该流程点通过判断IndexWriter的配置信息[IndexWriterConfig](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)来确定是否配置了IndexSort。如果配置了段内排序，那么合并后的段将会段内有序，即段内的文档将会根据IndexWriterConfig中的一个或者多个排序规则进行排序。
+&emsp;&emsp;该流程点通过判断IndexWriter的配置信息[IndexWriterConfig](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)来确定是否配置了IndexSort。如果配置了段内排序，那么合并后的段将会段内有序，即段内的文档将会根据IndexWriterConfig中的一个或者多个排序规则进行排序。
 
 ##### 段内排序
 
 &emsp;&emsp;待合并的段集合中，要么所有段有相同的段内排序规则，要么都没有段内排序，也就是不存在只有部分段有段内排序，也不存在不同的段有不同的排序规则。
 
-&emsp;&emsp;在IndexWriter构造阶段，配置信息IndexSort属于[不可变配置](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)，使得通过该IndexWriter对象生成的段总是拥有相同的段内排序规则。另外IndexWriter的构造函数中包含一个[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)对象，如果构造IndexWriter时配置的[OpenMode](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)模式为CREATE_OR_APPEND或者APPEND，会先读取Directory对应的索引目录中"旧的"段，它们是其他IndexWriter对象生成的，可能这些"旧的"段中的段内排序规则跟当前IndexWriter中的不一致，那么Lucene不允许读取这些"旧的"的索引文件，会下图的validateIndexSort方法中抛出以下的异常：
+&emsp;&emsp;在IndexWriter构造阶段，配置信息IndexSort属于[不可变配置](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)，使得通过该IndexWriter对象生成的段总是拥有相同的段内排序规则。另外IndexWriter的构造函数中包含一个[Directory](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/Directory（上）)对象，如果构造IndexWriter时配置的[OpenMode](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)模式为CREATE_OR_APPEND或者APPEND，会先读取Directory对应的索引目录中"旧的"段，它们是其他IndexWriter对象生成的，可能这些"旧的"段中的段内排序规则跟当前IndexWriter中的不一致，那么Lucene不允许读取这些"旧的"的索引文件，会下图的validateIndexSort方法中抛出以下的异常：
 
 图9：
 

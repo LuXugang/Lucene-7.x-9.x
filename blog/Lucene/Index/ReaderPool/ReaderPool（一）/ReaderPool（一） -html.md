@@ -1,4 +1,11 @@
-# [ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.7.0）
+---
+title: ReaderPool（一）（Lucene 8.7.0）
+date: 2020-12-08 00:00:00
+tags: [ReaderPool]
+categories:
+- Lucene
+- Index
+---
 
 &emsp;&emsp;ReaderPool类对于理解Lucene的一些机制起到了极其关键的作用，这些机制至少包含段的合并、作用（apply）删除信息、NRT（near real-time）、flush/commit与merge的并发过程中的删除信息的处理等等，所以有必要单独用一篇文章来介绍这个类。下面先给出源码中对于这个类的介绍：
 
@@ -6,11 +13,11 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/ReaderPool/ReaderPool（一）/1.png">
 
-&emsp;&emsp;图1的javadoc中这样描述ReaderPool类：该类持有一个或多个[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)对象的引用，并且是shared SegmentReader，share描述的是在flush阶段、合并阶段、NRT等不同的场景中都共用ReaderPool对象中的SegmentReader。另外IndexWriter还会使用这些shared SegmentReaders来实现例如作用（apply）删除信息、[执行段的合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/101.html)、[NRT搜索](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)。
+&emsp;&emsp;图1的javadoc中这样描述ReaderPool类：该类持有一个或多个[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)对象的引用，并且是shared SegmentReader，share描述的是在flush阶段、合并阶段、NRT等不同的场景中都共用ReaderPool对象中的SegmentReader。另外IndexWriter还会使用这些shared SegmentReaders来实现例如作用（apply）删除信息、[执行段的合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/执行段的合并（一）)、[NRT搜索](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)。
 
 ## 构造ReaderPool对象
 
-&emsp;&emsp;ReaderPool对象只在[构造IndexWriter对象](https://www.amazingkoala.com.cn/Lucene/Index/2019/1127/111.html)期间生成，正如图1中的Javadoc所描述的那样，它用来被IndexWriter使用。
+&emsp;&emsp;ReaderPool对象只在[构造IndexWriter对象](https://www.amazingkoala.com.cn/Lucene/Index/2019/1127/构造IndexWriter对象（六）)期间生成，正如图1中的Javadoc所描述的那样，它用来被IndexWriter使用。
 
 图2：
 
@@ -38,7 +45,7 @@
 
 &emsp;&emsp;**SegmentCommitInfo对象是什么？**
 
-&emsp;&emsp;SegmentCommitInfo用来描述一个段元数据（metadata）。它是[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)的字段：
+&emsp;&emsp;SegmentCommitInfo用来描述一个段元数据（metadata）。它是[索引文件segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)的字段：
 
 图5：
 
@@ -66,7 +73,7 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/ReaderPool/ReaderPool（一）/7.png">
 
-&emsp;&emsp;reader中包含的内容在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)已经做了介绍，不赘述。
+&emsp;&emsp;reader中包含的内容在文章[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)已经做了介绍，不赘述。
 
 ### PendingDeletes pendingDeletes
 
@@ -78,7 +85,7 @@
 
 &emsp;&emsp;**为什么要加黑突出"新的"这两个字？**
 
-&emsp;&emsp;以在构造ReaderPool对象期间为例，图7中的SegmentReader中可能包含删除信息，这些删除信息是在图的流程点`获取IndexCommit对应的StandardDirectoryReader`通过读取索引目录中一个段对应的[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/54.html)获得的，我们称之为"旧的"删除信息。
+&emsp;&emsp;以在构造ReaderPool对象期间为例，图7中的SegmentReader中可能包含删除信息，这些删除信息是在图的流程点`获取IndexCommit对应的StandardDirectoryReader`通过读取索引目录中一个段对应的[索引文件.liv](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0425/索引文件之liv)获得的，我们称之为"旧的"删除信息。
 
 &emsp;&emsp;当后续索引（Indexing）过程中，如果存在删除操作，并且当前段满足这个删除条件，那么删除信息必须作用（apply）到这个段，这些删除信息称之为**"新的"**被删除信息，它们会被添加到pendingDeletes中，更准确的描述应该是这些"新的"删除信息被**暂存**到pendingDeletes。
 
@@ -88,17 +95,17 @@
 
 &emsp;&emsp;**什么时候将"新的"删除信息持久化到磁盘？**
 
-&emsp;&emsp;例如在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)、commit、获取NRT reader时。
+&emsp;&emsp;例如在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/文档提交之flush（二）)、commit、获取NRT reader时。
 
 图9：
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/ReaderPool/ReaderPool（一）/9.png">
 
-&emsp;&emsp;图9中，当用户调用了[主动flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)（执行IndexWriter.flush()操作），当执行到流程点[更新ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2019/0812/81.html)，说明这次flush产生的"新的"删除都已经实现了apply，那么此时可以将"新的"删除信息生成新的索引文件.liv。
+&emsp;&emsp;图9中，当用户调用了[主动flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)（执行IndexWriter.flush()操作），当执行到流程点[更新ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2019/0812/文档提交之flush（八）)，说明这次flush产生的"新的"删除都已经实现了apply，那么此时可以将"新的"删除信息生成新的索引文件.liv。
 
 &emsp;&emsp;**什么时候一个段会被作用（apply）"新的"删除信息**
 
-&emsp;&emsp;还是以图9的flush为例，在`IndexWriter处理事件`的流程中，会执行一个[处理删除信息](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/80.html)的事件，其流程图如下所示：
+&emsp;&emsp;还是以图9的flush为例，在`IndexWriter处理事件`的流程中，会执行一个[处理删除信息](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/文档提交之flush（七）)的事件，其流程图如下所示：
 
 图10：
 
@@ -106,7 +113,7 @@
 
 &emsp;&emsp;图10中<font color=red>红框</font>标注的两个流程点将会从段中找到满足删除条件的文档号，然后将删除信息暂存到pendingDeletes中。
 
-&emsp;&emsp;另外在[执行段的合并过程](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/101.html)中，待合并的段在图11的流程点`作用（apply）删除信息`被作用"新的"删除信息：
+&emsp;&emsp;另外在[执行段的合并过程](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/执行段的合并（一）)中，待合并的段在图11的流程点`作用（apply）删除信息`被作用"新的"删除信息：
 
 图11：
 
@@ -117,7 +124,6 @@
 &emsp;&emsp;基于篇幅，剩余的内容将在下一篇文章中展开。
 
 [点击](https://www.amazingkoala.com.cn/attachment/Lucene/Index/ReaderPool/ReaderPool（一）.zip)下载附件
-
 
 
 

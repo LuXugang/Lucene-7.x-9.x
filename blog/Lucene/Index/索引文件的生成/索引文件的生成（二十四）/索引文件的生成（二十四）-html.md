@@ -1,6 +1,13 @@
-# [索引文件的生成（二十四）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.6.0）
+---
+title: 索引文件的生成（二十四）之fdx&&fdt&&fdm（Lucene 8.6.0）
+date: 2020-10-16 00:00:00
+tags: [fdx,fdt,fdm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接文章[索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html)，继续介绍剩余的内容，先给出生成索引文件fdx&&fdt&&fdm的流程图：
+&emsp;&emsp;本文承接文章[索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/索引文件的生成（二十三）之fdx&&fdt&&fdm)，继续介绍剩余的内容，先给出生成索引文件fdx&&fdt&&fdm的流程图：
 
 图1：
 
@@ -20,7 +27,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/3.png">
 
-&emsp;&emsp;图3中，bufferedDocs.getPosition( )方法描述了存储在bufferedDoc[ \]数组中的域值长度（占用字节数量），chunkSize是一个阈值，达到阈值后即满足第一种生成一个chunk的条件，chunkSize的值有两个可选项：16384跟61440，他们分别对应两种生成索引文件.fdt的模式：FAST跟HIGH_COMPRESSION模式，这两种模式描述了对bufferedDoc[ \]数组中的域值使用不同的压缩算法，分别是[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)跟JDK中的Deflater。生成索引文件.fdt的模式可以通过实现抽象类[Codec](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/codecs/Codec.java)来自定义。
+&emsp;&emsp;图3中，bufferedDocs.getPosition( )方法描述了存储在bufferedDoc[ \]数组中的域值长度（占用字节数量），chunkSize是一个阈值，达到阈值后即满足第一种生成一个chunk的条件，chunkSize的值有两个可选项：16384跟61440，他们分别对应两种生成索引文件.fdt的模式：FAST跟HIGH_COMPRESSION模式，这两种模式描述了对bufferedDoc[ \]数组中的域值使用不同的压缩算法，分别是[LZ4](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/LZ4)跟JDK中的Deflater。生成索引文件.fdt的模式可以通过实现抽象类[Codec](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/codecs/Codec.java)来自定义。
 
 &emsp;&emsp;第二种满足生成的条件为$numBufferedDocs >= maxDocsPerChunk$，其中maxDocsPerChunk也是一个阈值，同样有两个可选项：128跟512，分别对应上文中的生成索引文件.fdt的模式。
 
@@ -67,17 +74,17 @@
 
 #### 存储域的信息写入到索引文件.fdt中
 
-&emsp;&emsp;在文章[索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html)中我们知道，存储域的信息在内存中使用numStoredFields[ ]数组，endOffsets[ ]数组存储，他们分别将被写入到DocFieldCounts字段跟DocLengths字段，如下所示：
+&emsp;&emsp;在文章[索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/索引文件的生成（二十三）之fdx&&fdt&&fdm)中我们知道，存储域的信息在内存中使用numStoredFields[ ]数组，endOffsets[ ]数组存储，他们分别将被写入到DocFieldCounts字段跟DocLengths字段，如下所示：
 
 图7：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/7.png">
 
-&emsp;&emsp;numStoredFields[ \]数组，endOffsets[ \]数组中的信息被写入到索引文件.fdt之前，会先进行编码压缩处理，不同的处理方式使得DocFieldCounts、DocLengths有不同的数据结构，该内容在文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)已经介绍，不赘述。
+&emsp;&emsp;numStoredFields[ \]数组，endOffsets[ \]数组中的信息被写入到索引文件.fdt之前，会先进行编码压缩处理，不同的处理方式使得DocFieldCounts、DocLengths有不同的数据结构，该内容在文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)已经介绍，不赘述。
 
 #### 域值信息写入到索引文件.fdt中
 
-&emsp;&emsp;在文章[索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/170.html)中我们知道、域值信息在内存中使用bufferedDocs[ ]数组存储，它将被写入到CompressedDocs字段，如下所示：
+&emsp;&emsp;在文章[索引文件的生成（二十三）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1015/索引文件的生成（二十三）之fdx&&fdt&&fdm)中我们知道、域值信息在内存中使用bufferedDocs[ ]数组存储，它将被写入到CompressedDocs字段，如下所示：
 
 图8：
 
@@ -89,7 +96,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/9.png">
 
-&emsp;&emsp;图9中，当域值长度满足条件后，需要对域值进行切片压缩，将域值按照chunkSize划分为每一个切片，然后对每个切片使用[LZ4算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/37.html)算法进行压缩处理。
+&emsp;&emsp;图9中，当域值长度满足条件后，需要对域值进行切片压缩，将域值按照chunkSize划分为每一个切片，然后对每个切片使用[LZ4算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0226/LZ4)算法进行压缩处理。
 
 &emsp;&emsp;至此，在索引阶段生成索引文件fdx&&fdt&&fdm的流程点介绍完毕。从上文的介绍可以发现，有可能存在这么一种情况，添加完最后一篇文档后，还未满足图2中`是否生成一个chunk`的条件，也就是说，还有一些文档的域值信息、存储域信息未被写入到索引文件.fdt中，那么这些未处理的文档将会在flush阶段完成。
 
@@ -97,7 +104,7 @@
 
 &emsp;&emsp;在flush阶段，一方面将处理上文中说的未处理的文档的域值信息、存储域信息，另一方面还会根据图5中的两个临时文件中的信息生成索引文件.fdx、fdm。
 
-&emsp;&emsp;图1中flush阶段的流程在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)（IndexWriter.flush()）的流程中的位置如下所示：
+&emsp;&emsp;图1中flush阶段的流程在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)（IndexWriter.flush()）的流程中的位置如下所示：
 
 图10：
 
@@ -119,13 +126,13 @@
 
 &emsp;&emsp;在图1的索引阶段，使用了图5中的临时文件\_0\_Lucene85FieldsIndex-doc\_ids\_0.tmp存储了一个段中每个chunk中包含的文档数量，从上文的描述我们可以知道，一个chunk中的文档数量可能因为域值的长度而各不相同。
 
-&emsp;&emsp;处理过程为读取每一个chunk中的文档数量，每处理1024（2 << blockshift（blockshift的介绍见文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)））个chunk就生成一个NumDocsBlock，然后写入到索引文件.fdx中：
+&emsp;&emsp;处理过程为读取每一个chunk中的文档数量，每处理1024（2 << blockshift（blockshift的介绍见文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)））个chunk就生成一个NumDocsBlock，然后写入到索引文件.fdx中：
 
 图12：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/12.png">
 
-&emsp;&emsp;图12中NumDoc字段为某个chunk中的文档数量，最后NumDocsBlock会**先进行编码再使用[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)进行压缩处理**后再写入到索引文件.fdx中。
+&emsp;&emsp;图12中NumDoc字段为某个chunk中的文档数量，最后NumDocsBlock会**先进行编码再使用[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)进行压缩处理**后再写入到索引文件.fdx中。
 
 &emsp;&emsp;上文中说到每处理2 << blockshift个chunk就生成一个NumDocsBlock，此时还会生成NumDocMeta信息来记录编码信息，使得在读取阶段能通过NumDocMeta中的编码信息恢复成原数据NumDoc，NumDocMeta信息会被写入到索引文件.fdm中：
 
@@ -133,7 +140,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/13.png">
 
-&emsp;&emsp;图13中Min、AvgInc、Offset、BitRequired为编码信息，其编码逻辑本文不会展开，编码的目的是为了能降低索引文件的文件大小，另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)。
+&emsp;&emsp;图13中Min、AvgInc、Offset、BitRequired为编码信息，其编码逻辑本文不会展开，编码的目的是为了能降低索引文件的文件大小，另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)。
 
 
 ### 生成StartPoints的信息
@@ -144,13 +151,13 @@
 
 &emsp;&emsp;在图1的索引阶段，使用了图5中的临时文件\_0\_Lucene85FieldsIndexfile\_pointers\_1.tmp存储了一个chunk对应的数据块在索引文件.fdt中的起始读取位置。
 
-&emsp;&emsp;处理过程为读取每一个chunk中的对应的数据块在索引文件.fdt中起始读取位置，每处理1024（2 << blockshift（blockshift的介绍见文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)））个chunk就生成一个StartPointBlock，然后写入到索引文件.fdx中：
+&emsp;&emsp;处理过程为读取每一个chunk中的对应的数据块在索引文件.fdt中起始读取位置，每处理1024（2 << blockshift（blockshift的介绍见文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)））个chunk就生成一个StartPointBlock，然后写入到索引文件.fdx中：
 
 图15：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/15.png">
 
-&emsp;&emsp;图15中StartPoint为某个chunk对应的数据块在索引文件.fdt中的起始读取位置。同样的，StartPointBlock会**先进行编码再使用[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)进行压缩处理**后再写入到索引文件.fdx中。 
+&emsp;&emsp;图15中StartPoint为某个chunk对应的数据块在索引文件.fdt中的起始读取位置。同样的，StartPointBlock会**先进行编码再使用[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)进行压缩处理**后再写入到索引文件.fdx中。 
 
 &emsp;&emsp;跟NumDocsBlock一样，每处理2 << blockshift个chunk就生成一个StartPointBlock，此时还会生成StartPointMeta信息来描述编码信息，使得在读取阶段能通过StartPointMeta中的编码信息恢复成原数据StartPoint，StartPointMeta信息会被写入到索引文件.fdm中：
 
@@ -158,7 +165,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十四）/16.png">
 
-&emsp;&emsp;图16中Min、AvgInc、Offset、BitRequired为编码信息，其编码逻辑本文不会展开。另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)。
+&emsp;&emsp;图16中Min、AvgInc、Offset、BitRequired为编码信息，其编码逻辑本文不会展开。另外图13中的其他字段的介绍可以阅读文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)。
 
 ## 结语
 

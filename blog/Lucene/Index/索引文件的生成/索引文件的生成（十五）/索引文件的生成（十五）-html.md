@@ -1,6 +1,13 @@
-# [索引文件的生成（十五）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十五）之dvm&&dvd（Lucene 8.4.0）
+date: 2020-05-07 00:00:00
+tags: [dvd,dvm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在前面的文章中，我们介绍了在Lucene7.5.0中[索引文件.dvd&&.dvm](https://www.amazingkoala.com.cn/Lucene/DocValues/)的数据结构，从本篇文章开始介绍其生成索引文件.dvd&&.dvm的内容，注意的是，由于是基于Lucene8.4.0来描述其生成过程，故如果出现跟Lucene7.5.0中不一致的地方会另外指出，索引文件.dvd&&.dvm中的包含了下面几种类型：
+&emsp;&emsp;在前面的文章中，我们介绍了在Lucene7.5.0中[索引文件.dvd&&.dvm](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)的数据结构，从本篇文章开始介绍其生成索引文件.dvd&&.dvm的内容，注意的是，由于是基于Lucene8.4.0来描述其生成过程，故如果出现跟Lucene7.5.0中不一致的地方会另外指出，索引文件.dvd&&.dvm中的包含了下面几种类型：
 
 - BinaryDocValues
 - NumericDocValues
@@ -8,9 +15,9 @@
 - SortedNumericDocValues
 - SortedSetDocValues
 
-&emsp;&emsp;本篇文章从[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)开始介绍，建议先阅读下文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)，简单的了解NumericDocValues类型的DocValues的数据结构。
+&emsp;&emsp;本篇文章从[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)开始介绍，建议先阅读下文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)，简单的了解NumericDocValues类型的DocValues的数据结构。
 
-&emsp;&emsp;在文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)中，简单的介绍了生成[索引文件.dvd&&.dvm](https://www.amazingkoala.com.cn/Lucene/DocValues/)的时机点，为了能更好的理解其生成过程，会首先介绍下在生成索引文件之前，Lucene是如何收集每篇文档的NumericDocValues信息。
+&emsp;&emsp;在文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)中，简单的介绍了生成[索引文件.dvd&&.dvm](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0218/DocValues/)的时机点，为了能更好的理解其生成过程，会首先介绍下在生成索引文件之前，Lucene是如何收集每篇文档的NumericDocValues信息。
 
 ## 收集文档的NumericDocValues信息
 
@@ -57,7 +64,7 @@
 
 - lastDocId：该值描述的是DocsWithFieldSet上一次处理的文档号
 - cost：该值的初始值为0，它其中一个作用是描述DocsWithFieldSet已经处理的文档数量，其他的作用在下文中会介绍
-- FixedBitSet：用于存储文档号，见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)的介绍
+- FixedBitSet：用于存储文档号，见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)的介绍
 
 #### 文档号
 
@@ -89,7 +96,7 @@
 
 &emsp;&emsp;介绍图9的流程点之前，我们先说下DocsWithFieldSet存储文档号的两种方式：
 
-- FixedBitSet：见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)
+- FixedBitSet：见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)
 - cost：这里的cost即上文中提到的cost，它一方面描述了DocsWithFieldSet已经处理的文档数量，同时在**某个特殊条件**下，它也能用来描述DocsWithFieldSet存储的文档号集合（见下文介绍）
 
 **某个特殊条件是什么？**
@@ -104,7 +111,7 @@
 
 &emsp;&emsp;如果不满足特殊条件，那么只能通过FixedBitSet来存储每一个文档号。
 
-&emsp;&emsp;可见如果满足了特殊条件，在索引阶段，我们就不需要额外使用FixedBitSet对象来存储文档号，即上文中提到的**在索引阶段能更少的占用内存**；同时在读取阶段，我们只要顺序遍历0~cost的值就可以获取文档号，而不需要通过FixedBitSet来读取文档号（见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)），即上文中提到的**在读取阶段有更好的读写性能**。
+&emsp;&emsp;可见如果满足了特殊条件，在索引阶段，我们就不需要额外使用FixedBitSet对象来存储文档号，即上文中提到的**在索引阶段能更少的占用内存**；同时在读取阶段，我们只要顺序遍历0~cost的值就可以获取文档号，而不需要通过FixedBitSet来读取文档号（见文章[工具类之FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/FixedBitSet)），即上文中提到的**在读取阶段有更好的读写性能**。
 
 &emsp;&emsp;回到当前流程点的介绍，如果流程点`是否使用了FixedBitSet？`为否，说明之前处理的文档号集合是从0开始有序递增的，如果为是，那么只能通过FixedBitSet存储文档号，即执行流程点`使用FixedBitSet存储文档号`，接着在流程点`是否新建FixedBitSet？`的判断中，通过比较当前处理的文档号docId跟cost值来进行判断：
 
@@ -115,7 +122,7 @@
 
 &emsp;&emsp;域值即NumericDocValuesField的域值，例如图1的文档0中，域名为"age"的域值为88，我们需要收集88这个域值。
 
-&emsp;&emsp;源码中使用了PackedLongValues来实现压缩存储，关于PackedLongValues的内容请参看文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)，本文不赘述，在后面的文章中，会再次介绍PackedLongValues的内容。
+&emsp;&emsp;源码中使用了PackedLongValues来实现压缩存储，关于PackedLongValues的内容请参看文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)，本文不赘述，在后面的文章中，会再次介绍PackedLongValues的内容。
 
 ## 结语
 

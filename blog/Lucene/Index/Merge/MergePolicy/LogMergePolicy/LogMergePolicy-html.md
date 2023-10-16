@@ -1,10 +1,18 @@
-# [LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: LogMergePolicy
+date: 2019-05-13 00:00:00
+tags: [merge,mergePolicy]
+categories:
+- Lucene
+- Index
+---
+
 &emsp;&emsp; 本篇文章介绍索引文件的合并策略，某次提交(commit)或者刷新(flush)的所有索引文件属于一个新的段（Segment），所以也可以称为段合并(Segment Merge)。当IndexWriter索引中的数据有任意修改动作，它会调用findMerges(...)方法通过某个合并策略(MergePolicy)来找出需要合并的段集，如果需要合并，那么合并策略会返回一个oneMerge的集合，oneMerge的个数描述了IndexWriter需要执行合并的次数，单个oneMerge中包含了需要合并为一个新段(New Segment)的段集合。
 Lucene4版本开始，默认的合并策略为TieredMergePolicy，之前是LogMergePolicy，根据实际的业务需要，某些场景需要用到LogMergePolicy，故本篇文章先介绍这种策略。
 
 # LogMergePolicy的一些参数
 ## DEFAULT_NO_CFS_RATIO
-&emsp;&emsp; 默认值为0.1，如果我们的索引文件设置为复合文件(compound file )，那么.doc、.pos、.fdx等等[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)在执行段合并后会生成一个复合文件，这个文件可能会很大，所以在合并前会判断将要生成的复合文件的大小是否会超过总的索引文件的10%，如果超过，那么合并后就不会生成复合文件。
+&emsp;&emsp; 默认值为0.1，如果我们的索引文件设置为复合文件(compound file )，那么.doc、.pos、.fdx等等[索引文件](https://www.amazingkoala.com.cn/categories/Lucene/suoyinwenjian/)在执行段合并后会生成一个复合文件，这个文件可能会很大，所以在合并前会判断将要生成的复合文件的大小是否会超过总的索引文件的10%，如果超过，那么合并后就不会生成复合文件。
 
 ## mergeFactor(可配置)
 &emsp;&emsp; mergeFactor描述了IndexWriter执行一次合并操作的段的个数，即上文中提到的单个oneMerge中段集合大小。 
@@ -43,7 +51,7 @@ Lucene4版本开始，默认的合并策略为TieredMergePolicy，之前是LogMe
 ## 段的大小(Segment Size)
 &emsp;&emsp; 有两种方式来描述一个段的大小
 - 文档数量：一个段中的文档数量可以用来描述段的大小，根据calibrateSizeByDeletes的值判断被删除的文档号是否也作为段的大小的一部分，例如LogDocMergePolicy就使用了该方法来计算段的大小
-- 索引文件大小：一个段中包含的所有的[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)大小总和，在Lucene7.5.0版本中除了LogDocMergePolicy，其他的合并策略都使用该方法
+- 索引文件大小：一个段中包含的所有的[索引文件](https://www.amazingkoala.com.cn/categories/Lucene/suoyinwenjian/)大小总和，在Lucene7.5.0版本中除了LogDocMergePolicy，其他的合并策略都使用该方法
 
 # 流程图
 图4：

@@ -1,6 +1,13 @@
-# [索引文件的生成（十九）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十九）之dvm&&dvd（Lucene 8.4.0）
+date: 2020-05-31 00:00:00
+tags: [dvd,dvm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)中，我们介绍了Lucene在索引阶段跟flush阶段收集到的SortedDocValues、SortedSetDocValues信息，这些信息将作为生成索引文件.dvm、dvd的依据。
+&emsp;&emsp;在文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)中，我们介绍了Lucene在索引阶段跟flush阶段收集到的SortedDocValues、SortedSetDocValues信息，这些信息将作为生成索引文件.dvm、dvd的依据。
 
 ## 生成索引文件.dvd、.dvm之SortedDocValues、SortedSetDocValues的流程图
 
@@ -16,8 +23,8 @@
 
 &emsp;&emsp;如果每篇文档中的某个域名的SortedSetDocValueField只有一个，即所谓的单值，判断numDocsWithField跟numOrds的值是否相同，相同意味着所有文档中都是单值：
 
-- numDocsWithField：该值描述了包含当前SortedSetDocValueField的文档数量，在文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)中我们说到，在索引阶段，通过DocsWithFieldSet收集文档号，在当前流程点就是通过DocsWithFieldSet获取文档号，DocsWithFieldSet存储文档号的内容在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)已经介绍，不赘述。
-- numOrds：在文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)我们说到，**每种域值对应一个ord值**，如果一篇文档中出现了相同域名的SortedSetDocValueField的多个域值，这些域值如果不全都相等，显而易见，numDocsWithField跟numOrds的值是不同的，意味着多值。获得一篇文章中numOrds的值的方法是通过收集阶段生成的ordMap数组。
+- numDocsWithField：该值描述了包含当前SortedSetDocValueField的文档数量，在文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)中我们说到，在索引阶段，通过DocsWithFieldSet收集文档号，在当前流程点就是通过DocsWithFieldSet获取文档号，DocsWithFieldSet存储文档号的内容在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)已经介绍，不赘述。
+- numOrds：在文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)我们说到，**每种域值对应一个ord值**，如果一篇文档中出现了相同域名的SortedSetDocValueField的多个域值，这些域值如果不全都相等，显而易见，numDocsWithField跟numOrds的值是不同的，意味着多值。获得一篇文章中numOrds的值的方法是通过收集阶段生成的ordMap数组。
 
 那么此时对应生成的索引文件跟SortedDocValue是一致的，如下所示：
 
@@ -42,7 +49,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十九）/5.png">
 
-&emsp;&emsp;根据numDocsWithField不同值，生成不同数据结构的DocIdIndex字段，该内容跟存储NumericDocValues的文档号是一模一样的，故不赘述，见文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)。
+&emsp;&emsp;根据numDocsWithField不同值，生成不同数据结构的DocIdIndex字段，该内容跟存储NumericDocValues的文档号是一模一样的，故不赘述，见文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)。
 
 ### 写入文档号信息（多值）
 
@@ -50,7 +57,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十九）/6.png">
 
-&emsp;&emsp;同样根据numDocsWithField的值生成不同数据结构的DocIdIndex字段，但跟`写入文档号信息（单值）`不同点在于，numDocsWithField的值不可能为0（numDocsWithField的值有三种可能，见文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)），因为如果numDocsWithField的值为0，那么必定numOrds的值也是0，意味着numDocsWithField与numOrds相等，那么会与图1中`是否所有文档中都是单值？`的判断会为假发生矛盾，故numDocsWithField不可能为0。
+&emsp;&emsp;同样根据numDocsWithField的值生成不同数据结构的DocIdIndex字段，但跟`写入文档号信息（单值）`不同点在于，numDocsWithField的值不可能为0（numDocsWithField的值有三种可能，见文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)），因为如果numDocsWithField的值为0，那么必定numOrds的值也是0，意味着numDocsWithField与numOrds相等，那么会与图1中`是否所有文档中都是单值？`的判断会为假发生矛盾，故numDocsWithField不可能为0。
 
 &emsp;&emsp;文档号信息（值）会被写入到索引文件.dvd中，文档号信息（值）在索引文件.dvd中的位置信息（即DocIdIndex）与numDocsWithField都会被记录到索引文件.dvm中，关系如下所示：
 
@@ -63,7 +70,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十九）/8.png">
 
-&emsp;&emsp;注意的是在文章[SortedSetDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/48.html)、[SortedDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/34.html)中的索引文件数据结构是Lucene7.5.0，对于DocIdIndex，跟Lucene 8.4.0中的差异介绍见文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)。
+&emsp;&emsp;注意的是在文章[SortedSetDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/SortedSetDocValues)、[SortedDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0219/SortedDocValues)中的索引文件数据结构是Lucene7.5.0，对于DocIdIndex，跟Lucene 8.4.0中的差异介绍见文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)。
 
 
 ### 写入Ords信息（单值）
@@ -72,7 +79,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十九）/9.png">
 
-&emsp;&emsp;**我们以文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)中的图3为例**，该例子对应的currentValues[ ]数组跟ordMap[ ]如下所示，这两个数组的介绍已经介绍过了，这里不赘述，直接列出：
+&emsp;&emsp;**我们以文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)中的图3为例**，该例子对应的currentValues[ ]数组跟ordMap[ ]如下所示，这两个数组的介绍已经介绍过了，这里不赘述，直接列出：
 
 图10：
 
@@ -90,7 +97,7 @@
 
 ### 写入Ords信息（多值）
 
-&emsp;&emsp;**我们以文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)中的图11为例**，该例子对应的currentValues[ ]数组跟ordMap[ ]如下所示，同样不作出介绍：
+&emsp;&emsp;**我们以文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)中的图11为例**，该例子对应的currentValues[ ]数组跟ordMap[ ]如下所示，同样不作出介绍：
 
 图13：
 

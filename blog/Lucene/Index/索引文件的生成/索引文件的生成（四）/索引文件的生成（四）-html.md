@@ -1,6 +1,13 @@
-# [索引文件的生成（四）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 索引文件的生成（四）之跳表SkipList
+date: 2020-01-06 00:00:00
+tags: [skipList,doc]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)中我们介绍了在Lucene中生成跳表SkipList的流程，通过流程图的方法介绍了源码中的实现方式，而对于读取SkipList的内容，决定直接以例子的方式来介绍其读取过程，下文中出现的名词如果没有作出介绍，请先阅读文章[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)。
+&emsp;&emsp;在文章[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)中我们介绍了在Lucene中生成跳表SkipList的流程，通过流程图的方法介绍了源码中的实现方式，而对于读取SkipList的内容，决定直接以例子的方式来介绍其读取过程，下文中出现的名词如果没有作出介绍，请先阅读文章[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)。
 
 ## 例子
 
@@ -10,7 +17,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（四）/1.png">
 
-&emsp;&emsp;在图1中，为了便于介绍，我们处理的是文档号0~3455的3456篇文档，我们另skipInterval为128，即每处理128篇文档生成一个PackedBlock，对应一个datum；另skipMultiplier为3（源码中默认值为8），即每生成3个datum就在上一层生成一个新的索引，新的索引也是一个datum，它是3个datum中的最后一个，并且增加了一个索引值SkipChildLevelPointer来实现映射关系（见[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)），每一层的数值为PackedBlock中的最后一篇文档的文档号，例如level=2的三个数值1151、2303、3455。
+&emsp;&emsp;在图1中，为了便于介绍，我们处理的是文档号0~3455的3456篇文档，我们另skipInterval为128，即每处理128篇文档生成一个PackedBlock，对应一个datum；另skipMultiplier为3（源码中默认值为8），即每生成3个datum就在上一层生成一个新的索引，新的索引也是一个datum，它是3个datum中的最后一个，并且增加了一个索引值SkipChildLevelPointer来实现映射关系（见[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)），每一层的数值为PackedBlock中的最后一篇文档的文档号，例如level=2的三个数值1151、2303、3455。
 
 ### 哨兵数组skipDoc
 
@@ -36,7 +43,7 @@
 
 ### SkipList在Lucene中的应用
 
-&emsp;&emsp;了解SkipList在Lucene中的应用对理解读取跳表SkipList的过程很重要，在Lucene中，使用SkipList实现文档号的**递增遍历**，每次判断的文档号是否在SkipList中时，待处理的文档号必须大于上一个处理的文档号，例如我们在文章[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/26.html)中，找出满足查询要求的文档就是通过SkipList来实现。
+&emsp;&emsp;了解SkipList在Lucene中的应用对理解读取跳表SkipList的过程很重要，在Lucene中，使用SkipList实现文档号的**递增遍历**，每次判断的文档号是否在SkipList中时，待处理的文档号必须大于上一个处理的文档号，例如我们在文章[文档号合并（SHOULD）](https://www.amazingkoala.com.cn/Lucene/Search/2018/1217/文档号合并（SHOULD）)中，找出满足查询要求的文档就是通过SkipList来实现。
 
 ### Lucene中使用读取跳表SkipList的过程
 
@@ -110,7 +117,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（四）/5.png">
 
-&emsp;&emsp;从图5中可以看出，在更新的过程中，**跳过了两个datum**，其原因是在图3中，当更新完level=1的datum之后，该datum通过它包含的**SkipChildLevelPointer**字段（见[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/123.html)）重新设置在level=0层的哨兵值，随后在处理level=0时，根据待处理的文档号继续更新哨兵值。
+&emsp;&emsp;从图5中可以看出，在更新的过程中，**跳过了两个datum**，其原因是在图3中，当更新完level=1的datum之后，该datum通过它包含的**SkipChildLevelPointer**字段（见[索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0103/索引文件的生成（三）之跳表SkipList)）重新设置在level=0层的哨兵值，随后在处理level=0时，根据待处理的文档号继续更新哨兵值。
 
 #### 文档号：701
 

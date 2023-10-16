@@ -1,13 +1,20 @@
-# [索引文件的生成（六）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 索引文件的生成（六）之tim&&tip
+date: 2020-01-15 00:00:00
+tags: [tim,tip]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)继续介绍剩余的内容，下面先给出生成索引文件.tim、.tip的流程图。
+&emsp;&emsp;本文承接[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/索引文件的生成（六）之tim&&tip)继续介绍剩余的内容，下面先给出生成索引文件.tim、.tip的流程图。
 
 ## 生成索引文件.tim、.tip的流程图
 图1：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（六）/1.png">
 
-&emsp;&emsp;上一篇文章中，我们介绍了执行`生成一个或多个NodeBlock`的触发条件，本文就其实现过程展开介绍，同样的，下文中出现的并且没有作出解释的名词，说明已经在文章[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)中介绍，不在本文中赘述。
+&emsp;&emsp;上一篇文章中，我们介绍了执行`生成一个或多个NodeBlock`的触发条件，本文就其实现过程展开介绍，同样的，下文中出现的并且没有作出解释的名词，说明已经在文章[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/索引文件的生成（六）之tim&&tip)中介绍，不在本文中赘述。
 
 ## 生成一个或多个NodeBlock的流程图
 
@@ -53,7 +60,7 @@
 
 **为什么可能会生成多个PendingBlock**
 
-&emsp;&emsp;对于待处理的PendingEntry集合，它包含的信息数量至少有minItemsInBlock个（为什么使用**至少**这个副词，见文章[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)），因为这是图2的流程的触发条件，如果PendingEntry集合中的数量过多，那么需要处理为多个PendingBlock，这么处理的原因以及处理方式在源码中也给出了解释，见 https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java 中的 void writeBlocks(int prefixLength, int count)方法：
+&emsp;&emsp;对于待处理的PendingEntry集合，它包含的信息数量至少有minItemsInBlock个（为什么使用**至少**这个副词，见文章[索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/索引文件的生成（六）之tim&&tip)），因为这是图2的流程的触发条件，如果PendingEntry集合中的数量过多，那么需要处理为多个PendingBlock，这么处理的原因以及处理方式在源码中也给出了解释，见 https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/codecs/blocktree/BlockTreeTermsWriter.java 中的 void writeBlocks(int prefixLength, int count)方法：
 
 ```text
 The count is too large for one block, so we must break it into "floor" blocks, where we record the leading label of the suffix of the first term in each floor block, so at search time we can jump to the right floor block.  We just use a naive greedy segmenter here: make a new floor block as soon as we have at least minItemsInBlock.  This is not always best: it often produces a too-small block as the final block:
@@ -96,7 +103,7 @@ minItemsInBlock < maxItemsInBlock < 2*(minItemsInBlock-1)
 - isFloor：布尔值，用来区分是否为floor block
 - floorLeadByte：该字段即leading label，如果不是floor block生成的PendingBlock，那么该值为 -1
 
-&emsp;&emsp;在生成PendingBlock的过程中，同时也是将term信息写入到[索引文件.tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)文件的过程，即生成NodeBlock的过程，其中一个block（head block或者floor block）对应生成一个NodeBlock，上文中我们说到PendingEntry信息可分为两种类型：PendingTerm和PendingBlock，根据block中的不同类型的PendingEntry，在索引文件.tim中写入的数据结构也是不同的。
+&emsp;&emsp;在生成PendingBlock的过程中，同时也是将term信息写入到[索引文件.tim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)文件的过程，即生成NodeBlock的过程，其中一个block（head block或者floor block）对应生成一个NodeBlock，上文中我们说到PendingEntry信息可分为两种类型：PendingTerm和PendingBlock，根据block中的不同类型的PendingEntry，在索引文件.tim中写入的数据结构也是不同的。
 
 #### block中只包含PendingTerm
 
@@ -106,7 +113,7 @@ minItemsInBlock < maxItemsInBlock < 2*(minItemsInBlock-1)
 
 &emsp;&emsp;根据block中包含的PendingEntry的类型，可以细化的将`block中只包含PendingTerm`对应生成的NodeBlock称为OuterNode，`block中至少包含PendingBlock`（至少包含PendingBlock意思是只包含PendingBlock或者同时包含PendingBlock以及PendingTerm）对应生成的NodeBlock称为InnerNode。
 
-&emsp;&emsp;图8中，所有的字段的含义已经在文章[索引文件之tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)介绍，不一一展开介绍，这里注意的是<font color=Red>红框</font>标注的8个字段描述的是一个term的信息，该信息在生成[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)之后，使用IntBlockTermState封装这些信息，并且通过做为图1中的准备数据存储到索引文件.tim中，这8个字段的介绍见文章[索引文件的生成（五）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/125.html)。
+&emsp;&emsp;图8中，所有的字段的含义已经在文章[索引文件之tim&&tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)介绍，不一一展开介绍，这里注意的是<font color=Red>红框</font>标注的8个字段描述的是一个term的信息，该信息在生成[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)之后，使用IntBlockTermState封装这些信息，并且通过做为图1中的准备数据存储到索引文件.tim中，这8个字段的介绍见文章[索引文件的生成（五）之tim&&tip](https://www.amazingkoala.com.cn/Lucene/Index/2020/0110/索引文件的生成（五）之tim&&tip)。
 
 &emsp;&emsp;当outerNode写入到索引文件.tim之后，它在索引文件中.tim的起始位置就用图6的fp信息描述，由于block中存在PendingTerm，故图6中的hasTerms信息被置为true，至此，图6中PendingBlock包含的所有信息都已经介绍完毕，并且我们也明白了PendingBlock的作用：用来描述一个NodeBlock的所有信息。
 
@@ -159,7 +166,7 @@ minItemsInBlock < maxItemsInBlock < 2*(minItemsInBlock-1)
 - fp
 - hasTerms
 
-&emsp;&emsp;随后将这些信息写入到[FST](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)中，其中第一个PendingBlock中的prefix将作为FST的inputValue，合并的信息作为FST的outValue。inputValue、outValue的概念见文章[FST算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)，不赘述，合并的信息的数据结构，即outValue，根据是否划分为floor block还有所区别：
+&emsp;&emsp;随后将这些信息写入到[FST](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/35.html)中，其中第一个PendingBlock中的prefix将作为FST的inputValue，合并的信息作为FST的outValue。inputValue、outValue的概念见文章[FST算法（上）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0220/FST（一）)，不赘述，合并的信息的数据结构，即outValue，根据是否划分为floor block还有所区别：
 
 图13：
 

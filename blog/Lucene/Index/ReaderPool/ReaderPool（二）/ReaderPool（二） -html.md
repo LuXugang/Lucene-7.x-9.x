@@ -1,6 +1,13 @@
-# [ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.7.0）
+---
+title: ReaderPool（二）（Lucene 8.7.0）
+date: 2020-12-09 00:00:00
+tags: [ReaderPool]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接文章[ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/183.html)，继续介绍剩余的内容。
+&emsp;&emsp;本文承接文章[ReaderPool（一）](https://www.amazingkoala.com.cn/Lucene/Index/2020/1208/ReaderPool（一）)，继续介绍剩余的内容。
 
 ## 读取ReaderPool对象
 
@@ -20,7 +27,7 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/ReaderPool/ReaderPool（二）/3.png">
 
-&emsp;&emsp;正如图3中的注释描述的那样，isMerging这个布尔值相用来描述一个段是否正在参与段的合并操作。如果一个段正在合并中，并且该段中的有些文档满足DocValues的更新条件（更新方式见文章[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)），那么更新信息将被暂存到图3<font color=red>红框</font>标注的mergingNumericUpdates中，它是一个map容器。当合并结束后，暂存在mergingNumericUpdates中的更新信息将作用到合并后的新段。
+&emsp;&emsp;正如图3中的注释描述的那样，isMerging这个布尔值相用来描述一个段是否正在参与段的合并操作。如果一个段正在合并中，并且该段中的有些文档满足DocValues的更新条件（更新方式见文章[文档的增删改（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)），那么更新信息将被暂存到图3<font color=red>红框</font>标注的mergingNumericUpdates中，它是一个map容器。当合并结束后，暂存在mergingNumericUpdates中的更新信息将作用到合并后的新段。
 
 &emsp;&emsp;注意的是从Lucene 4.6.0开始正如图3注释描述的那样，更新信息的确是被暂存在mergingNumericUpdates的map容器中，下图是Lucene 4.6.0中的代码：
 
@@ -32,7 +39,7 @@
 
 &emsp;&emsp;**什么时候isMerging的值为true？**
 
-&emsp;&emsp;以[执行段的合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/1025/102.html)为例，如下所示：
+&emsp;&emsp;以[执行段的合并](https://www.amazingkoala.com.cn/Lucene/Index/2019/1025/执行段的合并（二）)为例，如下所示：
 
 图5：
 
@@ -46,7 +53,7 @@
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/ReaderPool/ReaderPool（二）/6.png">
 
-&emsp;&emsp;如果某个段没有参与段的合并，更精确的描述应该是这个段对应在ReaderPool中的isMerging的值为false时，在索引（Indexing）的过程（段的合并跟索引可以是并行操作，取决于[段的合并调度](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/60.html)）中，即执行文档的增删改的操作，当段中的文档满足DocValues的更新操作，那么更新信息会被暂存到pendingDVUpdates中。
+&emsp;&emsp;如果某个段没有参与段的合并，更精确的描述应该是这个段对应在ReaderPool中的isMerging的值为false时，在索引（Indexing）的过程（段的合并跟索引可以是并行操作，取决于[段的合并调度](https://www.amazingkoala.com.cn/Lucene/Index/2019/0519/执行段的合并（二）)）中，即执行文档的增删改的操作，当段中的文档满足DocValues的更新操作，那么更新信息会被暂存到pendingDVUpdates中。
 
 &emsp;&emsp;**为什么是暂存更新信息？**
 
@@ -54,17 +61,17 @@
 
 &emsp;&emsp;**什么时候将DocValues的更新操作持久化到磁盘？**
 
-&emsp;&emsp;例如在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)、commit、获取NRT reader时。
+&emsp;&emsp;例如在执行[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/MergeScheduler)、commit、获取NRT reader时。
 
 图7：
 
 <img src="https://www.amazingkoala.com.cn/uploads/lucene/index/ReaderPool/ReaderPool（二）/7.png">
 
-&emsp;图7中，当用户调用了[主动flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)（执行IndexWriter.flush()操作），当执行到流程点[更新ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2019/0812/81.html)，说明这次flush产生的DocValues的更新信息已经实现了apply，那么此时可以将更新信息生成[新的索引文件dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/114.html)。
+&emsp;图7中，当用户调用了[主动flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)（执行IndexWriter.flush()操作），当执行到流程点[更新ReaderPool](https://www.amazingkoala.com.cn/Lucene/Index/2019/0812/文档提交之flush（八）)，说明这次flush产生的DocValues的更新信息已经实现了apply，那么此时可以将更新信息生成[新的索引文件dvd&&dvm](https://www.amazingkoala.com.cn/Lucene/Index/2019/1205/构造IndexWriter对象（九）)。
 
 &emsp;&emsp;**什么时候一个段会被作用（apply）DocValues的更新信息**
 
-&emsp;&emsp;还是以图7的flush为例，在`IndexWriter处理事件`的流程中，会执行一个[处理删除信息](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/80.html)的事件，其流程图如下所示：
+&emsp;&emsp;还是以图7的flush为例，在`IndexWriter处理事件`的流程中，会执行一个[处理删除信息](https://www.amazingkoala.com.cn/Lucene/Index/2019/0807/文档提交之flush（七）)的事件，其流程图如下所示：
 
 图8：
 
@@ -72,7 +79,7 @@
 
 &emsp;&emsp;图10中<font color=red>红框</font>标注的流程点将会为每个满足DocValues的更新操作的段记录更新信息，即将更新信息暂存到pendingDVUpdates中。
 
-&emsp;&emsp;另外在[执行段的合并过程](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/101.html)中，待合并的段在图5的流程点`作用（apply）删除信息`被作用DocValues的更新信息。
+&emsp;&emsp;另外在[执行段的合并过程](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/执行段的合并（一）)中，待合并的段在图5的流程点`作用（apply）删除信息`被作用DocValues的更新信息。
 
 ### Map<String,List\<DocValuesFieldUpdates>> mergingDVUpdates
 
@@ -94,11 +101,11 @@
 
 **哪些场景下poolReaders的值会被置为true**
 
-&emsp;&emsp;在生成IndexWriter对象时，可以指定为true，见文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/106.html)的介绍，或者是在使用NRT机制的时候。
+&emsp;&emsp;在生成IndexWriter对象时，可以指定为true，见文章[构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1111/构造IndexWriter对象（一）)的介绍，或者是在使用NRT机制的时候。
 
 **poolReaders设置为true后有什么用**
 
-&emsp;&emsp;目前唯一使用的场景是在执行段的合并中，如果poolReaders为true，那么在图5的流程点`生成IndexReaderWarmer`，至于IndexReaderWarmer的作用可以阅读文章[执行段的合并（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1030/104.html)。
+&emsp;&emsp;目前唯一使用的场景是在执行段的合并中，如果poolReaders为true，那么在图5的流程点`生成IndexReaderWarmer`，至于IndexReaderWarmer的作用可以阅读文章[执行段的合并（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1030/执行段的合并（四）)。
 
 ## 结语
 

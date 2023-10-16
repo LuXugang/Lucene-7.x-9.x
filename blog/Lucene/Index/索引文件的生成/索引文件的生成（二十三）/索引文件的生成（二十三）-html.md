@@ -1,12 +1,19 @@
-# [索引文件的生成（二十三）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.6.0）
+---
+title: 索引文件的生成（二十三）之fdx&&fdt&&fdm（Lucene 8.6.0）
+date: 2020-10-15 00:00:00
+tags: [fdx,fdt,fdm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;从本篇文章开始介绍用于描述存储域（存储域的概念见文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/169.html)）的索引文件.fdx、.fdt、.fdm的生成过程，直接给出流程图：
+&emsp;&emsp;从本篇文章开始介绍用于描述存储域（存储域的概念见文章[索引文件之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2020/1013/索引文件之fdx&&fdt&&fdm)）的索引文件.fdx、.fdt、.fdm的生成过程，直接给出流程图：
 
 图1：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十三）/1.png">
 
-&emsp;&emsp;从图1中可以看出，生成完整的索引文件.fdx、.fdt、.fdm的过程分布在两个阶段：索引阶段、flush阶段。这也解释了为什么在文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)的图5中，其他索引文件都是"生成"、而索引文件.fdx、.fdt、.fdm则是"更新"，注意的是那篇文章中是基于Lucene 7.5.0，故不存在索引文件.fdm。
+&emsp;&emsp;从图1中可以看出，生成完整的索引文件.fdx、.fdt、.fdm的过程分布在两个阶段：索引阶段、flush阶段。这也解释了为什么在文章[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/文档提交之flush（三）)的图5中，其他索引文件都是"生成"、而索引文件.fdx、.fdt、.fdm则是"更新"，注意的是那篇文章中是基于Lucene 7.5.0，故不存在索引文件.fdm。
 
 ## 索引阶段
 
@@ -24,7 +31,7 @@
 
 &emsp;&emsp;当开始处理一篇文档（Document）时，我们需要记录对存储域的域值，图1的例子中有两篇文档，在执行了流程点`处理存储域的域值`之后，域值信息将被写入到一个字节数组bufferedDocs[ ]数组（在源码中bufferedDocs其实是一个对象，它用来将数据写入到字节数组buffer[ ]中，为了便于介绍，所以我们直接认为bufferedDocs是一个字节数组）中，域值信息中包含两类信息：
 
-- FieldNumAndType：该信息是**域的编号**跟**域值的值类型**的long类型的组合值，组合公式为：$FieldNumAndType = (域的编号 << 3) | 域值的值类型$，也就是说long类型的FieldNumAndType，低3位用来存储域值的值类型，高61位用来存储域的编号
+- FieldNumAndType：该信息是**域的编号**跟**域值的值类型**的long类型的组合值，组合公式为：FieldNumAndType = (域的编号 << 3) | 域值的值类型，也就是说long类型的FieldNumAndType，低3位用来存储域值的值类型，高61位用来存储域的编号
   - 域的编号是一个从开0开始的递增值，每种域名有唯一的一个编号，根据域名来获得一个域的编号，例如图3中域名”content“是第一个被处理的域名，所以该域的编号为0，同理域名”attachment“、"author"的编号分别为1、2。
   - 域值的值类型共有以下几种，例如图3中第54行的域值的值类型是STRING类型，第56行的域值的值类型是NUMERIC_INT类型
     - STRING：固定值：0x00，域值为String类型
@@ -93,7 +100,6 @@
 &emsp;&emsp;基于篇幅，剩余的内容将在下一篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/索引文件的生成/索引文件的生成（二十三）/索引文件的生成（二十三）.zip)下载附件
-
 
 
 

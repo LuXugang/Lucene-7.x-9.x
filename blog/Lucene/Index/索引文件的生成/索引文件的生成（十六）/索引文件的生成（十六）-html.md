@@ -1,6 +1,13 @@
-# [索引文件的生成（十六）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十六）之dvm&&dvd（Lucene 8.4.0）
+date: 2020-05-18 00:00:00
+tags: [dvd,dvm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)中，我们介绍了在索引（index）阶段收集文档的NumericDocValues信息的内容，随后在flush阶段，会根据收集到的信息生成索引文件.dvd&&.dvm。如果已经阅读了文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)，那么能快的理解本文的内容，注意的是那篇文章中，是基于Lucene 7.5.0，下文中的内容基于Lucene 8.4.0，不一致（优化）的地方会特别说明。
+&emsp;&emsp;在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)中，我们介绍了在索引（index）阶段收集文档的NumericDocValues信息的内容，随后在flush阶段，会根据收集到的信息生成索引文件.dvd&&.dvm。如果已经阅读了文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)，那么能快的理解本文的内容，注意的是那篇文章中，是基于Lucene 7.5.0，下文中的内容基于Lucene 8.4.0，不一致（优化）的地方会特别说明。
 
 ## 生成索引文件.dvd、.dvm之NumericDocValues的流程图
 
@@ -14,7 +21,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十六）/2.png">
 
-&emsp;&emsp;根据在索引阶段收集的文档的NumericDocValuses信息（见文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)），在当前流程点需要执行一些准备工作，即计算出下面的信息：
+&emsp;&emsp;根据在索引阶段收集的文档的NumericDocValuses信息（见文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)），在当前流程点需要执行一些准备工作，即计算出下面的信息：
 
 - gcd（greatest common divisor）
 - minMax和blockMinMax
@@ -29,7 +36,7 @@
 
 &emsp;&emsp;**为什么要计算gcd：**
 
-&emsp;&emsp;在文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)中已经作出了解释，本文中再详细的介绍一次，其实目的很简单：降低存储开销。
+&emsp;&emsp;在文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)中已经作出了解释，本文中再详细的介绍一次，其实目的很简单：降低存储开销。
 
 &emsp;&emsp;例如我们有以下的域值集合：
 
@@ -49,7 +56,7 @@
 {3, 1, 0}
 ```
 
-&emsp;&emsp;可见编码后的域值集合中，最大值为3，当使用`固定位数按位存储`（见文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)）时，只需要6个bit存储即可，在读取阶段，根据min、gcd的值就可以获得编码前的域值集合。
+&emsp;&emsp;可见编码后的域值集合中，最大值为3，当使用`固定位数按位存储`（见文章[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/PackedInts（一）)）时，只需要6个bit存储即可，在读取阶段，根据min、gcd的值就可以获得编码前的域值集合。
 
 #### minMax、blockMinMax
 
@@ -122,13 +129,13 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十六）/6.png">
 
-&emsp;&emsp; 图6中，文档号的索引信息包含offset跟length，它们描述了文档号的值信息在索引文件.dvd中的值区间，其他字段的解释见文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)，我们再看Lucene 8.4.0中的数据结构：
+&emsp;&emsp; 图6中，文档号的索引信息包含offset跟length，它们描述了文档号的值信息在索引文件.dvd中的值区间，其他字段的解释见文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)，我们再看Lucene 8.4.0中的数据结构：
 
 图7：
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十六）/7.png">
 
-&emsp;&emsp; 在Lucene 8.4.0版本中，DocIdIndex字段中多了jumpTableEntryCount跟denseRankPower两个信息，在读取阶段，通过这两个信息能获得查找表（lookup table）的信息，jumpTableEntryCount跟denseRankPower以及查找表的概念在系列文章[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/140.html)已经介绍，这里不赘述。
+&emsp;&emsp; 在Lucene 8.4.0版本中，DocIdIndex字段中多了jumpTableEntryCount跟denseRankPower两个信息，在读取阶段，通过这两个信息能获得查找表（lookup table）的信息，jumpTableEntryCount跟denseRankPower以及查找表的概念在系列文章[IndexedDISI](https://www.amazingkoala.com.cn/Lucene/gongjulei/2020/0511/IndexedDISI（一）)已经介绍，这里不赘述。
 
 #### numDocsWithValue == 0
 
@@ -171,5 +178,4 @@
 &emsp;&emsp;基于篇幅，剩余的内容将在下一篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/索引文件的生成/索引文件的生成（十六）/索引文件的生成（十六）.zip)下载附件
-
 

@@ -1,6 +1,13 @@
-# [索引文件的生成（十一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十一）之dim&&dii（Lucene 8.4.0）
+date: 2020-04-10 00:00:00
+tags: [dim,dii]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[索引文件的生成（十）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)，继续介绍剩余的内容，为了便于下文的介绍，先给出[生成索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的流程图以及流程点`构建BKD树的节点值（node value）`的流程图：
+&emsp;&emsp;本文承接[索引文件的生成（十）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)，继续介绍剩余的内容，为了便于下文的介绍，先给出[生成索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的流程图以及流程点`构建BKD树的节点值（node value）`的流程图：
 
 图1：
 
@@ -16,7 +23,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十一）/3.png">
 
-&emsp;&emsp;parentSplits数组的数组元素数量跟点数据的维度数量相同，下标值为0的数组元素描述的是维度编号（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)）为0的维度值在祖先节点中作为`切分维度`(见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html))的次数（累加值）：
+&emsp;&emsp;parentSplits数组的数组元素数量跟点数据的维度数量相同，下标值为0的数组元素描述的是维度编号（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)）为0的维度值在祖先节点中作为`切分维度`(见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii))的次数（累加值）：
 
 图4：
 
@@ -38,7 +45,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十一）/6.png">
 
-&emsp;&emsp;执行到当前流程点，内部节点的处理工作差不多已经全部完成（除了流程点`第二次更新parentSplits数组`），当前流程点开始为后续的左右子树的处理做一些准备数据，根据当前的节点编号（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)），即将生成的左右子树可能仍然是内部节点，或者是叶子节点。这两种情况对应的准备数据是有差异的，我们会一一介绍。另外根据满二叉树的性质，如果当前节点编号为n，那么左右子树的节点编号必然为2\*n、2\*n + 1，在文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)中我们说到，根据节点编号就能判断属于内部节点（非叶节点）还是叶子节点，不赘述。
+&emsp;&emsp;执行到当前流程点，内部节点的处理工作差不多已经全部完成（除了流程点`第二次更新parentSplits数组`），当前流程点开始为后续的左右子树的处理做一些准备数据，根据当前的节点编号（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)），即将生成的左右子树可能仍然是内部节点，或者是叶子节点。这两种情况对应的准备数据是有差异的，我们会一一介绍。另外根据满二叉树的性质，如果当前节点编号为n，那么左右子树的节点编号必然为2\*n、2\*n + 1，在文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)中我们说到，根据节点编号就能判断属于内部节点（非叶节点）还是叶子节点，不赘述。
 
 &emsp;&emsp;处理节点（叶子节点或者内部节点）需要的准备数据有好几个，这些准备数据在源码中其实就是 https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/util/bkd/BKDWriter.java 类中的build(...)方法的参数：
 
@@ -54,7 +61,7 @@
 
 #### minPackedValue、maxPackedValue
 
-&emsp;&emsp;在图2的流程点`选出切分维度`中，我们会使用到minPackedValue、maxPackedValue参与条件判断（见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)），我们在处理根节点（内部节点）时，在图1的流程点`MutablePointValues`, ，设置了minPackedValue、maxPackedValue的值，为处理根节点做了准备，其初始化的内容见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)，而当处理其他内部节点时，minPackedValue、maxPackedValue的值的设置时机点则是在当前流程点。
+&emsp;&emsp;在图2的流程点`选出切分维度`中，我们会使用到minPackedValue、maxPackedValue参与条件判断（见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)），我们在处理根节点（内部节点）时，在图1的流程点`MutablePointValues`, ，设置了minPackedValue、maxPackedValue的值，为处理根节点做了准备，其初始化的内容见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)，而当处理其他内部节点时，minPackedValue、maxPackedValue的值的设置时机点则是在当前流程点。
 
 &emsp;&emsp;**非根节点的内部节点的minPackedValue、maxPackedValue是如何设置的**
 
@@ -65,7 +72,7 @@ minPackedValue:{2, 1, 2}
 maxPackedValue:{9, 9, 9}
 ```
 
-&emsp;&emsp;在图2的执行完流程点`选出切分维度`、`内部节点的排序`之后，我们就获得了当前内部节点划分维度编号n，并且当前节点中点数据集合的每一个点数据按照维度编号n对应的维度值进行了排序（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)），如果我们另排序后的点数据都有一个从0开始递增的序号，假设有N个点数据，那么序号为 0~ (N/2 - 1)的点数据将作为当前节点的左子树的点数据集合，序号为 N/2 ~ N 的点数据将作为当前节点的右子树的点数据集合。
+&emsp;&emsp;在图2的执行完流程点`选出切分维度`、`内部节点的排序`之后，我们就获得了当前内部节点划分维度编号n，并且当前节点中点数据集合的每一个点数据按照维度编号n对应的维度值进行了排序（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)），如果我们另排序后的点数据都有一个从0开始递增的序号，假设有N个点数据，那么序号为 0~ (N/2 - 1)的点数据将作为当前节点的左子树的点数据集合，序号为 N/2 ~ N 的点数据将作为当前节点的右子树的点数据集合。
 
 &emsp;&emsp;例如当前内部节点有如下的点数据集合，数量为7，并且假设按照维度编号2进行了排序：
 
@@ -106,7 +113,7 @@ if (nodeID > 1 && numIndexDims > 2 && Arrays.stream(parentSplits).sum() % SPLITS
         }
 ```
 
-&emsp;&emsp;上述条件中，nodeID为1，即处理根节点的时候不用重新计算，原因是minPackedValue、maxPackedValue总是对的（不明白？见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)）；numIndexDims描述的是点数据的维度数量例如图10中，numIndexDims的值为3；Arrays.stream(parentSplits).sum()描述的是每个维度当做切分维度的次数总和，SPLITS_BEFORE_EXACT_BOUNDS的值默认为4。
+&emsp;&emsp;上述条件中，nodeID为1，即处理根节点的时候不用重新计算，原因是minPackedValue、maxPackedValue总是对的（不明白？见文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)）；numIndexDims描述的是点数据的维度数量例如图10中，numIndexDims的值为3；Arrays.stream(parentSplits).sum()描述的是每个维度当做切分维度的次数总和，SPLITS_BEFORE_EXACT_BOUNDS的值默认为4。
 
 &emsp;&emsp;由于重新计算每个节点的minPackedValue、maxPackedValue的开销是较大的，所以在满足了上述的条件后才会重新计算，下面是源码中的注释：
 
@@ -114,7 +121,7 @@ if (nodeID > 1 && numIndexDims > 2 && Arrays.stream(parentSplits).sum() % SPLITS
 for dimensions > 2 we recompute the bounds for the current inner node to help the algorithm choose best split dimensions. Because it is an expensive operation, the frequency we recompute the bounds is given by SPLITS_BEFORE_EXACT_BOUNDS.
 ```
 
-&emsp;&emsp;上述源码中的algorithm指的就是图2的流程点`选出切分维度`中的划分规则（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/130.html)）。
+&emsp;&emsp;上述源码中的algorithm指的就是图2的流程点`选出切分维度`中的划分规则（见文章[索引文件的生成（十）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0408/索引文件的生成（十）之dim&&dii)）。
 
 ### 左右子树为叶子节点
 
@@ -126,6 +133,6 @@ for dimensions > 2 we recompute the bounds for the current inner node to help th
 
 # 结语
 
-&emsp;&emsp;至此我们介绍完了内部节点的处理流程，在下一篇文章中，我们将继续介绍叶子节点的处理流程，在该流程中，将会把点数据的信息写入到[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中。
+&emsp;&emsp;至此我们介绍完了内部节点的处理流程，在下一篇文章中，我们将继续介绍叶子节点的处理流程，在该流程中，将会把点数据的信息写入到[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/索引文件的生成/索引文件的生成（十一）/索引文件的生成（十一）.zip)下载附件

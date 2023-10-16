@@ -1,6 +1,13 @@
-# [索引文件的生成（五）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 索引文件的生成（五）之tim&&tip
+date: 2020-01-10 00:00:00
+tags: [tim,tip]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在前面的四篇文章中，我们介绍了生成索引文件[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中.doc、.pos、.pay这三个索引文件的内容，接着我们继续图1中剩余的内容，即流程点`生成索引文件.tim、.tip`。
+&emsp;&emsp;在前面的四篇文章中，我们介绍了生成索引文件[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)中.doc、.pos、.pay这三个索引文件的内容，接着我们继续图1中剩余的内容，即流程点`生成索引文件.tim、.tip`。
 
 ## 生成索引文件.tim、.tip、.doc、.pos、.pay的流程图
 
@@ -8,7 +15,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（五）/1.png">
 
-&emsp;&emsp;对于图1的流程图的介绍，可以看文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)，我们同样以流程图的方法来介绍生成索引文件.tim、.tip的逻辑。
+&emsp;&emsp;对于图1的流程图的介绍，可以看文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)，我们同样以流程图的方法来介绍生成索引文件.tim、.tip的逻辑。
 
 ## 生成索引文件.tim、.tip的流程图
 
@@ -27,7 +34,7 @@
 &emsp;&emsp;将包含当前term的文档号docId，以及在这些文档内的出现频率frequency，位置信息position、payload信息、偏移信息offset写入到索引文件.doc、.pay、.pos之后，会生成IntBlockTermState对象，该对象包含了以下的信息作为处理索引文件.tim、.tip的准备数据：
 
 - singletonDocID：该值如果不为-1，说明只有一篇文档包含当前term，那么singletonDocID的值为对应的文档号，singletonDocID的存在会影响索引文件的数据结构，在`生成InnerNode`流程点会介绍该值的影响
-- lastPosBlockOffset：如果该值为-1，说明term在所有文档中的词频没有达到128，即没有生成一个block（见文章[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)），如果至少存在一个block，那么该值描述的是VIntBlocks在[索引文件.pos](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)中的起始位置，见图4
+- lastPosBlockOffset：如果该值为-1，说明term在所有文档中的词频没有达到128，即没有生成一个block（见文章[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/索引文件的生成（二）之doc&&pay&&pos)），如果至少存在一个block，那么该值描述的是VIntBlocks在[索引文件.pos](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)中的起始位置，见图4
 - docStartFP：当前term的文档号docId、词频信息frequency在索引文件.doc的起始位置
 - posStartFP：当前term的位置信息position在索引文件.pos的起始位置
 - payStartFP：当前term的偏移位置offset，payload在索引文件.pay的起始位置

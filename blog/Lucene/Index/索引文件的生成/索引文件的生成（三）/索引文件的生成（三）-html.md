@@ -1,6 +1,13 @@
-# [索引文件的生成（三）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 索引文件的生成（三）之跳表SkipList
+date: 2020-01-03 00:00:00
+tags: [skipList,doc]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)中我们说到，在生成[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)的过程中，当处理了128篇文档后会生成一个PackedBlock，并将这个PackedBlock的信息写入到跳表skipList中，使得在读取阶段能根据文档号快速跳转到目标PackedBlock，提高查询性能。
+&emsp;&emsp;在文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)中我们说到，在生成[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)的过程中，当处理了128篇文档后会生成一个PackedBlock，并将这个PackedBlock的信息写入到跳表skipList中，使得在读取阶段能根据文档号快速跳转到目标PackedBlock，提高查询性能。
 
 &emsp;&emsp;将PackedBlock的信息写入到跳表skipList的时机点如下图红色框所示：
 
@@ -35,7 +42,7 @@
 - skipInterval：该值描述了在level=0层，每处理skipInterval篇文档，就生成一个skipDatum，该值默认为128
 - skipMultiplier：该值描述了在所有层，每处理skipMultiplier个skipDatum，就在上一层生成一个新的skipDatum，该值默认为8
 
-&emsp;&emsp;skipInterval、skipMultiplier、skipDatum的关系在[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)中的关系如下所示：
+&emsp;&emsp;skipInterval、skipMultiplier、skipDatum的关系在[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)中的关系如下所示：
 
 图5：
 
@@ -55,9 +62,9 @@
 
 **待处理的文档数量是如何获得的**：
 
-&emsp;&emsp;在[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)中我们介绍了生成索引文件.doc的时机点，即在flush阶段，所以就可以根据的段的信息获得待处理的文档数量。
+&emsp;&emsp;在[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)中我们介绍了生成索引文件.doc的时机点，即在flush阶段，所以就可以根据的段的信息获得待处理的文档数量。
 
-- skipBuffer\[ ]数组：该数组中存放的元素为每一层的数据，根据图2可以知道，该数据就是SkipDatum的集合，并且数组的元素数量为numberOfSkipLevels，skipBuffer\[ ]中每一个元素在[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)中对应为一个SkipLevel字段，如下所示：
+- skipBuffer\[ ]数组：该数组中存放的元素为每一层的数据，根据图2可以知道，该数据就是SkipDatum的集合，并且数组的元素数量为numberOfSkipLevels，skipBuffer\[ ]中每一个元素在[索引文件.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)中对应为一个SkipLevel字段，如下所示：
 
 图6：
 
@@ -107,11 +114,11 @@ while ((df % skipMultiplier) == 0 && numLevels < numberOfSkipLevels)
 
 &emsp;&emsp;另外，在图10中，如果在level>0的层写入一个SkipDatum后，相比较在level=0中的SKipDatum，**它多了一个字段SkipChildLevelPointer**，它是一个指针，指向下一层的一个SkipDatum。
 
-&emsp;&emsp;SkipDatum中的字段含义在文章[索引文件之.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)中已经介绍，不赘述，另外图10中的SkipDatum中的信息除了SkipChildLevelPointer，其他所有的字段都是用**差值存储**，所以在图9中，我们需要执行`记录当前层的skipData信息`的流程，使得下一个同一层内的新生成的SkipDatum可以用来进行差值计算。
+&emsp;&emsp;SkipDatum中的字段含义在文章[索引文件之.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之.doc)中已经介绍，不赘述，另外图10中的SkipDatum中的信息除了SkipChildLevelPointer，其他所有的字段都是用**差值存储**，所以在图9中，我们需要执行`记录当前层的skipData信息`的流程，使得下一个同一层内的新生成的SkipDatum可以用来进行差值计算。
 
 **SkipDatum中的字段干什么用的**
 
-&emsp;&emsp;这些字段的作用正是用来展示跳表SkipList跳表在Lucene中的功能，它们作为指针来描述当前block在的其他索引文件中的位置信息。在文章[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)中我们介绍图1中的`处理完一篇文档后的工作`流程点时，说到在该流程点生成了几个信息，他们跟SkipDatum中的字段的对应关系如下：
+&emsp;&emsp;这些字段的作用正是用来展示跳表SkipList跳表在Lucene中的功能，它们作为指针来描述当前block在的其他索引文件中的位置信息。在文章[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/索引文件的生成（二）之doc&&pay&&pos)中我们介绍图1中的`处理完一篇文档后的工作`流程点时，说到在该流程点生成了几个信息，他们跟SkipDatum中的字段的对应关系如下：
 
 - lastBlockDocID：记录刚刚处理完的那篇文档的文档号，即**DocSkip**
 - lastBlockPayFP：描述是处理完128篇文档后，在索引文件.pay中的位置信息，即**PayFPSkip**
@@ -129,7 +136,7 @@ while ((df % skipMultiplier) == 0 && numLevels < numberOfSkipLevels)
 
 [点击](http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（三）/point.html)查看大图
 
-&emsp;&emsp;图10中，由于是按照每处理128篇文档才执行`写入到跳表skipList中`的流程，那么有可能此时位置信息position、偏移信息offset，payload信息没有生成一个PackedBlock，那么SkipDatum需要两个指针的组合才能找到在索引文件.pos、.pay中的位置，比如说我们需要PosFPSkip+PosBlockOffset的组合值才能找到位置信息（没明白的话说明你没有看文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)以及[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/122.html)）
+&emsp;&emsp;图10中，由于是按照每处理128篇文档才执行`写入到跳表skipList中`的流程，那么有可能此时位置信息position、偏移信息offset，payload信息没有生成一个PackedBlock，那么SkipDatum需要两个指针的组合才能找到在索引文件.pos、.pay中的位置，比如说我们需要PosFPSkip+PosBlockOffset的组合值才能找到位置信息（没明白的话说明你没有看文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)以及[索引文件的生成（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1227/索引文件的生成（二）之doc&&pay&&pos)）
 
 ## 结语
 

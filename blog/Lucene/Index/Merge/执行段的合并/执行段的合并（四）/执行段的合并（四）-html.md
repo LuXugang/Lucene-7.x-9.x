@@ -1,6 +1,13 @@
-# [执行段的合并（四）](https://www.amazingkoala.com.cn/Lucene/Index/)
+---
+title: 执行段的合并（四）
+date: 2019-10-30 00:00:00
+tags: [merge,segment]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[执行段的合并（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/101.html)，继续介绍执行段的合并的剩余的流程，下面先给出执行段的合并的流程图：
+&emsp;&emsp;本文承接[执行段的合并（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1024/执行段的合并（三）)，继续介绍执行段的合并的剩余的流程，下面先给出执行段的合并的流程图：
 
 图1：
 
@@ -10,32 +17,32 @@
 
 ## 生成IndexReaderWarmer
 
-&emsp;&emsp;在前面流程中我们了解到，合并后生成的新段已经包含了**所有固定的索引信息**及**部分删除信息**，故在当前流程点，我们可以生成该段对应的SegmentReader对象，并将该对象添加到ReadPool（见[执行段的合并（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1025/102.html)）中，这便是生成IndexReaderWarmer的过程。
+&emsp;&emsp;在前面流程中我们了解到，合并后生成的新段已经包含了**所有固定的索引信息**及**部分删除信息**，故在当前流程点，我们可以生成该段对应的SegmentReader对象，并将该对象添加到ReadPool（见[执行段的合并（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1025/执行段的合并（二）)）中，这便是生成IndexReaderWarmer的过程。
 
 &emsp;&emsp;删除信息包括了被删除的文档号跟变更的DocValues信息。
 
-&emsp;&emsp;SegmentReader对象中包含的内容在[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)系列文章中介绍，不赘述
+&emsp;&emsp;SegmentReader对象中包含的内容在[SegmentReader](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/SegmentReader（一）)系列文章中介绍，不赘述
 
 &emsp;&emsp;**固定的索引信息是哪些：**
 
-- [索引文件.nvd、.nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[.dim、.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)、[.tvx、.tvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/56.html)、[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)中包含的信息
+- [索引文件.nvd、.nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/索引文件之nvd&&nvm)、[.pos、.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之pos&&pay)、[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/索引文件之doc)、[.tim、.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/索引文件之tim&&tip)、[.dim、.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)、[.tvx、.tvd](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0429/索引文件之tvx&&tvd)、[.fdx、.fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/索引文件之fdx&&fdt)中包含的信息
 
 &emsp;&emsp;**为什么是包含了部分删除信息：**
 
-- 执行段的合并是Lucene安排一个新的线程执行的并发操作，在合并的过程中，其他执行[文档增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)的线程可能生成了新的删除信息，并且新的删除信息会在随后`提交合并`的流程中作用当前的新段
+- 执行段的合并是Lucene安排一个新的线程执行的并发操作，在合并的过程中，其他执行[文档增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/文档的增删改（一）)的线程可能生成了新的删除信息，并且新的删除信息会在随后`提交合并`的流程中作用当前的新段
 
 &emsp;&emsp;**为什么要生成IndexReaderWarmer：**
 
 - 首先要说的是，在合并阶段生成IndexReaderWarmer需要通过[IndexWriterConfig.setMergedSegmentWarmer()](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/IndexWriterConfig.java)方法设置，默认不使用该功能
-- 由于执行段的合并是并发操作，使得可以并发的提前读取新段的内容，即获得SegmentReader对象（生成IndexReaderWarmer的主要目的），其他线程执行[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)时就无需等待合并操作结束后再去获得SegmentReader对象，要知道获得SegmentReader对象的过程是I/O操作，故可以降低NRT搜索的延迟
+- 由于执行段的合并是并发操作，使得可以并发的提前读取新段的内容，即获得SegmentReader对象（生成IndexReaderWarmer的主要目的），其他线程执行[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/NRT（一）)时就无需等待合并操作结束后再去获得SegmentReader对象，要知道获得SegmentReader对象的过程是I/O操作，故可以降低NRT搜索的延迟
 
 ## 提交合并
 
-&emsp;&emsp;在介绍`提交合并`流程前，我们先介绍下MergeState，在[执行段的合并（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1028/103.html)的文章中我们只介绍了该对象的生成时机，即图1的`生成SegmentMerger`流程，由于在当前`提交合并`的流程中将会用到该对象，故才在此流程点展开介绍。
+&emsp;&emsp;在介绍`提交合并`流程前，我们先介绍下MergeState，在[执行段的合并（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1028/执行段的合并（三）)的文章中我们只介绍了该对象的生成时机，即图1的`生成SegmentMerger`流程，由于在当前`提交合并`的流程中将会用到该对象，故才在此流程点展开介绍。
 
 ### MergeState
 
-&emsp;&emsp;MergeState维护了在段的合并过程中一些共同的状态（common state），在本篇文章中我们只关心在生成MergeState的过程中完成的几个任务，根据IndexWriter是否设置了IndexSort（见文章[索引文件之si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)中关于IndexSort的介绍）可以将任务划分为如下两类：：
+&emsp;&emsp;MergeState维护了在段的合并过程中一些共同的状态（common state），在本篇文章中我们只关心在生成MergeState的过程中完成的几个任务，根据IndexWriter是否设置了IndexSort（见文章[索引文件之si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/索引文件之si)中关于IndexSort的介绍）可以将任务划分为如下两类：：
 
 - 设置了IndexSort
   - 任务一：对每一个待合并的段进行段内排序
@@ -74,7 +81,7 @@ private List<SegmentCommitInfo> segments = new ArrayList<>();
 
 &emsp;&emsp;**索引目录中为什么可能会有多个segment_N文件：**
 
-- 该内容已在文章[索引文件之segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/65.html)中介绍，不赘述
+- 该内容已在文章[索引文件之segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0610/索引文件之segments_N)中介绍，不赘述
 
 &emsp;&emsp;**如何根据segment_N文件获取到旧的索引集合SegmentInfos：**
 

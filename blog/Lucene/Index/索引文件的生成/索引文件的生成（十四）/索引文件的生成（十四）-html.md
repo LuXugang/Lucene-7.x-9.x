@@ -1,6 +1,14 @@
-# [索引文件的生成（十四）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十四）之dim&&dii（Lucene 8.4.0）
+date: 2020-04-24 00:00:00
+tags: [dim,dii]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在前面的文章中，我们介绍了`构建BKD树的节点值（node value）`的流程，其中叶子节点的信息被写入到了[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中，本文开始的内容将会介绍将内部节点（非叶节点）的信息写入到[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)，为了便于下文的介绍，先给出[生成索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的流程图：
+
+&emsp;&emsp;在前面的文章中，我们介绍了`构建BKD树的节点值（node value）`的流程，其中叶子节点的信息被写入到了[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中，本文开始的内容将会介绍将内部节点（非叶节点）的信息写入到[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)，为了便于下文的介绍，先给出[生成索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的流程图：
 
 图1：
 
@@ -16,7 +24,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十四）/2.png">
 
-&emsp;&emsp;图2中，所有字段的含义在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中已经介绍，我们仅挑选出某些字段来进一步的介绍。
+&emsp;&emsp;图2中，所有字段的含义在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中已经介绍，我们仅挑选出某些字段来进一步的介绍。
 
 ### PackedIndexValue
 
@@ -71,7 +79,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十四）/8.png">
 
-&emsp;&emsp;同样的，图8中各个字段的含义在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)已经介绍，不赘述。
+&emsp;&emsp;同样的，图8中各个字段的含义在文章[索引文件之dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)已经介绍，不赘述。
 
 &emsp;&emsp;在读取阶段，就可以通过读取索引文件.dii的IndexFP字段找到某个点数据域在索引文件.dim中的偏移值，即读取起始位置。
 

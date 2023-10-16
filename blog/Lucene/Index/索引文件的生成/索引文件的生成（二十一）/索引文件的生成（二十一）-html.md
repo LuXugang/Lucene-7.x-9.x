@@ -1,14 +1,21 @@
-# [索引文件的生成（二十一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（二十一）之dvm&&dvd（Lucene 8.4.0）
+date: 2020-06-05 00:00:00
+tags: [dvd,dvm]
+categories:
+- Lucene
+- Index
+---
 
 &emsp;&emsp;索引文件.dvm&&.dvd中根据文档中包含的不同类型的DocValuesFields，包含下面的DocValues信息：
 
 - BinaryDocValues：
-- NumericDocValues：见文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)
-- SortedDocValues：见文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)
-- SortedNumericDocValues：见文章[索引文件的生成（十七）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0526/143.html)
-- SortedSetDocValues：[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/144.html)
+- NumericDocValues：见文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)
+- SortedDocValues：见文章[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)
+- SortedNumericDocValues：见文章[索引文件的生成（十七）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0526/索引文件的生成（十七）之dvm&&dvd)
+- SortedSetDocValues：[索引文件的生成（十八）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0528/索引文件的生成（十八）之dvm&&dvd)
 
-&emsp;&emsp;本篇文章开始介绍生成索引文件.dvd、.dvm之BinaryDocValues的内容，在此之前，我们先介绍下在索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段，Lucene是如何收集文档中的BinaryDocValues的信息。
+&emsp;&emsp;本篇文章开始介绍生成索引文件.dvd、.dvm之BinaryDocValues的内容，在此之前，我们先介绍下在索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段，Lucene是如何收集文档中的BinaryDocValues的信息。
 
 ## BinaryDocValues
 
@@ -34,7 +41,7 @@
 
 #### DocId
 
-&emsp;&emsp;DocId即包含BinaryDocValuesField域的文档的文档号，并且使用DocsWithFieldSet存储，DocsWithFieldSet存储文档号的过程在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)已经介绍，不赘述。
+&emsp;&emsp;DocId即包含BinaryDocValuesField域的文档的文档号，并且使用DocsWithFieldSet存储，DocsWithFieldSet存储文档号的过程在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)已经介绍，不赘述。
 
 #### bytes
 
@@ -86,7 +93,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（二十一）/9.png">
 
-&emsp;&emsp;文档号信息的存储跟SortedDocValues、SortedSetDocValues、NumericDocValues一致的，都是生成图8中DocIdData、DocIdIndex字段的数据结构，不赘述，可以阅读文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)。
+&emsp;&emsp;文档号信息的存储跟SortedDocValues、SortedSetDocValues、NumericDocValues一致的，都是生成图8中DocIdData、DocIdIndex字段的数据结构，不赘述，可以阅读文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)。
 
 ### 写入TermsIndex信息
 
@@ -104,7 +111,7 @@
 
 ## 结语
 
-&emsp;&emsp;上文中未介绍的字段含义请看文章[BinaryDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/49.html)。
+&emsp;&emsp;上文中未介绍的字段含义请看文章[BinaryDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0412/BinaryDocValues)。
 
 &emsp;&emsp;从下一篇文章开始，我们将介绍索引文件.dvm、dvd的读取过程，届时还会介绍这几种DocValues的用法差异等等。
 

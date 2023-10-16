@@ -1,6 +1,13 @@
-# [索引文件的生成（十七）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十七）之dvm&&dvd（Lucene 8.4.0）
+date: 2020-05-26 00:00:00
+tags: [dvd,dvm]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)继续介绍剩余的内容，先给出流程图：
+&emsp;&emsp;本文承接[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)继续介绍剩余的内容，先给出流程图：
 
 ## 生成索引文件.dvd、.dvm之NumericDocValues的流程图
 
@@ -32,7 +39,7 @@
 
 #### 步骤一：收集域值种类
 
-&emsp;&emsp;该步骤即在文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)中提到的使用一个Set\<Long\>对象uniqueValues来收集。在本例子，收集后的uniqueValues中包含的域值种类如下所示：
+&emsp;&emsp;该步骤即在文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)中提到的使用一个Set\<Long\>对象uniqueValues来收集。在本例子，收集后的uniqueValues中包含的域值种类如下所示：
 
 ```text
 {1, 8, 127, 6, 259, 3}
@@ -96,7 +103,7 @@ if (uniqueValues.size() <= 256
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十七）/5.png">
 
-&emsp;&emsp;是否使用以及为什么使用多个block存储域值的原因已经在文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/142.html)中介绍，这里不赘述。
+&emsp;&emsp;是否使用以及为什么使用多个block存储域值的原因已经在文章[索引文件的生成（十六）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0518/索引文件的生成（十六）之dvm&&dvd)中介绍，这里不赘述。
 
 &emsp;&emsp;从图1可以看出在使用单个block存储域值时，可能会使用域值映射存储，那么实际写入到索引文件.dvd中的域值为映射后的域值，如下图所示：
 
@@ -110,7 +117,7 @@ if (uniqueValues.size() <= 256
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十七）/7.png">
 
-&emsp;&emsp;图7中其他字段的介绍见文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)。
+&emsp;&emsp;图7中其他字段的介绍见文章[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/NumericDocValues)。
 
 &emsp;&emsp;以上就是生成索引文件.dvd、.dvm之NumericDocValues的全部内容，我们接着介绍生成索引文件.dvd、.dvm之SortedNumericDocValues的内容。
 

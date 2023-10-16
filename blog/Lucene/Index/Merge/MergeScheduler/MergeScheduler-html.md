@@ -1,5 +1,4 @@
-# [MergeScheduler](https://www.amazingkoala.com.cn/Lucene/Index/)
-&emsp;&emsp;MergeScheduler用来定义如何执行一个或多个段的合并，当合并策略[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)提供了一个或多个OneMerge(这个名词的概念在[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)已经介绍，不赘述)后，MergeScheduler来安排这些OneMerge的合并，比如执行先后顺序，磁盘IO限制。
+&emsp;&emsp;MergeScheduler用来定义如何执行一个或多个段的合并，当合并策略[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)提供了一个或多个OneMerge(这个名词的概念在[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/LogMergePolicy)已经介绍，不赘述)后，MergeScheduler来安排这些OneMerge的合并，比如执行先后顺序，磁盘IO限制。
 
 &emsp;&emsp;Lucene7.5.0中有三种MergeScheduler的实现，分别是NoMergeScheduler、SerialMergeScheduler、ConcurrentMergeScheduler，其中ConcurrentMergeScheduler是默认的MergeScheduler。
 
@@ -13,7 +12,7 @@
 ## SerialMergeScheduler
 &emsp;&emsp;从这个MergeScheduler字面意思就可以看出，当有多个OneMerge时，顺序执行段合并：
 
-- 多个OneMerge间的顺序：由于可能存在多个线程使用同一个IndexWriter对象来生成索引，所以当他们分别执行flush、commit操作后，就各自的(separately)从合并策略中得到MergeSpecification，如果你看过了[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/59.html)或者[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)，就能知道调用完合并策略后，可以获得一个或多个OneMerge的集合，该集合即MergeSpecification，接着MergeSpecification中的OneMerge被添加到pendingMerges中，pendingMerges是一个有序列表，IndexWriter通过synchronized关键字有序的将所有线程中获得的OneMerge添加到pendingMerges链表中，故OneMerge被执行的顺序取决于被添加到pendingMerges中的顺序
+- 多个OneMerge间的顺序：由于可能存在多个线程使用同一个IndexWriter对象来生成索引，所以当他们分别执行flush、commit操作后，就各自的(separately)从合并策略中得到MergeSpecification，如果你看过了[TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0516/TieredMergePolicy)或者[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/LogMergePolicy)，就能知道调用完合并策略后，可以获得一个或多个OneMerge的集合，该集合即MergeSpecification，接着MergeSpecification中的OneMerge被添加到pendingMerges中，pendingMerges是一个有序列表，IndexWriter通过synchronized关键字有序的将所有线程中获得的OneMerge添加到pendingMerges链表中，故OneMerge被执行的顺序取决于被添加到pendingMerges中的顺序
 
 图2：
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/MergeScheduler/2.png">
@@ -254,5 +253,3 @@ $$
 
 # 结语
 本文章介绍了在IndexWriter从合并策略那边获得待合并的段集后，MergeScheduler如何去安排执行段的合并，在介绍玩段的合并后，会把整个从合并策略->MergeScheduler->合并进行一次总结，来加强熟悉整体逻辑。
-
-[点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Index/MergeScheduler/MergeScheduler.zip)Markdown文件

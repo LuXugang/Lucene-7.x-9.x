@@ -1,6 +1,13 @@
-# [索引文件的生成（十）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十）之dim&&dii（Lucene 8.4.0）
+date: 2020-04-08 00:00:00
+tags: [dim,dii]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[索引文件的生成（九）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)，继续介绍剩余的内容，下面先给出生成索引文件.dim&&.dii的流程图：
+&emsp;&emsp;本文承接[索引文件的生成（九）](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)，继续介绍剩余的内容，下面先给出生成索引文件.dim&&.dii的流程图：
 
 图1：
 
@@ -32,7 +39,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十）/4.png">
 
-&emsp;&emsp;在文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)中我们说到，在构建BKD树之前，我们已经能提前计算出BKD树中内部节点以及叶子节点的数量 numleaves，并且为每个节点都赋予了一个节点编号，如下图所示：
+&emsp;&emsp;在文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)中我们说到，在构建BKD树之前，我们已经能提前计算出BKD树中内部节点以及叶子节点的数量 numleaves，并且为每个节点都赋予了一个节点编号，如下图所示：
 
 图5：
 
@@ -67,11 +74,11 @@
 
 &emsp;&emsp;在上一个流程点`选出切分维度`选出切分维度后，接着以这个维度的值作为排序规则对点数据进行排序，排序算法使用的是最大有效位的基数排序(MSB radix sort)，在源码中，先计算出maxPackedValue、minPackedValue中切分维度对应的维度值的相同前缀，目的在于使得在排序时只需要比较不相同的后缀值，提高排序性能。
 
-&emsp;&emsp;我们在文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)中提到，在收集阶段，已经将所有的点数据的域值（维度值）都存放在了ByteBlockPool对象的**字节数组buff**中，当前流程点对点数据的排序并不会真正的在buff数组中移动（交换）维度值来实现排序，而是通过一个int类型的ord数组来描述点数据之间的排序关系。
+&emsp;&emsp;我们在文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)中提到，在收集阶段，已经将所有的点数据的域值（维度值）都存放在了ByteBlockPool对象的**字节数组buff**中，当前流程点对点数据的排序并不会真正的在buff数组中移动（交换）维度值来实现排序，而是通过一个int类型的ord数组来描述点数据之间的排序关系。
 
 #### ord[ ]数组
 
-&emsp;&emsp;ord数组是一个int类型的数组，数组元素是numPoints（点数据的唯一标示，见文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)），执行完流程点`内部节点的排序`后，ord[ ]数组中的数组元素是有序的。注意的是：**不是数组元素的值有序，而是数组元素（numPoints）对应的维度值是有序的**
+&emsp;&emsp;ord数组是一个int类型的数组，数组元素是numPoints（点数据的唯一标示，见文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)），执行完流程点`内部节点的排序`后，ord[ ]数组中的数组元素是有序的。注意的是：**不是数组元素的值有序，而是数组元素（numPoints）对应的维度值是有序的**
 
 &emsp;&emsp;**如何通过numPoints获得维度值**
 
@@ -85,7 +92,7 @@ final long offset = (long) packedBytesLength * ords[i];
 
 - 图10中，每个点数据有三个维度，对于代码的第49行，维度值3的维度编号是0，维度值5的维度编号是1，维度值12的维度编号是2，即维度编号是一个从开始递增的值。
 
-&emsp;&emsp;我们继续介绍上述公式：packedBytesLength指的是一条点数据的域值占用的字节数，例如在图10中，一条点数据中有3个维度值，维度值是int类型，一个int类型的数值转化为字节数组后占用的字节数为4（见文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/128.html)），那么**packedBytesLength**的值为3\*4 = 12，另外，假设根节点中包含了图8中的三个点数据，并且假设按照**维度编号2**排序，那么ord数组如下所示：
+&emsp;&emsp;我们继续介绍上述公式：packedBytesLength指的是一条点数据的域值占用的字节数，例如在图10中，一条点数据中有3个维度值，维度值是int类型，一个int类型的数值转化为字节数组后占用的字节数为4（见文章[索引文件的生成（八）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0329/索引文件的生成（八）之dim&&dii)），那么**packedBytesLength**的值为3\*4 = 12，另外，假设根节点中包含了图8中的三个点数据，并且假设按照**维度编号2**排序，那么ord数组如下所示：
 
 图8：
 
@@ -137,7 +144,7 @@ final int mid = (number) >>> 1;
 final int address = nodeID * (1+bytesPerDim);
 ```
 
-&emsp;&emsp;上述公式中，nodeId即节点编号，bytesPerDim描述的是每个维度值占用的字节数量，在文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/129.html)中说到int类型在转化为字节数组后占用4个字节，故bytesPerDim的值为4，那么address的值为：
+&emsp;&emsp;上述公式中，nodeId即节点编号，bytesPerDim描述的是每个维度值占用的字节数量，在文章[索引文件的生成（九）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0406/索引文件的生成（九）之dim&&dii)中说到int类型在转化为字节数组后占用4个字节，故bytesPerDim的值为4，那么address的值为：
 
 ```java
 address = 1 * (1 + 4) = 5

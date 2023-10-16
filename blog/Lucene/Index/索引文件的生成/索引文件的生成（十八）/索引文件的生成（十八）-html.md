@@ -1,18 +1,25 @@
-# [索引文件的生成（十八）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十八）之dvm&&dvd（Lucene 8.4.0）
+date: 2020-05-28 00:00:00
+tags: [dvd,dvm]
+categories:
+- Lucene
+- Index
+---
 
 &emsp;&emsp;索引文件.dvm&&.dvd中根据文档中包含的不同类型的DocValuesFields，包含下面的DocValues信息：
 
 - BinaryDocValues
-- NumericDocValues：见文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)
+- NumericDocValues：见文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)
 - SortedDocValues
-- SortedNumericDocValues：见文章[索引文件的生成（十七）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0526/143.html)
+- SortedNumericDocValues：见文章[索引文件的生成（十七）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0526/索引文件的生成（十七）之dvm&&dvd)
 - SortedSetDocValues
 
-&emsp;&emsp;本篇文章开始介绍生成索引文件.dvd、.dvm之SortedDocValues、SortedSetDocValues的内容，在此之前，我们先介绍下在索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段，Lucene是如何收集文档中的SortedDocValues、SortedSetDocValues信息。
+&emsp;&emsp;本篇文章开始介绍生成索引文件.dvd、.dvm之SortedDocValues、SortedSetDocValues的内容，在此之前，我们先介绍下在索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段，Lucene是如何收集文档中的SortedDocValues、SortedSetDocValues信息。
 
 ## SortedDocValues
 
-&emsp;&emsp;SortedDocValues信息对应的是在文档中SortedDocValuesField域中的信息，它同[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)一样，在一篇文档中，相同域名的SortedDocValuesField只能有一个，否则就会报错，如下所示：
+&emsp;&emsp;SortedDocValues信息对应的是在文档中SortedDocValuesField域中的信息，它同[NumericDocValues](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/NumericDocValues)一样，在一篇文档中，相同域名的SortedDocValuesField只能有一个，否则就会报错，如下所示：
 
 图1：
 
@@ -36,7 +43,7 @@
 
 #### DocId
 
-&emsp;&emsp;DocId即包含SortedDocValuesField域的文档的文档号，并且使用DocsWithFieldSet存储，DocsWithFieldSet存储文档号的过程在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/139.html)已经介绍，不赘述。
+&emsp;&emsp;DocId即包含SortedDocValuesField域的文档的文档号，并且使用DocsWithFieldSet存储，DocsWithFieldSet存储文档号的过程在文章[索引文件的生成（十五）之dvm&&dvd](https://www.amazingkoala.com.cn/Lucene/Index/2020/0507/索引文件的生成（十五）之dvm&&dvd)已经介绍，不赘述。
 
 #### TermId
 
@@ -77,7 +84,7 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十八）/6.png">
 
-&emsp;&emsp;以上就是索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段收集的内容，至于收集这些信息的作用，将在后续的文章中提及。
+&emsp;&emsp;以上就是索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段收集的内容，至于收集这些信息的作用，将在后续的文章中提及。
 
 ## SortedSetDocValues
 
@@ -126,7 +133,7 @@
 
 ### 收集文档的SortedSetDocValues信息
 
-&emsp;&emsp;介绍完SortedDocValues用法之后，我们继续介绍在索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)阶段，收集SortedDocValues信息的内容，收集信息的代码入口方法为：https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/SortedSetDocValuesWriter.java 的 addValue(int docID, BytesRef value)方法，需要收集的信息，包括：**DocId、TermId、sortedValues[ ]数组、ord、ordMap[ ]数组、pending、pendingCounts**。
+&emsp;&emsp;介绍完SortedDocValues用法之后，我们继续介绍在索引（index）阶段以及[flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/文档提交之flush（一）)阶段，收集SortedDocValues信息的内容，收集信息的代码入口方法为：https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-8.4.0/lucene/core/src/java/org/apache/lucene/index/SortedSetDocValuesWriter.java 的 addValue(int docID, BytesRef value)方法，需要收集的信息，包括：**DocId、TermId、sortedValues[ ]数组、ord、ordMap[ ]数组、pending、pendingCounts**。
 
 &emsp;&emsp;其中DocId、TermId、sortedValues[ ]数组、ord、ordMap[ ]数组的含义跟SortedDocValues是一致的，故只介绍pending、pendingCounts。
 

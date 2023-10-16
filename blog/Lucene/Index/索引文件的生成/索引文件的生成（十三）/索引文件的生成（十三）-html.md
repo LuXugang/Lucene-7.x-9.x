@@ -1,6 +1,13 @@
-# [索引文件的生成（十三）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（十三）之dim&&dii（Lucene 8.4.0）
+date: 2020-04-18 00:00:00
+tags: [dim,dii]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;本文承接[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)，继续介绍剩余的内容，为了便于下文的介绍，先给出[生成索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的流程图以及流程点`构建BKD树的节点值（node value）`的流程图：
+&emsp;&emsp;本文承接[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/索引文件的生成（十二）之dim&&dii)，继续介绍剩余的内容，为了便于下文的介绍，先给出生成[索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的流程图以及流程点`构建BKD树的节点值（node value）`的流程图：
 
 图1：
 
@@ -16,9 +23,9 @@
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/index/索引文件的生成/索引文件的生成（十三）/3.png">
 
-&emsp;&emsp;在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)中我们将每个维度的最长公共前缀的信息写入到了索引文件.dim中，同样后缀信息也需要将写进去。
+&emsp;&emsp;在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/索引文件的生成（十二）之dim&&dii)中我们将每个维度的最长公共前缀的信息写入到了索引文件.dim中，同样后缀信息也需要将写进去。
 
-&emsp;&emsp;将维度值拆分为相同的前缀跟不相同的后缀两部分并且分别存储的目的在于降低存储开销（reduce the storage cost）,为了能进一步降低存储开销，在当前流程点，会遍历一次叶子节点中的所有点数据，找出一个或者多个区间，在某个区间里面的点数据的排序维度（见在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/132.html)）对应的维度值，该维度值的不同后缀的第一个字节是相同的。这种处理的思想称为游标编码（Run Length Encoding）。
+&emsp;&emsp;将维度值拆分为相同的前缀跟不相同的后缀两部分并且分别存储的目的在于降低存储开销（reduce the storage cost）,为了能进一步降低存储开销，在当前流程点，会遍历一次叶子节点中的所有点数据，找出一个或者多个区间，在某个区间里面的点数据的排序维度（见在文章[索引文件的生成（十二）之dim&&dii](https://www.amazingkoala.com.cn/Lucene/Index/2020/0415/索引文件的生成（十二）之dim&&dii)）对应的维度值，该维度值的不同后缀的第一个字节是相同的。这种处理的思想称为游标编码（Run Length Encoding）。
 
 图4：
 
@@ -36,7 +43,7 @@
 
 &emsp;&emsp;以图4为例，维度值的排序方式为从高到低依次比较一个字节，由于图4中维度编号2的最长公共前缀的长度为2，说明是按照不同后缀的第一个字节排序的，这就意味着，存在连续的一个或多个维度值，这些维度值在这个字节的值一样的，那么这个相同的字节就不用重复存储，提取出来之后存储一次即可，从而降低存储开销。
 
-&emsp;&emsp;不同后缀信息对应在[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)中的位置如下所示：
+&emsp;&emsp;不同后缀信息对应在[索引文件.dim](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)中的位置如下所示：
 
 图5：
 

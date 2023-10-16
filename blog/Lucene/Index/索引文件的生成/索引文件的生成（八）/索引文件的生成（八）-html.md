@@ -1,8 +1,15 @@
-# [索引文件的生成（八）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 8.4.0）
+---
+title: 索引文件的生成（八）之dim&&dii（Lucene 8.4.0）
+date: 2020-03-29 00:00:00
+tags: [dim,dii]
+categories:
+- Lucene
+- Index
+---
 
-&emsp;&emsp;在前面的文章中，我们介绍了在Lucene7.5.0中[索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/53.html)的数据结构，从本篇文章开始介绍其生成索引文件.dim&&.dii的内容，注意的是，由于是基于Lucene8.4.0来描述其生成过程，故如果出现跟Lucene7.5.0中不一致的地方会另外指出，最后建议先阅读下文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/52.html)简单的了解下Lucene中点数据的使用。
+&emsp;&emsp;在前面的文章中，我们介绍了在Lucene7.5.0中[索引文件.dim&&.dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0424/索引文件之dim&&dii)的数据结构，从本篇文章开始介绍其生成索引文件.dim&&.dii的内容，注意的是，由于是基于Lucene8.4.0来描述其生成过程，故如果出现跟Lucene7.5.0中不一致的地方会另外指出，最后建议先阅读下文章[Bkd-Tree](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0422/Bkd-Tree)简单的了解下Lucene中点数据的使用。
 
-&emsp;&emsp;在文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)中，简单的介绍了生成索引文件.dim&&.dii的时机点，为了能更好的理解其生成过程，会首先介绍下在生成索引文件之前，Lucene是如何收集每篇文档的点数据信息（Point Value），随后在flush阶段，会根据收集到的信息生成索引文件.dim&&.dii。
+&emsp;&emsp;在文章[索引文件的生成（一）之doc&&pay&&pos](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/索引文件的生成（一）之doc&&pay&&pos)中，简单的介绍了生成索引文件.dim&&.dii的时机点，为了能更好的理解其生成过程，会首先介绍下在生成索引文件之前，Lucene是如何收集每篇文档的点数据信息（Point Value），随后在flush阶段，会根据收集到的信息生成索引文件.dim&&.dii。
 
 ## 收集文档的点数据信息
 
