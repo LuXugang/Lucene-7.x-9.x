@@ -105,7 +105,11 @@ public class TestSparseKNN1 {
 
     public static void main(String[] args) throws Exception{
         TestSparseKNN1 TestSparseKNN1 = new TestSparseKNN1();
-        TestSparseKNN1.doSearch();
+        Cost cost = TestSparseKNN1.doSearch();
+        System.out.println("indexCost: "+cost.indexCost+"");
+        System.out.println("searchCost: "+cost.searchCost+"");
+        System.out.println("NumberOfDocumentsToFind: "+cost.NumberOfDocumentsToFind+"");
+        System.out.println("maxDoc: "+cost.maxDoc+"");
         System.out.println("DONE");
     }
 
