@@ -3,7 +3,9 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.KnnFloatVectorField;
 import org.apache.lucene.document.KnnVectorField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
@@ -20,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 索引文件vec&vex&vem中的例子 不要修改代码
+ */
 public class TestSparseKNN1 {
     public Cost doSearch() throws Exception {
         FileOperation.deleteFile("./data");
@@ -35,7 +40,7 @@ public class TestSparseKNN1 {
 
         int dimension = 3;
         int number = 100000;
-        String input = "./dimension/vector."+dimension+"d."+(number/1000)+"k.txt";
+        String input = "./dimension/vector." + dimension + "d." + (number / 1000) + "k.txt";
         IndexWriter indexWriter = new IndexWriter(directory, conf);
         long indexCost = 0;
         int count = 0;
@@ -46,21 +51,22 @@ public class TestSparseKNN1 {
                 count++;
                 doc = new Document();
                 String[] lineStr = sc.nextLine().split(" ");
-                if(lineStr.length == 0) {
+                if (lineStr.length == 0) {
                     doc.add(new Field("Content", "a", fieldType));
-                }else {
+                } else {
                     float[] newFloat = new float[dimension];
                     for (int i = 0; i < dimension; i++) {
                         newFloat[i] = Float.parseFloat(lineStr[i]);
                     }
                     // make vector docIds sparse
-                    if(count % 2 == 0 || count % 3 == 0){
+                    if (count % 2 == 0 || count % 3 == 0) {
                         doc.add(new KnnVectorField("vector", newFloat));
-                    }else {
+                    } else {
                         doc.add(new Field("Content", String.valueOf(count), fieldType));
                     }
                 }
                 indexWriter.addDocument(doc);
+                if (count == 500) break;
 
             }
             doc = new Document();
@@ -69,6 +75,7 @@ public class TestSparseKNN1 {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println("count : " + count + "");
         indexWriter.commit();
         long indexEnd = System.currentTimeMillis();
         // index cost
@@ -80,14 +87,14 @@ public class TestSparseKNN1 {
         List<float[]> candidateQueryPara = new ArrayList<>();
         candidateQueryPara.add(new float[]{0, 0, 0});
         candidateQueryPara.add(new float[]{-0.18344f, 0.95567f, -0.46423f});
-        candidateQueryPara.add(new float[]{-0.25966f, -0.15258f, -0.5823f });
+        candidateQueryPara.add(new float[]{-0.25966f, -0.15258f, -0.5823f});
         candidateQueryPara.add(new float[]{0.11318f, -1.0546f, 1.2285f});
-        candidateQueryPara.add(new float[]{0.42921f,0.60283f, -0.21487f});
-        candidateQueryPara.add(new float[]{1.6214f,0.15795f,0.037353f});
-        candidateQueryPara.add(new float[]{-0.044981f,0.05041f,-0.44968f});
+        candidateQueryPara.add(new float[]{0.42921f, 0.60283f, -0.21487f});
+        candidateQueryPara.add(new float[]{1.6214f, 0.15795f, 0.037353f});
+        candidateQueryPara.add(new float[]{-0.044981f, 0.05041f, -0.44968f});
         candidateQueryPara.add(new float[]{-0.2479f, 0.1701f, 0.032121f});
-        candidateQueryPara.add(new float[]{0.016738f,0.21394f, -0.16618f});
-        candidateQueryPara.add(new float[]{1f,1f, 1f});
+        candidateQueryPara.add(new float[]{0.016738f, 0.21394f, -0.16618f});
+        candidateQueryPara.add(new float[]{1f, 1f, 1f});
 
         long costSum = 0;
         int NumberOfDocumentsToFind = 10;
@@ -103,27 +110,36 @@ public class TestSparseKNN1 {
         return new Cost(indexCost, costSum / candidateQueryPara.size(), NumberOfDocumentsToFind, reader.maxDoc());
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         TestSparseKNN1 TestSparseKNN1 = new TestSparseKNN1();
         Cost cost = TestSparseKNN1.doSearch();
-        System.out.println("indexCost: "+cost.indexCost+"");
-        System.out.println("searchCost: "+cost.searchCost+"");
-        System.out.println("NumberOfDocumentsToFind: "+cost.NumberOfDocumentsToFind+"");
-        System.out.println("maxDoc: "+cost.maxDoc+"");
+        System.out.println("indexCost: " + cost.indexCost + "");
+        System.out.println("searchCost: " + cost.searchCost + "");
+        System.out.println("NumberOfDocumentsToFind: " + cost.NumberOfDocumentsToFind + "");
+        System.out.println("maxDoc: " + cost.maxDoc + "");
         System.out.println("DONE");
+
+        Document document = new Document();
+        // 文档0
+        document.add(new KnnFloatVectorField("vector", new float[]{-0.044981f, 0.05041f, -0.44968f}));// 节点编号: 0
+        // 文档1
+        document.add(new TextField("content", "a", Field.Store.YES));
+        // 文档2
+        document.add(new KnnFloatVectorField("vector", new float[]{0.016738f, 0.21394f, -0.16618f}));// 节点编号: 0
     }
 
-    public static class Cost{
+    public static class Cost {
         private final long indexCost;
         private final long searchCost;
         private final int NumberOfDocumentsToFind;
         private final int maxDoc;
 
-        public Cost(long indexCost, long searchCost, int NumberOfDocumentsToFind,int maxDoc) {
+        public Cost(long indexCost, long searchCost, int NumberOfDocumentsToFind, int maxDoc) {
             this.indexCost = indexCost;
             this.searchCost = searchCost;
             this.NumberOfDocumentsToFind = NumberOfDocumentsToFind;
             this.maxDoc = maxDoc;
         }
+
     }
 }
