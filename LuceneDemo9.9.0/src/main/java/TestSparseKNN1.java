@@ -1,5 +1,9 @@
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.codecs.KnnVectorsFormat;
+import org.apache.lucene.codecs.lucene99.Lucene99Codec;
+import org.apache.lucene.codecs.lucene99.Lucene99HnswScalarQuantizedVectorsFormat;
+import org.apache.lucene.codecs.lucene99.Lucene99HnswVectorsFormat;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -10,6 +14,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.VectorSimilarityFunction;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.KnnVectorQuery;
 import org.apache.lucene.store.Directory;
@@ -22,15 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * 索引文件vec&vex&vem中的例子 不要修改代码
- */
 public class TestSparseKNN1 {
     public Cost doSearch() throws Exception {
         FileOperation.deleteFile("./data");
         Directory directory = new MMapDirectory(Path.of("./data"));
         Analyzer analyzer = new StandardAnalyzer();
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
+        conf.setCodec(new Lucene99Codec(){
+            @Override
+            public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+                return new Lucene99HnswScalarQuantizedVectorsFormat(
+                        Lucene99HnswVectorsFormat.DEFAULT_MAX_CONN,
+                        Lucene99HnswVectorsFormat.DEFAULT_BEAM_WIDTH);
+            }
+        });
         conf.setUseCompoundFile(false);
         Document doc;
 
@@ -60,7 +70,7 @@ public class TestSparseKNN1 {
                     }
                     // make vector docIds sparse
                     if (count % 2 == 0 || count % 3 == 0) {
-                        doc.add(new KnnVectorField("vector", newFloat));
+                        doc.add(new KnnFloatVectorField("vector", newFloat, VectorSimilarityFunction.COSINE));
                     } else {
                         doc.add(new Field("Content", String.valueOf(count), fieldType));
                     }
@@ -118,14 +128,6 @@ public class TestSparseKNN1 {
         System.out.println("NumberOfDocumentsToFind: " + cost.NumberOfDocumentsToFind + "");
         System.out.println("maxDoc: " + cost.maxDoc + "");
         System.out.println("DONE");
-
-        Document document = new Document();
-        // 文档0
-        document.add(new KnnFloatVectorField("vector", new float[]{-0.044981f, 0.05041f, -0.44968f}));// 节点编号: 0
-        // 文档1
-        document.add(new TextField("content", "a", Field.Store.YES));
-        // 文档2
-        document.add(new KnnFloatVectorField("vector", new float[]{0.016738f, 0.21394f, -0.16618f}));// 节点编号: 0
     }
 
     public static class Cost {
