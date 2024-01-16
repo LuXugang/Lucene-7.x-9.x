@@ -66,7 +66,7 @@ public class TestSparseKNN1 {
                     }
                 }
                 indexWriter.addDocument(doc);
-                if (count == 500) break;
+//                if (count == 500) break;
 
             }
             doc = new Document();
