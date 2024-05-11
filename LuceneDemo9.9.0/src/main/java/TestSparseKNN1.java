@@ -76,12 +76,16 @@ public class TestSparseKNN1 {
                     }
                 }
                 indexWriter.addDocument(doc);
-                if (count == 500) break;
+                if (count % 2000 == 0) {
+                 indexWriter.commit();
+                }
+                if (count == 10000) break;
 
             }
             doc = new Document();
             doc.add(new Field("Content", "a", fieldType));
             indexWriter.addDocument(doc);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -93,6 +97,8 @@ public class TestSparseKNN1 {
 
         DirectoryReader reader = DirectoryReader.open(indexWriter);
         IndexSearcher indexSearcher = new IndexSearcher(reader);
+
+        indexWriter.forceMerge(1);
 
         List<float[]> candidateQueryPara = new ArrayList<>();
 //        candidateQueryPara.add(new float[]{0, 0, 0});
