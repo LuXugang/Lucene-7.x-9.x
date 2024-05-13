@@ -1,4 +1,12 @@
-# Vector Quantization（一）（Lucene 9.10.0）
+---
+title: Vector Quantization（一）（Lucene 9.10.0）
+date: 2024-05-13 00:00:00
+tags: [sq,scalar,quantization,vector,hnsw]
+categories:
+- Lucene
+- gongjulei
+---
+
 
 本篇文章介绍下截止到9.10.0版本，Lucene中向量量化（Vector Quantization）技术相关的内容。
 
@@ -21,7 +29,7 @@ float32->int8描述的是将32位的浮点型数值用一个8位的整数表示�
 
 图1：
 
-<img src="VectorQuantization（一）-image/1.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/1.png">
 
 #### 向量距离
 
@@ -31,19 +39,19 @@ float32->int8描述的是将32位的浮点型数值用一个8位的整数表示�
 
 图2：
 
-<img src="VectorQuantization（一）-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/2.png">
 
 如果我们使用`α`表示`(max - min) / 127`，那么上述算式就变为：
 
 图3：
 
-<img src="VectorQuantization（一）-image/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/3.png">
 
 以点积（[dot_product](https://en.wikipedia.org/wiki/Dot_product)）为例，如果向量的维度为`dim`，那么向量距离就是这`dim`个浮点数的乘积的和值，如下所示：
 
 图4：
 
-<img src="VectorQuantization（一）-image/4.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/4.png">
 
 从图4可以看出，两个量化后的float32向量除了`dotProduct(int8, int8')`部分，其他部分都可以提前计算，可以直接存放在索引中，或者在查询期间只计算一次（见[qdrant](https://qdrant.tech/articles/scalar-quantization/)中的介绍）。 然而在Lucene的实现中，我们只需要计算量化后的向量距离，而图4中其他部分对于打分的影响则是通过校正偏移来实现。
 
@@ -57,7 +65,7 @@ float32->int8描述的是将32位的浮点型数值用一个8位的整数表示�
 
 图5：
 
-<img src="VectorQuantization（一）-image/5.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/5.png">
 
 ## 结语
 
@@ -65,10 +73,10 @@ float32->int8描述的是将32位的浮点型数值用一个8位的整数表示�
 
 图6：
 
-<img src="VectorQuantization（一）-image/6.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/6.png">
 
 实现代码很简单，因此直接贴出：
 
 图7：
 
-<img src="VectorQuantization（一）-image/7.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/utils/VectorQuantization/VectorQuantization（一）/7.png">
