@@ -13,7 +13,7 @@ Lucene中使用[HNSW](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW%E5
 
 ## 实现原理
 
-VQ的实现方式在源码中核心代码为一个名为**ScalarQuantizer**类，它提供了以下两个关键的功能：float32->int8、校正偏移（Corrective Offset）。
+VQ的实现方式参考的是**qdrant**的子项目[quantization](https://github.com/qdrant/quantization)，在Lucene源码中核心代码为一个名为**ScalarQuantizer**类，它提供了以下两个关键的功能：float32->int8、校正偏移（Corrective Offset）。
 
 ### float32->int8
 
@@ -45,7 +45,7 @@ float32->int8描述的是将32位的浮点型数值用一个8位的整数表示�
 
 <img src="VectorQuantization（一）-image/4.png">
 
-从图4可以看出，两个量化后的float32向量除了`dotProduct(int8, int8')`部分，其他部分都可以提前计算，可以直接存放在索引中，或者在查询期间只计算一次（见[qdrant](https://qdrant.tech/articles/scalar-quantization/)中的介绍）。 然而在Lucene的实现中，我们只需要计算量化后的向量距离，而图4中其他部分对于打分的影响则是通过校正偏移来实现。
+从图4可以看出，两个量化后的float32向量除了`dotProduct(int8, int8')`部分，其他部分都可以提前计算，可以直接存放在索引中，或者在查询期间只计算一次。（见[quantization](https://github.com/qdrant/quantization)中如何计算存储）。 然而在Lucene的实现中，我们只需要计算量化后的向量距离，而图4中其他部分对于打分的影响则是通过校正偏移来实现。
 
 ### 校正偏移（Corrective Offset）
 

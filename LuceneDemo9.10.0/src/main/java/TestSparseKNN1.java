@@ -33,14 +33,14 @@ public class TestSparseKNN1 {
         Directory directory = new MMapDirectory(Path.of("./data"));
         Analyzer analyzer = new StandardAnalyzer();
         IndexWriterConfig conf = new IndexWriterConfig(analyzer);
-//        conf.setCodec(new Lucene99Codec(){
-//            @Override
-//            public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
-//                return new Lucene99HnswScalarQuantizedVectorsFormat(
-//                        Lucene99HnswVectorsFormat.DEFAULT_MAX_CONN,
-//                        Lucene99HnswVectorsFormat.DEFAULT_BEAM_WIDTH);
-//            }
-//        });
+        conf.setCodec(new Lucene99Codec(){
+            @Override
+            public KnnVectorsFormat getKnnVectorsFormatForField(String field) {
+                return new Lucene99HnswScalarQuantizedVectorsFormat(
+                        Lucene99HnswVectorsFormat.DEFAULT_MAX_CONN,
+                        Lucene99HnswVectorsFormat.DEFAULT_BEAM_WIDTH);
+            }
+        });
         conf.setUseCompoundFile(false);
         Document doc;
 
