@@ -7,31 +7,31 @@ categories:
 - Index
 ---
 
-本篇介绍下[Faiss](https://github.com/facebookresearch/faiss/wiki)中如何基于HNSW图存储向量，同样基于论文：[Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs [2018]](https://arxiv.org/abs/1603.09320)，建议先看下在Lucene中实现：[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)，因此一些NHSW中的通用概念不在本文中赘述，例如**入口节点**、**目标层级**等等。[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)偏向于理论的介绍（很重要），而本篇文章更多会介绍代码中的一些数据结构。
+本篇介绍下[Faiss](https://github.com/facebookresearch/faiss/wiki)中如何基于HNSW图存储向量，同样基于论文：[Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs [2018]](https://arxiv.org/abs/1603.09320)，建议先看下在Lucene中实现：[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)，因此一些HNSW中的通用概念不在本文中赘述，例如**入口节点**、**目标层级**等等。[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)偏向于理论的介绍（很重要），而本篇文章更多会介绍代码中的一些数据结构。
 
 NSW图的构建流程图如下所示：
 
 图1：
 
-<img src="http://www.amazingkoala.com.cn/uploads/faiss/index/HNSW/1.png"  width="600">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/1.png"  width="600">
 
 ## 准备工作
 
 图2：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/2.png"  width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/2.png"  width="500">
 
 节点（向量）插入到图中之前，需要初始化一些数据结构，了解这些数据结构才能掌握写入/读取节点以及节点邻居的过程。需要初始化的结构有以下几个Vector容器：
 
 - **`std::vector<int32_t> neighbors`**：当所有的节点添加到HNSW图中后，所有节点在所有层的邻居使用`neighbors`容器保存，每个节点的所有层的邻居使用`neighbors`中一个**连续**的区间保存，容器元素默认值为`-1`。如下所示：
   - 图3：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/3.png">
 
 - **`std::vector<int> cum_nneighbor_per_level`**：初始化后，用来获取每一层中，节点的最大邻居数量。其中第0层为`2*M`，其他层为`M`，`M`的默认值为32
   
   - 图4：
-  <img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/4.png"   width="500">
+  <img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/4.png"   width="500">
   - 解释下这个数组：获取每一层中节点的最大邻居数量的计算方式如下所示，其中`layer_no`为**目标层级**：
   
   - ```
@@ -47,19 +47,19 @@ NSW图的构建流程图如下所示：
 - **`std::vector<int> levels`**：初始化后，用来获取每一个节点的**目标层级**。
   
   - 图5：
-    <img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/5.png"   width="500">
+    <img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/5.png"   width="500">
   
   - 图5中描述的是：初始化N+1个待插入的节点，它们各自的目标层级
     - **注意的是，为了方便介绍，文章中levels记录的是目标层级，而在源码中则是会在目标层级的基础上额外加+1，其目的不影响介绍其实现原理，因此需要提及下**
     - 图6：
-      <img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/6.png"   width="500">
+      <img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/6.png"   width="500">
   
 - **`std::vector<size_t> offsets`**：初始化后，可以根据节点编号获取该节点的第一个邻居（第0层）在`neighbors`中的起始位置，其中数组下标为**节点编号**
   
   - 图7：
-  <img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/7.png"  >
+  <img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/7.png"  >
   
-  - `offsets`容器的初始化过程不在文中展开，可以查看`NHSW.cpp`中的`prepare_level_tab(...)`方法，简单来说就是根据节点编号、`levels`容器、`cum_nneighbor_per_level`就可以完成`offsets`容器的初始化。
+  - `offsets`容器的初始化过程不在文中展开，可以查看`HNSW.cpp`中的`prepare_level_tab(...)`方法，简单来说就是根据节点编号、`levels`容器、`cum_nneighbor_per_level`就可以完成`offsets`容器的初始化。
 
 - **`std::vector<int> order(n)`**：使用该容器将节点根据其目标层级进行分桶，调整节点的处理先后顺序。
   
@@ -74,7 +74,7 @@ NSW图的构建流程图如下所示：
 
 图8：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/8.png"  >
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/8.png"  >
 
 图8中，根据节点编号以及层数，结合`offsets`以及`cum_nneighbor_per_level`容器就可以获取在`neighbors`容器中的一个<font color=red>红色标注</font>的区间，区间范围为[begin, end)，随后依次写入2232、23、110这三个邻居。
 
@@ -82,13 +82,13 @@ NSW图的构建流程图如下所示：
 
 图9：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/9.png"   width="600" >
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/9.png"   width="600" >
 
 图9中，依次处理每一个节点，直到所有的节点都添加到HNSW图中。每个节点在添加到HNSW图之前会先确定好目标层级，如果目标层级为3，那么这个节点会从高到低依次添加到第3、2、1、0层中，并在每一层中寻找邻居并建立连接。
 
 图10：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/10.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/10.png" width="500">
 
 图10中，如果目标层级小于等于当前层级，那么我们需要从当前层级（当前层级的入口节点为**全局入口节点**）开始，到达目标层级之前，从上往下依次找到每一层中跟新节点最近的节点，并作为下一层的入口节点，这个期间不需要建立连接。当到达目标层级时，目标层级的入口节点会被更新为上一层中与新节点最近的节点。
 
@@ -98,7 +98,7 @@ NSW图的构建流程图如下所示：
 
 图11：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/11.png" width="600">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/11.png" width="600">
 
 图11中，简单总结，依次处理当前层级与目标层级之间的层，在每一层中：
 
@@ -112,7 +112,7 @@ NSW图的构建流程图如下所示：
 
 图12：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/12.png" width="400">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/12.png" width="400">
 
 在Faiss中，由于上文中提到的`order`容器，节点插入的先后顺序是按照节点的目标层级由大到小依次处理，即目标层级大的先插入到HNSW图中，意味着在图11的流程中，目标层级只会等于当前层级，不会出现大于当前层级的情况。
 
@@ -120,7 +120,7 @@ NSW图的构建流程图如下所示：
 
 图13：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/13.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/13.png" width="500">
 
 从目标层级开始，将新节点添加到每一层中并与邻居建立连接，直到所有层处理完毕。
 
@@ -128,13 +128,13 @@ NSW图的构建流程图如下所示：
 
 图14：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/14.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/14.png" width="500">
 
 这个流程点的处理过程如下所示：
 
 图15：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/15.png" width="700">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/15.png" width="700">
 
 该流程是贪心算法的搜索过程，它从入口节点开始，首先将其作为看起来最接近新节点的节点，如果一个节点的邻居看起来更接近新插入的节点，算法会转向那个邻居节点，并继续探索其邻居。最终找到最多efConstruction个距离**较近**（这些节点不一定是离新节点**最近**的）的节点。
 
@@ -151,7 +151,7 @@ NSW图的构建流程图如下所示：
 
 图16：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/16.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/16.png" width="500">
 
 由于每一层允许连接的邻居数量是有限的，第0层为`2*M`，其他层为`M`，`M`的默认值为32。因此在上一步收集了`efConstruction`个邻居后，如果`efConstruction`的值超过了限制，则需要根据`多样性`筛选。
 
@@ -165,7 +165,7 @@ NSW图的构建流程图如下所示：
 
 图17：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/17.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/17.png" width="500">
 
 在代码中，两个节点的连接实现为`HNSW.cpp`中的`add_link(...)`方法。这两个流程点分别调用这个方法实现连接。
 
@@ -173,7 +173,7 @@ NSW图的构建流程图如下所示：
 
 图18：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/18.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/18.png" width="500">
 
 图18中，如果源节点`src`的邻居数量没有达到本层的最大邻居数量，那么直接追加到`neighbors`容器中即可，其添加过程见图8.
 
@@ -189,6 +189,6 @@ NSW图的构建流程图如下所示：
 
 图19：
 
-<img src="http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/19.png" width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/19.png" width="500">
 
-[点击](http://www.amazingkoala.com.cn/uploads/Faiss/index/HNSW/overall.html)查看高清图。
+[点击](http://www.amazingkoala.com.cn/uploads/faiss/Index/HNSW/overall.html)查看高清图。

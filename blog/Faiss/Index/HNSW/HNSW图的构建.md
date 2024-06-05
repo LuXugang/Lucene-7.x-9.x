@@ -1,6 +1,6 @@
 # HNSW图的构建（Faiss 1.8.0）
 
-本篇介绍下[Faiss](https://github.com/facebookresearch/faiss/wiki)中如何基于HNSW图存储向量，同样基于论文：[Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs [2018]](https://arxiv.org/abs/1603.09320)，建议先看下在Lucene中实现：[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)，因此一些NHSW中的通用概念不在本文中赘述，例如**入口节点**、**目标层级**等等。[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)偏向于理论的介绍（很重要），而本篇文章更多会介绍代码中的一些数据结构。
+本篇介绍下[Faiss](https://github.com/facebookresearch/faiss/wiki)中如何基于HNSW图存储向量，同样基于论文：[Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs [2018]](https://arxiv.org/abs/1603.09320)，建议先看下在Lucene中实现：[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)，因此一些HNSW中的通用概念不在本文中赘述，例如**入口节点**、**目标层级**等等。[HNSW图的构建（Lucene 9.8.0）](https://amazingkoala.com.cn/Lucene/Index/2024/0118/HNSW图的构建/)偏向于理论的介绍（很重要），而本篇文章更多会介绍代码中的一些数据结构。
 
 NSW图的构建流程图如下所示：
 
@@ -52,7 +52,7 @@ NSW图的构建流程图如下所示：
   - 图7：
   <img src="HNSW图的构建-image/7.png"  >
   
-  - `offsets`容器的初始化过程不在文中展开，可以查看`NHSW.cpp`中的`prepare_level_tab(...)`方法，简单来说就是根据节点编号、`levels`容器、`cum_nneighbor_per_level`就可以完成`offsets`容器的初始化。
+  - `offsets`容器的初始化过程不在文中展开，可以查看`HNSW.cpp`中的`prepare_level_tab(...)`方法，简单来说就是根据节点编号、`levels`容器、`cum_nneighbor_per_level`就可以完成`offsets`容器的初始化。
 
 - **`std::vector<int> order(n)`**：使用该容器将节点根据其目标层级进行分桶，调整节点的处理先后顺序。
   
