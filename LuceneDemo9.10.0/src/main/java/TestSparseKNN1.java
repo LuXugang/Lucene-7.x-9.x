@@ -8,8 +8,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.KnnFloatVectorField;
-import org.apache.lucene.document.KnnVectorField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
@@ -19,6 +17,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.KnnVectorQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+import org.example.FileOperation;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
