@@ -8,7 +8,7 @@ Block-max WAND结合了[WAND](https://dl.acm.org/doi/10.1145/956863.956944)和[B
 
 ### minCompetitiveScore
 
-在查询阶段收集了Top-k个文档号后，会计算出这k个文档中的最小值，也就是minCompetitiveScore，意味着后续收集的文档如果打分值小于该值则进不了Top-k。
+在查询阶段收集了Top-k个文档号后，会计算出这k个文档中的最小文档打分值，也就是minCompetitiveScore，意味着后续收集的文档如果打分值小于该值则进不了Top-k。
 
 ### MaxScore
 
@@ -30,16 +30,23 @@ Lucene提供了[Impact](https://amazingkoala.com.cn/Lucene/Search/2020/0904/%E7%
 
 正如注释中说到，该实现使用了3个数据结构存储查询term对应的Scorer：lead、head、tail。
 
-- **lead**：当前处理的目标文档号，拥有目标文档号的Scorer会使用lead存储
+- **lead**：当前处理中的目标文档号，拥有目标文档号的Scorer会使用lead存储
 - **head**：Scorer中未被访问的文档号都大于目标文档号，它是一个优先级队列，根据Scorer中未被访问的最小文档号排序，文档号越小越靠前
 - **tail**：Scorer中未被访问的文档号都小于目标文档号，根据maxScore排序，maxScore越高越靠前
   - 图1的注释中说到tail根据cost排序，这个cost即maxScore
 
+### 例子
 
-三者之间的关系如下图所示：
+例如我们有一个查询条件为`term1 OR term2 OR term3`，它们对应的Scorer中的倒排链表如下所示：
 
 图2：
 
-<img src="block-max-WAND-image/2.png">
+<img src="block-max-WAND-image/2.png"  width="500">
+
+如果当前处理中的目标文档号为
+
+三者之间的关系如下图所示：
+
+
 
 ## 算法实现
