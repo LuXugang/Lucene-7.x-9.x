@@ -208,5 +208,10 @@ Lucene中不存在缓存过期的问题，因为每个段在生成后其内容�
 
 **但是后续的Query响应速度会快于缓存前以及第一次缓存时的Query，因此同时利用了缓存以及early termination机制**。
 
-上述场景可以看这个[Demo]()。
+上述场景可以看这个[Demo](https://github.com/LuXugang/Lucene-7.x-9.x/blob/master/LuceneDemo9.10.0/src/main/java/org/example/TestLRUCache.java)。执行15次循环查询同一个Query花费的时间如下所示：
 
+图12：
+
+<img src="queryCache-image/12.png" >
+
+图12中前三次查询未满足缓存的条件，未触发缓存，而第4次查询将写入缓存，后续的查询使用了查询。

@@ -15,6 +15,8 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
@@ -62,6 +64,7 @@ public class TestLRUCache {
             }
             doc.add(new TextField("a",  "i", Field.Store.YES));
             doc.add(new TextField("b",  "i", Field.Store.YES));
+            doc.add(new TextField("c",  "i", Field.Store.YES));
             indexWriter.addDocument(doc);
         }
         final IndexReader reader = DirectoryReader.open(indexWriter);
@@ -71,20 +74,33 @@ public class TestLRUCache {
         final int numHits = 3;
         final int totalHitsThreshold = 3;
 
-        {
-            BooleanQuery.Builder builder = new BooleanQuery.Builder();
-            builder.add(new TermQuery(new Term("a", "i")), BooleanClause.Occur.MUST);
-            builder.add(new TermQuery(new Term("b", "i")), BooleanClause.Occur.MUST);
-            int i = 10;
-            TopDocs topDocs;
-            for (int i1 = 0; i1 < i; i1++) {
-                System.out.println("i1 = " + i1);
-                // 当i1=3时，会缓存这次查询
-                // 查询使用跟索引时相同的排序规则
-                final TopFieldCollectorManager collectorManager =
-                        new TopFieldCollectorManager(sort, numHits, totalHitsThreshold);
-                topDocs = searcher.search(builder.build(), collectorManager);
-            }
+        TopFieldCollectorManager collectorManager =
+                new TopFieldCollectorManager(sort, numHits, totalHitsThreshold);
+        BooleanQuery.Builder builder1 = new BooleanQuery.Builder();
+        builder1.add(new TermQuery(new Term("a", "i")), BooleanClause.Occur.MUST);
+        builder1.add(new TermQuery(new Term("b", "i")), BooleanClause.Occur.MUST);
+        builder1.add(new TermQuery(new Term("c", "i")), BooleanClause.Occur.MUST);
+        searcher.search(builder1.build(), collectorManager);
+
+
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+        builder.add(new TermQuery(new Term("a", "i")), BooleanClause.Occur.MUST);
+        builder.add(new TermQuery(new Term("b", "i")), BooleanClause.Occur.MUST);
+        int i = 15;
+        Query query = builder.build();
+
+        long start;
+        long end;
+        for (int i1 = 0; i1 < i; i1++) {
+            // 当i1=3时，会缓存这次查询
+            // 查询使用跟索引时相同的排序规则
+            collectorManager =
+                    new TopFieldCollectorManager(sort, numHits, totalHitsThreshold);
+            start =System.nanoTime();
+            searcher.search(query, collectorManager);
+            end =System.nanoTime();
+            long diff = (end - start) /1000;
+            System.out.println("diff = " + diff + "ms");
         }
     }
 
