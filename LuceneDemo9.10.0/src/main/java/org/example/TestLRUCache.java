@@ -26,7 +26,9 @@ import org.apache.lucene.store.MMapDirectory;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-/*文章中的demo，不要修改*/
+/**
+ * 文章中的demo，不要修改代码
+ */
 public class TestLRUCache {
 
     private Directory directory;

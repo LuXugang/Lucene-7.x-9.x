@@ -206,5 +206,7 @@ Lucene中不存在缓存过期的问题，因为每个段在生成后其内容�
 
 由于early termination收集器Collector中实现，并且QueryCache替换成了图6中的简易Collector，使得这个Collector需要收集**完整的满足这个Query的文档号集合**。
 
+**但是后续的Query响应速度会快于缓存前以及第一次缓存时的Query，因此同时利用了缓存以及early termination机制**。
+
 上述场景可以看这个[Demo]()。
 
