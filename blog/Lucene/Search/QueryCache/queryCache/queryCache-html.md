@@ -1,6 +1,12 @@
-# [QueryCache](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 9.11.0）
+---
+title: QueryCache（Lucene 9.11.0）
+date: 2024-08-29 00:00:00
+tags: [cache, querycache, lru]
+categories:
+- Lucene
+- Search
+---
 
-## 概述
 
 QueryCache是一个用于缓存查询结果的组件，旨在提高重复查询的性能。它通过在**段级别**缓存查询结果，避免了重复计算，从而减少查询响应时间和系统资源消耗。
 
@@ -14,7 +20,7 @@ QueryCache仅仅缓存命中的文档ID集合以及文档总数。在源码中�
 
 图1：
 
-<img src="queryCache-image/1.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/1.png">
 
 **通过文档ID集合可以计算出文档总数，为什么还要额外记录count？**
 
@@ -22,7 +28,7 @@ QueryCache仅仅缓存命中的文档ID集合以及文档总数。在源码中�
 
 图2：
 
-<img src="queryCache-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/2.png">
 
 如果只使用了count接口，那么图1中的文档ID集合是无法获取的，因此需要额外的`count`字段来缓存命中数量。
 
@@ -34,7 +40,7 @@ QueryCache属于段级别的缓存，对于某一个Query，会在每一个段�
 
 图3：
 
-<img src="queryCache-image/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/3.png">
 
 通过图3中`cache`这个Map的键值对可以很清晰的看出，`cache`描述了在某个段中，所有Query对应的缓存结果，其中`CacheAndCount`在上文中已经介绍。
 
@@ -44,7 +50,7 @@ QueryCache属于段级别的缓存，对于某一个Query，会在每一个段�
 
 图4-1：
 
-<img src="queryCache-image/4-1.png"  width="800">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/4-1.png"  width="800">
 
 
 这个Map中，`IndexReader.CacheKey`用来表示某一个段的标识，而`LeafCache`为这个段中的所有缓存。
@@ -57,7 +63,7 @@ IndexReader.CacheKey作为段的唯一标示，每个段会New一个下面的对
 
 图4-2：
 
-<img src="queryCache-image/4-2.png"  width="500">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/4-2.png"  width="500">
 
 #### IdentityHashMap
 
@@ -97,7 +103,7 @@ QueryCache中增加以下的统计值以及一些接口，有助于理解缓存�
 
 图5：
 
-<img src="queryCache-image/5.png"  width="700">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/5.png"  width="700">
 
 QueryCache在查询流程中并不是一个额外的流程点，它封装了其他的Weight对象，并提供自己的BulkScorer的实现。
 
@@ -113,13 +119,13 @@ QueryCache在查询流程中并不是一个额外的流程点，它封装了其�
 
 图6：
 
-<img src="queryCache-image/6.png"  width="900">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/6.png"  width="900">
 
 ### 写入缓存
 
 图7：
 
-<img src="queryCache-image/7.png"  width="600">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/7.png"  width="600">
 
 图6展示的是在写入缓存的流程图，采用的是经典的LRU（Least Recently Used）算法。
 
@@ -127,7 +133,7 @@ QueryCache在查询流程中并不是一个额外的流程点，它封装了其�
 
 图8：
 
-<img src="queryCache-image/8.png"  width="400">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/8.png"  width="400">
 
 写入缓存前需要准备三样东西：
 
@@ -139,7 +145,7 @@ QueryCache在查询流程中并不是一个额外的流程点，它封装了其�
 
 图9：
 
-<img src="queryCache-image/9.png"  width="400">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/9.png"  width="400">
 
 源码中使用了下面的Map对象来描述LRU中Query的访问先后顺序：
 
@@ -157,7 +163,7 @@ Map<Query, Query> uniqueQueries = Collections.synchronizedMap(new LinkedHashMap<
 
 图10：
 
-<img src="queryCache-image/10.png"  width="400">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/10.png"  width="400">
 
 该流程尝试从图4-1的`cache`容器中找到当前段内的所有缓存`LeafCache`，如果当前段没有任何缓存，则初始化当前段的缓存，否则将Query的的缓存`CacheAndCount`直接添加到`LeafCahce`中，见图3。
 
@@ -174,7 +180,7 @@ Map<Query, Query> uniqueQueries = Collections.synchronizedMap(new LinkedHashMap<
 
 图11：
 
-<img src="queryCache-image/11.png"  width="300">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/11.png"  width="300">
 
 ##### 步骤一：是否需要移除现有的缓存
 
@@ -212,6 +218,6 @@ Lucene中不存在缓存过期的问题，因为每个段在生成后其内容�
 
 图12：
 
-<img src="queryCache-image/12.png" >
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/12.png" >
 
 图12中前三次查询未满足缓存的条件，未触发缓存，而第4次查询将写入缓存，后续的查询使用了查询。
