@@ -220,4 +220,8 @@ Lucene中不存在缓存过期的问题，因为每个段在生成后其内容�
 
 <img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/QueryCache/queryCache/12.png" >
 
-图12中前三次查询未满足缓存的条件，未触发缓存，而第4次查询将写入缓存，后续的查询使用了查询。
+图12中前三次查询未满足缓存的条件，未触发缓存，但是使用了early termination机制
+
+第4次查询将写入缓存，并且处理了满足查询的所有文档号
+
+第5次及以后的查询使用了缓存以及early termination。
