@@ -1,14 +1,12 @@
 package org.example;
 
+
+
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.benmanes.caffeine.cache.RemovalCause;
-import com.github.benmanes.caffeine.cache.simulator.Simulator;
-import com.typesafe.config.ConfigFactory;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
@@ -34,16 +32,10 @@ public class Main {
         String value2 = cache.getIfPresent("key2");
         System.out.println("Cached value for key2: " + value2);
 
-        // 模拟等待以触发过期
-        try {
-            Thread.sleep(60000); // 等待1分钟
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
         // 再次获取值，触发自动刷新
         String refreshedValue1 = cache.get(key1);
         System.out.println("Refreshed value for key1: " + refreshedValue1);
+        cache.cleanUp();
     }
 
     // 模拟加载方法

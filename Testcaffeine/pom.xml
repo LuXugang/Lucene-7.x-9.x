@@ -15,17 +15,27 @@
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
+        <!-- 标准依赖项 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.1.8</version>
+        </dependency>
+
+        <!-- 源码依赖项 -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>3.1.8</version>
             <classifier>sources</classifier>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/jcache -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>simulator</artifactId>
             <version>3.1.8</version>
+            <classifier>sources</classifier>
         </dependency>
 
 
