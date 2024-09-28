@@ -60,7 +60,11 @@ public class NumericalRangeQuery {
     indexWriter.addDocument(doc);
 
     int count = 0 ;
-    while (count++ < 2048){
+    int number = random.nextInt(10000);
+    if(number < 2048){
+        number = 2048;
+    }
+    while (count++ < 100000){
       doc = new Document();
       int a = random.nextInt(100);
       a = a == 0 ? a + 1 : a;

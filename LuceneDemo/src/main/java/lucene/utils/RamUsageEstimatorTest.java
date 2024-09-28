@@ -1,9 +1,7 @@
 package lucene.utils;
 
 import org.apache.lucene.util.RamUsageEstimator;
-import sun.instrument.InstrumentationImpl;
 
-import java.lang.instrument.Instrumentation;
 
 /**
  * @author Lu Xugang

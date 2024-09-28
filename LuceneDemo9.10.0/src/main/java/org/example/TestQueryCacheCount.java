@@ -15,11 +15,14 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreMode;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopFieldCollectorManager;
+import org.apache.lucene.search.Weight;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
@@ -50,16 +53,16 @@ public class TestQueryCacheCount {
         // 索引数据使用排序
         conf.setIndexSort(sort);
         IndexWriter indexWriter = new IndexWriter(directory, conf);
-        final int numDocs =500000;
+        final int numDocs = 500000;
         for (int i = 0; i < numDocs; ++i) {
             final Document doc = new Document();
             if ((i % 500) != 0) { // miss values on every 500th document
                 doc.add(new NumericDocValuesField("my_field", i));
                 doc.add(new LongPoint("my_field", i));
             }
-            doc.add(new TextField("a",  "i", Field.Store.YES));
-            doc.add(new TextField("b",  "i", Field.Store.YES));
-            doc.add(new TextField("c",  "i", Field.Store.YES));
+            doc.add(new TextField("a", "i", Field.Store.YES));
+            doc.add(new TextField("b", "i", Field.Store.YES));
+            doc.add(new TextField("c", "i", Field.Store.YES));
             indexWriter.addDocument(doc);
         }
         final IndexReader reader = DirectoryReader.open(indexWriter);
@@ -82,25 +85,15 @@ public class TestQueryCacheCount {
         builder.add(new TermQuery(new Term("a", "i")), BooleanClause.Occur.MUST);
         builder.add(new TermQuery(new Term("b", "i")), BooleanClause.Occur.MUST);
         int i = 15;
-        Query query = builder.build();
+        Query query = new MatchAllDocsQuery();
+        int numdocs = reader.numDocs();
+        Weight weight = query.createWeight(searcher, ScoreMode.COMPLETE_NO_SCORES, 1);
+        weight.count(reader.getContext().leaves().get(0));
 
-        long start;
-        long end;
-        for (int i1 = 0; i1 < i; i1++) {
-            // 当i1=3时，会缓存这次查询
-            // 查询使用跟索引时相同的排序规则
-            collectorManager =
-                    new TopFieldCollectorManager(sort, numHits, totalHitsThreshold);
-            start =System.nanoTime();
-            searcher.search(query, collectorManager);
-            end =System.nanoTime();
-            long diff = (end - start) /1000;
-            System.out.println("diff = " + diff + "ms");
-        }
     }
 
     public static void main(String[] args) throws Exception{
-        TestLRUCache test = new TestLRUCache();
+        TestQueryCacheCount test = new TestQueryCacheCount();
         test.doSearch();
     }
 }
