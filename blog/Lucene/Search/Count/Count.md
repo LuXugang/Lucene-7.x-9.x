@@ -87,7 +87,9 @@ Lucene后续提交了两个变更：[LUCENE-9620](https://issues.apache.org/jira
 
 ## 次线性时间复杂度的Query
 
-上文中我们提到，`Weight`为每个Query提供了`int count(LeafReaderContext context)`的抽象方法，如果能在次线性时间复杂度实现这个方法，那么计算Query的`count`时就不需要通过累加匹配到的文档数量。除了`TermQuery`以及`MatchAllDocsQuery`，接下来介绍下几个能实现次线性时间复杂度的一些Query。
+上文中我们提到，`Weight`为每个Query提供了`int count(LeafReaderContext context)`的抽象方法，如果能在次线性时间复杂度实现这个方法，那么计算Query的`count`时就不需要通过累加匹配到的文档数量。
+
+除了`TermQuery`以及`MatchAllDocsQuery`，接下来介绍下几个能实现次线性时间复杂度的一些Query。
 
 ### BooleanQuery
 
@@ -102,3 +104,56 @@ BooleanQuery由一个或多个子Query组成，并且每个子Query可以有`SHO
 
 ### PointRangeQuery
 
+`PointRangeQuery`用于数值类型数据的范围查询。快速统计`PointRangeQuery`的`count`，其处理逻辑仍然是深度遍历二叉树的方式。差别在于在处理某个内部节点时，如果它的子节点中的最大跟最小值在查询条件的区间内，那我们就不需要通过深度遍历方式处理这些子节点，直接根据它包含的叶子节点的数量就可以统计出`count`。
+
+图9：
+
+<img src="Count-image/9.png">
+
+图9中，根节点，即nodeID=1的节点，在写入时将[3, 3000]划分为左子树，[3000, 4000]划分为右子树。
+
+如果查询条件范围为[1, 3500]，那么从根节点开始遍历，当深度遍历到nodeID=2时，就不需要继续往下遍历，因为这个节点中最大和最小值都被包含在查询条件中，那么此时我们只需要按照以下步骤就可以很快的计算出`count`
+
+- 第一步：根据节点编号计算出**最左节点**跟**最右节点**的编号
+  - 内部节点编号nodeID=2，那么结果分别是nodeID=8、nodeID=11。
+- 第二步：某个内部节点下所有叶子结点中的元素数量即：(最右节点编号 - 最左节点编号  + 1) * `maxPointsInLeafNode`。
+  - **maxPointsInLeafNode**：由于除了最后一个叶子结点(nodeID=13，见[LUCENE-9087](https://issues.apache.org/jira/browse/LUCENE-9087))，其他的叶子节点中的元素数量总是为固定值(源码中该值为512)
+    - 这里简单提一下，自从[Lucene 8.6.0](https://github.com/apache/lucene-solr/pull/1464)之后，BKD不总是生成一颗满二叉树
+  - 对于图9中的例子，nodeID=2的内部节点下所有叶子结点中的元素数量为：(11 - 8 + 1) * 512
+
+目前`PointRangeQuery`的`count`功能只支持一维点数据。
+
+###  IndexSortSortedNumericDocValuesRangeQuery
+
+在执行数值类型数据的范围查询时，如果查询期间的排序规则跟索引写入（IndexSort）的排序规则是一致的，那么使用`IndexSortSortedNumericDocValuesRangeQuery`会比`PointRangeQuery`有着更好的性能。我们看下这个Query的`count`是如何实现的。
+
+目前有两种方式实现：`BKD`以及`DocValue`，但无论是那种方式，前提条件必须索引是有序的，第一个排序规则对应的field必须跟查询条件的域相同。
+
+- 这意味着文档号的先后顺序就是字段值的先后顺序。
+
+两种实现方式都是通过查询条件中上下边界值对应的文档号差值实现。很明显，如果有文档中有缺失值，则无法获取`count`，那么就委托给`PointRangeQuery`。`BKD`相对于`DocValue`方式性能更高，因此优先考虑基于`BKD`获取`count`，如果无法获取则再次尝试基于`DocValue`方式。
+
+#### BKD
+
+#### DocValue
+
+这种方式通过二分法分别找到查询条件中上下界值（分别称为`upperValue`、`lowerValue`）对应的文档号。
+
+以`lowerValue`为例，我们最先使用段中最小跟最大文档号，即0、maxDoc作为二分法的开始，找到其中间值mid，然后基于`DocValue`，以0(1)的复杂度找到文档号mid对应的值（利用了正排索引中根据文档号找值的特点），与`lowerValue`比较然后进行下一步二分法，直到直到`lowerValue`对应的文档号。
+
+接着以相同的方法找到`upperValue`对应的文档号即可，两个文档号的差值即`count`。
+
+##### 局限性
+
+如果满足以下任意一个条件，则无法通过这种方式获取正确的`count`
+
+- 缺失值不在[lowerValue, upperValue]范围中
+
+- 每个文档中，不能索引这个字段的多个值
+
+```java
+Document doc = new Document();
+doc.add(new IntPoint("content", 3));
+doc.add(new IntPoint("content", 4));
+doc.add(new NumericDocValuesField("content", 3));
+```
