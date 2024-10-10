@@ -6,10 +6,15 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.NumericDocValuesField;
+import org.apache.lucene.document.SortedNumericDocValuesField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.SortedNumericDocValues;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortedNumericSortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
@@ -36,20 +41,23 @@ public class TestPointRangeQuery {
 
     public void doIndex() throws Exception {
         conf.setUseCompoundFile(false);
+        SortField sortField = new SortedNumericSortField("content", SortField.Type.INT);
+        Sort sort = new Sort(sortField);
+        conf.setIndexSort(sort);
         indexWriter = new IndexWriter(directory, conf);
 
         Random random = new Random();
         Document doc;
         doc = new Document();
-        doc.add(new IntPoint("content", 3));
-        doc.add(new IntPoint("content", 4));
-        doc.add(new NumericDocValuesField("content", 3));
-//        indexWriter.addDocument(doc);
+        doc.add(new IntPoint("content", 1));
+        doc.add(new IntPoint("content", 10));
+        doc.add(new SortedNumericDocValuesField("content", 1));
+        indexWriter.addDocument(doc);
         // 1
         doc = new Document();
         doc.add(new IntPoint("content", 10));
-        doc.add(new NumericDocValuesField("content", 10));
-//        indexWriter.addDocument(doc);
+        doc.add(new SortedNumericDocValuesField("content", 10));
+        indexWriter.addDocument(doc);
 
 
         doc = new Document();
@@ -64,7 +72,7 @@ public class TestPointRangeQuery {
             int b = random.nextInt(100);
             b = b == 0 ? b + 1 : b;
             doc.add(new IntPoint("content", a));
-            doc.add(new NumericDocValuesField("content", a));
+            doc.add(new SortedNumericDocValuesField("content", a));
             indexWriter.addDocument(doc);
         }
 

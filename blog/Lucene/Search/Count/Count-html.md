@@ -1,4 +1,11 @@
-# [Count](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 9.11.0）
+---
+title: Count（Lucene 9.11.0）
+date: 2024-10-10 00:00:00
+tags: [count, search]
+categories:
+- Lucene
+- Search
+---
 
 ## 概述
 
@@ -12,7 +19,7 @@ TotalHitCountCollector专门用来统计命中的文档数量，它不会处理�
 
 图1：
 
-<img src="Count-image/1.png"  width="800">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/1.png"  width="800">
 
 
 然而累加匹配这种方式存在一个问题：获取`count`的响应时间与命中的文档数量成正比，因为在`Collector`中，它是逐个处理文档的（见图1中<font color="Red">红框</font>方法）。但是有些Query，例如`MatchAllDocsQuery`、`TermQuery`，它们获取`count`的时间不会受到数据量的影响，能在一个相对固定时间（constant time）内计算出`count`。因为`count`的信息被记录在索引文件中，所以直接读取索引文件对应的字段就行了。
@@ -23,7 +30,7 @@ TotalHitCountCollector专门用来统计命中的文档数量，它不会处理�
 
 图2：
 
-<img src="Count-image/2.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/2.png">
 
 图1中`DocFreq`描述的是某一个段中某个字段的`count`，因此如果索引中有多个段，那么需要累加所有段中的`DocFreq`。
 
@@ -35,13 +42,13 @@ TotalHitCountCollector专门用来统计命中的文档数量，它不会处理�
 
 图3：
 
-<img src="Count-image/3.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/3.png">
 
 `IndexSearcher#count(Query query)`方法中实现了`TermQuery`以及`MatchAllDocsQuery`快速获取命中数量的逻辑，也就是说它不需要通过`Collector`来逐个累加命中的文档数量：
 
 图4：
 
-<img src="Count-image/4.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/4.png">
 
 ## TotalHitCountCollector（Lucene 9.2.0）
 
@@ -51,7 +58,7 @@ Lucene后续提交了两个变更：[LUCENE-9620](https://issues.apache.org/jira
 
 图5：
 
-<img src="Count-image/5.png" width="800">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/5.png" width="800">
 
 
 - **LUCENE-10620**：这个变更将`Weight`传入到`Collector`中，其变更原因大家自行看下这个链接，但其中一个跟本篇文章相关的理由就是可以统一所有类型Query计算`count`的逻辑，也就是在`TotalHitCountCollector`中统一处理，并且不影响原有的时间复杂度
@@ -60,13 +67,13 @@ Lucene后续提交了两个变更：[LUCENE-9620](https://issues.apache.org/jira
 
 图6：
 
-<img src="Count-image/6.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/6.png">
 
 顺便简单介绍下图6中`TotalHitCountCollectorManager，它只有一个作用：累加在所有段中的命中数量：
 
 图7：
 
-<img src="Count-image/7.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/7.png">
 
 图7中，每一个段通过`TotalHitCountCollector`统计`count`，累加后的`totalHits`就是某个Query在索引中的命中数量
 
@@ -78,7 +85,7 @@ Lucene后续提交了两个变更：[LUCENE-9620](https://issues.apache.org/jira
 
 图8：
 
-<img src="Count-image/8.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/8.png">
 
 - **<font color="Red">红框标注</font>**：通过`Weight#count(LeafReaderContext context)`方法尝试获取`count`
 - **<font color="sky-Blue">蓝框标注</font>**：如果返回值为`-1`，说明这个Query不能以次线性复杂度········计算`count`
@@ -108,7 +115,7 @@ BooleanQuery由一个或多个子Query组成，并且每个子Query可以有`SHO
 
 图9：
 
-<img src="Count-image/9.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/9.png">
 
 图9中，根节点，即nodeID=1的节点，在写入时将[3, 3000]划分为左子树，[3000, 4000]划分为右子树。
 
@@ -149,7 +156,7 @@ BooleanQuery由一个或多个子Query组成，并且每个子Query可以有`SHO
 
 图10：
 
-<img src="Count-image/10.png">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/Count/10.png">
 
 图10中，我们需要遍历两次二叉树来分别获得`lowerValue`和`upperValue`对应的文档号`minDocId`、`maxDocId`。
 
