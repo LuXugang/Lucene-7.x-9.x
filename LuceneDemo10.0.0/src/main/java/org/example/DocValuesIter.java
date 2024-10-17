@@ -52,41 +52,43 @@ public class DocValuesIter {
 
         Random random = new Random();
         Document doc;
-        // 0
-        doc = new Document();
-        doc.add(new IntPoint("content", 1));
-        doc.add(SortedNumericDocValuesField.indexedField("content", 2));
-        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
-        doc.add(new StringField("title", "文档0", org.apache.lucene.document.Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 1
-        doc = new Document();
-        doc.add(new IntPoint("content", 10));
-        doc.add(SortedNumericDocValuesField.indexedField("content", 100));
-        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
-        doc.add(new StringField("title", "文档1", org.apache.lucene.document.Field.Store.YES));
-        indexWriter.addDocument(doc);
-        // 2
-        doc = new Document();
-        doc.add(new IntPoint("content", 10));
-        doc.add(SortedNumericDocValuesField.indexedField("content", 1));
-        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
-        doc.add(new StringField("title", "文档2", org.apache.lucene.document.Field.Store.YES));
-        indexWriter.addDocument(doc);
+//        // 0
+//        doc = new Document();
+//        doc.add(new IntPoint("content", 1));
+//        doc.add(SortedNumericDocValuesField.indexedField("content", 2));
+//        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
+//        doc.add(new StringField("title", "文档0", org.apache.lucene.document.Field.Store.YES));
+//        indexWriter.addDocument(doc);
+//        // 1
+//        doc = new Document();
+//        doc.add(new IntPoint("content", 10));
+//        doc.add(SortedNumericDocValuesField.indexedField("content", 100));
+//        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
+//        doc.add(new StringField("title", "文档1", org.apache.lucene.document.Field.Store.YES));
+//        indexWriter.addDocument(doc);
+//        // 2
+//        doc = new Document();
+//        doc.add(new IntPoint("content", 10));
+//        doc.add(SortedNumericDocValuesField.indexedField("content", 1));
+//        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
+//        doc.add(new StringField("title", "文档2", org.apache.lucene.document.Field.Store.YES));
+//        indexWriter.addDocument(doc);
 
         int count = 0 ;
-        while (count++ < (4096 * 17)){
+        while (count < (4096 * 1000)){
             doc = new Document();
-            int a = random.nextInt(100);
-            a = a < 2 ? a + 10 : a;
-            a = a > 90 ? a - 2 : a;
-            doc.add(new IntPoint("content", a));
-            doc.add(SortedNumericDocValuesField.indexedField("content", a));
+            int a = random.nextInt(12312312);
+//            a = a < 2 ? a + 10 : a;
+//            a = a > 90 ? a - 2 : a;
+            doc.add(new IntPoint("content", count));
+            doc.add(SortedNumericDocValuesField.indexedField("content", count));
             doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
+            count ++;
             indexWriter.addDocument(doc);
         }
 
         indexWriter.commit();
+        indexWriter.forceMerge(1);
         DirectoryReader r = DirectoryReader.open(indexWriter);
         IndexSearcher s = new IndexSearcher(r);
 
@@ -100,6 +102,7 @@ public class DocValuesIter {
 //        num = s.count(IntField.newRangeQuery("content", lowValue, upValue));
 //        System.out.println("result number : "+ num +"");
         Query query = new TermQuery(new Term("content", "a"));
+        query = SortedNumericDocValuesField.newSlowRangeQuery("content", 32770, 999999999);
         TopFieldDocs docs = s.search(query, 10, sort);
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
             System.out.println(scoreDoc.doc);
