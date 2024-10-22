@@ -80,13 +80,13 @@ public class DocValuesIter {
             int a = random.nextInt(12312312);
 //            a = a < 2 ? a + 10 : a;
 //            a = a > 90 ? a - 2 : a;
-//            if(count++ == 10){
-//                doc.add(new IntPoint("padingvalue", a));
-//                indexWriter.addDocument(doc);
-//                continue;
-//            }
+            if(count++ == 10){
+                doc.add(new IntPoint("padingvalue", count));
+                indexWriter.addDocument(doc);
+                continue;
+            }
             doc.add(new IntPoint("content", count));
-            doc.add(SortedNumericDocValuesField.indexedField("content", count));
+            doc.add(new SortedNumericDocValuesField("content", count));
             doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
             count ++;
             indexWriter.addDocument(doc);
@@ -107,7 +107,7 @@ public class DocValuesIter {
 //        num = s.count(IntField.newRangeQuery("content", lowValue, upValue));
 //        System.out.println("result number : "+ num +"");
         Query query = new TermQuery(new Term("content", "a"));
-        query = SortedNumericDocValuesField.newSlowRangeQuery("content", 1, 8200);
+        query = SortedNumericDocValuesField.newSlowRangeQuery("content", 4096 * 3, 999999999);
         TopFieldDocs docs = s.search(query, 10, sort);
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
             System.out.println(scoreDoc.doc);
