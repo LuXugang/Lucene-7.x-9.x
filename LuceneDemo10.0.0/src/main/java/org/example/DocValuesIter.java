@@ -75,7 +75,7 @@ public class DocValuesIter {
 //        indexWriter.addDocument(doc);
 
         int count = 0 ;
-        while (count < (4096 * 5)){
+        while (count < (4096 * 10000)){
             doc = new Document();
             int a = random.nextInt(12312312);
 //            a = a < 2 ? a + 10 : a;

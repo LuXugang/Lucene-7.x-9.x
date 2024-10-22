@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+    <defs>
+        <circle id="path-1" cx="429.5" cy="391.5" r="12"/>
+        <filter x="-13.0%" y="-13.0%" width="126.0%" height="126.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="0.25" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"/>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"/>
+        </filter>
+        <filter x="-20.85%" y="-20.85%" width="141.7%" height="141.7%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="3.75" in="SourceAlpha" result="shadowBlurInner1"/>
+            <feOffset dx="2.5" dy="4" in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.356034873 0" type="matrix" in="shadowInnerInner1"/>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Sitemap-expanded" transform="translate(-413.500000, -375.500000)" fill-rule="nonzero">
+            <g id="touch_update">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"/>
+                <use fill-opacity="0.236894248" fill="#E4DEDE" fill-rule="evenodd" xlink:href="#path-1"/>
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"/>
+                <use stroke-opacity="0.225798234" stroke="#CACACA" stroke-width="0.5" xlink:href="#path-1"/>
+            </g>
+        </g>
+    </g>
+</svg>
