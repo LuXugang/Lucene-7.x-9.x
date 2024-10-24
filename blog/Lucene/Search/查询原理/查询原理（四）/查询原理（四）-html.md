@@ -1,5 +1,5 @@
 ---
-title: 查询原理（四）
+title: 查询原理（四）（Lucene 7.5.0）
 date: 2019-08-27 00:00:00
 tags: [search,query]
 categories:

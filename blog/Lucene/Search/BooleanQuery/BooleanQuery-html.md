@@ -1,5 +1,5 @@
 ---
-title: BooleanQuery
+title: BooleanQuery（Lucene 7.5.0）
 date: 2018-12-11 00:00:00
 tags: [query]
 categories:

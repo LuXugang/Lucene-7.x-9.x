@@ -1,4 +1,4 @@
-# [构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [构造IndexWriter对象（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;该系列文章将会介绍构造一个IndexWriter对象的流程，该流程总体分为下面三个部分：
 

@@ -1,5 +1,5 @@
 ---
-title: 索引文件之si
+title: 索引文件之si（Lucene 7.5.0）
 date: 2019-06-05 00:00:00
 tags: [index, indexFile,si]
 categories:

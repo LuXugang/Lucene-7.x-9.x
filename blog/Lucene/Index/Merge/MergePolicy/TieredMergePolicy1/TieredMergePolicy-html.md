@@ -1,4 +1,4 @@
-# [TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [TieredMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 &emsp;&emsp; 这篇文章介绍TieredMergePolicy，它是Lucene4以后的默认段的合并策略，之前采用的合并策略为[LogMergePolicy](https://www.amazingkoala.com.cn/Lucene/Index/2019/0513/58.html)，建议先熟悉LogMergePolicy后再了解TieredMergePolicy，这样对于两种合并策略的优缺点能一目了然，使得在不同业务使用对应的策略，其中两种合并策略最大的不同是：
 
 - LogMergePolicy总是合并相邻的段文件，合并相邻的段文件（Adjacent Segment）描述的是对于IndexWriter提供的段集，LogMergePolicy会选取连续的部分(或全部)段集区间来生成一个待合并段集

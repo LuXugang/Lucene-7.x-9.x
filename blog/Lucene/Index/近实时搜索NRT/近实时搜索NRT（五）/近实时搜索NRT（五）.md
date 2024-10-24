@@ -1,4 +1,4 @@
-# [近实时搜索NRT（五）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [近实时搜索NRT（五）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[近实时搜索NRT（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0925/96.html)，继续依次介绍每一个流程点，阅读本文章需要看过[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)、[文档提交之flush](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)的系列文章。
 

@@ -1,4 +1,4 @@
-# [文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [文档提交之flush（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;阅读本文章需要前置知识：[文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)的系列文章，**下文中出现的未展开介绍的变量说明已经这些文章中介绍**，本文中不赘述。
 
@@ -161,7 +161,6 @@
 &emsp;&emsp;由于篇幅原因，将在后面的文章中继续介绍文档提交之flush的其他流程。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Index/文档提交/文档提交之flush（一）/文档提交之flush（一）.zip)附件
-
 
 
 

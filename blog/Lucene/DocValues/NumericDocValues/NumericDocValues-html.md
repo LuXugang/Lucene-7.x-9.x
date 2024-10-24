@@ -1,5 +1,5 @@
 ---
-title: NumericDocValues
+title: NumericDocValues（Lucene 7.5.0）
 date: 2019-04-09 00:00:00
 tags: DocValues
 categories:

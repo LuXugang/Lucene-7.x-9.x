@@ -1,5 +1,5 @@
 ---
-title: 索引文件之fdx&&fdt
+title: 索引文件之fdx&&fdt（Lucene 7.5.0）
 date: 2019-03-01 00:00:00
 tags: [index, indexFile,fdx,fdt]
 categories:

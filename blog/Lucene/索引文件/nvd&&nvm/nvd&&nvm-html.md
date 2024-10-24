@@ -1,5 +1,5 @@
 ---
-title: 索引文件之nvd&&nvm
+title: 索引文件之nvd&&nvm（Lucene 7.5.0）
 date: 2019-03-05 00:00:00
 tags: [index, indexFile,nvd,nvm]
 categories:

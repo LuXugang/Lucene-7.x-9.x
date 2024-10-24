@@ -1,4 +1,4 @@
-# [DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+# [DirectWriter&&DirectReader](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 7.5.0）
 
 &emsp;&emsp;**阅读本篇文章需要前置内容**：[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)，下文中会列出在文章[BulkOperationPacked](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/0213/31.html)中涉及的代码，但是不会展开介绍。
 

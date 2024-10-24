@@ -1,4 +1,4 @@
-# [fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+# [fdx&&fdt](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 当STORE.YES的域生成了[倒排表](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)以后，将文档的域值信息写入到.fdt（field data）、.fdx（field index）文件中。
 # 数据结构
 ## .fdt

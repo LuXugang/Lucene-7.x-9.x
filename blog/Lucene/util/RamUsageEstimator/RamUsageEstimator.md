@@ -1,4 +1,4 @@
-# [RamUsageEstimator](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+# [RamUsageEstimator](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 7.5.0）
 
 &emsp;&emsp;Lucene通过RamUsageEstimator类提供的方法来粗略的（roughly）估算Java对象在内存中的大小。计算对象大小的主要目的是配合flush策略将内存中的索引信息同步到磁盘，flush策略的概念可以看文章[构造IndexWriter对象（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1114/107.html)中关于MaxBufferedDocs、RAMBufferSizeMB的介绍以及文章[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)。
 

@@ -1,5 +1,5 @@
 ---
-title: 构造IndexWriter对象（七）
+title: 构造IndexWriter对象（七）（Lucene 7.5.0）
 date: 2019-12-02 00:00:00
 tags: [indexWriter]
 categories:
@@ -75,7 +75,7 @@ _[a-z0-9]+(_.*)?\\..*
 
 - 子要求一：!fileName.endsWith("write.lock") && (m.matches() 
   - writer.lock即索引目录的[索引文件锁](https://www.amazingkoala.com.cn/Lucene/Store/2019/0604/索引文件锁LockFactory
-)，用来同步不同的IndexWriter对象，只允许一个IndexWriter可以操作同一个索引目录，占用了索引文件锁的IndexWriter可以通过调用Inde.close()方法来释放该锁，wrtier.lock不满足要求
+  )，用来同步不同的IndexWriter对象，只允许一个IndexWriter可以操作同一个索引目录，占用了索引文件锁的IndexWriter可以通过调用Inde.close()方法来释放该锁，wrtier.lock不满足要求
   - m.matches()则是根据正则表达式来匹配命名方式为下图中的文件名，满足正则表达式即满足要求：
 
 图6：

@@ -1,4 +1,4 @@
-# Bkd-Tree
+# Bkd-Tree（Lucene 7.5.0）
 Bkd-Tree作为一种基于K-D-B-tree的索引结构，用来对多维度的点数据(multi-dimensional point data)集进行索引。Bkd-Tree跟K-D-B-tree的理论部分在本篇文章中不详细介绍，对应的两篇论文在附件中，感兴趣的朋友可以自行下载阅读。本篇文章中主要介绍Bkd-Tree在Lucene中的实现，即生成树的过程。
 
 # 预备知识

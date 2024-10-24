@@ -1,5 +1,5 @@
 ---
-title: 文档的增删改（一）
+title: 文档的增删改（一）（Lucene 7.5.0）
 date: 2019-06-26 00:00:00
 tags: [document]
 categories:

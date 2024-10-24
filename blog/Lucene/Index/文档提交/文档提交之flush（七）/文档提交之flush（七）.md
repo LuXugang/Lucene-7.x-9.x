@@ -1,4 +1,4 @@
-# [文档提交之flush（七）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [文档提交之flush（七）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[文档提交之flush（六）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0805/79.html)，继续依次介绍每一个流程点。
 
@@ -192,7 +192,6 @@
 &emsp;&emsp;基于篇幅，图1中剩余流程点留到下一篇文章介绍。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/文档提交/文档提交之flush（七）/文档提交之flush（七）.zip)下载附件
-
 
 
 

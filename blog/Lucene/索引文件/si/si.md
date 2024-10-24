@@ -1,4 +1,4 @@
-# [si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+# [si](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 &emsp;&emsp;当生成一个新的segment时（执行flush、commit、merge、addIndexes(facet)），会生成一个描述段文件信息（segmentInfo）的.si索引文件。
 
 # si文件的数据结构

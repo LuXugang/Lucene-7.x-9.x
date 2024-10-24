@@ -1,5 +1,5 @@
 ---
-title: 索引文件之liv
+title: 索引文件之liv（Lucene 7.5.0）
 date: 2019-04-25 00:00:00
 tags: [index, indexFile,liv,delete,softDeletes]
 categories:

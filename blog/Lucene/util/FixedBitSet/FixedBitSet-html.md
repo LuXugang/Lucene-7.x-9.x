@@ -1,5 +1,5 @@
 ---
-title: FixedBitSet
+title: FixedBitSet（Lucene 7.5.0）
 date: 2019-04-04 00:00:00
 tags: [bit,docId]
 categories:

@@ -1,4 +1,4 @@
-## SortedNumericDocValues
+## SortedNumericDocValues（Lucene 7.5.0）
 SortedNumericDocValues的索引结构跟[NumericDocValues](http://www.amazingkoala.com.cn/Lucene/DocValues/2019/0409/46.html)几乎是一致的，所以本文不会赘述跟NumericDocValues相同部分的内容，只介绍不同的部分数据结构。两种DocValue的最常用的使用场景就是对搜索结果进行排序，使用SortedNumericDocValues相比较NumericDocValues的优点在于，一篇文档中可以设置多个相同域名不同域值的SortedNumericDocValuesField，而NumericDocValuesField在一篇文档中只允许有一个相同域名的域。因此我们可以在不更改现有索引的情况下，只修改搜索的条件（更改Sort对象）就可以获得不同的排序结果，在以后介绍facet时会详细介绍这部分内容。
 ## 数据结构
 ### dvd

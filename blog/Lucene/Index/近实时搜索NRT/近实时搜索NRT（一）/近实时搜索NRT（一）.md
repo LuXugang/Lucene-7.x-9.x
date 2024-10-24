@@ -1,4 +1,4 @@
-# [近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [近实时搜索NRT（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;Lucene提供了近实时搜索NRT（near real time）的功能，它描述了索引信息发生改变后，不需要执行[commit](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)操作或者关闭IndexWriter（调用IndexWriter.close()方法）就能使得这些更改的信息**很快（quickly）**变得可见。
 
@@ -148,7 +148,6 @@ private List<SegmentCommitInfo> segments = new ArrayList<>();
 &emsp;&emsp;基于篇幅，剩余的内容在一篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/近实时搜索NRT/近实时搜索NRT（一）/近实时搜索NRT（一）.zip)下载附件
-
 
 
 

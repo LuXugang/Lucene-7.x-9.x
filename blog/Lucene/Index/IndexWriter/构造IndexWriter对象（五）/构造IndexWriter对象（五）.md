@@ -1,4 +1,4 @@
-# [构造IndexWriter对象（五）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [构造IndexWriter对象（五）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1125/109.html)，继续介绍调用IndexWriter的构造函数的流程。
 

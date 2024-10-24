@@ -1,4 +1,4 @@
-# [segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+# [segments_N](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 &emsp;&emsp;当IndexWriter执行commit()操作后，会生成一个segments_N文件，该文件描述了当前索引目录中所有有效的段信息文件(active segment info)，即之前文章介绍的[segmentInfo](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0605/63.html)文件，仅仅通过[flush()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0716/74.html)生成的段成为无效的段信息文件。
 
 &emsp;&emsp;索引目录中可能存在多个Segments_N文件，每个Segment_N文件代表某次[commit()](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)时的索引状态，其中N值最大的Segments_N文件代表最新的一次提交，它包含当前索引目录中所有的索引信息。

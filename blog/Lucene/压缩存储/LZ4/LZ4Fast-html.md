@@ -1,5 +1,5 @@
 ---
-title: LZ4
+title: LZ4（Lucene 7.5.0）
 date: 2019-02-26 00:00:00
 tags: [encode, decode,util,lz4]
 categories:

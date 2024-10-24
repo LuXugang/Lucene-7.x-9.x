@@ -1,5 +1,5 @@
 ---
-title: 文档提交之flush（一）
+title: 文档提交之flush（一）（Lucene 7.5.0）
 date: 2019-07-16 00:00:00
 tags: [flush,commit]
 categories:

@@ -1,4 +1,4 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 1）
+# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 1）（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)、[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)、继续介绍文档的增删改，为了能深入理解，还是得先介绍下几个预备知识。
 

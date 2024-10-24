@@ -1,5 +1,5 @@
 ---
-title: 索引文件之fnm
+title: 索引文件之fnm（Lucene 7.5.0）
 date: 2019-06-06 00:00:00
 tags: [index, indexFile,fnm]
 categories:

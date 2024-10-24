@@ -1,5 +1,5 @@
 ---
-title: DirectMonotonicWriter&&Reader
+title: DirectMonotonicWriter&&Reader（Lucene 7.5.0）
 date: 2020-10-30 00:00:00
 tags: [encode, decode,util]
 categories:

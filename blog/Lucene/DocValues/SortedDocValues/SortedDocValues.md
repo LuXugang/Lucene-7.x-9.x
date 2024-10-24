@@ -1,4 +1,4 @@
-# SortedDocValues
+# SortedDocValues（Lucene 7.5.0）
 SortedDocValues同NumericDocValues、SortedNumericDocValues一样，在实际应用中最多的场景用于提供给搜索结果一个排序规则。本篇文章只讲述使用了SortedDocValues后，其在.dvd、.dvm文件中的索引结构。在以后的介绍例如 facet、join、group等功能时，会详细介绍如何根据.dvd、dvm中的索引数据进行查询的过程。
 # 预备知识
 下面出现的变量名皆为源码中的同名变量名。

@@ -1,5 +1,5 @@
 ---
-title: 文档提交之commit（二）
+title: 文档提交之commit（二）（Lucene 7.5.0）
 date: 2019-09-09 00:00:00
 tags: [flush,commit]
 categories:

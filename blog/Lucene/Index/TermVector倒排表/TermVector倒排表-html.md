@@ -1,5 +1,5 @@
 ---
-title: 倒排表（中）
+title: 倒排表（中）（Lucene 7.5.0）
 date: 2019-04-28 00:00:00
 tags: [inverted index,posting]
 categories:

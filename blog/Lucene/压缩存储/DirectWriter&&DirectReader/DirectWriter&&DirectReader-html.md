@@ -1,5 +1,5 @@
 ---
-title: DirectWriter&&DirectReader
+title: DirectWriter&&DirectReader（Lucene 7.5.0）
 date: 2019-12-23 00:00:00
 tags: [encode, decode,util]
 categories:

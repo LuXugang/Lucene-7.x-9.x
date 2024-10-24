@@ -1,4 +1,4 @@
-# NumericDocValues
+# NumericDocValues（Lucene 7.5.0）
 本篇文章只是介绍NumericDocValues在.dvd、.dvm文件中的数据结构，NumericDocValues的应用跟概念介绍不会在本篇文章中赘述，大家可以参考官方文档给出的介绍。.dvd、.dvm文件存放了所有DocValues的信息，所以如果在索引阶段，还添加了其他DocValues的Document，那么他们在.dvd、.dvm文件中的布局如下图：
 图1：
 <img src="NumericDocValues-image/1.png">

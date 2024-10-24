@@ -1,4 +1,4 @@
-# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 3）
+# [文档的增删改](https://www.amazingkoala.com.cn/Lucene/Index/)（下）（part 3）（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[文档的增删改（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0626/68.html)、[文档的增删改（中）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0628/69.html)、[文档的增删改（下）（part 1）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0701/70.html)、[文档的增删改（下）（part 2）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0704/71.html)继续介绍文档的增删改，是文档的增删改系列的最后一篇文章，另外下文中如果出现未展开介绍的变量名，说明在先前的文章中已经给出介绍，不赘述。
 

@@ -1,5 +1,5 @@
 ---
-title: 索引文件之segments_N
+title: 索引文件之segments_N（Lucene 7.5.0）
 date: 2019-06-10 00:00:00
 tags: [index, indexFile,segment_n]
 categories:

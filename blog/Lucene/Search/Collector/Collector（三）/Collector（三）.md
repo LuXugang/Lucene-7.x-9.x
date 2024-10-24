@@ -1,4 +1,4 @@
-# [Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/)
+# [Collector（三）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)，继续介绍其他的收集器。
 
@@ -139,5 +139,4 @@
 &emsp;&emsp;TopFieldCollector相比较[Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0813/83.html)中TopScoreDocCollector，尽管他们都是TopDocsCollector的子类，由于存在**索引期间**的排序机制，使得TopFieldCollector的collect(int doc)的流程更加复杂，当然带来了更好的查询性能，至于如何能提高查询性能，由于篇幅原因，会在下一篇介绍图6的collect(int doc)的流程中展开介绍。
 
 [点击]()下载附件
-
 

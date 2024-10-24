@@ -1,4 +1,4 @@
-# liv
+# liv（Lucene 7.5.0）
 索引文件.liv只有在一个segment中包含被删除的文档时才会生成，它记录了当前段中没有被删除的文档号。这里不会讨论一个segment是如何获得被删除的文档号，在后面的文章中，介绍IndexWriter.flush()时会详细介绍，本篇文章只介绍那些被删除的文档号生成的索引文件的数据结构。
 # 预备知识
 介绍.liv文件的数据结构前，大家必须得了解Lucene的一个工具类[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)，这个类在源码中有大量的应用，是必须熟悉的一个工具。

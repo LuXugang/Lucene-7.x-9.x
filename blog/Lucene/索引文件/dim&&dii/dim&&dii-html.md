@@ -1,5 +1,5 @@
 ---
-title: 索引文件之dim&&dii
+title: 索引文件之dim&&dii（Lucene 7.5.0）
 date: 2019-04-24 00:00:00
 tags: [index, indexFile,dim,dii]
 categories:

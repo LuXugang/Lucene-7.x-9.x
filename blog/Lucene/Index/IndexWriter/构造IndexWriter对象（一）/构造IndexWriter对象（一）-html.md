@@ -1,5 +1,5 @@
 ---
-title: 构造IndexWriter对象（一）
+title: 构造IndexWriter对象（一）（Lucene 7.5.0）
 date: 2019-11-11 00:00:00
 tags: [indexWriter]
 categories:

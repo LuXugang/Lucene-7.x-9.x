@@ -1,4 +1,4 @@
-## LZ4
+## LZ4（Lucene 7.5.0）
 LZ4是一种无损数据压缩算法，着重于压缩和解压的速度，并且应用广泛。在Hadoop、Linux内核、文件系统都有应用，而在Lucene中，则是使用LZ4对倒排表的数据以及词向量（termVector）进行压缩存储。在本篇文章中，介绍LZ4Fast的压缩逻辑在Lucene中的Java实现。
 ## 两种实现
 Lucene中提供了两种LZ4的算法实现，分别是LZ4Fast跟LZ4High：

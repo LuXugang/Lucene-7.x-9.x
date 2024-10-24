@@ -1,5 +1,5 @@
 ---
-title: RamUsageEstimator
+title: RamUsageEstimator（Lucene 7.5.0）
 date: 2019-12-12 00:00:00
 tags: [ram,usage,memory]
 categories:

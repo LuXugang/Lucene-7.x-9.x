@@ -1,5 +1,5 @@
 ---
-title: LogMergePolicy
+title: LogMergePolicy（Lucene 7.5.0）
 date: 2019-05-13 00:00:00
 tags: [merge,mergePolicy]
 categories:

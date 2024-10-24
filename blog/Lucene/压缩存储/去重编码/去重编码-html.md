@@ -1,5 +1,5 @@
 ---
-title: 去重编码
+title: 去重编码（Lucene 7.5.0）
 date: 2019-01-30 00:00:00
 tags: [encode, decode,util]
 categories:

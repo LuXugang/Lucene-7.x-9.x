@@ -1,4 +1,4 @@
-# [dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+# [dim&&dii](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 &emsp;&emsp;从Lucene6.0开始出现点数据（Point Value）的概念，通过将多维度的点数据生成KD-tree结构，来实现快速的单维度的范围查询（比如 IntPoint.newRangeQuery）以及N dimesional shape intersection filtering。
 
 &emsp;&emsp;索引文件.dim中的数据结构由一系列的block组成，在内存中展现为一颗满二叉树(单维度可能不是，这块内容会在介绍数值类型的范围查询时候介绍)，并且叶子节点描述了所有的点数据。

@@ -1,5 +1,5 @@
 ---
-title: 近实时搜索NRT（二）
+title: 近实时搜索NRT（二）（Lucene 7.5.0）
 date: 2019-09-17 00:00:00
 tags: [NRT, Search]
 categories:

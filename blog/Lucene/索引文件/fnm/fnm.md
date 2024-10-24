@@ -1,4 +1,4 @@
-# [fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+# [fnm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 &emsp;&emsp;索引文件.fnm用来描述域信息（FieldInfo）
 
 # 例子

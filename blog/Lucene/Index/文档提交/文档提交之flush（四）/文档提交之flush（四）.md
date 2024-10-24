@@ -1,4 +1,4 @@
-# [文档提交之flush（四）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [文档提交之flush（四）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0725/76.html)，继续依次介绍每一个流程点。
 

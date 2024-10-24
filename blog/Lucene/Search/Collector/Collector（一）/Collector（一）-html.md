@@ -1,5 +1,5 @@
 ---
-title: Collector（一）
+title: Collector（一）（Lucene 7.5.0）
 date: 2019-08-12 00:00:00
 tags: [collector,indexSort]
 categories:

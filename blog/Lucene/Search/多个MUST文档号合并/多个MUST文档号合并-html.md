@@ -1,5 +1,5 @@
 ---
-title: 文档号合并（MUST）
+title: 文档号合并（MUST）（Lucene 7.5.0）
 date: 2018-12-18 00:00:00
 tags: [MUST, booleanQuery]
 categories:

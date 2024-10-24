@@ -1,4 +1,4 @@
-# [文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [文档提交之commit（二）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本篇文章承接[文档提交之commit（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0906/91.html)，继续介绍文档提交之commit的剩余流程点。
 

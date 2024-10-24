@@ -1,4 +1,4 @@
-## [tim&&tip文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+## [tim&&tip文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 
 &emsp;&emsp;.tim（TermDictionary）文件中存放了每一个term的TermStats，TermStats记录了包含该term的文档数量，term在这些文档中的词频总和；另外还存放了term的TermMetadata，TermMetadata记录了该term在.doc、.pos、.pay文件中的信息，这些信息即term在这些文件中的起始位置，即保存了指向这些文档的索引；还存放了term的Suffix，对于有部分相同前缀值的term，只需存放这些term不相同的后缀值，即Suffix。另外还存放了term所在域的信息等其他信息，下文中会详细介绍。
 

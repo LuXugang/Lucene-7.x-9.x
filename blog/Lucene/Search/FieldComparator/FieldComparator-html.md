@@ -1,5 +1,5 @@
 ---
-title: FieldComparator&&LeafFieldComparator
+title: FieldComparator&&LeafFieldComparator（Lucene 7.5.0）
 date: 2019-04-15 00:00:00
 tags: [FieldComparator,LeafFieldComparator]
 categories:

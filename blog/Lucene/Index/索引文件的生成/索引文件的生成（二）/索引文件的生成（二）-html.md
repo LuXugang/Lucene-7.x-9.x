@@ -1,5 +1,5 @@
 ---
-title: 索引文件的生成（二）之doc&&pay&&pos
+title: 索引文件的生成（二）之doc&&pay&&pos（Lucene 7.5.0）
 date: 2019-12-27 00:00:00
 tags: [doc,pay,pos]
 categories:

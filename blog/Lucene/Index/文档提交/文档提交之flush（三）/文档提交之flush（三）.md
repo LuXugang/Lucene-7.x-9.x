@@ -1,4 +1,4 @@
-# [文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [文档提交之flush（三）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[文档提交之flush（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0718/75.html)，继续依次介绍每一个流程点，下面先给出在前面的文章中我们列出的流程图：
 
@@ -131,5 +131,4 @@
 &emsp;&emsp;本篇文章主要介绍了每一种[索引文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)的生成顺序，强调的是，想要理解Lucene如何实现查询的原理，那么必须了解所有索引文件的数据结构，当然在以后的文章中会介绍其查询原理。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/文档提交/文档提交之flush（二）/文档提交之flush（二）.zip)下载附件
-
 

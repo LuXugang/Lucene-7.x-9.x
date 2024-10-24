@@ -1,4 +1,4 @@
-# [RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+# [RoaringDocIdSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 7.5.0）
 
 &emsp;&emsp;RoaringDocIdSet的设计灵感来源于[RoaringBitmap](http://roaringbitmap.org)，Lucene根据自身需求有着自己的的实现方法，来实现对文档号的处理（存储，读取）。
 

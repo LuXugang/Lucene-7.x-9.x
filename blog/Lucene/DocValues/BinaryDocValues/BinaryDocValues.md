@@ -1,5 +1,5 @@
 ---
-title: BinaryDocValues
+title: BinaryDocValues（Lucene 7.5.0）
 date: 2019-04-12 00:00:00
 tags: DocValues
 categories:

@@ -1,4 +1,4 @@
-# [SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;在[近实时搜索NRT](https://www.amazingkoala.com.cn/Lucene/Index/2019/0916/93.html)的系列文章中，我们知道用于读取索引目录中所有索引信息的StandardDirectoryReader实际是使用了一个LeafReader数组封装了一个或者多个SegmentReader，而每一个SegmentReader则对应一个段中的索引信息，如下图所示：
 
@@ -119,5 +119,4 @@ numDocs = maxDoc - delCount;
 &emsp;&emsp;基于篇幅，剩余的内容在下一篇文档中展开介绍。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/SegmentReader/SegmentReader（一）/SegmentReader（一）.zip)下载附件
-
 

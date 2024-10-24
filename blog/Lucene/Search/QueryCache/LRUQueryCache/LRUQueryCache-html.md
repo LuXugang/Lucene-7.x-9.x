@@ -1,5 +1,5 @@
 ---
-title: LRUQueryCache
+title: LRUQueryCache（Lucene 7.5.0）
 date: 2019-05-06 00:00:00
 tags: [LRU,cache]
 categories:

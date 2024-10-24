@@ -1,4 +1,4 @@
-# [LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/)
+# [LRUQueryCache](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 7.5.0）
 &emsp;&emsp; LRUQueryCache用来对一个Query查询的结果进行缓存，缓存的内容仅仅是文档号集，由于不会缓存文档的打分（Score），所以只有不需要打分的收集器（Collector）才可以使用LRUQueryCache，比如说TotalHitCountCollector收集器，另外缓存的文档号集使用BitDocIdSet对象进行存储，在BitDocIdSet中实际使用了[FixedBitSet](https://www.amazingkoala.com.cn/Lucene/gongjulei/2019/0404/45.html)对象进行存储。
 &emsp;&emsp;即使使用了不需要打分的收集器，也不一定对所有的查询结果进行缓存，有诸多苛刻的条件，在下文中会详细介绍。
 &emsp;&emsp;LRUQueryCache中缓存的Query结果是有上限限制的，在每次添加一个缓存时，根据两种阈值来判断是否需要将某个已经缓存的数据剔除，使用的算法为LRU：

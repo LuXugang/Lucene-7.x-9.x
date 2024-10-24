@@ -1,5 +1,5 @@
 ---
-title: 索引文件之doc
+title: 索引文件之doc（Lucene 7.5.0）
 date: 2019-03-24 00:00:00
 tags: [index, indexFile, doc]
 categories:

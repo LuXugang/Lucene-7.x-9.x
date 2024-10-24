@@ -1,5 +1,5 @@
 ---
-title: BulkOperationPacked
+title: BulkOperationPacked（Lucene 7.5.0）
 date: 2019-02-13 00:00:00
 tags: [encode, decode,util]
 categories:

@@ -1,4 +1,4 @@
-# [Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/)
+# [Collector（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[Collector（一）](https://www.amazingkoala.com.cn/Lucene/Search/2019/0812/82.html)，继续介绍其他的收集器。
 

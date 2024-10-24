@@ -1,5 +1,5 @@
 ---
-title: FST（一）
+title: FST（一）（Lucene 8.4.0）
 date: 2019-02-20 00:00:00
 tags: [encode, decode,util,fst]
 categories:

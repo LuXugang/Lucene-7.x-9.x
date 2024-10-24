@@ -1,4 +1,4 @@
-# [Directory（下）](https://www.amazingkoala.com.cn/Lucene/Store/)
+# [Directory（下）](https://www.amazingkoala.com.cn/Lucene/Store/)（Lucene 7.5.0）
 &emsp;&emsp;在[Directory（上）](https://www.amazingkoala.com.cn/Lucene/Store/2019/0613/66.html)中，介绍了BaseDirectory类，它作为Directory的子类，该类及其子类实现了维护索引文件的所有操作，即`创建`、`打开`、`删除`、`读取`、`重命名`、`同步`(持久化索引文件至磁盘)、`校验和`（checksum computing）等等，而Directory的其他子类，不具备上述的维护索引文件的操作，而是封装了上述Directory类，提供更多高级功能。
 
 图1：
@@ -68,5 +68,4 @@ boolean doCache = (bytes <= maxMergeSizeBytes) && (bytes + cache.ramBytesUsed())
 &emsp;&emsp;该类仅用来读取复合文件(Compound File)，所以它仅支持`打开`、`读取`。比如当我们在初始化IndexWriter时，需要读取旧的索引文件，如果该索引文件使用了复合文件，那么就会调用Lucene50CompoundReader类中的方法来读取旧索引信息。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Store/Directory/Directory（下）/Directory（下）.zip)Markdown文件
-
 

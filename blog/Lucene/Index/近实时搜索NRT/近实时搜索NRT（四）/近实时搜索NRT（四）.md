@@ -1,4 +1,4 @@
-# [近实时搜索NRT（四）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [近实时搜索NRT（四）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;Lucene7.5.0中提供了以下四种open方法来获得StandardDirectoryReader的对象，这四种方法：
 
@@ -131,5 +131,4 @@
 &emsp;&emsp; 基于篇幅，剩余的流程点将在下一篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/近实时搜索NRT/近实时搜索NRT（四）/近实时搜索NRT（四）.zip)下载附件
-
 

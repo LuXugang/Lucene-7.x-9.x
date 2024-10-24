@@ -1,4 +1,4 @@
-## DocValues
+## DocValues（Lucene 7.5.0）
 
 在搜索引擎中，我们通常都是对域名(field)构建倒排索引(inverted index)，实现了域值(Values)到文档(document)的映射，而DocValues则是构建了一个正向索引，实现文档到域值的映射。下面是官方给出的DocValues的介绍https://wiki.apache.org/solr/DocValues=
 #### What docvalues are:

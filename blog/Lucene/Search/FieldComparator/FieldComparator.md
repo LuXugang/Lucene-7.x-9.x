@@ -1,4 +1,4 @@
-# FieldComparator && LeafFieldComparator
+# FieldComparator && LeafFieldComparator（Lucene 7.5.0）
 
 &emsp;&emsp;当满足搜索要求的文档被TopFieldCollector收集后，我们可以通过FieldComparator类来对这些结果（文档document）进行排序，并同时可以实现TopN的筛选。
 

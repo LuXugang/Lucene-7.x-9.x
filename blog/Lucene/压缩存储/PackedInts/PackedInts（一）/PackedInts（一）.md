@@ -1,4 +1,4 @@
-## [PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+## [PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 7.5.0）
 
 &emsp;&emsp;为了能节省空间，Lucene使用[PackedInts类](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/util/packed/PackedInts.java)对long类型的数据进行压缩存储，基于内存使用率（memory-efficient）跟解压速度（读取速度），提供了多种压缩方法，我们先通过类图预览下这些压缩方法。
 

@@ -1,5 +1,5 @@
 ---
-title: IntBlockPool
+title: IntBlockPool（Lucene 7.5.0）
 date: 2018-12-09 00:00:00
 tags: [invertedIndex]
 categories:

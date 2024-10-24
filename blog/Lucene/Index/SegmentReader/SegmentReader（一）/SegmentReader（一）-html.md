@@ -1,5 +1,5 @@
 ---
-title: SegmentReader（一）
+title: SegmentReader（一）（Lucene 7.5.0）
 date: 2019-10-14 00:00:00
 tags: [reader,segment]
 categories:

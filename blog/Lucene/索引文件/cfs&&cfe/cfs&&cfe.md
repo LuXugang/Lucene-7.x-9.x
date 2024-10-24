@@ -1,4 +1,4 @@
-# [cfs&&cfe](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+# [cfs&&cfe](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 
 &emsp;&emsp;索引文件.cfs、.cfe被称为复合（compound）索引文件，在IndexWriterConfig可以配置是否生成复合索引文件，默认开启。
 

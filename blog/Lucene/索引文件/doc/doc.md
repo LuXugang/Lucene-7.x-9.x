@@ -1,4 +1,4 @@
-## [doc文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)
+## [doc文件](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/)（Lucene 7.5.0）
 
 &emsp;&emsp;索引文件.doc中按块（block）的方式存放了每一个term的文档号、词频，并且保存skip data来实现块之间的快速跳转，本篇只介绍.doc文件的数据结构，其生成过程见文章[索引文件的生成（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1226/121.html)。
 

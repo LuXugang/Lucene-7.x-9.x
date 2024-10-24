@@ -1,4 +1,4 @@
-# Automaton
+# Automaton（Lucene 7.5.0）
 
 &emsp;&emsp;在介绍Automation类之前先介绍下有穷自动机的概念，有穷自动机分为确定型有穷自动机(DFA)跟不确定型有穷自动机(NFA)。由于本篇文章是为介绍TermRangeQuery作准备的，所以只介绍确定性有穷自动机。
 

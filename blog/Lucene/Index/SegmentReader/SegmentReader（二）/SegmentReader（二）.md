@@ -1,4 +1,4 @@
-# [SegmentReader（二）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [SegmentReader（二）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[SegmentReader（一）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1014/99.html)，继续介绍生成SegmentReader的剩余的流程。
 

@@ -1,7 +1,7 @@
 ---
-title: RoaringDocIdSet
+title: RoaringDocIdSet（Lucene 7.5.0）
 date: 2019-10-08 00:00:00
-tags: [docIdSet,docId,RoaringDocIdSet]
+tags: [docIdSet,docId,RoaringDocIdSet,Roaring]
 categories:
 - Lucene
 - gongjulei

@@ -1,4 +1,4 @@
-# [构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [构造IndexWriter对象（四）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[构造IndexWriter对象（三）](https://www.amazingkoala.com.cn/Lucene/Index/2019/1118/108.html)，继续介绍调用IndexWriter的构造函数的流程。
 
@@ -184,7 +184,6 @@
 &emsp;&emsp;基于篇幅，剩余的内容将在下篇文章中展开。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/Index/IndexWriter/构造IndexWriter对象（四）/构造IndexWriter对象（四）.zip)下载附件
-
 
 
 

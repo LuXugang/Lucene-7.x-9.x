@@ -1,5 +1,5 @@
 ---
-title: 索引文件的生成（七）之tim&&tip
+title: 索引文件的生成（七）之tim&&tip（Lucene 7.5.0）
 date: 2020-01-17 00:00:00
 tags: [tim,tip]
 categories:

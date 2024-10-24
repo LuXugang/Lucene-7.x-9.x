@@ -1,4 +1,4 @@
-# [PackedInts（二）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)
+# [PackedInts（二）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/)（Lucene 7.5.0）
 
 &emsp;&emsp;本文承接[PackedInts（一）](https://www.amazingkoala.com.cn/Lucene/yasuocunchu/2019/1217/118.html)，继续介绍剩余的内容。
 
@@ -150,5 +150,4 @@
 &emsp;&emsp;无
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8/PackedInts（二）.zip)下载附件
-
 

@@ -1,4 +1,4 @@
-## nvd&&nvm
+## nvd&&nvm（Lucene 7.5.0）
 nvd&&nvm用来存储域的标准化值(normalization values)，这两个索引文件记录了每一篇文档中每一种域的标准化值跟索引信息。在Lucene 7.5.0中，标准化值的计算实际就是统计一篇文档中某个域的域值，这个域值经过分词器处理后生成的term的个数，最后将term的个数通过intToByte4()的方法编码为一个 byte类型的值。标准化的过程在本篇文章中不作介绍，可以查看看BM25Similarity中的computeNorm()方法。我们可以自定义自己的Similarity来实现定制化的计算域的标准化值的逻辑。
 
 我们通过下面的例子来介绍nvd&&nvm文件的数据结构

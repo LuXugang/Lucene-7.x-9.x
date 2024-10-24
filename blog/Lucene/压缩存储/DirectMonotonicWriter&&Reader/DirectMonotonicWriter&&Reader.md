@@ -1,4 +1,4 @@
-# [DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/gongjulei/)
+# [DirectMonotonicWriter&&Reader](https://www.amazingkoala.com.cn/Lucene/gongjulei/)（Lucene 7.5.0）
 
 &emsp;&emsp;DirectMonotonicWriter类用来存储单调递增的整数序列（monotonically-increasing sequences of integers），使用了**先编码后压缩**的存储方式，DirectMonotonicReader类则是用来解码跟解压。
 
@@ -150,7 +150,6 @@ for (int i = 1; i < bufferSize; ++i) {
 &emsp;&emsp;在文章[索引文件的生成（二十四）之fdx&&fdt&&fdm](https://www.amazingkoala.com.cn/Lucene/Index/2020/1016/171.html)中，当生成一个chunk的条件都是因为达到了阈值maxDocsPerChunk，就能满足这种特殊情况，因为每个chunk中的文档数量要么都是128或者512。
 
 [点击](http://www.amazingkoala.com.cn/attachment/Lucene/%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8/DirectWriter&&DirectReader.zip)下载附件
-
 
 
 

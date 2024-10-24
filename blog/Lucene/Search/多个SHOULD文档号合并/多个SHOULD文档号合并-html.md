@@ -1,5 +1,5 @@
 ---
-title: 文档号合并（SHOULD）
+title: 文档号合并（SHOULD）（Lucene 7.5.0）
 date: 2018-12-17 00:00:00
 tags: [SHOULD, booleanQuery]
 categories:

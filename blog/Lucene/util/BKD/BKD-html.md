@@ -1,5 +1,5 @@
 ---
-title: Bkd-Tree
+title: Bkd-Tree（Lucene 7.5.0）
 date: 2019-04-22 00:00:00
 tags: [bkd,index,point]
 categories:

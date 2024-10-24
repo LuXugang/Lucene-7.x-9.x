@@ -1,5 +1,5 @@
 ---
-title: PackedInts（一）
+title: PackedInts（一）（Lucene 7.5.0）
 date: 2019-12-17 00:00:00
 tags: [encode, decode,util]
 categories:

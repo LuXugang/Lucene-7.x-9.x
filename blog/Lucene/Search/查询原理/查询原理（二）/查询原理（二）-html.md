@@ -1,5 +1,5 @@
 ---
-title: 查询原理（二）
+title: 查询原理（二）（Lucene 7.5.0）
 date: 2019-08-21 00:00:00
 tags: [search,query]
 categories:

@@ -1,5 +1,5 @@
 ---
-title: Directory（上）
+title: Directory（上）（Lucene 7.5.0）
 date: 2019-06-13 00:00:00
 tags: [directory,mmap]
 categories:

@@ -1,5 +1,5 @@
 ---
-title: 索引文件锁LockFactory
+title: 索引文件锁LockFactory（Lucene 7.5.0）
 date: 2019-06-04 00:00:00
 tags: [directory,lock]
 categories:

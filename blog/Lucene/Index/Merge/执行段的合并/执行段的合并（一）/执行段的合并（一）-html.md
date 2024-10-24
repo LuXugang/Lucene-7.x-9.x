@@ -1,5 +1,5 @@
 ---
-title: 执行段的合并（一）
+title: 执行段的合并（一）（Lucene 7.5.0）
 date: 2019-10-24 00:00:00
 tags: [merge,segment]
 categories:

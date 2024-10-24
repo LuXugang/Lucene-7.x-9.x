@@ -1,4 +1,4 @@
-# 索引文件锁LockFactory
+# 索引文件锁LockFactory（Lucene 7.5.0）
 
 &emsp;&emsp;LockFactory在Lucene中用来对索引文件所在的目录进行加锁，使得同一时间总是只有一个IndexWriter对象可以更改索引文件，即保证单进程内(single in-process)多个不同IndexWriter对象互斥更改（多线程持有相同引用的IndexWriter对象视为一个IndexWriter不会受制于LockFactory，而是受制于对象锁（synchronized(this)）、多进程内(multi-processes)多个对象互斥更改。
 
@@ -109,7 +109,6 @@
 &emsp;&emsp;本文介绍了实现互斥访问索引文件的索引文件锁LockFactory。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Store/LockFactory/LockFactory.zip)Markdown文件
-
 
 
 

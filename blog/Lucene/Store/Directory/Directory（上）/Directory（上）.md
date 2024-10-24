@@ -1,4 +1,4 @@
-# [Directory](https://www.amazingkoala.com.cn/Lucene/Store/)(上)
+# [Directory](https://www.amazingkoala.com.cn/Lucene/Store/)(上)（Lucene 7.5.0）
 
 &emsp;&emsp;Directory类用来维护索引目录中的索引文件，定义了`创建`、`打开`、`删除`、`读取`、`重命名`、`同步`(持久化索引文件至磁盘)、`校验和`（checksum computing）等抽象方法。
 
@@ -160,7 +160,6 @@
 &emsp;&emsp;本文介绍Lucene7.5.0的core模块中的BaseDirectory类及其子类。
 
 [点击下载](http://www.amazingkoala.com.cn/attachment/Lucene/Store/Directory/Directory%EF%BC%88%E4%B8%8A%EF%BC%89/Directory%EF%BC%88%E4%B8%8A%EF%BC%89.zip)Markdown文档
-
 
 
 

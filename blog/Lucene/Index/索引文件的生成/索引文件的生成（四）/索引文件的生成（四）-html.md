@@ -1,5 +1,5 @@
 ---
-title: 索引文件的生成（四）之跳表SkipList
+title: 索引文件的生成（四）之跳表SkipList（Lucene 7.5.0）
 date: 2020-01-06 00:00:00
 tags: [skipList,doc]
 categories:

@@ -1,5 +1,5 @@
 ---
-title: 索引文件之tim&&tip
+title: 索引文件之tim&&tip（Lucene 7.5.0）
 date: 2019-04-01 00:00:00
 tags: [index, indexFile,tim,tip]
 categories:

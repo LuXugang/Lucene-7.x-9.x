@@ -1,4 +1,4 @@
-# [近实时搜索NRT（三）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [近实时搜索NRT（三）（Lucene 7.5.0）](https://www.amazingkoala.com.cn/Lucene/Index/)
 
 &emsp;&emsp;在[近实时搜索NRT（二）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0917/94.html)的文章中我们提到，Lucene提供了[四种方法](https://github.com/LuXugang/Lucene-7.5.0/blob/master/solr-7.5.0/lucene/core/src/java/org/apache/lucene/index/DirectoryReader.java)来获得StandardDirectoryReader对象，这里先简单总结下这四种open方法获取StandardDirectoryReader的差异：
 

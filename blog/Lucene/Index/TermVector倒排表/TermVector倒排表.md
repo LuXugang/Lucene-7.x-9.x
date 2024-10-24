@@ -1,4 +1,4 @@
-# [倒排表（中）](https://www.amazingkoala.com.cn/Lucene/Index/)
+# [倒排表（中）](https://www.amazingkoala.com.cn/Lucene/Index/)（Lucene 7.5.0）
 本篇文章介绍使用了词向量（TermVector）后的域生成的倒排表，在索引阶段，索引选项（indexOptions）不为NONE的域会生成一种[倒排表（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)，这种倒排表的特点是所有文档的所有域名的倒排表都会写在同一张中，后续会读取倒排表来生成[.doc](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/42.html)、[.pos&&.pay](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0324/41.html)、[.tim&&.tip](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0401/43.html)、[.fdx&&.fdx](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0301/38.html)、[.nvd&&.nvm](https://www.amazingkoala.com.cn/Lucene/suoyinwenjian/2019/0305/39.html)等索引文件。而本文章中设置了TermVector的域会生成另外一张倒排表，并且一篇文档中生成单独的倒排表，同文档中的所有域名的倒排表写在同一张中，并且后续生成.tvd、.tvx文件。
 尽管有两类倒排表，但是实现逻辑是类似的，一些预备知识，下面例子中出现的各种数组、文档号&&词频组合存储、position&&payload 组合存储、倒排表存储空间分配跟扩容等概念在[倒排表（上）](https://www.amazingkoala.com.cn/Lucene/Index/2019/0222/36.html)中已经介绍了，这里不赘述。
 

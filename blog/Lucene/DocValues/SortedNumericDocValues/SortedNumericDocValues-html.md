@@ -1,5 +1,5 @@
 ---
-title: SortedNumericDocValues
+title: SortedNumericDocValues（Lucene 7.5.0）
 date: 2019-04-10 00:00:00
 tags: DocValues
 categories:
