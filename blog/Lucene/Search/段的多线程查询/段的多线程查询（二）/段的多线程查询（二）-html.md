@@ -6,7 +6,6 @@ categories:
 - Lucene
 - Search
 ---
-# [段的多线程查询（二）](https://www.amazingkoala.com.cn/Lucene/Search/)（Lucene 10.0.0）
 
 众所周知Lucene的索引数据由一个或多个段组成，并且通过下列方式定义一个`IndexSearcher`后就可以实现段的多线程查询：
 
