@@ -16,7 +16,7 @@ categories:
 
 图1：
 
-<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/段的多线程查询/段的多线程查询（一）/1.png" align = "left"  width="600">
+<img src="http://www.amazingkoala.com.cn/uploads/lucene/Search/段的多线程查询/段的多线程查询（一）/1.png"  width="600">
 
 &emsp;&emsp;图1中的[查询流程图](https://www.amazingkoala.com.cn/Lucene/Search/2019/0821/查询原理（二）)中，如果未使用多线程，那么Lucene将依次处理每一个段，否则每个线程会负责查询某个段，并在所有线程执行结束后对结果进行合并。
 

@@ -3,10 +3,7 @@ package org.example;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.SortedDocValuesField;
-import org.apache.lucene.document.SortedNumericDocValuesField;
 import org.apache.lucene.document.SortedSetDocValuesField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
@@ -18,25 +15,25 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.SortedNumericSortField;
 import org.apache.lucene.search.SortedSetSortField;
 import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 import org.apache.lucene.util.BytesRef;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Random;
 
-public class DocValuesIter {
+
+public class TestCountDiff {
     private Directory directory;
 
     {
         try {
-            FileOperation.deleteFile("./data");
+            deleteFile("./data");
             directory = new MMapDirectory(Paths.get("./data"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,28 +54,6 @@ public class DocValuesIter {
 
         Random random = new Random();
         Document doc;
-//        // 0
-//        doc = new Document();
-//        doc.add(new IntPoint("content", 1));
-//        doc.add(SortedNumericDocValuesField.indexedField("content", 2));
-//        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
-//        doc.add(new StringField("title", "文档0", org.apache.lucene.document.Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        // 1
-//        doc = new Document();
-//        doc.add(new IntPoint("content", 10));
-//        doc.add(SortedNumericDocValuesField.indexedField("content", 100));
-//        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
-//        doc.add(new StringField("title", "文档1", org.apache.lucene.document.Field.Store.YES));
-//        indexWriter.addDocument(doc);
-//        // 2
-//        doc = new Document();
-//        doc.add(new IntPoint("content", 10));
-//        doc.add(SortedNumericDocValuesField.indexedField("content", 1));
-//        doc.add(new StringField("content", "a", org.apache.lucene.document.Field.Store.YES));
-//        doc.add(new StringField("title", "文档2", org.apache.lucene.document.Field.Store.YES));
-//        indexWriter.addDocument(doc);
-
         int count = 0 ;
         while (count < (4096 * 100)){
             doc = new Document();
@@ -125,7 +100,23 @@ public class DocValuesIter {
 
 
     public static void main(String[] args) throws Exception{
-        DocValuesIter query = new DocValuesIter();
+        TestCountDiff query = new TestCountDiff();
         query.doIndex();
+    }
+
+    public static void deleteFile(String filePath) {
+        File dir = new File(filePath);
+        if (dir.exists()) {
+            File[] tmp = dir.listFiles();
+            assert tmp != null;
+            for (File aTmp : tmp) {
+                if (aTmp.isDirectory()) {
+                    deleteFile(filePath + "/" + aTmp.getName());
+                } else {
+                    aTmp.delete();
+                }
+            }
+            dir.delete();
+        }
     }
 }
